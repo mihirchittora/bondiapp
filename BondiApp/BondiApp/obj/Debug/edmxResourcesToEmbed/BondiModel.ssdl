@@ -1,0 +1,1731 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="optionwavesdbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Applications">
+    <Key>
+      <PropertyRef Name="ApplicationId" />
+    </Key>
+    <Property Name="ApplicationName" Type="nvarchar" MaxLength="235" Nullable="false" />
+    <Property Name="ApplicationId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Description" Type="nvarchar" MaxLength="256" />
+  </EntityType>
+  <EntityType Name="aspnet_Applications">
+    <Key>
+      <PropertyRef Name="ApplicationId" />
+    </Key>
+    <Property Name="ApplicationName" Type="nvarchar" MaxLength="256" Nullable="false" />
+    <Property Name="LoweredApplicationName" Type="nvarchar" MaxLength="256" Nullable="false" />
+    <Property Name="ApplicationId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Description" Type="nvarchar" MaxLength="256" />
+  </EntityType>
+  <EntityType Name="aspnet_Membership">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="ApplicationId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Password" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="PasswordFormat" Type="int" Nullable="false" />
+    <Property Name="PasswordSalt" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="MobilePIN" Type="nvarchar" MaxLength="16" />
+    <Property Name="Email" Type="nvarchar" MaxLength="256" />
+    <Property Name="LoweredEmail" Type="nvarchar" MaxLength="256" />
+    <Property Name="PasswordQuestion" Type="nvarchar" MaxLength="256" />
+    <Property Name="PasswordAnswer" Type="nvarchar" MaxLength="128" />
+    <Property Name="IsApproved" Type="bit" Nullable="false" />
+    <Property Name="IsLockedOut" Type="bit" Nullable="false" />
+    <Property Name="CreateDate" Type="datetime" Nullable="false" />
+    <Property Name="LastLoginDate" Type="datetime" Nullable="false" />
+    <Property Name="LastPasswordChangedDate" Type="datetime" Nullable="false" />
+    <Property Name="LastLockoutDate" Type="datetime" Nullable="false" />
+    <Property Name="FailedPasswordAttemptCount" Type="int" Nullable="false" />
+    <Property Name="FailedPasswordAttemptWindowStart" Type="datetime" Nullable="false" />
+    <Property Name="FailedPasswordAnswerAttemptCount" Type="int" Nullable="false" />
+    <Property Name="FailedPasswordAnswerAttemptWindowStart" Type="datetime" Nullable="false" />
+    <Property Name="Comment" Type="ntext" />
+  </EntityType>
+  <EntityType Name="aspnet_Paths">
+    <Key>
+      <PropertyRef Name="PathId" />
+    </Key>
+    <Property Name="ApplicationId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="PathId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Path" Type="nvarchar" MaxLength="256" Nullable="false" />
+    <Property Name="LoweredPath" Type="nvarchar" MaxLength="256" Nullable="false" />
+  </EntityType>
+  <EntityType Name="aspnet_PersonalizationAllUsers">
+    <Key>
+      <PropertyRef Name="PathId" />
+    </Key>
+    <Property Name="PathId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="PageSettings" Type="image" Nullable="false" />
+    <Property Name="LastUpdatedDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="aspnet_PersonalizationPerUser">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="PathId" Type="uniqueidentifier" />
+    <Property Name="UserId" Type="uniqueidentifier" />
+    <Property Name="PageSettings" Type="image" Nullable="false" />
+    <Property Name="LastUpdatedDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="aspnet_Profile">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="PropertyNames" Type="ntext" Nullable="false" />
+    <Property Name="PropertyValuesString" Type="ntext" Nullable="false" />
+    <Property Name="PropertyValuesBinary" Type="image" Nullable="false" />
+    <Property Name="LastUpdatedDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="aspnet_Roles">
+    <Key>
+      <PropertyRef Name="RoleId" />
+    </Key>
+    <Property Name="ApplicationId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="RoleId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="RoleName" Type="nvarchar" MaxLength="256" Nullable="false" />
+    <Property Name="LoweredRoleName" Type="nvarchar" MaxLength="256" Nullable="false" />
+    <Property Name="Description" Type="nvarchar" MaxLength="256" />
+  </EntityType>
+  <EntityType Name="aspnet_SchemaVersions">
+    <Key>
+      <PropertyRef Name="Feature" />
+      <PropertyRef Name="CompatibleSchemaVersion" />
+    </Key>
+    <Property Name="Feature" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="CompatibleSchemaVersion" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="IsCurrentVersion" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="aspnet_Users">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="ApplicationId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+    <Property Name="LoweredUserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+    <Property Name="MobileAlias" Type="nvarchar" MaxLength="16" />
+    <Property Name="IsAnonymous" Type="bit" Nullable="false" />
+    <Property Name="LastActivityDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="aspnet_UsersInRoles">
+    <Key>
+      <PropertyRef Name="UserId" />
+      <PropertyRef Name="RoleId" />
+    </Key>
+    <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="RoleId" Type="uniqueidentifier" Nullable="false" />
+  </EntityType>
+  <EntityType Name="aspnet_WebEvent_Events">
+    <Key>
+      <PropertyRef Name="EventId" />
+    </Key>
+    <Property Name="EventId" Type="char" MaxLength="32" Nullable="false" />
+    <Property Name="EventTimeUtc" Type="datetime" Nullable="false" />
+    <Property Name="EventTime" Type="datetime" Nullable="false" />
+    <Property Name="EventType" Type="nvarchar" MaxLength="256" Nullable="false" />
+    <Property Name="EventSequence" Type="decimal" Precision="19" Scale="0" Nullable="false" />
+    <Property Name="EventOccurrence" Type="decimal" Precision="19" Scale="0" Nullable="false" />
+    <Property Name="EventCode" Type="int" Nullable="false" />
+    <Property Name="EventDetailCode" Type="int" Nullable="false" />
+    <Property Name="Message" Type="nvarchar" MaxLength="1024" />
+    <Property Name="ApplicationPath" Type="nvarchar" MaxLength="256" />
+    <Property Name="ApplicationVirtualPath" Type="nvarchar" MaxLength="256" />
+    <Property Name="MachineName" Type="nvarchar" MaxLength="256" Nullable="false" />
+    <Property Name="RequestUrl" Type="nvarchar" MaxLength="1024" />
+    <Property Name="ExceptionType" Type="nvarchar" MaxLength="256" />
+    <Property Name="Details" Type="ntext" />
+  </EntityType>
+  <EntityType Name="backtest">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="month" Type="nvarchar" MaxLength="10" />
+    <Property Name="year" Type="int" />
+    <Property Name="marketdate" Type="date" />
+    <Property Name="complete" Type="bit" />
+  </EntityType>
+  <EntityType Name="BlogComments">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="BlogEntryId" Type="int" Nullable="false" />
+    <Property Name="Title" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Email" Type="nvarchar" MaxLength="500" Nullable="false" />
+    <Property Name="Url" Type="nvarchar" MaxLength="500" Nullable="false" />
+    <Property Name="DatePublished" Type="datetime" Nullable="false" />
+    <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="active" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="BlogEntries">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DatePublished" Type="datetime" Nullable="false" />
+    <Property Name="Date Modified" Type="datetime" Nullable="false" />
+    <Property Name="Author" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="500" Nullable="false" />
+    <Property Name="Title" Type="nvarchar" MaxLength="500" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Active" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="emails">
+    <Key>
+      <PropertyRef Name="emailID" />
+    </Key>
+    <Property Name="emailID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="emailaddress" Type="nvarchar" MaxLength="500" Nullable="false" />
+    <Property Name="addDATE" Type="date" Nullable="false" />
+  </EntityType>
+  <EntityType Name="HarvestHedges">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="symbol" Type="nvarchar" MaxLength="4" />
+    <Property Name="type" Type="nvarchar" MaxLength="1" />
+    <Property Name="lots" Type="int" />
+    <Property Name="strike" Type="money" />
+    <Property Name="exp" Type="date" />
+    <Property Name="stockatopen" Type="money" />
+    <Property Name="opendate" Type="datetime" />
+    <Property Name="openprice" Type="money" />
+    <Property Name="stockatclose" Type="money" />
+    <Property Name="closedate" Type="datetime" />
+    <Property Name="closeprice" Type="money" />
+    <Property Name="open" Type="bit" />
+    <Property Name="timestamp" Type="datetime" />
+    <Property Name="harvestkey" Type="nvarchar" MaxLength="12" />
+    <Property Name="positionID" Type="int" />
+    <Property Name="marketdate" Type="date" />
+    <Property Name="targetexit" Type="money" />
+    <Property Name="openrowid" Type="int" />
+    <Property Name="closerowid" Type="int" />
+  </EntityType>
+  <EntityType Name="HarvestIndex">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="harvestKey" Type="nvarchar" MaxLength="12" />
+    <Property Name="userID" Type="uniqueidentifier" />
+    <Property Name="name" Type="nvarchar" MaxLength="140" />
+    <Property Name="product" Type="nvarchar" MaxLength="4" />
+    <Property Name="opentrigger" Type="money" />
+    <Property Name="width" Type="money" />
+    <Property Name="timestamp" Type="datetime" />
+    <Property Name="active" Type="bit" />
+    <Property Name="shares" Type="int" />
+    <Property Name="hedge" Type="bit" />
+    <Property Name="hedgewidth" Type="money" />
+    <Property Name="expdatewidth" Type="int" />
+    <Property Name="hedgelots" Type="int" />
+    <Property Name="pricetoprotect" Type="money" />
+    <Property Name="OpeningMark" Type="money" />
+    <Property Name="stocksectype" Type="nvarchar" MaxLength="4" />
+    <Property Name="optsectype" Type="nvarchar" MaxLength="4" />
+    <Property Name="currencytype" Type="nvarchar" MaxLength="4" />
+    <Property Name="exchange" Type="nvarchar" MaxLength="10" />
+    <Property Name="ordertype" Type="nvarchar" MaxLength="4" />
+    <Property Name="inforce" Type="nvarchar" MaxLength="4" />
+    <Property Name="opentimestamp" Type="datetime" />
+  </EntityType>
+  <EntityType Name="HarvestIntervals">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Date" Type="datetime" Nullable="false" />
+    <Property Name="Interval" Type="int" Nullable="false" />
+    <Property Name="OpenPrice" Type="money" Nullable="false" />
+    <Property Name="HighPrice" Type="money" Nullable="false" />
+    <Property Name="LowPrice" Type="money" Nullable="false" />
+    <Property Name="ClosePrice" Type="money" Nullable="false" />
+    <Property Name="Volume" Type="bigint" Nullable="false" />
+    <Property Name="symbol" Type="nvarchar" MaxLength="4" Nullable="false" />
+    <Property Name="timestamp" Type="datetime" />
+  </EntityType>
+  <EntityType Name="HarvestLogs">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="harvestkey" Type="nvarchar" MaxLength="12" />
+    <Property Name="marketdate" Type="date" />
+    <Property Name="trans" Type="bigint" />
+    <Property Name="opens" Type="bigint" />
+    <Property Name="closes" Type="bigint" />
+    <Property Name="closingmark" Type="money" />
+    <Property Name="timestamp" Type="datetime" />
+    <Property Name="otimestamp" Type="datetime" />
+    <Property Name="hedgeprofit" Type="money" />
+    <Property Name="stockprofit" Type="money" />
+    <Property Name="currentcapital" Type="money" />
+    <Property Name="maxcapital" Type="money" />
+    <Property Name="sharesbought" Type="int" />
+    <Property Name="sharessold" Type="int" />
+    <Property Name="hedgebought" Type="int" />
+    <Property Name="hedgesold" Type="int" />
+    <Property Name="openingmark" Type="money" />
+  </EntityType>
+  <EntityType Name="HarvestMarks">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="userid" Type="uniqueidentifier" />
+    <Property Name="timestamp" Type="datetime" />
+    <Property Name="symbol" Type="nvarchar" MaxLength="4" />
+    <Property Name="mark" Type="money" />
+    <Property Name="turns" Type="bigint" />
+    <Property Name="ctimestamp" Type="datetime" />
+    <Property Name="open" Type="bit" />
+    <Property Name="harvestkey" Type="nvarchar" MaxLength="12" />
+  </EntityType>
+  <EntityType Name="HarvestPositions">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="symbol" Type="nvarchar" MaxLength="4" />
+    <Property Name="shares" Type="int" />
+    <Property Name="opendate" Type="datetime" />
+    <Property Name="openprice" Type="money" />
+    <Property Name="hedge" Type="bit" />
+    <Property Name="strike" Type="money" />
+    <Property Name="closedate" Type="datetime" />
+    <Property Name="closeprice" Type="money" />
+    <Property Name="timestamp" Type="datetime" />
+    <Property Name="open" Type="bit" />
+    <Property Name="openflag" Type="nvarchar" MaxLength="1" />
+    <Property Name="closeflag" Type="nvarchar" MaxLength="1" />
+    <Property Name="harvestkey" Type="nvarchar" MaxLength="12" />
+    <Property Name="hedgeid" Type="int" />
+    <Property Name="openrowid" Type="int" />
+    <Property Name="closerowid" Type="int" />
+  </EntityType>
+  <EntityType Name="Memberships">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="ApplicationId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Password" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="PasswordFormat" Type="int" Nullable="false" />
+    <Property Name="PasswordSalt" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="Email" Type="nvarchar" MaxLength="256" />
+    <Property Name="PasswordQuestion" Type="nvarchar" MaxLength="256" />
+    <Property Name="PasswordAnswer" Type="nvarchar" MaxLength="128" />
+    <Property Name="IsApproved" Type="bit" Nullable="false" />
+    <Property Name="IsLockedOut" Type="bit" Nullable="false" />
+    <Property Name="CreateDate" Type="datetime" Nullable="false" />
+    <Property Name="LastLoginDate" Type="datetime" Nullable="false" />
+    <Property Name="LastPasswordChangedDate" Type="datetime" Nullable="false" />
+    <Property Name="LastLockoutDate" Type="datetime" Nullable="false" />
+    <Property Name="FailedPasswordAttemptCount" Type="int" Nullable="false" />
+    <Property Name="FailedPasswordAttemptWindowStart" Type="datetime" Nullable="false" />
+    <Property Name="FailedPasswordAnswerAttemptCount" Type="int" Nullable="false" />
+    <Property Name="FailedPasswordAnswerAttemptWindowsStart" Type="datetime" Nullable="false" />
+    <Property Name="Comment" Type="nvarchar" MaxLength="256" />
+  </EntityType>
+  <EntityType Name="onesigmawide">
+    <Key>
+      <PropertyRef Name="recordId" />
+    </Key>
+    <Property Name="recordId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CreateDate" Type="datetime" Nullable="false" />
+    <Property Name="UpdateDate" Type="datetime" Nullable="false" />
+    <Property Name="EntryDate" Type="datetime" Nullable="false" />
+    <Property Name="Symbol" Type="nvarchar" MaxLength="4" Nullable="false" />
+    <Property Name="Position" Type="nvarchar" MaxLength="1" Nullable="false" />
+    <Property Name="StockPrice" Type="money" Nullable="false" />
+    <Property Name="IVPercentile" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="ExpirationDate" Type="datetime" Nullable="false" />
+    <Property Name="NumberLots" Type="int" Nullable="false" />
+    <Property Name="ShortStrike" Type="money" Nullable="false" />
+    <Property Name="PITM" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="OpeningCredit" Type="money" Nullable="false" />
+    <Property Name="LongStrike" Type="money" Nullable="false" />
+    <Property Name="OpeningDebit" Type="money" Nullable="false" />
+    <Property Name="Status" Type="nvarchar" MaxLength="8" Nullable="false" />
+    <Property Name="ClosingDebit" Type="money" Nullable="false" />
+    <Property Name="ClosingCredit" Type="money" Nullable="false" />
+    <Property Name="Account" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="MaxProfitTarget" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="ExitDate" Type="datetime" />
+    <Property Name="Notes" Type="nvarchar" MaxLength="1500" />
+  </EntityType>
+  <EntityType Name="positions">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="timestamp" Type="datetime" />
+    <Property Name="lasttimestamp" Type="datetime" />
+    <Property Name="symbol" Type="nvarchar" MaxLength="4" />
+    <Property Name="qty" Type="bigint" />
+    <Property Name="roboIndex" Type="nvarchar" MaxLength="12" />
+  </EntityType>
+  <EntityType Name="Prices">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="timestamp" Type="datetime" Nullable="false" />
+    <Property Name="dateandtime" Type="datetime" Nullable="false" />
+    <Property Name="interval" Type="int" Nullable="false" />
+    <Property Name="symbol" Type="nvarchar" MaxLength="4" Nullable="false" />
+    <Property Name="open" Type="money" Nullable="false" />
+    <Property Name="high" Type="money" Nullable="false" />
+    <Property Name="low" Type="money" Nullable="false" />
+    <Property Name="close" Type="money" Nullable="false" />
+    <Property Name="volume" Type="bigint" Nullable="false" />
+    <Property Name="date" Type="date" />
+  </EntityType>
+  <EntityType Name="Pricings">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="symbolID" Type="int" Nullable="false" />
+    <Property Name="openprice" Type="money" Nullable="false" />
+    <Property Name="highprice" Type="money" Nullable="false" />
+    <Property Name="lowprice" Type="money" Nullable="false" />
+    <Property Name="closeprice" Type="money" Nullable="false" />
+    <Property Name="adjcloseprice" Type="money" Nullable="false" />
+    <Property Name="volume" Type="bigint" Nullable="false" />
+    <Property Name="RangeDollars" Type="money" Nullable="false" />
+    <Property Name="RangePercent" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+    <Property Name="Message" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="marketdate" Type="datetime" Nullable="false" />
+    <Property Name="dateadded" Type="datetime" Nullable="false" />
+    <Property Name="changedollars" Type="money" />
+    <Property Name="ChangePercent" Type="decimal" Precision="18" Scale="4" />
+    <Property Name="GapDollars" Type="money" />
+    <Property Name="GapPercent" Type="decimal" Precision="18" Scale="4" />
+    <Property Name="AvgRange10Day" Type="decimal" Precision="19" Scale="4" />
+    <Property Name="AvgRange50Day" Type="decimal" Precision="19" Scale="4" />
+    <Property Name="AvgRange100Day" Type="decimal" Precision="19" Scale="4" />
+    <Property Name="AvgRange300Day" Type="decimal" Precision="18" Scale="4" />
+    <Property Name="AvgChange10Day" Type="decimal" Precision="18" Scale="4" />
+    <Property Name="AvgChange50Day" Type="decimal" Precision="18" Scale="4" />
+    <Property Name="AvgChange100Day" Type="decimal" Precision="18" Scale="4" />
+    <Property Name="AvgChange300Day" Type="decimal" Precision="18" Scale="4" />
+    <Property Name="RangePrctLast10" Type="decimal" Precision="18" Scale="4" />
+    <Property Name="RangePrctlast50" Type="decimal" Precision="18" Scale="4" />
+    <Property Name="RangePrctLast100" Type="decimal" Precision="18" Scale="4" />
+    <Property Name="RangePrctLast300" Type="decimal" Precision="18" Scale="4" />
+    <Property Name="ChangePrctLast10" Type="decimal" Precision="18" Scale="4" />
+    <Property Name="ChangePrctLast50" Type="decimal" Precision="18" Scale="4" />
+    <Property Name="ChangePrctLast100" Type="decimal" Precision="18" Scale="4" />
+    <Property Name="ChangePrctLast300" Type="decimal" Precision="18" Scale="4" />
+    <Property Name="StrikeWidth" Type="money" />
+    <Property Name="StrikeToPrice" Type="decimal" Precision="18" Scale="4" />
+  </EntityType>
+  <EntityType Name="productionhedge">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="timestamp" Type="datetime" />
+    <Property Name="permid" Type="int" />
+  </EntityType>
+  <EntityType Name="productionlog">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="timestamp" Type="datetime" />
+  </EntityType>
+  <EntityType Name="productionstock">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="timestamp" Type="datetime" />
+    <Property Name="PermId" Type="int" />
+    <Property Name="OrderID" Type="nvarchar" MaxLength="12" />
+    <Property Name="Symbol" Type="nvarchar" MaxLength="4" />
+    <Property Name="Status" Type="nvarchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="Profiles">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="LastUpdatedDate" Type="datetime" Nullable="false" />
+    <Property Name="ScreenName" Type="nvarchar" MaxLength="250" Nullable="false" />
+    <Property Name="image" Type="nvarchar" MaxLength="50" />
+    <Property Name="ProfileId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="mobile" Type="nvarchar" MaxLength="50" />
+    <Property Name="demo" Type="bit" />
+    <Property Name="FirstName" Type="nvarchar" MaxLength="50" />
+    <Property Name="LastName" Type="nvarchar" MaxLength="100" />
+    <Property Name="Skype" Type="nvarchar" MaxLength="150" />
+    <Property Name="Location" Type="nvarchar" MaxLength="500" />
+    <Property Name="email" Type="nvarchar" MaxLength="500" />
+    <Property Name="MaxProfitPercent" Type="smallint" />
+    <Property Name="ShowAny" Type="bit" />
+    <Property Name="ShowTrades" Type="bit" />
+    <Property Name="TOS" Type="bit" />
+    <Property Name="commission" Type="smallmoney" />
+  </EntityType>
+  <EntityType Name="Roles">
+    <Key>
+      <PropertyRef Name="RoleId" />
+    </Key>
+    <Property Name="ApplicationId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="RoleId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="RoleName" Type="nvarchar" MaxLength="256" Nullable="false" />
+    <Property Name="Description" Type="nvarchar" MaxLength="256" />
+  </EntityType>
+  <EntityType Name="stockorders">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="timestamp" Type="datetime" />
+    <Property Name="OrderId" Type="int" />
+    <Property Name="PermID" Type="int" />
+    <Property Name="Symbol" Type="nvarchar" MaxLength="4" />
+    <Property Name="Action" Type="nvarchar" MaxLength="4" />
+    <Property Name="Status" Type="nvarchar" MaxLength="25" />
+    <Property Name="TickPrice" Type="money" />
+    <Property Name="LimitPrice" Type="money" />
+    <Property Name="Quantity" Type="int" />
+    <Property Name="OrderStatus" Type="nvarchar" MaxLength="10" />
+    <Property Name="OrderTimestamp" Type="datetime" />
+    <Property Name="roboIndex" Type="nvarchar" MaxLength="12" />
+    <Property Name="matchID" Type="nvarchar" MaxLength="15" />
+  </EntityType>
+  <EntityType Name="Tasks">
+    <Key>
+      <PropertyRef Name="taskID" />
+    </Key>
+    <Property Name="taskID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Task" Type="nvarchar" MaxLength="500" Nullable="false" />
+    <Property Name="Status" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="dateadded" Type="datetime" Nullable="false" />
+    <Property Name="dateupdated" Type="datetime" Nullable="false" />
+    <Property Name="datecompleted" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TicketComments">
+    <Key>
+      <PropertyRef Name="commentID" />
+    </Key>
+    <Property Name="commentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ticketID" Type="int" Nullable="false" />
+    <Property Name="userID" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="comment" Type="nvarchar" MaxLength="500" Nullable="false" />
+    <Property Name="timestamp" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Tickets">
+    <Key>
+      <PropertyRef Name="ticketID" />
+    </Key>
+    <Property Name="ticketID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Type" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Priority" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Components" Type="nvarchar" MaxLength="250" Nullable="false" />
+    <Property Name="Label" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Browsers" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="Status" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="FixVersions" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Assignee" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="Reporter" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="Description" Type="nvarchar" MaxLength="1000" Nullable="false" />
+    <Property Name="TicketPrefix" Type="nvarchar" MaxLength="5" Nullable="false" />
+    <Property Name="dateadded" Type="datetime" Nullable="false" />
+    <Property Name="dateupdated" Type="datetime" Nullable="false" />
+    <Property Name="datecompleted" Type="datetime" Nullable="false" />
+    <Property Name="duedate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TradeDetails">
+    <Key>
+      <PropertyRef Name="tradeID" />
+    </Key>
+    <Property Name="tradeID" Type="bigint" Nullable="false" />
+    <Property Name="addDATE" Type="date" Nullable="false" />
+    <Property Name="transTYPE" Type="nvarchar" MaxLength="10" Nullable="false" />
+    <Property Name="lots" Type="int" Nullable="false" />
+    <Property Name="tradeTYPE" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="symbol" Type="nvarchar" MaxLength="10" Nullable="false" />
+    <Property Name="count" Type="nvarchar" MaxLength="10" Nullable="false" />
+    <Property Name="expirationDATE" Type="date" Nullable="false" />
+    <Property Name="shortCALL" Type="money" Nullable="false" />
+    <Property Name="longCALL" Type="money" Nullable="false" />
+    <Property Name="shortPUT" Type="money" Nullable="false" />
+    <Property Name="longPUT" Type="money" Nullable="false" />
+    <Property Name="creditreceived" Type="money" Nullable="false" />
+    <Property Name="open" Type="bit" Nullable="false" />
+    <Property Name="debitpaid" Type="money" Nullable="false" />
+    <Property Name="openDATE" Type="date" Nullable="false" />
+    <Property Name="closeDATE" Type="date" Nullable="false" />
+    <Property Name="uniqueid" Type="nvarchar" MaxLength="12" />
+    <Property Name="winFLAG" Type="bit" />
+    <Property Name="dit" Type="bigint" />
+    <Property Name="updateDATE" Type="date" />
+    <Property Name="userID" Type="nvarchar" MaxLength="50" />
+    <Property Name="exp" Type="nvarchar" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="TradeLogs">
+    <Key>
+      <PropertyRef Name="tradeID" />
+    </Key>
+    <Property Name="tradeID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="opentradeDATE" Type="date" Nullable="false" />
+    <Property Name="addDATE" Type="date" Nullable="false" />
+    <Property Name="openingTRADE" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="closetradeDATE" Type="date" Nullable="false" />
+    <Property Name="closeDATE" Type="date" Nullable="false" />
+    <Property Name="closingTRADE" Type="nvarchar" MaxLength="150" />
+    <Property Name="expirationDATE" Type="date" Nullable="false" />
+    <Property Name="openingAMOUNT" Type="money" Nullable="false" />
+    <Property Name="closingAMOUNT" Type="money" Nullable="false" />
+    <Property Name="userID" Type="nvarchar" MaxLength="50" />
+    <Property Name="status" Type="bit" />
+    <Property Name="dit" Type="int" />
+    <Property Name="uniqueID" Type="nvarchar" MaxLength="12" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="ApplicationId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="IsAnonymous" Type="bit" Nullable="false" />
+    <Property Name="LastActivityDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="UsersInRoles">
+    <Key>
+      <PropertyRef Name="UserId" />
+      <PropertyRef Name="RoleId" />
+    </Key>
+    <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="RoleId" Type="uniqueidentifier" Nullable="false" />
+  </EntityType>
+  <EntityType Name="visitors">
+    <Key>
+      <PropertyRef Name="vID" />
+    </Key>
+    <Property Name="vID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PageViewed" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="timestamp" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Weeklys">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Symbol" Type="nvarchar" MaxLength="10" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="Product" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="IssueDate" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="firstissuedate" Type="datetime" Nullable="false" />
+    <Property Name="lastupdate" Type="datetime" Nullable="false" />
+    <Property Name="active" Type="bit" Nullable="false" />
+    <Property Name="strikewidth" Type="money" />
+  </EntityType>
+  <EntityType Name="wStockOrders">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="createdtimestamp" Type="datetime" />
+    <Property Name="userid" Type="uniqueidentifier" />
+    <Property Name="keyid" Type="nvarchar" MaxLength="12" />
+    <Property Name="orderid" Type="int" />
+    <Property Name="permid" Type="int" />
+    <Property Name="symbol" Type="nvarchar" MaxLength="4" />
+    <Property Name="orderopen" Type="bit" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'optionwavesdb.dbo.vw_aspnet_Applications' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_aspnet_Applications">
+    <Key>
+      <PropertyRef Name="ApplicationName" />
+      <PropertyRef Name="LoweredApplicationName" />
+      <PropertyRef Name="ApplicationId" />
+    </Key>
+    <Property Name="ApplicationName" Type="nvarchar" MaxLength="256" Nullable="false" />
+    <Property Name="LoweredApplicationName" Type="nvarchar" MaxLength="256" Nullable="false" />
+    <Property Name="ApplicationId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Description" Type="nvarchar" MaxLength="256" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'optionwavesdb.dbo.vw_aspnet_MembershipUsers' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_aspnet_MembershipUsers">
+    <Key>
+      <PropertyRef Name="UserId" />
+      <PropertyRef Name="PasswordFormat" />
+      <PropertyRef Name="IsApproved" />
+      <PropertyRef Name="IsLockedOut" />
+      <PropertyRef Name="CreateDate" />
+      <PropertyRef Name="LastLoginDate" />
+      <PropertyRef Name="LastPasswordChangedDate" />
+      <PropertyRef Name="LastLockoutDate" />
+      <PropertyRef Name="FailedPasswordAttemptCount" />
+      <PropertyRef Name="FailedPasswordAttemptWindowStart" />
+      <PropertyRef Name="FailedPasswordAnswerAttemptCount" />
+      <PropertyRef Name="FailedPasswordAnswerAttemptWindowStart" />
+      <PropertyRef Name="ApplicationId" />
+      <PropertyRef Name="UserName" />
+      <PropertyRef Name="IsAnonymous" />
+      <PropertyRef Name="LastActivityDate" />
+    </Key>
+    <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="PasswordFormat" Type="int" Nullable="false" />
+    <Property Name="MobilePIN" Type="nvarchar" MaxLength="16" />
+    <Property Name="Email" Type="nvarchar" MaxLength="256" />
+    <Property Name="LoweredEmail" Type="nvarchar" MaxLength="256" />
+    <Property Name="PasswordQuestion" Type="nvarchar" MaxLength="256" />
+    <Property Name="PasswordAnswer" Type="nvarchar" MaxLength="128" />
+    <Property Name="IsApproved" Type="bit" Nullable="false" />
+    <Property Name="IsLockedOut" Type="bit" Nullable="false" />
+    <Property Name="CreateDate" Type="datetime" Nullable="false" />
+    <Property Name="LastLoginDate" Type="datetime" Nullable="false" />
+    <Property Name="LastPasswordChangedDate" Type="datetime" Nullable="false" />
+    <Property Name="LastLockoutDate" Type="datetime" Nullable="false" />
+    <Property Name="FailedPasswordAttemptCount" Type="int" Nullable="false" />
+    <Property Name="FailedPasswordAttemptWindowStart" Type="datetime" Nullable="false" />
+    <Property Name="FailedPasswordAnswerAttemptCount" Type="int" Nullable="false" />
+    <Property Name="FailedPasswordAnswerAttemptWindowStart" Type="datetime" Nullable="false" />
+    <Property Name="Comment" Type="ntext" />
+    <Property Name="ApplicationId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+    <Property Name="MobileAlias" Type="nvarchar" MaxLength="16" />
+    <Property Name="IsAnonymous" Type="bit" Nullable="false" />
+    <Property Name="LastActivityDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'optionwavesdb.dbo.vw_aspnet_Profiles' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_aspnet_Profiles">
+    <Key>
+      <PropertyRef Name="UserId" />
+      <PropertyRef Name="LastUpdatedDate" />
+    </Key>
+    <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="LastUpdatedDate" Type="datetime" Nullable="false" />
+    <Property Name="DataSize" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'optionwavesdb.dbo.vw_aspnet_Roles' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_aspnet_Roles">
+    <Key>
+      <PropertyRef Name="ApplicationId" />
+      <PropertyRef Name="RoleId" />
+      <PropertyRef Name="RoleName" />
+      <PropertyRef Name="LoweredRoleName" />
+    </Key>
+    <Property Name="ApplicationId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="RoleId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="RoleName" Type="nvarchar" MaxLength="256" Nullable="false" />
+    <Property Name="LoweredRoleName" Type="nvarchar" MaxLength="256" Nullable="false" />
+    <Property Name="Description" Type="nvarchar" MaxLength="256" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'optionwavesdb.dbo.vw_aspnet_Users' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_aspnet_Users">
+    <Key>
+      <PropertyRef Name="ApplicationId" />
+      <PropertyRef Name="UserId" />
+      <PropertyRef Name="UserName" />
+      <PropertyRef Name="LoweredUserName" />
+      <PropertyRef Name="IsAnonymous" />
+      <PropertyRef Name="LastActivityDate" />
+    </Key>
+    <Property Name="ApplicationId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+    <Property Name="LoweredUserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+    <Property Name="MobileAlias" Type="nvarchar" MaxLength="16" />
+    <Property Name="IsAnonymous" Type="bit" Nullable="false" />
+    <Property Name="LastActivityDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'optionwavesdb.dbo.vw_aspnet_UsersInRoles' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_aspnet_UsersInRoles">
+    <Key>
+      <PropertyRef Name="UserId" />
+      <PropertyRef Name="RoleId" />
+    </Key>
+    <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="RoleId" Type="uniqueidentifier" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'optionwavesdb.dbo.vw_aspnet_WebPartState_Paths' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_aspnet_WebPartState_Paths">
+    <Key>
+      <PropertyRef Name="ApplicationId" />
+      <PropertyRef Name="PathId" />
+      <PropertyRef Name="Path" />
+      <PropertyRef Name="LoweredPath" />
+    </Key>
+    <Property Name="ApplicationId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="PathId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Path" Type="nvarchar" MaxLength="256" Nullable="false" />
+    <Property Name="LoweredPath" Type="nvarchar" MaxLength="256" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'optionwavesdb.dbo.vw_aspnet_WebPartState_Shared' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_aspnet_WebPartState_Shared">
+    <Key>
+      <PropertyRef Name="PathId" />
+      <PropertyRef Name="LastUpdatedDate" />
+    </Key>
+    <Property Name="PathId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="DataSize" Type="int" />
+    <Property Name="LastUpdatedDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'optionwavesdb.dbo.vw_aspnet_WebPartState_User' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_aspnet_WebPartState_User">
+    <Key>
+      <PropertyRef Name="LastUpdatedDate" />
+    </Key>
+    <Property Name="PathId" Type="uniqueidentifier" />
+    <Property Name="UserId" Type="uniqueidentifier" />
+    <Property Name="DataSize" Type="int" />
+    <Property Name="LastUpdatedDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'optionwavesdb.dbo.vw_avg_daily_gap' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_avg_daily_gap">
+    <Key>
+      <PropertyRef Name="Symbol" />
+      <PropertyRef Name="Name" />
+      <PropertyRef Name="Product" />
+    </Key>
+    <Property Name="Symbol" Type="nvarchar" MaxLength="10" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="Product" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="ten_day_range" Type="money" />
+    <Property Name="fifty_day_range" Type="money" />
+    <Property Name="one_hundred_day_range" Type="money" />
+    <Property Name="three_hundred_day_range" Type="money" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'optionwavesdb.dbo.vw_avg_ranges' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_avg_ranges">
+    <Key>
+      <PropertyRef Name="Symbol" />
+      <PropertyRef Name="Name" />
+      <PropertyRef Name="Product" />
+    </Key>
+    <Property Name="Symbol" Type="nvarchar" MaxLength="10" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="Product" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="ten_day_range" Type="money" />
+    <Property Name="fifty_day_range" Type="money" />
+    <Property Name="one_hundred_day_range" Type="money" />
+    <Property Name="three_hundred_day_range" Type="money" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'optionwavesdb.dbo.vw_full_view_w_calc' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_full_view_w_calc">
+    <Key>
+      <PropertyRef Name="Symbol" />
+      <PropertyRef Name="Name" />
+      <PropertyRef Name="Product" />
+      <PropertyRef Name="openprice" />
+      <PropertyRef Name="highprice" />
+      <PropertyRef Name="lowprice" />
+      <PropertyRef Name="closeprice" />
+      <PropertyRef Name="adjcloseprice" />
+      <PropertyRef Name="volume" />
+      <PropertyRef Name="RangeDollars" />
+      <PropertyRef Name="RangePercent" />
+      <PropertyRef Name="Message" />
+      <PropertyRef Name="marketdate" />
+      <PropertyRef Name="dateadded" />
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="Symbol" Type="nvarchar" MaxLength="10" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="Product" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="openprice" Type="money" Nullable="false" />
+    <Property Name="highprice" Type="money" Nullable="false" />
+    <Property Name="lowprice" Type="money" Nullable="false" />
+    <Property Name="closeprice" Type="money" Nullable="false" />
+    <Property Name="adjcloseprice" Type="money" Nullable="false" />
+    <Property Name="volume" Type="bigint" Nullable="false" />
+    <Property Name="RangeDollars" Type="money" Nullable="false" />
+    <Property Name="RangePercent" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+    <Property Name="Message" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="marketdate" Type="datetime" Nullable="false" />
+    <Property Name="dateadded" Type="datetime" Nullable="false" />
+    <Property Name="daily_gap" Type="money" />
+    <Property Name="id" Type="int" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'optionwavesdb.dbo.vw_Pricings_DESC' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_Pricings_DESC">
+    <Key>
+      <PropertyRef Name="id" />
+      <PropertyRef Name="symbolID" />
+      <PropertyRef Name="openprice" />
+      <PropertyRef Name="highprice" />
+      <PropertyRef Name="lowprice" />
+      <PropertyRef Name="closeprice" />
+      <PropertyRef Name="adjcloseprice" />
+      <PropertyRef Name="volume" />
+      <PropertyRef Name="RangeDollars" />
+      <PropertyRef Name="RangePercent" />
+      <PropertyRef Name="Message" />
+      <PropertyRef Name="marketdate" />
+      <PropertyRef Name="dateadded" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="symbolID" Type="int" Nullable="false" />
+    <Property Name="openprice" Type="money" Nullable="false" />
+    <Property Name="highprice" Type="money" Nullable="false" />
+    <Property Name="lowprice" Type="money" Nullable="false" />
+    <Property Name="closeprice" Type="money" Nullable="false" />
+    <Property Name="adjcloseprice" Type="money" Nullable="false" />
+    <Property Name="volume" Type="bigint" Nullable="false" />
+    <Property Name="RangeDollars" Type="money" Nullable="false" />
+    <Property Name="RangePercent" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+    <Property Name="Message" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="marketdate" Type="datetime" Nullable="false" />
+    <Property Name="dateadded" Type="datetime" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__aspnet_Me__Appli__21B6055D">
+    <End Role="aspnet_Applications" Type="Self.aspnet_Applications" Multiplicity="1" />
+    <End Role="aspnet_Membership" Type="Self.aspnet_Membership" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="aspnet_Applications">
+        <PropertyRef Name="ApplicationId" />
+      </Principal>
+      <Dependent Role="aspnet_Membership">
+        <PropertyRef Name="ApplicationId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__aspnet_Me__UserI__22AA2996">
+    <End Role="aspnet_Users" Type="Self.aspnet_Users" Multiplicity="1" />
+    <End Role="aspnet_Membership" Type="Self.aspnet_Membership" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="aspnet_Users">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="aspnet_Membership">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__aspnet_Pa__Appli__5AEE82B9">
+    <End Role="aspnet_Applications" Type="Self.aspnet_Applications" Multiplicity="1" />
+    <End Role="aspnet_Paths" Type="Self.aspnet_Paths" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="aspnet_Applications">
+        <PropertyRef Name="ApplicationId" />
+      </Principal>
+      <Dependent Role="aspnet_Paths">
+        <PropertyRef Name="ApplicationId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__aspnet_Pe__PathI__628FA481">
+    <End Role="aspnet_Paths" Type="Self.aspnet_Paths" Multiplicity="1" />
+    <End Role="aspnet_PersonalizationAllUsers" Type="Self.aspnet_PersonalizationAllUsers" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="aspnet_Paths">
+        <PropertyRef Name="PathId" />
+      </Principal>
+      <Dependent Role="aspnet_PersonalizationAllUsers">
+        <PropertyRef Name="PathId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__aspnet_Pe__PathI__68487DD7">
+    <End Role="aspnet_Paths" Type="Self.aspnet_Paths" Multiplicity="0..1" />
+    <End Role="aspnet_PersonalizationPerUser" Type="Self.aspnet_PersonalizationPerUser" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="aspnet_Paths">
+        <PropertyRef Name="PathId" />
+      </Principal>
+      <Dependent Role="aspnet_PersonalizationPerUser">
+        <PropertyRef Name="PathId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__aspnet_Pe__UserI__693CA210">
+    <End Role="aspnet_Users" Type="Self.aspnet_Users" Multiplicity="0..1" />
+    <End Role="aspnet_PersonalizationPerUser" Type="Self.aspnet_PersonalizationPerUser" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="aspnet_Users">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="aspnet_PersonalizationPerUser">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__aspnet_Pr__UserI__38996AB5">
+    <End Role="aspnet_Users" Type="Self.aspnet_Users" Multiplicity="1" />
+    <End Role="aspnet_Profile" Type="Self.aspnet_Profile" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="aspnet_Users">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="aspnet_Profile">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__aspnet_Ro__Appli__440B1D61">
+    <End Role="aspnet_Applications" Type="Self.aspnet_Applications" Multiplicity="1" />
+    <End Role="aspnet_Roles" Type="Self.aspnet_Roles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="aspnet_Applications">
+        <PropertyRef Name="ApplicationId" />
+      </Principal>
+      <Dependent Role="aspnet_Roles">
+        <PropertyRef Name="ApplicationId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__aspnet_Us__Appli__0DAF0CB0">
+    <End Role="aspnet_Applications" Type="Self.aspnet_Applications" Multiplicity="1" />
+    <End Role="aspnet_Users" Type="Self.aspnet_Users" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="aspnet_Applications">
+        <PropertyRef Name="ApplicationId" />
+      </Principal>
+      <Dependent Role="aspnet_Users">
+        <PropertyRef Name="ApplicationId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__aspnet_Us__RoleI__4AB81AF0">
+    <End Role="aspnet_Roles" Type="Self.aspnet_Roles" Multiplicity="1" />
+    <End Role="aspnet_UsersInRoles" Type="Self.aspnet_UsersInRoles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="aspnet_Roles">
+        <PropertyRef Name="RoleId" />
+      </Principal>
+      <Dependent Role="aspnet_UsersInRoles">
+        <PropertyRef Name="RoleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__aspnet_Us__UserI__49C3F6B7">
+    <End Role="aspnet_Users" Type="Self.aspnet_Users" Multiplicity="1" />
+    <End Role="aspnet_UsersInRoles" Type="Self.aspnet_UsersInRoles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="aspnet_Users">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="aspnet_UsersInRoles">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="MembershipApplication">
+    <End Role="Applications" Type="Self.Applications" Multiplicity="1" />
+    <End Role="Memberships" Type="Self.Memberships" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Applications">
+        <PropertyRef Name="ApplicationId" />
+      </Principal>
+      <Dependent Role="Memberships">
+        <PropertyRef Name="ApplicationId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="MembershipUser">
+    <End Role="Users" Type="Self.Users" Multiplicity="1" />
+    <End Role="Memberships" Type="Self.Memberships" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="Memberships">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="RoleApplication">
+    <End Role="Applications" Type="Self.Applications" Multiplicity="1" />
+    <End Role="Roles" Type="Self.Roles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Applications">
+        <PropertyRef Name="ApplicationId" />
+      </Principal>
+      <Dependent Role="Roles">
+        <PropertyRef Name="ApplicationId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="TicketCommentsRelationship">
+    <End Role="Tickets" Type="Self.Tickets" Multiplicity="1" />
+    <End Role="TicketComments" Type="Self.TicketComments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tickets">
+        <PropertyRef Name="ticketID" />
+      </Principal>
+      <Dependent Role="TicketComments">
+        <PropertyRef Name="ticketID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UserApplication">
+    <End Role="Applications" Type="Self.Applications" Multiplicity="1" />
+    <End Role="Users" Type="Self.Users" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Applications">
+        <PropertyRef Name="ApplicationId" />
+      </Principal>
+      <Dependent Role="Users">
+        <PropertyRef Name="ApplicationId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UserProfile">
+    <End Role="Users" Type="Self.Users" Multiplicity="1" />
+    <End Role="Profiles" Type="Self.Profiles" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="Profiles">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UsersInRoleRole">
+    <End Role="Roles" Type="Self.Roles" Multiplicity="1" />
+    <End Role="UsersInRoles" Type="Self.UsersInRoles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Roles">
+        <PropertyRef Name="RoleId" />
+      </Principal>
+      <Dependent Role="UsersInRoles">
+        <PropertyRef Name="RoleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UsersInRoleUser">
+    <End Role="Users" Type="Self.Users" Multiplicity="1" />
+    <End Role="UsersInRoles" Type="Self.UsersInRoles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="UsersInRoles">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="aspnet_AnyDataInTables" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="TablesToCheck" Type="int" Mode="In" />
+  </Function>
+  <Function Name="aspnet_Applications_CreateApplication" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ApplicationName" Type="nvarchar" Mode="In" />
+    <Parameter Name="ApplicationId" Type="uniqueidentifier" Mode="InOut" />
+  </Function>
+  <Function Name="aspnet_CheckSchemaVersion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Feature" Type="nvarchar" Mode="In" />
+    <Parameter Name="CompatibleSchemaVersion" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="aspnet_Membership_ChangePasswordQuestionAndAnswer" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ApplicationName" Type="nvarchar" Mode="In" />
+    <Parameter Name="UserName" Type="nvarchar" Mode="In" />
+    <Parameter Name="NewPasswordQuestion" Type="nvarchar" Mode="In" />
+    <Parameter Name="NewPasswordAnswer" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="aspnet_Membership_CreateUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ApplicationName" Type="nvarchar" Mode="In" />
+    <Parameter Name="UserName" Type="nvarchar" Mode="In" />
+    <Parameter Name="Password" Type="nvarchar" Mode="In" />
+    <Parameter Name="PasswordSalt" Type="nvarchar" Mode="In" />
+    <Parameter Name="Email" Type="nvarchar" Mode="In" />
+    <Parameter Name="PasswordQuestion" Type="nvarchar" Mode="In" />
+    <Parameter Name="PasswordAnswer" Type="nvarchar" Mode="In" />
+    <Parameter Name="IsApproved" Type="bit" Mode="In" />
+    <Parameter Name="CurrentTimeUtc" Type="datetime" Mode="In" />
+    <Parameter Name="CreateDate" Type="datetime" Mode="In" />
+    <Parameter Name="UniqueEmail" Type="int" Mode="In" />
+    <Parameter Name="PasswordFormat" Type="int" Mode="In" />
+    <Parameter Name="UserId" Type="uniqueidentifier" Mode="InOut" />
+  </Function>
+  <Function Name="aspnet_Membership_FindUsersByEmail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ApplicationName" Type="nvarchar" Mode="In" />
+    <Parameter Name="EmailToMatch" Type="nvarchar" Mode="In" />
+    <Parameter Name="PageIndex" Type="int" Mode="In" />
+    <Parameter Name="PageSize" Type="int" Mode="In" />
+  </Function>
+  <Function Name="aspnet_Membership_FindUsersByName" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ApplicationName" Type="nvarchar" Mode="In" />
+    <Parameter Name="UserNameToMatch" Type="nvarchar" Mode="In" />
+    <Parameter Name="PageIndex" Type="int" Mode="In" />
+    <Parameter Name="PageSize" Type="int" Mode="In" />
+  </Function>
+  <Function Name="aspnet_Membership_GetAllUsers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ApplicationName" Type="nvarchar" Mode="In" />
+    <Parameter Name="PageIndex" Type="int" Mode="In" />
+    <Parameter Name="PageSize" Type="int" Mode="In" />
+  </Function>
+  <Function Name="aspnet_Membership_GetNumberOfUsersOnline" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ApplicationName" Type="nvarchar" Mode="In" />
+    <Parameter Name="MinutesSinceLastInActive" Type="int" Mode="In" />
+    <Parameter Name="CurrentTimeUtc" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="aspnet_Membership_GetPassword" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ApplicationName" Type="nvarchar" Mode="In" />
+    <Parameter Name="UserName" Type="nvarchar" Mode="In" />
+    <Parameter Name="MaxInvalidPasswordAttempts" Type="int" Mode="In" />
+    <Parameter Name="PasswordAttemptWindow" Type="int" Mode="In" />
+    <Parameter Name="CurrentTimeUtc" Type="datetime" Mode="In" />
+    <Parameter Name="PasswordAnswer" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="aspnet_Membership_GetPasswordWithFormat" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ApplicationName" Type="nvarchar" Mode="In" />
+    <Parameter Name="UserName" Type="nvarchar" Mode="In" />
+    <Parameter Name="UpdateLastLoginActivityDate" Type="bit" Mode="In" />
+    <Parameter Name="CurrentTimeUtc" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="aspnet_Membership_GetUserByEmail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ApplicationName" Type="nvarchar" Mode="In" />
+    <Parameter Name="Email" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="aspnet_Membership_GetUserByName" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ApplicationName" Type="nvarchar" Mode="In" />
+    <Parameter Name="UserName" Type="nvarchar" Mode="In" />
+    <Parameter Name="CurrentTimeUtc" Type="datetime" Mode="In" />
+    <Parameter Name="UpdateLastActivity" Type="bit" Mode="In" />
+  </Function>
+  <Function Name="aspnet_Membership_GetUserByUserId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="UserId" Type="uniqueidentifier" Mode="In" />
+    <Parameter Name="CurrentTimeUtc" Type="datetime" Mode="In" />
+    <Parameter Name="UpdateLastActivity" Type="bit" Mode="In" />
+  </Function>
+  <Function Name="aspnet_Membership_ResetPassword" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ApplicationName" Type="nvarchar" Mode="In" />
+    <Parameter Name="UserName" Type="nvarchar" Mode="In" />
+    <Parameter Name="NewPassword" Type="nvarchar" Mode="In" />
+    <Parameter Name="MaxInvalidPasswordAttempts" Type="int" Mode="In" />
+    <Parameter Name="PasswordAttemptWindow" Type="int" Mode="In" />
+    <Parameter Name="PasswordSalt" Type="nvarchar" Mode="In" />
+    <Parameter Name="CurrentTimeUtc" Type="datetime" Mode="In" />
+    <Parameter Name="PasswordFormat" Type="int" Mode="In" />
+    <Parameter Name="PasswordAnswer" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="aspnet_Membership_SetPassword" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ApplicationName" Type="nvarchar" Mode="In" />
+    <Parameter Name="UserName" Type="nvarchar" Mode="In" />
+    <Parameter Name="NewPassword" Type="nvarchar" Mode="In" />
+    <Parameter Name="PasswordSalt" Type="nvarchar" Mode="In" />
+    <Parameter Name="CurrentTimeUtc" Type="datetime" Mode="In" />
+    <Parameter Name="PasswordFormat" Type="int" Mode="In" />
+  </Function>
+  <Function Name="aspnet_Membership_UnlockUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ApplicationName" Type="nvarchar" Mode="In" />
+    <Parameter Name="UserName" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="aspnet_Membership_UpdateUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ApplicationName" Type="nvarchar" Mode="In" />
+    <Parameter Name="UserName" Type="nvarchar" Mode="In" />
+    <Parameter Name="Email" Type="nvarchar" Mode="In" />
+    <Parameter Name="Comment" Type="ntext" Mode="In" />
+    <Parameter Name="IsApproved" Type="bit" Mode="In" />
+    <Parameter Name="LastLoginDate" Type="datetime" Mode="In" />
+    <Parameter Name="LastActivityDate" Type="datetime" Mode="In" />
+    <Parameter Name="UniqueEmail" Type="int" Mode="In" />
+    <Parameter Name="CurrentTimeUtc" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="aspnet_Membership_UpdateUserInfo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ApplicationName" Type="nvarchar" Mode="In" />
+    <Parameter Name="UserName" Type="nvarchar" Mode="In" />
+    <Parameter Name="IsPasswordCorrect" Type="bit" Mode="In" />
+    <Parameter Name="UpdateLastLoginActivityDate" Type="bit" Mode="In" />
+    <Parameter Name="MaxInvalidPasswordAttempts" Type="int" Mode="In" />
+    <Parameter Name="PasswordAttemptWindow" Type="int" Mode="In" />
+    <Parameter Name="CurrentTimeUtc" Type="datetime" Mode="In" />
+    <Parameter Name="LastLoginDate" Type="datetime" Mode="In" />
+    <Parameter Name="LastActivityDate" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="aspnet_Paths_CreatePath" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ApplicationId" Type="uniqueidentifier" Mode="In" />
+    <Parameter Name="Path" Type="nvarchar" Mode="In" />
+    <Parameter Name="PathId" Type="uniqueidentifier" Mode="InOut" />
+  </Function>
+  <Function Name="aspnet_Personalization_GetApplicationId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ApplicationName" Type="nvarchar" Mode="In" />
+    <Parameter Name="ApplicationId" Type="uniqueidentifier" Mode="InOut" />
+  </Function>
+  <Function Name="aspnet_PersonalizationAdministration_DeleteAllState" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="AllUsersScope" Type="bit" Mode="In" />
+    <Parameter Name="ApplicationName" Type="nvarchar" Mode="In" />
+    <Parameter Name="Count" Type="int" Mode="InOut" />
+  </Function>
+  <Function Name="aspnet_PersonalizationAdministration_FindState" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="AllUsersScope" Type="bit" Mode="In" />
+    <Parameter Name="ApplicationName" Type="nvarchar" Mode="In" />
+    <Parameter Name="PageIndex" Type="int" Mode="In" />
+    <Parameter Name="PageSize" Type="int" Mode="In" />
+    <Parameter Name="Path" Type="nvarchar" Mode="In" />
+    <Parameter Name="UserName" Type="nvarchar" Mode="In" />
+    <Parameter Name="InactiveSinceDate" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="aspnet_PersonalizationAdministration_GetCountOfState" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Count" Type="int" Mode="InOut" />
+    <Parameter Name="AllUsersScope" Type="bit" Mode="In" />
+    <Parameter Name="ApplicationName" Type="nvarchar" Mode="In" />
+    <Parameter Name="Path" Type="nvarchar" Mode="In" />
+    <Parameter Name="UserName" Type="nvarchar" Mode="In" />
+    <Parameter Name="InactiveSinceDate" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="aspnet_PersonalizationAdministration_ResetSharedState" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Count" Type="int" Mode="InOut" />
+    <Parameter Name="ApplicationName" Type="nvarchar" Mode="In" />
+    <Parameter Name="Path" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="aspnet_PersonalizationAdministration_ResetUserState" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Count" Type="int" Mode="InOut" />
+    <Parameter Name="ApplicationName" Type="nvarchar" Mode="In" />
+    <Parameter Name="InactiveSinceDate" Type="datetime" Mode="In" />
+    <Parameter Name="UserName" Type="nvarchar" Mode="In" />
+    <Parameter Name="Path" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="aspnet_PersonalizationAllUsers_GetPageSettings" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ApplicationName" Type="nvarchar" Mode="In" />
+    <Parameter Name="Path" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="aspnet_PersonalizationAllUsers_ResetPageSettings" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ApplicationName" Type="nvarchar" Mode="In" />
+    <Parameter Name="Path" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="aspnet_PersonalizationAllUsers_SetPageSettings" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ApplicationName" Type="nvarchar" Mode="In" />
+    <Parameter Name="Path" Type="nvarchar" Mode="In" />
+    <Parameter Name="PageSettings" Type="image" Mode="In" />
+    <Parameter Name="CurrentTimeUtc" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="aspnet_PersonalizationPerUser_GetPageSettings" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ApplicationName" Type="nvarchar" Mode="In" />
+    <Parameter Name="UserName" Type="nvarchar" Mode="In" />
+    <Parameter Name="Path" Type="nvarchar" Mode="In" />
+    <Parameter Name="CurrentTimeUtc" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="aspnet_PersonalizationPerUser_ResetPageSettings" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ApplicationName" Type="nvarchar" Mode="In" />
+    <Parameter Name="UserName" Type="nvarchar" Mode="In" />
+    <Parameter Name="Path" Type="nvarchar" Mode="In" />
+    <Parameter Name="CurrentTimeUtc" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="aspnet_PersonalizationPerUser_SetPageSettings" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ApplicationName" Type="nvarchar" Mode="In" />
+    <Parameter Name="UserName" Type="nvarchar" Mode="In" />
+    <Parameter Name="Path" Type="nvarchar" Mode="In" />
+    <Parameter Name="PageSettings" Type="image" Mode="In" />
+    <Parameter Name="CurrentTimeUtc" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="aspnet_Profile_DeleteInactiveProfiles" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ApplicationName" Type="nvarchar" Mode="In" />
+    <Parameter Name="ProfileAuthOptions" Type="int" Mode="In" />
+    <Parameter Name="InactiveSinceDate" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="aspnet_Profile_DeleteProfiles" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ApplicationName" Type="nvarchar" Mode="In" />
+    <Parameter Name="UserNames" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="aspnet_Profile_GetNumberOfInactiveProfiles" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ApplicationName" Type="nvarchar" Mode="In" />
+    <Parameter Name="ProfileAuthOptions" Type="int" Mode="In" />
+    <Parameter Name="InactiveSinceDate" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="aspnet_Profile_GetProfiles" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ApplicationName" Type="nvarchar" Mode="In" />
+    <Parameter Name="ProfileAuthOptions" Type="int" Mode="In" />
+    <Parameter Name="PageIndex" Type="int" Mode="In" />
+    <Parameter Name="PageSize" Type="int" Mode="In" />
+    <Parameter Name="UserNameToMatch" Type="nvarchar" Mode="In" />
+    <Parameter Name="InactiveSinceDate" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="aspnet_Profile_GetProperties" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ApplicationName" Type="nvarchar" Mode="In" />
+    <Parameter Name="UserName" Type="nvarchar" Mode="In" />
+    <Parameter Name="CurrentTimeUtc" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="aspnet_Profile_SetProperties" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ApplicationName" Type="nvarchar" Mode="In" />
+    <Parameter Name="PropertyNames" Type="ntext" Mode="In" />
+    <Parameter Name="PropertyValuesString" Type="ntext" Mode="In" />
+    <Parameter Name="PropertyValuesBinary" Type="image" Mode="In" />
+    <Parameter Name="UserName" Type="nvarchar" Mode="In" />
+    <Parameter Name="IsUserAnonymous" Type="bit" Mode="In" />
+    <Parameter Name="CurrentTimeUtc" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="aspnet_RegisterSchemaVersion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Feature" Type="nvarchar" Mode="In" />
+    <Parameter Name="CompatibleSchemaVersion" Type="nvarchar" Mode="In" />
+    <Parameter Name="IsCurrentVersion" Type="bit" Mode="In" />
+    <Parameter Name="RemoveIncompatibleSchema" Type="bit" Mode="In" />
+  </Function>
+  <Function Name="aspnet_Roles_CreateRole" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ApplicationName" Type="nvarchar" Mode="In" />
+    <Parameter Name="RoleName" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="aspnet_Roles_DeleteRole" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ApplicationName" Type="nvarchar" Mode="In" />
+    <Parameter Name="RoleName" Type="nvarchar" Mode="In" />
+    <Parameter Name="DeleteOnlyIfRoleIsEmpty" Type="bit" Mode="In" />
+  </Function>
+  <Function Name="aspnet_Roles_GetAllRoles" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ApplicationName" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="aspnet_Roles_RoleExists" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ApplicationName" Type="nvarchar" Mode="In" />
+    <Parameter Name="RoleName" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="aspnet_Setup_RemoveAllRoleMembers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="name" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="aspnet_Setup_RestorePermissions" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="name" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="aspnet_UnRegisterSchemaVersion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Feature" Type="nvarchar" Mode="In" />
+    <Parameter Name="CompatibleSchemaVersion" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="aspnet_Users_CreateUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ApplicationId" Type="uniqueidentifier" Mode="In" />
+    <Parameter Name="UserName" Type="nvarchar" Mode="In" />
+    <Parameter Name="IsUserAnonymous" Type="bit" Mode="In" />
+    <Parameter Name="LastActivityDate" Type="datetime" Mode="In" />
+    <Parameter Name="UserId" Type="uniqueidentifier" Mode="InOut" />
+  </Function>
+  <Function Name="aspnet_Users_DeleteUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ApplicationName" Type="nvarchar" Mode="In" />
+    <Parameter Name="UserName" Type="nvarchar" Mode="In" />
+    <Parameter Name="TablesToDeleteFrom" Type="int" Mode="In" />
+    <Parameter Name="NumTablesDeletedFrom" Type="int" Mode="InOut" />
+  </Function>
+  <Function Name="aspnet_UsersInRoles_AddUsersToRoles" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ApplicationName" Type="nvarchar" Mode="In" />
+    <Parameter Name="UserNames" Type="nvarchar" Mode="In" />
+    <Parameter Name="RoleNames" Type="nvarchar" Mode="In" />
+    <Parameter Name="CurrentTimeUtc" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="aspnet_UsersInRoles_FindUsersInRole" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ApplicationName" Type="nvarchar" Mode="In" />
+    <Parameter Name="RoleName" Type="nvarchar" Mode="In" />
+    <Parameter Name="UserNameToMatch" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="aspnet_UsersInRoles_GetRolesForUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ApplicationName" Type="nvarchar" Mode="In" />
+    <Parameter Name="UserName" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="aspnet_UsersInRoles_GetUsersInRoles" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ApplicationName" Type="nvarchar" Mode="In" />
+    <Parameter Name="RoleName" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="aspnet_UsersInRoles_IsUserInRole" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ApplicationName" Type="nvarchar" Mode="In" />
+    <Parameter Name="UserName" Type="nvarchar" Mode="In" />
+    <Parameter Name="RoleName" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="aspnet_UsersInRoles_RemoveUsersFromRoles" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ApplicationName" Type="nvarchar" Mode="In" />
+    <Parameter Name="UserNames" Type="nvarchar" Mode="In" />
+    <Parameter Name="RoleNames" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="aspnet_WebEvent_LogEvent" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="EventId" Type="char" Mode="In" />
+    <Parameter Name="EventTimeUtc" Type="datetime" Mode="In" />
+    <Parameter Name="EventTime" Type="datetime" Mode="In" />
+    <Parameter Name="EventType" Type="nvarchar" Mode="In" />
+    <Parameter Name="EventSequence" Type="decimal" Mode="In" />
+    <Parameter Name="EventOccurrence" Type="decimal" Mode="In" />
+    <Parameter Name="EventCode" Type="int" Mode="In" />
+    <Parameter Name="EventDetailCode" Type="int" Mode="In" />
+    <Parameter Name="Message" Type="nvarchar" Mode="In" />
+    <Parameter Name="ApplicationPath" Type="nvarchar" Mode="In" />
+    <Parameter Name="ApplicationVirtualPath" Type="nvarchar" Mode="In" />
+    <Parameter Name="MachineName" Type="nvarchar" Mode="In" />
+    <Parameter Name="RequestUrl" Type="nvarchar" Mode="In" />
+    <Parameter Name="ExceptionType" Type="nvarchar" Mode="In" />
+    <Parameter Name="Details" Type="ntext" Mode="In" />
+  </Function>
+  <EntityContainer Name="optionwavesdbModelStoreContainer">
+    <EntitySet Name="Applications" EntityType="Self.Applications" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="aspnet_Applications" EntityType="Self.aspnet_Applications" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="aspnet_Membership" EntityType="Self.aspnet_Membership" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="aspnet_Paths" EntityType="Self.aspnet_Paths" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="aspnet_PersonalizationAllUsers" EntityType="Self.aspnet_PersonalizationAllUsers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="aspnet_PersonalizationPerUser" EntityType="Self.aspnet_PersonalizationPerUser" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="aspnet_Profile" EntityType="Self.aspnet_Profile" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="aspnet_Roles" EntityType="Self.aspnet_Roles" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="aspnet_SchemaVersions" EntityType="Self.aspnet_SchemaVersions" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="aspnet_Users" EntityType="Self.aspnet_Users" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="aspnet_UsersInRoles" EntityType="Self.aspnet_UsersInRoles" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="aspnet_WebEvent_Events" EntityType="Self.aspnet_WebEvent_Events" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="backtest" EntityType="Self.backtest" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="BlogComments" EntityType="Self.BlogComments" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="BlogEntries" EntityType="Self.BlogEntries" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="emails" EntityType="Self.emails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="HarvestHedges" EntityType="Self.HarvestHedges" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="HarvestIndex" EntityType="Self.HarvestIndex" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="HarvestIntervals" EntityType="Self.HarvestIntervals" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="HarvestLogs" EntityType="Self.HarvestLogs" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="HarvestMarks" EntityType="Self.HarvestMarks" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="HarvestPositions" EntityType="Self.HarvestPositions" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Memberships" EntityType="Self.Memberships" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="onesigmawide" EntityType="Self.onesigmawide" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="positions" EntityType="Self.positions" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Prices" EntityType="Self.Prices" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Pricings" EntityType="Self.Pricings" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="productionhedge" EntityType="Self.productionhedge" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="productionlog" EntityType="Self.productionlog" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="productionstock" EntityType="Self.productionstock" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Profiles" EntityType="Self.Profiles" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="stockorders" EntityType="Self.stockorders" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tasks" EntityType="Self.Tasks" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TicketComments" EntityType="Self.TicketComments" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tickets" EntityType="Self.Tickets" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TradeDetails" EntityType="Self.TradeDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TradeLogs" EntityType="Self.TradeLogs" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UsersInRoles" EntityType="Self.UsersInRoles" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="visitors" EntityType="Self.visitors" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Weeklys" EntityType="Self.Weeklys" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="wStockOrders" EntityType="Self.wStockOrders" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="vw_aspnet_Applications" EntityType="Self.vw_aspnet_Applications" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_aspnet_Applications].[ApplicationName] AS [ApplicationName], 
+    [vw_aspnet_Applications].[LoweredApplicationName] AS [LoweredApplicationName], 
+    [vw_aspnet_Applications].[ApplicationId] AS [ApplicationId], 
+    [vw_aspnet_Applications].[Description] AS [Description]
+    FROM [dbo].[vw_aspnet_Applications] AS [vw_aspnet_Applications]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vw_aspnet_MembershipUsers" EntityType="Self.vw_aspnet_MembershipUsers" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_aspnet_MembershipUsers].[UserId] AS [UserId], 
+    [vw_aspnet_MembershipUsers].[PasswordFormat] AS [PasswordFormat], 
+    [vw_aspnet_MembershipUsers].[MobilePIN] AS [MobilePIN], 
+    [vw_aspnet_MembershipUsers].[Email] AS [Email], 
+    [vw_aspnet_MembershipUsers].[LoweredEmail] AS [LoweredEmail], 
+    [vw_aspnet_MembershipUsers].[PasswordQuestion] AS [PasswordQuestion], 
+    [vw_aspnet_MembershipUsers].[PasswordAnswer] AS [PasswordAnswer], 
+    [vw_aspnet_MembershipUsers].[IsApproved] AS [IsApproved], 
+    [vw_aspnet_MembershipUsers].[IsLockedOut] AS [IsLockedOut], 
+    [vw_aspnet_MembershipUsers].[CreateDate] AS [CreateDate], 
+    [vw_aspnet_MembershipUsers].[LastLoginDate] AS [LastLoginDate], 
+    [vw_aspnet_MembershipUsers].[LastPasswordChangedDate] AS [LastPasswordChangedDate], 
+    [vw_aspnet_MembershipUsers].[LastLockoutDate] AS [LastLockoutDate], 
+    [vw_aspnet_MembershipUsers].[FailedPasswordAttemptCount] AS [FailedPasswordAttemptCount], 
+    [vw_aspnet_MembershipUsers].[FailedPasswordAttemptWindowStart] AS [FailedPasswordAttemptWindowStart], 
+    [vw_aspnet_MembershipUsers].[FailedPasswordAnswerAttemptCount] AS [FailedPasswordAnswerAttemptCount], 
+    [vw_aspnet_MembershipUsers].[FailedPasswordAnswerAttemptWindowStart] AS [FailedPasswordAnswerAttemptWindowStart], 
+    [vw_aspnet_MembershipUsers].[Comment] AS [Comment], 
+    [vw_aspnet_MembershipUsers].[ApplicationId] AS [ApplicationId], 
+    [vw_aspnet_MembershipUsers].[UserName] AS [UserName], 
+    [vw_aspnet_MembershipUsers].[MobileAlias] AS [MobileAlias], 
+    [vw_aspnet_MembershipUsers].[IsAnonymous] AS [IsAnonymous], 
+    [vw_aspnet_MembershipUsers].[LastActivityDate] AS [LastActivityDate]
+    FROM [dbo].[vw_aspnet_MembershipUsers] AS [vw_aspnet_MembershipUsers]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vw_aspnet_Profiles" EntityType="Self.vw_aspnet_Profiles" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_aspnet_Profiles].[UserId] AS [UserId], 
+    [vw_aspnet_Profiles].[LastUpdatedDate] AS [LastUpdatedDate], 
+    [vw_aspnet_Profiles].[DataSize] AS [DataSize]
+    FROM [dbo].[vw_aspnet_Profiles] AS [vw_aspnet_Profiles]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vw_aspnet_Roles" EntityType="Self.vw_aspnet_Roles" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_aspnet_Roles].[ApplicationId] AS [ApplicationId], 
+    [vw_aspnet_Roles].[RoleId] AS [RoleId], 
+    [vw_aspnet_Roles].[RoleName] AS [RoleName], 
+    [vw_aspnet_Roles].[LoweredRoleName] AS [LoweredRoleName], 
+    [vw_aspnet_Roles].[Description] AS [Description]
+    FROM [dbo].[vw_aspnet_Roles] AS [vw_aspnet_Roles]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vw_aspnet_Users" EntityType="Self.vw_aspnet_Users" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_aspnet_Users].[ApplicationId] AS [ApplicationId], 
+    [vw_aspnet_Users].[UserId] AS [UserId], 
+    [vw_aspnet_Users].[UserName] AS [UserName], 
+    [vw_aspnet_Users].[LoweredUserName] AS [LoweredUserName], 
+    [vw_aspnet_Users].[MobileAlias] AS [MobileAlias], 
+    [vw_aspnet_Users].[IsAnonymous] AS [IsAnonymous], 
+    [vw_aspnet_Users].[LastActivityDate] AS [LastActivityDate]
+    FROM [dbo].[vw_aspnet_Users] AS [vw_aspnet_Users]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vw_aspnet_UsersInRoles" EntityType="Self.vw_aspnet_UsersInRoles" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_aspnet_UsersInRoles].[UserId] AS [UserId], 
+    [vw_aspnet_UsersInRoles].[RoleId] AS [RoleId]
+    FROM [dbo].[vw_aspnet_UsersInRoles] AS [vw_aspnet_UsersInRoles]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vw_aspnet_WebPartState_Paths" EntityType="Self.vw_aspnet_WebPartState_Paths" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_aspnet_WebPartState_Paths].[ApplicationId] AS [ApplicationId], 
+    [vw_aspnet_WebPartState_Paths].[PathId] AS [PathId], 
+    [vw_aspnet_WebPartState_Paths].[Path] AS [Path], 
+    [vw_aspnet_WebPartState_Paths].[LoweredPath] AS [LoweredPath]
+    FROM [dbo].[vw_aspnet_WebPartState_Paths] AS [vw_aspnet_WebPartState_Paths]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vw_aspnet_WebPartState_Shared" EntityType="Self.vw_aspnet_WebPartState_Shared" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_aspnet_WebPartState_Shared].[PathId] AS [PathId], 
+    [vw_aspnet_WebPartState_Shared].[DataSize] AS [DataSize], 
+    [vw_aspnet_WebPartState_Shared].[LastUpdatedDate] AS [LastUpdatedDate]
+    FROM [dbo].[vw_aspnet_WebPartState_Shared] AS [vw_aspnet_WebPartState_Shared]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vw_aspnet_WebPartState_User" EntityType="Self.vw_aspnet_WebPartState_User" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_aspnet_WebPartState_User].[PathId] AS [PathId], 
+    [vw_aspnet_WebPartState_User].[UserId] AS [UserId], 
+    [vw_aspnet_WebPartState_User].[DataSize] AS [DataSize], 
+    [vw_aspnet_WebPartState_User].[LastUpdatedDate] AS [LastUpdatedDate]
+    FROM [dbo].[vw_aspnet_WebPartState_User] AS [vw_aspnet_WebPartState_User]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vw_avg_daily_gap" EntityType="Self.vw_avg_daily_gap" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_avg_daily_gap].[Symbol] AS [Symbol], 
+    [vw_avg_daily_gap].[Name] AS [Name], 
+    [vw_avg_daily_gap].[Product] AS [Product], 
+    [vw_avg_daily_gap].[ten_day_range] AS [ten_day_range], 
+    [vw_avg_daily_gap].[fifty_day_range] AS [fifty_day_range], 
+    [vw_avg_daily_gap].[one_hundred_day_range] AS [one_hundred_day_range], 
+    [vw_avg_daily_gap].[three_hundred_day_range] AS [three_hundred_day_range]
+    FROM [dbo].[vw_avg_daily_gap] AS [vw_avg_daily_gap]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vw_avg_ranges" EntityType="Self.vw_avg_ranges" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_avg_ranges].[Symbol] AS [Symbol], 
+    [vw_avg_ranges].[Name] AS [Name], 
+    [vw_avg_ranges].[Product] AS [Product], 
+    [vw_avg_ranges].[ten_day_range] AS [ten_day_range], 
+    [vw_avg_ranges].[fifty_day_range] AS [fifty_day_range], 
+    [vw_avg_ranges].[one_hundred_day_range] AS [one_hundred_day_range], 
+    [vw_avg_ranges].[three_hundred_day_range] AS [three_hundred_day_range]
+    FROM [dbo].[vw_avg_ranges] AS [vw_avg_ranges]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vw_full_view_w_calc" EntityType="Self.vw_full_view_w_calc" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_full_view_w_calc].[Symbol] AS [Symbol], 
+    [vw_full_view_w_calc].[Name] AS [Name], 
+    [vw_full_view_w_calc].[Product] AS [Product], 
+    [vw_full_view_w_calc].[openprice] AS [openprice], 
+    [vw_full_view_w_calc].[highprice] AS [highprice], 
+    [vw_full_view_w_calc].[lowprice] AS [lowprice], 
+    [vw_full_view_w_calc].[closeprice] AS [closeprice], 
+    [vw_full_view_w_calc].[adjcloseprice] AS [adjcloseprice], 
+    [vw_full_view_w_calc].[volume] AS [volume], 
+    [vw_full_view_w_calc].[RangeDollars] AS [RangeDollars], 
+    [vw_full_view_w_calc].[RangePercent] AS [RangePercent], 
+    [vw_full_view_w_calc].[Message] AS [Message], 
+    [vw_full_view_w_calc].[marketdate] AS [marketdate], 
+    [vw_full_view_w_calc].[dateadded] AS [dateadded], 
+    [vw_full_view_w_calc].[daily_gap] AS [daily_gap], 
+    [vw_full_view_w_calc].[id] AS [id]
+    FROM [dbo].[vw_full_view_w_calc] AS [vw_full_view_w_calc]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vw_Pricings_DESC" EntityType="Self.vw_Pricings_DESC" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_Pricings_DESC].[id] AS [id], 
+    [vw_Pricings_DESC].[symbolID] AS [symbolID], 
+    [vw_Pricings_DESC].[openprice] AS [openprice], 
+    [vw_Pricings_DESC].[highprice] AS [highprice], 
+    [vw_Pricings_DESC].[lowprice] AS [lowprice], 
+    [vw_Pricings_DESC].[closeprice] AS [closeprice], 
+    [vw_Pricings_DESC].[adjcloseprice] AS [adjcloseprice], 
+    [vw_Pricings_DESC].[volume] AS [volume], 
+    [vw_Pricings_DESC].[RangeDollars] AS [RangeDollars], 
+    [vw_Pricings_DESC].[RangePercent] AS [RangePercent], 
+    [vw_Pricings_DESC].[Message] AS [Message], 
+    [vw_Pricings_DESC].[marketdate] AS [marketdate], 
+    [vw_Pricings_DESC].[dateadded] AS [dateadded]
+    FROM [dbo].[vw_Pricings_DESC] AS [vw_Pricings_DESC]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK__aspnet_Me__Appli__21B6055D" Association="Self.FK__aspnet_Me__Appli__21B6055D">
+      <End Role="aspnet_Applications" EntitySet="aspnet_Applications" />
+      <End Role="aspnet_Membership" EntitySet="aspnet_Membership" />
+    </AssociationSet>
+    <AssociationSet Name="FK__aspnet_Me__UserI__22AA2996" Association="Self.FK__aspnet_Me__UserI__22AA2996">
+      <End Role="aspnet_Users" EntitySet="aspnet_Users" />
+      <End Role="aspnet_Membership" EntitySet="aspnet_Membership" />
+    </AssociationSet>
+    <AssociationSet Name="FK__aspnet_Pa__Appli__5AEE82B9" Association="Self.FK__aspnet_Pa__Appli__5AEE82B9">
+      <End Role="aspnet_Applications" EntitySet="aspnet_Applications" />
+      <End Role="aspnet_Paths" EntitySet="aspnet_Paths" />
+    </AssociationSet>
+    <AssociationSet Name="FK__aspnet_Pe__PathI__628FA481" Association="Self.FK__aspnet_Pe__PathI__628FA481">
+      <End Role="aspnet_Paths" EntitySet="aspnet_Paths" />
+      <End Role="aspnet_PersonalizationAllUsers" EntitySet="aspnet_PersonalizationAllUsers" />
+    </AssociationSet>
+    <AssociationSet Name="FK__aspnet_Pe__PathI__68487DD7" Association="Self.FK__aspnet_Pe__PathI__68487DD7">
+      <End Role="aspnet_Paths" EntitySet="aspnet_Paths" />
+      <End Role="aspnet_PersonalizationPerUser" EntitySet="aspnet_PersonalizationPerUser" />
+    </AssociationSet>
+    <AssociationSet Name="FK__aspnet_Pe__UserI__693CA210" Association="Self.FK__aspnet_Pe__UserI__693CA210">
+      <End Role="aspnet_Users" EntitySet="aspnet_Users" />
+      <End Role="aspnet_PersonalizationPerUser" EntitySet="aspnet_PersonalizationPerUser" />
+    </AssociationSet>
+    <AssociationSet Name="FK__aspnet_Pr__UserI__38996AB5" Association="Self.FK__aspnet_Pr__UserI__38996AB5">
+      <End Role="aspnet_Users" EntitySet="aspnet_Users" />
+      <End Role="aspnet_Profile" EntitySet="aspnet_Profile" />
+    </AssociationSet>
+    <AssociationSet Name="FK__aspnet_Ro__Appli__440B1D61" Association="Self.FK__aspnet_Ro__Appli__440B1D61">
+      <End Role="aspnet_Applications" EntitySet="aspnet_Applications" />
+      <End Role="aspnet_Roles" EntitySet="aspnet_Roles" />
+    </AssociationSet>
+    <AssociationSet Name="FK__aspnet_Us__Appli__0DAF0CB0" Association="Self.FK__aspnet_Us__Appli__0DAF0CB0">
+      <End Role="aspnet_Applications" EntitySet="aspnet_Applications" />
+      <End Role="aspnet_Users" EntitySet="aspnet_Users" />
+    </AssociationSet>
+    <AssociationSet Name="FK__aspnet_Us__RoleI__4AB81AF0" Association="Self.FK__aspnet_Us__RoleI__4AB81AF0">
+      <End Role="aspnet_Roles" EntitySet="aspnet_Roles" />
+      <End Role="aspnet_UsersInRoles" EntitySet="aspnet_UsersInRoles" />
+    </AssociationSet>
+    <AssociationSet Name="FK__aspnet_Us__UserI__49C3F6B7" Association="Self.FK__aspnet_Us__UserI__49C3F6B7">
+      <End Role="aspnet_Users" EntitySet="aspnet_Users" />
+      <End Role="aspnet_UsersInRoles" EntitySet="aspnet_UsersInRoles" />
+    </AssociationSet>
+    <AssociationSet Name="MembershipApplication" Association="Self.MembershipApplication">
+      <End Role="Applications" EntitySet="Applications" />
+      <End Role="Memberships" EntitySet="Memberships" />
+    </AssociationSet>
+    <AssociationSet Name="MembershipUser" Association="Self.MembershipUser">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Memberships" EntitySet="Memberships" />
+    </AssociationSet>
+    <AssociationSet Name="RoleApplication" Association="Self.RoleApplication">
+      <End Role="Applications" EntitySet="Applications" />
+      <End Role="Roles" EntitySet="Roles" />
+    </AssociationSet>
+    <AssociationSet Name="TicketCommentsRelationship" Association="Self.TicketCommentsRelationship">
+      <End Role="Tickets" EntitySet="Tickets" />
+      <End Role="TicketComments" EntitySet="TicketComments" />
+    </AssociationSet>
+    <AssociationSet Name="UserApplication" Association="Self.UserApplication">
+      <End Role="Applications" EntitySet="Applications" />
+      <End Role="Users" EntitySet="Users" />
+    </AssociationSet>
+    <AssociationSet Name="UserProfile" Association="Self.UserProfile">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Profiles" EntitySet="Profiles" />
+    </AssociationSet>
+    <AssociationSet Name="UsersInRoleRole" Association="Self.UsersInRoleRole">
+      <End Role="Roles" EntitySet="Roles" />
+      <End Role="UsersInRoles" EntitySet="UsersInRoles" />
+    </AssociationSet>
+    <AssociationSet Name="UsersInRoleUser" Association="Self.UsersInRoleUser">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="UsersInRoles" EntitySet="UsersInRoles" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

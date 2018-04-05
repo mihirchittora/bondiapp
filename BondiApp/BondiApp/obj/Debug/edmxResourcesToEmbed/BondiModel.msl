@@ -1,0 +1,991 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="optionwavesdbModelStoreContainer" CdmEntityContainer="optionwavesdbEntities">
+    <EntitySetMapping Name="Applications">
+      <EntityTypeMapping TypeName="optionwavesdbModel.Application">
+        <MappingFragment StoreEntitySet="Applications">
+          <ScalarProperty Name="ApplicationName" ColumnName="ApplicationName" />
+          <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="aspnet_Applications">
+      <EntityTypeMapping TypeName="optionwavesdbModel.aspnet_Applications">
+        <MappingFragment StoreEntitySet="aspnet_Applications">
+          <ScalarProperty Name="ApplicationName" ColumnName="ApplicationName" />
+          <ScalarProperty Name="LoweredApplicationName" ColumnName="LoweredApplicationName" />
+          <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="aspnet_Membership">
+      <EntityTypeMapping TypeName="optionwavesdbModel.aspnet_Membership">
+        <MappingFragment StoreEntitySet="aspnet_Membership">
+          <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="PasswordFormat" ColumnName="PasswordFormat" />
+          <ScalarProperty Name="PasswordSalt" ColumnName="PasswordSalt" />
+          <ScalarProperty Name="MobilePIN" ColumnName="MobilePIN" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="LoweredEmail" ColumnName="LoweredEmail" />
+          <ScalarProperty Name="PasswordQuestion" ColumnName="PasswordQuestion" />
+          <ScalarProperty Name="PasswordAnswer" ColumnName="PasswordAnswer" />
+          <ScalarProperty Name="IsApproved" ColumnName="IsApproved" />
+          <ScalarProperty Name="IsLockedOut" ColumnName="IsLockedOut" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="LastLoginDate" ColumnName="LastLoginDate" />
+          <ScalarProperty Name="LastPasswordChangedDate" ColumnName="LastPasswordChangedDate" />
+          <ScalarProperty Name="LastLockoutDate" ColumnName="LastLockoutDate" />
+          <ScalarProperty Name="FailedPasswordAttemptCount" ColumnName="FailedPasswordAttemptCount" />
+          <ScalarProperty Name="FailedPasswordAttemptWindowStart" ColumnName="FailedPasswordAttemptWindowStart" />
+          <ScalarProperty Name="FailedPasswordAnswerAttemptCount" ColumnName="FailedPasswordAnswerAttemptCount" />
+          <ScalarProperty Name="FailedPasswordAnswerAttemptWindowStart" ColumnName="FailedPasswordAnswerAttemptWindowStart" />
+          <ScalarProperty Name="Comment" ColumnName="Comment" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="aspnet_Paths">
+      <EntityTypeMapping TypeName="optionwavesdbModel.aspnet_Paths">
+        <MappingFragment StoreEntitySet="aspnet_Paths">
+          <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
+          <ScalarProperty Name="PathId" ColumnName="PathId" />
+          <ScalarProperty Name="Path" ColumnName="Path" />
+          <ScalarProperty Name="LoweredPath" ColumnName="LoweredPath" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="aspnet_PersonalizationAllUsers">
+      <EntityTypeMapping TypeName="optionwavesdbModel.aspnet_PersonalizationAllUsers">
+        <MappingFragment StoreEntitySet="aspnet_PersonalizationAllUsers">
+          <ScalarProperty Name="PathId" ColumnName="PathId" />
+          <ScalarProperty Name="PageSettings" ColumnName="PageSettings" />
+          <ScalarProperty Name="LastUpdatedDate" ColumnName="LastUpdatedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="aspnet_PersonalizationPerUser">
+      <EntityTypeMapping TypeName="optionwavesdbModel.aspnet_PersonalizationPerUser">
+        <MappingFragment StoreEntitySet="aspnet_PersonalizationPerUser">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="PathId" ColumnName="PathId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="PageSettings" ColumnName="PageSettings" />
+          <ScalarProperty Name="LastUpdatedDate" ColumnName="LastUpdatedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="aspnet_Profile">
+      <EntityTypeMapping TypeName="optionwavesdbModel.aspnet_Profile">
+        <MappingFragment StoreEntitySet="aspnet_Profile">
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="PropertyNames" ColumnName="PropertyNames" />
+          <ScalarProperty Name="PropertyValuesString" ColumnName="PropertyValuesString" />
+          <ScalarProperty Name="PropertyValuesBinary" ColumnName="PropertyValuesBinary" />
+          <ScalarProperty Name="LastUpdatedDate" ColumnName="LastUpdatedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="aspnet_Roles">
+      <EntityTypeMapping TypeName="optionwavesdbModel.aspnet_Roles">
+        <MappingFragment StoreEntitySet="aspnet_Roles">
+          <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
+          <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+          <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+          <ScalarProperty Name="LoweredRoleName" ColumnName="LoweredRoleName" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="aspnet_SchemaVersions">
+      <EntityTypeMapping TypeName="optionwavesdbModel.aspnet_SchemaVersions">
+        <MappingFragment StoreEntitySet="aspnet_SchemaVersions">
+          <ScalarProperty Name="Feature" ColumnName="Feature" />
+          <ScalarProperty Name="CompatibleSchemaVersion" ColumnName="CompatibleSchemaVersion" />
+          <ScalarProperty Name="IsCurrentVersion" ColumnName="IsCurrentVersion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="aspnet_Users">
+      <EntityTypeMapping TypeName="optionwavesdbModel.aspnet_Users">
+        <MappingFragment StoreEntitySet="aspnet_Users">
+          <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="LoweredUserName" ColumnName="LoweredUserName" />
+          <ScalarProperty Name="MobileAlias" ColumnName="MobileAlias" />
+          <ScalarProperty Name="IsAnonymous" ColumnName="IsAnonymous" />
+          <ScalarProperty Name="LastActivityDate" ColumnName="LastActivityDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="aspnet_WebEvent_Events">
+      <EntityTypeMapping TypeName="optionwavesdbModel.aspnet_WebEvent_Events">
+        <MappingFragment StoreEntitySet="aspnet_WebEvent_Events">
+          <ScalarProperty Name="EventId" ColumnName="EventId" />
+          <ScalarProperty Name="EventTimeUtc" ColumnName="EventTimeUtc" />
+          <ScalarProperty Name="EventTime" ColumnName="EventTime" />
+          <ScalarProperty Name="EventType" ColumnName="EventType" />
+          <ScalarProperty Name="EventSequence" ColumnName="EventSequence" />
+          <ScalarProperty Name="EventOccurrence" ColumnName="EventOccurrence" />
+          <ScalarProperty Name="EventCode" ColumnName="EventCode" />
+          <ScalarProperty Name="EventDetailCode" ColumnName="EventDetailCode" />
+          <ScalarProperty Name="Message" ColumnName="Message" />
+          <ScalarProperty Name="ApplicationPath" ColumnName="ApplicationPath" />
+          <ScalarProperty Name="ApplicationVirtualPath" ColumnName="ApplicationVirtualPath" />
+          <ScalarProperty Name="MachineName" ColumnName="MachineName" />
+          <ScalarProperty Name="RequestUrl" ColumnName="RequestUrl" />
+          <ScalarProperty Name="ExceptionType" ColumnName="ExceptionType" />
+          <ScalarProperty Name="Details" ColumnName="Details" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="backtests">
+      <EntityTypeMapping TypeName="optionwavesdbModel.backtest">
+        <MappingFragment StoreEntitySet="backtest">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="month" ColumnName="month" />
+          <ScalarProperty Name="year" ColumnName="year" />
+          <ScalarProperty Name="marketdate" ColumnName="marketdate" />
+          <ScalarProperty Name="complete" ColumnName="complete" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BlogComments">
+      <EntityTypeMapping TypeName="optionwavesdbModel.BlogComment">
+        <MappingFragment StoreEntitySet="BlogComments">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="BlogEntryId" ColumnName="BlogEntryId" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Url" ColumnName="Url" />
+          <ScalarProperty Name="DatePublished" ColumnName="DatePublished" />
+          <ScalarProperty Name="Text" ColumnName="Text" />
+          <ScalarProperty Name="active" ColumnName="active" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BlogEntries">
+      <EntityTypeMapping TypeName="optionwavesdbModel.BlogEntry">
+        <MappingFragment StoreEntitySet="BlogEntries">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="DatePublished" ColumnName="DatePublished" />
+          <ScalarProperty Name="Date_Modified" ColumnName="Date Modified" />
+          <ScalarProperty Name="Author" ColumnName="Author" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Text" ColumnName="Text" />
+          <ScalarProperty Name="Active" ColumnName="Active" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="emails">
+      <EntityTypeMapping TypeName="optionwavesdbModel.email">
+        <MappingFragment StoreEntitySet="emails">
+          <ScalarProperty Name="emailID" ColumnName="emailID" />
+          <ScalarProperty Name="emailaddress" ColumnName="emailaddress" />
+          <ScalarProperty Name="addDATE" ColumnName="addDATE" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HarvestHedges">
+      <EntityTypeMapping TypeName="optionwavesdbModel.HarvestHedge">
+        <MappingFragment StoreEntitySet="HarvestHedges">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="symbol" ColumnName="symbol" />
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="lots" ColumnName="lots" />
+          <ScalarProperty Name="strike" ColumnName="strike" />
+          <ScalarProperty Name="exp" ColumnName="exp" />
+          <ScalarProperty Name="stockatopen" ColumnName="stockatopen" />
+          <ScalarProperty Name="opendate" ColumnName="opendate" />
+          <ScalarProperty Name="openprice" ColumnName="openprice" />
+          <ScalarProperty Name="stockatclose" ColumnName="stockatclose" />
+          <ScalarProperty Name="closedate" ColumnName="closedate" />
+          <ScalarProperty Name="closeprice" ColumnName="closeprice" />
+          <ScalarProperty Name="open" ColumnName="open" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+          <ScalarProperty Name="harvestkey" ColumnName="harvestkey" />
+          <ScalarProperty Name="positionID" ColumnName="positionID" />
+          <ScalarProperty Name="marketdate" ColumnName="marketdate" />
+          <ScalarProperty Name="targetexit" ColumnName="targetexit" />
+          <ScalarProperty Name="openrowid" ColumnName="openrowid" />
+          <ScalarProperty Name="closerowid" ColumnName="closerowid" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HarvestIndexes">
+      <EntityTypeMapping TypeName="optionwavesdbModel.HarvestIndex">
+        <MappingFragment StoreEntitySet="HarvestIndex">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="harvestKey" ColumnName="harvestKey" />
+          <ScalarProperty Name="userID" ColumnName="userID" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="product" ColumnName="product" />
+          <ScalarProperty Name="opentrigger" ColumnName="opentrigger" />
+          <ScalarProperty Name="width" ColumnName="width" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+          <ScalarProperty Name="active" ColumnName="active" />
+          <ScalarProperty Name="shares" ColumnName="shares" />
+          <ScalarProperty Name="hedge" ColumnName="hedge" />
+          <ScalarProperty Name="hedgewidth" ColumnName="hedgewidth" />
+          <ScalarProperty Name="expdatewidth" ColumnName="expdatewidth" />
+          <ScalarProperty Name="hedgelots" ColumnName="hedgelots" />
+          <ScalarProperty Name="pricetoprotect" ColumnName="pricetoprotect" />
+          <ScalarProperty Name="OpeningMark" ColumnName="OpeningMark" />
+          <ScalarProperty Name="stocksectype" ColumnName="stocksectype" />
+          <ScalarProperty Name="optsectype" ColumnName="optsectype" />
+          <ScalarProperty Name="currencytype" ColumnName="currencytype" />
+          <ScalarProperty Name="exchange" ColumnName="exchange" />
+          <ScalarProperty Name="ordertype" ColumnName="ordertype" />
+          <ScalarProperty Name="inforce" ColumnName="inforce" />
+          <ScalarProperty Name="opentimestamp" ColumnName="opentimestamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HarvestIntervals">
+      <EntityTypeMapping TypeName="optionwavesdbModel.HarvestInterval">
+        <MappingFragment StoreEntitySet="HarvestIntervals">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="Interval" ColumnName="Interval" />
+          <ScalarProperty Name="OpenPrice" ColumnName="OpenPrice" />
+          <ScalarProperty Name="HighPrice" ColumnName="HighPrice" />
+          <ScalarProperty Name="LowPrice" ColumnName="LowPrice" />
+          <ScalarProperty Name="ClosePrice" ColumnName="ClosePrice" />
+          <ScalarProperty Name="Volume" ColumnName="Volume" />
+          <ScalarProperty Name="symbol" ColumnName="symbol" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HarvestLogs">
+      <EntityTypeMapping TypeName="optionwavesdbModel.HarvestLog">
+        <MappingFragment StoreEntitySet="HarvestLogs">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="harvestkey" ColumnName="harvestkey" />
+          <ScalarProperty Name="marketdate" ColumnName="marketdate" />
+          <ScalarProperty Name="trans" ColumnName="trans" />
+          <ScalarProperty Name="opens" ColumnName="opens" />
+          <ScalarProperty Name="closes" ColumnName="closes" />
+          <ScalarProperty Name="closingmark" ColumnName="closingmark" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+          <ScalarProperty Name="otimestamp" ColumnName="otimestamp" />
+          <ScalarProperty Name="hedgeprofit" ColumnName="hedgeprofit" />
+          <ScalarProperty Name="stockprofit" ColumnName="stockprofit" />
+          <ScalarProperty Name="currentcapital" ColumnName="currentcapital" />
+          <ScalarProperty Name="maxcapital" ColumnName="maxcapital" />
+          <ScalarProperty Name="sharesbought" ColumnName="sharesbought" />
+          <ScalarProperty Name="sharessold" ColumnName="sharessold" />
+          <ScalarProperty Name="hedgebought" ColumnName="hedgebought" />
+          <ScalarProperty Name="hedgesold" ColumnName="hedgesold" />
+          <ScalarProperty Name="openingmark" ColumnName="openingmark" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HarvestMarks">
+      <EntityTypeMapping TypeName="optionwavesdbModel.HarvestMark">
+        <MappingFragment StoreEntitySet="HarvestMarks">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="userid" ColumnName="userid" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+          <ScalarProperty Name="symbol" ColumnName="symbol" />
+          <ScalarProperty Name="mark" ColumnName="mark" />
+          <ScalarProperty Name="turns" ColumnName="turns" />
+          <ScalarProperty Name="ctimestamp" ColumnName="ctimestamp" />
+          <ScalarProperty Name="open" ColumnName="open" />
+          <ScalarProperty Name="harvestkey" ColumnName="harvestkey" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HarvestPositions">
+      <EntityTypeMapping TypeName="optionwavesdbModel.HarvestPosition">
+        <MappingFragment StoreEntitySet="HarvestPositions">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="symbol" ColumnName="symbol" />
+          <ScalarProperty Name="shares" ColumnName="shares" />
+          <ScalarProperty Name="opendate" ColumnName="opendate" />
+          <ScalarProperty Name="openprice" ColumnName="openprice" />
+          <ScalarProperty Name="hedge" ColumnName="hedge" />
+          <ScalarProperty Name="strike" ColumnName="strike" />
+          <ScalarProperty Name="closedate" ColumnName="closedate" />
+          <ScalarProperty Name="closeprice" ColumnName="closeprice" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+          <ScalarProperty Name="open" ColumnName="open" />
+          <ScalarProperty Name="openflag" ColumnName="openflag" />
+          <ScalarProperty Name="closeflag" ColumnName="closeflag" />
+          <ScalarProperty Name="harvestkey" ColumnName="harvestkey" />
+          <ScalarProperty Name="hedgeid" ColumnName="hedgeid" />
+          <ScalarProperty Name="openrowid" ColumnName="openrowid" />
+          <ScalarProperty Name="closerowid" ColumnName="closerowid" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Memberships">
+      <EntityTypeMapping TypeName="optionwavesdbModel.Membership">
+        <MappingFragment StoreEntitySet="Memberships">
+          <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="PasswordFormat" ColumnName="PasswordFormat" />
+          <ScalarProperty Name="PasswordSalt" ColumnName="PasswordSalt" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="PasswordQuestion" ColumnName="PasswordQuestion" />
+          <ScalarProperty Name="PasswordAnswer" ColumnName="PasswordAnswer" />
+          <ScalarProperty Name="IsApproved" ColumnName="IsApproved" />
+          <ScalarProperty Name="IsLockedOut" ColumnName="IsLockedOut" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="LastLoginDate" ColumnName="LastLoginDate" />
+          <ScalarProperty Name="LastPasswordChangedDate" ColumnName="LastPasswordChangedDate" />
+          <ScalarProperty Name="LastLockoutDate" ColumnName="LastLockoutDate" />
+          <ScalarProperty Name="FailedPasswordAttemptCount" ColumnName="FailedPasswordAttemptCount" />
+          <ScalarProperty Name="FailedPasswordAttemptWindowStart" ColumnName="FailedPasswordAttemptWindowStart" />
+          <ScalarProperty Name="FailedPasswordAnswerAttemptCount" ColumnName="FailedPasswordAnswerAttemptCount" />
+          <ScalarProperty Name="FailedPasswordAnswerAttemptWindowsStart" ColumnName="FailedPasswordAnswerAttemptWindowsStart" />
+          <ScalarProperty Name="Comment" ColumnName="Comment" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="onesigmawides">
+      <EntityTypeMapping TypeName="optionwavesdbModel.onesigmawide">
+        <MappingFragment StoreEntitySet="onesigmawide">
+          <ScalarProperty Name="recordId" ColumnName="recordId" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+          <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
+          <ScalarProperty Name="Symbol" ColumnName="Symbol" />
+          <ScalarProperty Name="Position" ColumnName="Position" />
+          <ScalarProperty Name="StockPrice" ColumnName="StockPrice" />
+          <ScalarProperty Name="IVPercentile" ColumnName="IVPercentile" />
+          <ScalarProperty Name="ExpirationDate" ColumnName="ExpirationDate" />
+          <ScalarProperty Name="NumberLots" ColumnName="NumberLots" />
+          <ScalarProperty Name="ShortStrike" ColumnName="ShortStrike" />
+          <ScalarProperty Name="PITM" ColumnName="PITM" />
+          <ScalarProperty Name="OpeningCredit" ColumnName="OpeningCredit" />
+          <ScalarProperty Name="LongStrike" ColumnName="LongStrike" />
+          <ScalarProperty Name="OpeningDebit" ColumnName="OpeningDebit" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="ClosingDebit" ColumnName="ClosingDebit" />
+          <ScalarProperty Name="ClosingCredit" ColumnName="ClosingCredit" />
+          <ScalarProperty Name="Account" ColumnName="Account" />
+          <ScalarProperty Name="MaxProfitTarget" ColumnName="MaxProfitTarget" />
+          <ScalarProperty Name="ExitDate" ColumnName="ExitDate" />
+          <ScalarProperty Name="Notes" ColumnName="Notes" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="positions">
+      <EntityTypeMapping TypeName="optionwavesdbModel.position">
+        <MappingFragment StoreEntitySet="positions">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+          <ScalarProperty Name="lasttimestamp" ColumnName="lasttimestamp" />
+          <ScalarProperty Name="symbol" ColumnName="symbol" />
+          <ScalarProperty Name="qty" ColumnName="qty" />
+          <ScalarProperty Name="roboIndex" ColumnName="roboIndex" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Prices">
+      <EntityTypeMapping TypeName="optionwavesdbModel.Price">
+        <MappingFragment StoreEntitySet="Prices">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+          <ScalarProperty Name="dateandtime" ColumnName="dateandtime" />
+          <ScalarProperty Name="interval" ColumnName="interval" />
+          <ScalarProperty Name="symbol" ColumnName="symbol" />
+          <ScalarProperty Name="open" ColumnName="open" />
+          <ScalarProperty Name="high" ColumnName="high" />
+          <ScalarProperty Name="low" ColumnName="low" />
+          <ScalarProperty Name="close" ColumnName="close" />
+          <ScalarProperty Name="volume" ColumnName="volume" />
+          <ScalarProperty Name="date" ColumnName="date" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Pricings">
+      <EntityTypeMapping TypeName="optionwavesdbModel.Pricing">
+        <MappingFragment StoreEntitySet="Pricings">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="symbolID" ColumnName="symbolID" />
+          <ScalarProperty Name="openprice" ColumnName="openprice" />
+          <ScalarProperty Name="highprice" ColumnName="highprice" />
+          <ScalarProperty Name="lowprice" ColumnName="lowprice" />
+          <ScalarProperty Name="closeprice" ColumnName="closeprice" />
+          <ScalarProperty Name="adjcloseprice" ColumnName="adjcloseprice" />
+          <ScalarProperty Name="volume" ColumnName="volume" />
+          <ScalarProperty Name="RangeDollars" ColumnName="RangeDollars" />
+          <ScalarProperty Name="RangePercent" ColumnName="RangePercent" />
+          <ScalarProperty Name="Message" ColumnName="Message" />
+          <ScalarProperty Name="marketdate" ColumnName="marketdate" />
+          <ScalarProperty Name="dateadded" ColumnName="dateadded" />
+          <ScalarProperty Name="changedollars" ColumnName="changedollars" />
+          <ScalarProperty Name="ChangePercent" ColumnName="ChangePercent" />
+          <ScalarProperty Name="GapDollars" ColumnName="GapDollars" />
+          <ScalarProperty Name="GapPercent" ColumnName="GapPercent" />
+          <ScalarProperty Name="AvgRange10Day" ColumnName="AvgRange10Day" />
+          <ScalarProperty Name="AvgRange50Day" ColumnName="AvgRange50Day" />
+          <ScalarProperty Name="AvgRange100Day" ColumnName="AvgRange100Day" />
+          <ScalarProperty Name="AvgRange300Day" ColumnName="AvgRange300Day" />
+          <ScalarProperty Name="AvgChange10Day" ColumnName="AvgChange10Day" />
+          <ScalarProperty Name="AvgChange50Day" ColumnName="AvgChange50Day" />
+          <ScalarProperty Name="AvgChange100Day" ColumnName="AvgChange100Day" />
+          <ScalarProperty Name="AvgChange300Day" ColumnName="AvgChange300Day" />
+          <ScalarProperty Name="RangePrctLast10" ColumnName="RangePrctLast10" />
+          <ScalarProperty Name="RangePrctlast50" ColumnName="RangePrctlast50" />
+          <ScalarProperty Name="RangePrctLast100" ColumnName="RangePrctLast100" />
+          <ScalarProperty Name="RangePrctLast300" ColumnName="RangePrctLast300" />
+          <ScalarProperty Name="ChangePrctLast10" ColumnName="ChangePrctLast10" />
+          <ScalarProperty Name="ChangePrctLast50" ColumnName="ChangePrctLast50" />
+          <ScalarProperty Name="ChangePrctLast100" ColumnName="ChangePrctLast100" />
+          <ScalarProperty Name="ChangePrctLast300" ColumnName="ChangePrctLast300" />
+          <ScalarProperty Name="StrikeWidth" ColumnName="StrikeWidth" />
+          <ScalarProperty Name="StrikeToPrice" ColumnName="StrikeToPrice" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="productionhedges">
+      <EntityTypeMapping TypeName="optionwavesdbModel.productionhedge">
+        <MappingFragment StoreEntitySet="productionhedge">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+          <ScalarProperty Name="permid" ColumnName="permid" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="productionlogs">
+      <EntityTypeMapping TypeName="optionwavesdbModel.productionlog">
+        <MappingFragment StoreEntitySet="productionlog">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="productionstocks">
+      <EntityTypeMapping TypeName="optionwavesdbModel.productionstock">
+        <MappingFragment StoreEntitySet="productionstock">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+          <ScalarProperty Name="PermId" ColumnName="PermId" />
+          <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+          <ScalarProperty Name="Symbol" ColumnName="Symbol" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Profiles">
+      <EntityTypeMapping TypeName="optionwavesdbModel.Profile">
+        <MappingFragment StoreEntitySet="Profiles">
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="LastUpdatedDate" ColumnName="LastUpdatedDate" />
+          <ScalarProperty Name="ScreenName" ColumnName="ScreenName" />
+          <ScalarProperty Name="image" ColumnName="image" />
+          <ScalarProperty Name="ProfileId" ColumnName="ProfileId" />
+          <ScalarProperty Name="mobile" ColumnName="mobile" />
+          <ScalarProperty Name="demo" ColumnName="demo" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="Skype" ColumnName="Skype" />
+          <ScalarProperty Name="Location" ColumnName="Location" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="MaxProfitPercent" ColumnName="MaxProfitPercent" />
+          <ScalarProperty Name="ShowAny" ColumnName="ShowAny" />
+          <ScalarProperty Name="ShowTrades" ColumnName="ShowTrades" />
+          <ScalarProperty Name="TOS" ColumnName="TOS" />
+          <ScalarProperty Name="commission" ColumnName="commission" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Roles">
+      <EntityTypeMapping TypeName="optionwavesdbModel.Role">
+        <MappingFragment StoreEntitySet="Roles">
+          <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
+          <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+          <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="stockorders">
+      <EntityTypeMapping TypeName="optionwavesdbModel.stockorder">
+        <MappingFragment StoreEntitySet="stockorders">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+          <ScalarProperty Name="PermID" ColumnName="PermID" />
+          <ScalarProperty Name="Symbol" ColumnName="Symbol" />
+          <ScalarProperty Name="Action" ColumnName="Action" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="TickPrice" ColumnName="TickPrice" />
+          <ScalarProperty Name="LimitPrice" ColumnName="LimitPrice" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="OrderStatus" ColumnName="OrderStatus" />
+          <ScalarProperty Name="OrderTimestamp" ColumnName="OrderTimestamp" />
+          <ScalarProperty Name="roboIndex" ColumnName="roboIndex" />
+          <ScalarProperty Name="matchID" ColumnName="matchID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tasks">
+      <EntityTypeMapping TypeName="optionwavesdbModel.Task">
+        <MappingFragment StoreEntitySet="Tasks">
+          <ScalarProperty Name="taskID" ColumnName="taskID" />
+          <ScalarProperty Name="Task1" ColumnName="Task" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="dateadded" ColumnName="dateadded" />
+          <ScalarProperty Name="dateupdated" ColumnName="dateupdated" />
+          <ScalarProperty Name="datecompleted" ColumnName="datecompleted" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TicketComments">
+      <EntityTypeMapping TypeName="optionwavesdbModel.TicketComment">
+        <MappingFragment StoreEntitySet="TicketComments">
+          <ScalarProperty Name="commentID" ColumnName="commentID" />
+          <ScalarProperty Name="ticketID" ColumnName="ticketID" />
+          <ScalarProperty Name="userID" ColumnName="userID" />
+          <ScalarProperty Name="comment" ColumnName="comment" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tickets">
+      <EntityTypeMapping TypeName="optionwavesdbModel.Ticket">
+        <MappingFragment StoreEntitySet="Tickets">
+          <ScalarProperty Name="ticketID" ColumnName="ticketID" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="Priority" ColumnName="Priority" />
+          <ScalarProperty Name="Components" ColumnName="Components" />
+          <ScalarProperty Name="Label" ColumnName="Label" />
+          <ScalarProperty Name="Browsers" ColumnName="Browsers" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="FixVersions" ColumnName="FixVersions" />
+          <ScalarProperty Name="Assignee" ColumnName="Assignee" />
+          <ScalarProperty Name="Reporter" ColumnName="Reporter" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="TicketPrefix" ColumnName="TicketPrefix" />
+          <ScalarProperty Name="dateadded" ColumnName="dateadded" />
+          <ScalarProperty Name="dateupdated" ColumnName="dateupdated" />
+          <ScalarProperty Name="datecompleted" ColumnName="datecompleted" />
+          <ScalarProperty Name="duedate" ColumnName="duedate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TradeDetails">
+      <EntityTypeMapping TypeName="optionwavesdbModel.TradeDetail">
+        <MappingFragment StoreEntitySet="TradeDetails">
+          <ScalarProperty Name="tradeID" ColumnName="tradeID" />
+          <ScalarProperty Name="addDATE" ColumnName="addDATE" />
+          <ScalarProperty Name="transTYPE" ColumnName="transTYPE" />
+          <ScalarProperty Name="lots" ColumnName="lots" />
+          <ScalarProperty Name="tradeTYPE" ColumnName="tradeTYPE" />
+          <ScalarProperty Name="symbol" ColumnName="symbol" />
+          <ScalarProperty Name="count" ColumnName="count" />
+          <ScalarProperty Name="expirationDATE" ColumnName="expirationDATE" />
+          <ScalarProperty Name="shortCALL" ColumnName="shortCALL" />
+          <ScalarProperty Name="longCALL" ColumnName="longCALL" />
+          <ScalarProperty Name="shortPUT" ColumnName="shortPUT" />
+          <ScalarProperty Name="longPUT" ColumnName="longPUT" />
+          <ScalarProperty Name="creditreceived" ColumnName="creditreceived" />
+          <ScalarProperty Name="open" ColumnName="open" />
+          <ScalarProperty Name="debitpaid" ColumnName="debitpaid" />
+          <ScalarProperty Name="openDATE" ColumnName="openDATE" />
+          <ScalarProperty Name="closeDATE" ColumnName="closeDATE" />
+          <ScalarProperty Name="uniqueid" ColumnName="uniqueid" />
+          <ScalarProperty Name="winFLAG" ColumnName="winFLAG" />
+          <ScalarProperty Name="dit" ColumnName="dit" />
+          <ScalarProperty Name="updateDATE" ColumnName="updateDATE" />
+          <ScalarProperty Name="userID" ColumnName="userID" />
+          <ScalarProperty Name="exp" ColumnName="exp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TradeLogs">
+      <EntityTypeMapping TypeName="optionwavesdbModel.TradeLog">
+        <MappingFragment StoreEntitySet="TradeLogs">
+          <ScalarProperty Name="tradeID" ColumnName="tradeID" />
+          <ScalarProperty Name="opentradeDATE" ColumnName="opentradeDATE" />
+          <ScalarProperty Name="addDATE" ColumnName="addDATE" />
+          <ScalarProperty Name="openingTRADE" ColumnName="openingTRADE" />
+          <ScalarProperty Name="closetradeDATE" ColumnName="closetradeDATE" />
+          <ScalarProperty Name="closeDATE" ColumnName="closeDATE" />
+          <ScalarProperty Name="closingTRADE" ColumnName="closingTRADE" />
+          <ScalarProperty Name="expirationDATE" ColumnName="expirationDATE" />
+          <ScalarProperty Name="openingAMOUNT" ColumnName="openingAMOUNT" />
+          <ScalarProperty Name="closingAMOUNT" ColumnName="closingAMOUNT" />
+          <ScalarProperty Name="userID" ColumnName="userID" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="dit" ColumnName="dit" />
+          <ScalarProperty Name="uniqueID" ColumnName="uniqueID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="optionwavesdbModel.User">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="IsAnonymous" ColumnName="IsAnonymous" />
+          <ScalarProperty Name="LastActivityDate" ColumnName="LastActivityDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="visitors">
+      <EntityTypeMapping TypeName="optionwavesdbModel.visitor">
+        <MappingFragment StoreEntitySet="visitors">
+          <ScalarProperty Name="vID" ColumnName="vID" />
+          <ScalarProperty Name="PageViewed" ColumnName="PageViewed" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Weeklys">
+      <EntityTypeMapping TypeName="optionwavesdbModel.Weekly">
+        <MappingFragment StoreEntitySet="Weeklys">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="Symbol" ColumnName="Symbol" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Product" ColumnName="Product" />
+          <ScalarProperty Name="IssueDate" ColumnName="IssueDate" />
+          <ScalarProperty Name="firstissuedate" ColumnName="firstissuedate" />
+          <ScalarProperty Name="lastupdate" ColumnName="lastupdate" />
+          <ScalarProperty Name="active" ColumnName="active" />
+          <ScalarProperty Name="strikewidth" ColumnName="strikewidth" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="wStockOrders">
+      <EntityTypeMapping TypeName="optionwavesdbModel.wStockOrder">
+        <MappingFragment StoreEntitySet="wStockOrders">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="createdtimestamp" ColumnName="createdtimestamp" />
+          <ScalarProperty Name="userid" ColumnName="userid" />
+          <ScalarProperty Name="keyid" ColumnName="keyid" />
+          <ScalarProperty Name="orderid" ColumnName="orderid" />
+          <ScalarProperty Name="permid" ColumnName="permid" />
+          <ScalarProperty Name="symbol" ColumnName="symbol" />
+          <ScalarProperty Name="orderopen" ColumnName="orderopen" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vw_aspnet_Applications">
+      <EntityTypeMapping TypeName="optionwavesdbModel.vw_aspnet_Applications">
+        <MappingFragment StoreEntitySet="vw_aspnet_Applications">
+          <ScalarProperty Name="ApplicationName" ColumnName="ApplicationName" />
+          <ScalarProperty Name="LoweredApplicationName" ColumnName="LoweredApplicationName" />
+          <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vw_aspnet_MembershipUsers">
+      <EntityTypeMapping TypeName="optionwavesdbModel.vw_aspnet_MembershipUsers">
+        <MappingFragment StoreEntitySet="vw_aspnet_MembershipUsers">
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="PasswordFormat" ColumnName="PasswordFormat" />
+          <ScalarProperty Name="MobilePIN" ColumnName="MobilePIN" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="LoweredEmail" ColumnName="LoweredEmail" />
+          <ScalarProperty Name="PasswordQuestion" ColumnName="PasswordQuestion" />
+          <ScalarProperty Name="PasswordAnswer" ColumnName="PasswordAnswer" />
+          <ScalarProperty Name="IsApproved" ColumnName="IsApproved" />
+          <ScalarProperty Name="IsLockedOut" ColumnName="IsLockedOut" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="LastLoginDate" ColumnName="LastLoginDate" />
+          <ScalarProperty Name="LastPasswordChangedDate" ColumnName="LastPasswordChangedDate" />
+          <ScalarProperty Name="LastLockoutDate" ColumnName="LastLockoutDate" />
+          <ScalarProperty Name="FailedPasswordAttemptCount" ColumnName="FailedPasswordAttemptCount" />
+          <ScalarProperty Name="FailedPasswordAttemptWindowStart" ColumnName="FailedPasswordAttemptWindowStart" />
+          <ScalarProperty Name="FailedPasswordAnswerAttemptCount" ColumnName="FailedPasswordAnswerAttemptCount" />
+          <ScalarProperty Name="FailedPasswordAnswerAttemptWindowStart" ColumnName="FailedPasswordAnswerAttemptWindowStart" />
+          <ScalarProperty Name="Comment" ColumnName="Comment" />
+          <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="MobileAlias" ColumnName="MobileAlias" />
+          <ScalarProperty Name="IsAnonymous" ColumnName="IsAnonymous" />
+          <ScalarProperty Name="LastActivityDate" ColumnName="LastActivityDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vw_aspnet_Profiles">
+      <EntityTypeMapping TypeName="optionwavesdbModel.vw_aspnet_Profiles">
+        <MappingFragment StoreEntitySet="vw_aspnet_Profiles">
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="LastUpdatedDate" ColumnName="LastUpdatedDate" />
+          <ScalarProperty Name="DataSize" ColumnName="DataSize" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vw_aspnet_Roles">
+      <EntityTypeMapping TypeName="optionwavesdbModel.vw_aspnet_Roles">
+        <MappingFragment StoreEntitySet="vw_aspnet_Roles">
+          <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
+          <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+          <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+          <ScalarProperty Name="LoweredRoleName" ColumnName="LoweredRoleName" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vw_aspnet_Users">
+      <EntityTypeMapping TypeName="optionwavesdbModel.vw_aspnet_Users">
+        <MappingFragment StoreEntitySet="vw_aspnet_Users">
+          <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="LoweredUserName" ColumnName="LoweredUserName" />
+          <ScalarProperty Name="MobileAlias" ColumnName="MobileAlias" />
+          <ScalarProperty Name="IsAnonymous" ColumnName="IsAnonymous" />
+          <ScalarProperty Name="LastActivityDate" ColumnName="LastActivityDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vw_aspnet_UsersInRoles">
+      <EntityTypeMapping TypeName="optionwavesdbModel.vw_aspnet_UsersInRoles">
+        <MappingFragment StoreEntitySet="vw_aspnet_UsersInRoles">
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vw_aspnet_WebPartState_Paths">
+      <EntityTypeMapping TypeName="optionwavesdbModel.vw_aspnet_WebPartState_Paths">
+        <MappingFragment StoreEntitySet="vw_aspnet_WebPartState_Paths">
+          <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
+          <ScalarProperty Name="PathId" ColumnName="PathId" />
+          <ScalarProperty Name="Path" ColumnName="Path" />
+          <ScalarProperty Name="LoweredPath" ColumnName="LoweredPath" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vw_aspnet_WebPartState_Shared">
+      <EntityTypeMapping TypeName="optionwavesdbModel.vw_aspnet_WebPartState_Shared">
+        <MappingFragment StoreEntitySet="vw_aspnet_WebPartState_Shared">
+          <ScalarProperty Name="PathId" ColumnName="PathId" />
+          <ScalarProperty Name="DataSize" ColumnName="DataSize" />
+          <ScalarProperty Name="LastUpdatedDate" ColumnName="LastUpdatedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vw_aspnet_WebPartState_User">
+      <EntityTypeMapping TypeName="optionwavesdbModel.vw_aspnet_WebPartState_User">
+        <MappingFragment StoreEntitySet="vw_aspnet_WebPartState_User">
+          <ScalarProperty Name="PathId" ColumnName="PathId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="DataSize" ColumnName="DataSize" />
+          <ScalarProperty Name="LastUpdatedDate" ColumnName="LastUpdatedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vw_avg_daily_gap">
+      <EntityTypeMapping TypeName="optionwavesdbModel.vw_avg_daily_gap">
+        <MappingFragment StoreEntitySet="vw_avg_daily_gap">
+          <ScalarProperty Name="Symbol" ColumnName="Symbol" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Product" ColumnName="Product" />
+          <ScalarProperty Name="ten_day_range" ColumnName="ten_day_range" />
+          <ScalarProperty Name="fifty_day_range" ColumnName="fifty_day_range" />
+          <ScalarProperty Name="one_hundred_day_range" ColumnName="one_hundred_day_range" />
+          <ScalarProperty Name="three_hundred_day_range" ColumnName="three_hundred_day_range" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vw_avg_ranges">
+      <EntityTypeMapping TypeName="optionwavesdbModel.vw_avg_ranges">
+        <MappingFragment StoreEntitySet="vw_avg_ranges">
+          <ScalarProperty Name="Symbol" ColumnName="Symbol" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Product" ColumnName="Product" />
+          <ScalarProperty Name="ten_day_range" ColumnName="ten_day_range" />
+          <ScalarProperty Name="fifty_day_range" ColumnName="fifty_day_range" />
+          <ScalarProperty Name="one_hundred_day_range" ColumnName="one_hundred_day_range" />
+          <ScalarProperty Name="three_hundred_day_range" ColumnName="three_hundred_day_range" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vw_full_view_w_calc">
+      <EntityTypeMapping TypeName="optionwavesdbModel.vw_full_view_w_calc">
+        <MappingFragment StoreEntitySet="vw_full_view_w_calc">
+          <ScalarProperty Name="Symbol" ColumnName="Symbol" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Product" ColumnName="Product" />
+          <ScalarProperty Name="openprice" ColumnName="openprice" />
+          <ScalarProperty Name="highprice" ColumnName="highprice" />
+          <ScalarProperty Name="lowprice" ColumnName="lowprice" />
+          <ScalarProperty Name="closeprice" ColumnName="closeprice" />
+          <ScalarProperty Name="adjcloseprice" ColumnName="adjcloseprice" />
+          <ScalarProperty Name="volume" ColumnName="volume" />
+          <ScalarProperty Name="RangeDollars" ColumnName="RangeDollars" />
+          <ScalarProperty Name="RangePercent" ColumnName="RangePercent" />
+          <ScalarProperty Name="Message" ColumnName="Message" />
+          <ScalarProperty Name="marketdate" ColumnName="marketdate" />
+          <ScalarProperty Name="dateadded" ColumnName="dateadded" />
+          <ScalarProperty Name="daily_gap" ColumnName="daily_gap" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vw_Pricings_DESC">
+      <EntityTypeMapping TypeName="optionwavesdbModel.vw_Pricings_DESC">
+        <MappingFragment StoreEntitySet="vw_Pricings_DESC">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="symbolID" ColumnName="symbolID" />
+          <ScalarProperty Name="openprice" ColumnName="openprice" />
+          <ScalarProperty Name="highprice" ColumnName="highprice" />
+          <ScalarProperty Name="lowprice" ColumnName="lowprice" />
+          <ScalarProperty Name="closeprice" ColumnName="closeprice" />
+          <ScalarProperty Name="adjcloseprice" ColumnName="adjcloseprice" />
+          <ScalarProperty Name="volume" ColumnName="volume" />
+          <ScalarProperty Name="RangeDollars" ColumnName="RangeDollars" />
+          <ScalarProperty Name="RangePercent" ColumnName="RangePercent" />
+          <ScalarProperty Name="Message" ColumnName="Message" />
+          <ScalarProperty Name="marketdate" ColumnName="marketdate" />
+          <ScalarProperty Name="dateadded" ColumnName="dateadded" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="aspnet_UsersInRoles" TypeName="optionwavesdbModel.aspnet_UsersInRoles" StoreEntitySet="aspnet_UsersInRoles">
+      <EndProperty Name="aspnet_Roles">
+        <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+      </EndProperty>
+      <EndProperty Name="aspnet_Users">
+        <ScalarProperty Name="UserId" ColumnName="UserId" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="UsersInRoles" TypeName="optionwavesdbModel.UsersInRoles" StoreEntitySet="UsersInRoles">
+      <EndProperty Name="Roles">
+        <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+      </EndProperty>
+      <EndProperty Name="Users">
+        <ScalarProperty Name="UserId" ColumnName="UserId" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <FunctionImportMapping FunctionImportName="aspnet_AnyDataInTables" FunctionName="optionwavesdbModel.Store.aspnet_AnyDataInTables" />
+    <FunctionImportMapping FunctionImportName="aspnet_Applications_CreateApplication" FunctionName="optionwavesdbModel.Store.aspnet_Applications_CreateApplication" />
+    <FunctionImportMapping FunctionImportName="aspnet_CheckSchemaVersion" FunctionName="optionwavesdbModel.Store.aspnet_CheckSchemaVersion" />
+    <FunctionImportMapping FunctionImportName="aspnet_Membership_ChangePasswordQuestionAndAnswer" FunctionName="optionwavesdbModel.Store.aspnet_Membership_ChangePasswordQuestionAndAnswer" />
+    <FunctionImportMapping FunctionImportName="aspnet_Membership_CreateUser" FunctionName="optionwavesdbModel.Store.aspnet_Membership_CreateUser" />
+    <FunctionImportMapping FunctionImportName="aspnet_Membership_FindUsersByEmail" FunctionName="optionwavesdbModel.Store.aspnet_Membership_FindUsersByEmail" />
+    <FunctionImportMapping FunctionImportName="aspnet_Membership_FindUsersByName" FunctionName="optionwavesdbModel.Store.aspnet_Membership_FindUsersByName" />
+    <FunctionImportMapping FunctionImportName="aspnet_Membership_GetAllUsers" FunctionName="optionwavesdbModel.Store.aspnet_Membership_GetAllUsers" />
+    <FunctionImportMapping FunctionImportName="aspnet_Membership_GetNumberOfUsersOnline" FunctionName="optionwavesdbModel.Store.aspnet_Membership_GetNumberOfUsersOnline" />
+    <FunctionImportMapping FunctionImportName="aspnet_Membership_GetPassword" FunctionName="optionwavesdbModel.Store.aspnet_Membership_GetPassword">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="optionwavesdbModel.aspnet_Membership_GetPassword_Result">
+          <ScalarProperty Name="Column1" ColumnName="Column1" />
+          <ScalarProperty Name="Column2" ColumnName="Column2" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="aspnet_Membership_GetPasswordWithFormat" FunctionName="optionwavesdbModel.Store.aspnet_Membership_GetPasswordWithFormat">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="optionwavesdbModel.aspnet_Membership_GetPasswordWithFormat_Result">
+          <ScalarProperty Name="Column1" ColumnName="Column1" />
+          <ScalarProperty Name="Column2" ColumnName="Column2" />
+          <ScalarProperty Name="Column3" ColumnName="Column3" />
+          <ScalarProperty Name="Column4" ColumnName="Column4" />
+          <ScalarProperty Name="Column5" ColumnName="Column5" />
+          <ScalarProperty Name="Column6" ColumnName="Column6" />
+          <ScalarProperty Name="Column7" ColumnName="Column7" />
+          <ScalarProperty Name="Column8" ColumnName="Column8" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="aspnet_Membership_GetUserByEmail" FunctionName="optionwavesdbModel.Store.aspnet_Membership_GetUserByEmail" />
+    <FunctionImportMapping FunctionImportName="aspnet_Membership_GetUserByName" FunctionName="optionwavesdbModel.Store.aspnet_Membership_GetUserByName">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="optionwavesdbModel.aspnet_Membership_GetUserByName_Result">
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="PasswordQuestion" ColumnName="PasswordQuestion" />
+          <ScalarProperty Name="Comment" ColumnName="Comment" />
+          <ScalarProperty Name="IsApproved" ColumnName="IsApproved" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="LastLoginDate" ColumnName="LastLoginDate" />
+          <ScalarProperty Name="LastActivityDate" ColumnName="LastActivityDate" />
+          <ScalarProperty Name="LastPasswordChangedDate" ColumnName="LastPasswordChangedDate" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="IsLockedOut" ColumnName="IsLockedOut" />
+          <ScalarProperty Name="LastLockoutDate" ColumnName="LastLockoutDate" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="aspnet_Membership_GetUserByUserId" FunctionName="optionwavesdbModel.Store.aspnet_Membership_GetUserByUserId">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="optionwavesdbModel.aspnet_Membership_GetUserByUserId_Result">
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="PasswordQuestion" ColumnName="PasswordQuestion" />
+          <ScalarProperty Name="Comment" ColumnName="Comment" />
+          <ScalarProperty Name="IsApproved" ColumnName="IsApproved" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="LastLoginDate" ColumnName="LastLoginDate" />
+          <ScalarProperty Name="LastActivityDate" ColumnName="LastActivityDate" />
+          <ScalarProperty Name="LastPasswordChangedDate" ColumnName="LastPasswordChangedDate" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="IsLockedOut" ColumnName="IsLockedOut" />
+          <ScalarProperty Name="LastLockoutDate" ColumnName="LastLockoutDate" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="aspnet_Membership_ResetPassword" FunctionName="optionwavesdbModel.Store.aspnet_Membership_ResetPassword" />
+    <FunctionImportMapping FunctionImportName="aspnet_Membership_SetPassword" FunctionName="optionwavesdbModel.Store.aspnet_Membership_SetPassword" />
+    <FunctionImportMapping FunctionImportName="aspnet_Membership_UnlockUser" FunctionName="optionwavesdbModel.Store.aspnet_Membership_UnlockUser" />
+    <FunctionImportMapping FunctionImportName="aspnet_Membership_UpdateUser" FunctionName="optionwavesdbModel.Store.aspnet_Membership_UpdateUser" />
+    <FunctionImportMapping FunctionImportName="aspnet_Membership_UpdateUserInfo" FunctionName="optionwavesdbModel.Store.aspnet_Membership_UpdateUserInfo" />
+    <FunctionImportMapping FunctionImportName="aspnet_Paths_CreatePath" FunctionName="optionwavesdbModel.Store.aspnet_Paths_CreatePath" />
+    <FunctionImportMapping FunctionImportName="aspnet_Personalization_GetApplicationId" FunctionName="optionwavesdbModel.Store.aspnet_Personalization_GetApplicationId" />
+    <FunctionImportMapping FunctionImportName="aspnet_PersonalizationAdministration_DeleteAllState" FunctionName="optionwavesdbModel.Store.aspnet_PersonalizationAdministration_DeleteAllState" />
+    <FunctionImportMapping FunctionImportName="aspnet_PersonalizationAdministration_FindState" FunctionName="optionwavesdbModel.Store.aspnet_PersonalizationAdministration_FindState" />
+    <FunctionImportMapping FunctionImportName="aspnet_PersonalizationAdministration_GetCountOfState" FunctionName="optionwavesdbModel.Store.aspnet_PersonalizationAdministration_GetCountOfState" />
+    <FunctionImportMapping FunctionImportName="aspnet_PersonalizationAdministration_ResetSharedState" FunctionName="optionwavesdbModel.Store.aspnet_PersonalizationAdministration_ResetSharedState" />
+    <FunctionImportMapping FunctionImportName="aspnet_PersonalizationAdministration_ResetUserState" FunctionName="optionwavesdbModel.Store.aspnet_PersonalizationAdministration_ResetUserState" />
+    <FunctionImportMapping FunctionImportName="aspnet_PersonalizationAllUsers_GetPageSettings" FunctionName="optionwavesdbModel.Store.aspnet_PersonalizationAllUsers_GetPageSettings" />
+    <FunctionImportMapping FunctionImportName="aspnet_PersonalizationAllUsers_ResetPageSettings" FunctionName="optionwavesdbModel.Store.aspnet_PersonalizationAllUsers_ResetPageSettings" />
+    <FunctionImportMapping FunctionImportName="aspnet_PersonalizationAllUsers_SetPageSettings" FunctionName="optionwavesdbModel.Store.aspnet_PersonalizationAllUsers_SetPageSettings" />
+    <FunctionImportMapping FunctionImportName="aspnet_PersonalizationPerUser_GetPageSettings" FunctionName="optionwavesdbModel.Store.aspnet_PersonalizationPerUser_GetPageSettings" />
+    <FunctionImportMapping FunctionImportName="aspnet_PersonalizationPerUser_ResetPageSettings" FunctionName="optionwavesdbModel.Store.aspnet_PersonalizationPerUser_ResetPageSettings" />
+    <FunctionImportMapping FunctionImportName="aspnet_PersonalizationPerUser_SetPageSettings" FunctionName="optionwavesdbModel.Store.aspnet_PersonalizationPerUser_SetPageSettings" />
+    <FunctionImportMapping FunctionImportName="aspnet_Profile_DeleteInactiveProfiles" FunctionName="optionwavesdbModel.Store.aspnet_Profile_DeleteInactiveProfiles" />
+    <FunctionImportMapping FunctionImportName="aspnet_Profile_DeleteProfiles" FunctionName="optionwavesdbModel.Store.aspnet_Profile_DeleteProfiles" />
+    <FunctionImportMapping FunctionImportName="aspnet_Profile_GetNumberOfInactiveProfiles" FunctionName="optionwavesdbModel.Store.aspnet_Profile_GetNumberOfInactiveProfiles" />
+    <FunctionImportMapping FunctionImportName="aspnet_Profile_GetProfiles" FunctionName="optionwavesdbModel.Store.aspnet_Profile_GetProfiles" />
+    <FunctionImportMapping FunctionImportName="aspnet_Profile_GetProperties" FunctionName="optionwavesdbModel.Store.aspnet_Profile_GetProperties">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="optionwavesdbModel.aspnet_Profile_GetProperties_Result">
+          <ScalarProperty Name="PropertyNames" ColumnName="PropertyNames" />
+          <ScalarProperty Name="PropertyValuesString" ColumnName="PropertyValuesString" />
+          <ScalarProperty Name="PropertyValuesBinary" ColumnName="PropertyValuesBinary" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="aspnet_Profile_SetProperties" FunctionName="optionwavesdbModel.Store.aspnet_Profile_SetProperties" />
+    <FunctionImportMapping FunctionImportName="aspnet_RegisterSchemaVersion" FunctionName="optionwavesdbModel.Store.aspnet_RegisterSchemaVersion" />
+    <FunctionImportMapping FunctionImportName="aspnet_Roles_CreateRole" FunctionName="optionwavesdbModel.Store.aspnet_Roles_CreateRole" />
+    <FunctionImportMapping FunctionImportName="aspnet_Roles_DeleteRole" FunctionName="optionwavesdbModel.Store.aspnet_Roles_DeleteRole" />
+    <FunctionImportMapping FunctionImportName="aspnet_Roles_GetAllRoles" FunctionName="optionwavesdbModel.Store.aspnet_Roles_GetAllRoles" />
+    <FunctionImportMapping FunctionImportName="aspnet_Roles_RoleExists" FunctionName="optionwavesdbModel.Store.aspnet_Roles_RoleExists" />
+    <FunctionImportMapping FunctionImportName="aspnet_Setup_RemoveAllRoleMembers" FunctionName="optionwavesdbModel.Store.aspnet_Setup_RemoveAllRoleMembers" />
+    <FunctionImportMapping FunctionImportName="aspnet_Setup_RestorePermissions" FunctionName="optionwavesdbModel.Store.aspnet_Setup_RestorePermissions" />
+    <FunctionImportMapping FunctionImportName="aspnet_UnRegisterSchemaVersion" FunctionName="optionwavesdbModel.Store.aspnet_UnRegisterSchemaVersion" />
+    <FunctionImportMapping FunctionImportName="aspnet_Users_CreateUser" FunctionName="optionwavesdbModel.Store.aspnet_Users_CreateUser" />
+    <FunctionImportMapping FunctionImportName="aspnet_Users_DeleteUser" FunctionName="optionwavesdbModel.Store.aspnet_Users_DeleteUser" />
+    <FunctionImportMapping FunctionImportName="aspnet_UsersInRoles_AddUsersToRoles" FunctionName="optionwavesdbModel.Store.aspnet_UsersInRoles_AddUsersToRoles" />
+    <FunctionImportMapping FunctionImportName="aspnet_UsersInRoles_FindUsersInRole" FunctionName="optionwavesdbModel.Store.aspnet_UsersInRoles_FindUsersInRole" />
+    <FunctionImportMapping FunctionImportName="aspnet_UsersInRoles_GetRolesForUser" FunctionName="optionwavesdbModel.Store.aspnet_UsersInRoles_GetRolesForUser" />
+    <FunctionImportMapping FunctionImportName="aspnet_UsersInRoles_GetUsersInRoles" FunctionName="optionwavesdbModel.Store.aspnet_UsersInRoles_GetUsersInRoles" />
+    <FunctionImportMapping FunctionImportName="aspnet_UsersInRoles_IsUserInRole" FunctionName="optionwavesdbModel.Store.aspnet_UsersInRoles_IsUserInRole" />
+    <FunctionImportMapping FunctionImportName="aspnet_UsersInRoles_RemoveUsersFromRoles" FunctionName="optionwavesdbModel.Store.aspnet_UsersInRoles_RemoveUsersFromRoles">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="optionwavesdbModel.aspnet_UsersInRoles_RemoveUsersFromRoles_Result">
+          <ScalarProperty Name="Column1" ColumnName="Column1" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="aspnet_WebEvent_LogEvent" FunctionName="optionwavesdbModel.Store.aspnet_WebEvent_LogEvent" />
+  </EntityContainerMapping>
+</Mapping>

@@ -1,0 +1,57 @@
+c:\users\i324826\documents\visual studio 2017\Projects\BondiApp\BondiApp\bin\Debug\BondiApp.exe.config
+c:\users\i324826\documents\visual studio 2017\Projects\BondiApp\BondiApp\bin\Debug\BondiApp.exe
+c:\users\i324826\documents\visual studio 2017\Projects\BondiApp\BondiApp\bin\Debug\BondiApp.pdb
+c:\users\i324826\documents\visual studio 2017\Projects\BondiApp\BondiApp\bin\Debug\BondiApp.xml
+c:\users\i324826\documents\visual studio 2017\Projects\BondiApp\BondiApp\bin\Debug\CSharpAPI.dll
+c:\users\i324826\documents\visual studio 2017\Projects\BondiApp\BondiApp\obj\Debug\BondiApp.vbprojResolveAssemblyReference.cache
+c:\users\i324826\documents\visual studio 2017\Projects\BondiApp\BondiApp\obj\Debug\BondiApp.Form1.resources
+c:\users\i324826\documents\visual studio 2017\Projects\BondiApp\BondiApp\obj\Debug\BondiApp.Resources.resources
+c:\users\i324826\documents\visual studio 2017\Projects\BondiApp\BondiApp\obj\Debug\BondiApp.vbproj.GenerateResource.Cache
+c:\users\i324826\documents\visual studio 2017\Projects\BondiApp\BondiApp\obj\Debug\BondiApp.exe
+c:\users\i324826\documents\visual studio 2017\Projects\BondiApp\BondiApp\obj\Debug\BondiApp.xml
+c:\users\i324826\documents\visual studio 2017\Projects\BondiApp\BondiApp\obj\Debug\BondiApp.pdb
+C:\Users\Troy Belden\Documents\MASTER CODE\BondiApp\BondiApp\bin\Debug\BondiApp.exe.config
+C:\Users\Troy Belden\Documents\MASTER CODE\BondiApp\BondiApp\bin\Debug\BondiApp.exe.manifest
+C:\Users\Troy Belden\Documents\MASTER CODE\BondiApp\BondiApp\bin\Debug\BondiApp.application
+C:\Users\Troy Belden\Documents\MASTER CODE\BondiApp\BondiApp\bin\Debug\BondiApp.exe
+C:\Users\Troy Belden\Documents\MASTER CODE\BondiApp\BondiApp\bin\Debug\BondiApp.pdb
+C:\Users\Troy Belden\Documents\MASTER CODE\BondiApp\BondiApp\bin\Debug\BondiApp.xml
+C:\Users\Troy Belden\Documents\MASTER CODE\BondiApp\BondiApp\obj\Debug\BondiApp.vbprojResolveAssemblyReference.cache
+C:\Users\Troy Belden\Documents\MASTER CODE\BondiApp\BondiApp\obj\Debug\BondiApp.dlgAcctData.resources
+C:\Users\Troy Belden\Documents\MASTER CODE\BondiApp\BondiApp\obj\Debug\BondiApp.dlgConnect.resources
+C:\Users\Troy Belden\Documents\MASTER CODE\BondiApp\BondiApp\obj\Debug\BondiApp.dlgGroups.resources
+C:\Users\Troy Belden\Documents\MASTER CODE\BondiApp\BondiApp\obj\Debug\BondiApp.Resources.resources
+C:\Users\Troy Belden\Documents\MASTER CODE\BondiApp\BondiApp\obj\Debug\BondiApp.dlgMainWnd.resources
+C:\Users\Troy Belden\Documents\MASTER CODE\BondiApp\BondiApp\obj\Debug\BondiApp.vbproj.GenerateResource.cache
+C:\Users\Troy Belden\Documents\MASTER CODE\BondiApp\BondiApp\obj\Debug\BondiApp.vbproj.CoreCompileInputs.cache
+C:\Users\Troy Belden\Documents\MASTER CODE\BondiApp\BondiApp\obj\Debug\BondiApp.exe.manifest
+C:\Users\Troy Belden\Documents\MASTER CODE\BondiApp\BondiApp\obj\Debug\BondiApp.application
+C:\Users\Troy Belden\Documents\MASTER CODE\BondiApp\BondiApp\obj\Debug\BondiApp.vbproj.CopyComplete
+C:\Users\Troy Belden\Documents\MASTER CODE\BondiApp\BondiApp\obj\Debug\BondiApp.exe
+C:\Users\Troy Belden\Documents\MASTER CODE\BondiApp\BondiApp\obj\Debug\BondiApp.xml
+C:\Users\Troy Belden\Documents\MASTER CODE\BondiApp\BondiApp\obj\Debug\BondiApp.pdb
+C:\Users\Troy Belden\Documents\MASTER CODE\BondiApp\BondiApp\obj\Debug\BondiApp.Main.resources
+C:\Users\Troy Belden\Documents\MASTER CODE\BondiApp\BondiApp\obj\Debug\BondiApp.dlgHarvest.resources
+C:\Users\mickey\AppData\Roaming\Skype\My Skype Received Files\BondiApp 04.04.18\BondiApp\BondiApp\bin\Debug\BondiApp.exe.config
+C:\Users\mickey\AppData\Roaming\Skype\My Skype Received Files\BondiApp 04.04.18\BondiApp\BondiApp\bin\Debug\BondiApp.exe.manifest
+C:\Users\mickey\AppData\Roaming\Skype\My Skype Received Files\BondiApp 04.04.18\BondiApp\BondiApp\bin\Debug\BondiApp.application
+C:\Users\mickey\AppData\Roaming\Skype\My Skype Received Files\BondiApp 04.04.18\BondiApp\BondiApp\bin\Debug\BondiApp.exe
+C:\Users\mickey\AppData\Roaming\Skype\My Skype Received Files\BondiApp 04.04.18\BondiApp\BondiApp\bin\Debug\BondiApp.pdb
+C:\Users\mickey\AppData\Roaming\Skype\My Skype Received Files\BondiApp 04.04.18\BondiApp\BondiApp\bin\Debug\BondiApp.xml
+C:\Users\mickey\AppData\Roaming\Skype\My Skype Received Files\BondiApp 04.04.18\BondiApp\BondiApp\bin\Debug\EntityFramework.dll
+C:\Users\mickey\AppData\Roaming\Skype\My Skype Received Files\BondiApp 04.04.18\BondiApp\BondiApp\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\mickey\AppData\Roaming\Skype\My Skype Received Files\BondiApp 04.04.18\BondiApp\BondiApp\bin\Debug\EntityFramework.xml
+C:\Users\mickey\AppData\Roaming\Skype\My Skype Received Files\BondiApp 04.04.18\BondiApp\BondiApp\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\mickey\AppData\Roaming\Skype\My Skype Received Files\BondiApp 04.04.18\BondiApp\BondiApp\obj\Debug\BondiApp.vbprojResolveAssemblyReference.cache
+C:\Users\mickey\AppData\Roaming\Skype\My Skype Received Files\BondiApp 04.04.18\BondiApp\BondiApp\obj\Debug\BondiApp.dlgAcctData.resources
+C:\Users\mickey\AppData\Roaming\Skype\My Skype Received Files\BondiApp 04.04.18\BondiApp\BondiApp\obj\Debug\BondiApp.dlgHarvest.resources
+C:\Users\mickey\AppData\Roaming\Skype\My Skype Received Files\BondiApp 04.04.18\BondiApp\BondiApp\obj\Debug\BondiApp.dlgConnect.resources
+C:\Users\mickey\AppData\Roaming\Skype\My Skype Received Files\BondiApp 04.04.18\BondiApp\BondiApp\obj\Debug\BondiApp.dlgGroups.resources
+C:\Users\mickey\AppData\Roaming\Skype\My Skype Received Files\BondiApp 04.04.18\BondiApp\BondiApp\obj\Debug\BondiApp.Main.resources
+C:\Users\mickey\AppData\Roaming\Skype\My Skype Received Files\BondiApp 04.04.18\BondiApp\BondiApp\obj\Debug\BondiApp.Resources.resources
+C:\Users\mickey\AppData\Roaming\Skype\My Skype Received Files\BondiApp 04.04.18\BondiApp\BondiApp\obj\Debug\BondiApp.vbproj.GenerateResource.Cache
+C:\Users\mickey\AppData\Roaming\Skype\My Skype Received Files\BondiApp 04.04.18\BondiApp\BondiApp\obj\Debug\BondiApp.exe.manifest
+C:\Users\mickey\AppData\Roaming\Skype\My Skype Received Files\BondiApp 04.04.18\BondiApp\BondiApp\obj\Debug\BondiApp.application
+C:\Users\mickey\AppData\Roaming\Skype\My Skype Received Files\BondiApp 04.04.18\BondiApp\BondiApp\obj\Debug\BondiApp.exe
+C:\Users\mickey\AppData\Roaming\Skype\My Skype Received Files\BondiApp 04.04.18\BondiApp\BondiApp\obj\Debug\BondiApp.xml
+C:\Users\mickey\AppData\Roaming\Skype\My Skype Received Files\BondiApp 04.04.18\BondiApp\BondiApp\obj\Debug\BondiApp.pdb
