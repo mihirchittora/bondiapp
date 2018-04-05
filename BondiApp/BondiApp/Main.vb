@@ -89,11 +89,14 @@ Friend Class Main
     End Sub
 
     Private Sub btnReqNextValidId_Click(sender As Object, e As EventArgs) Handles btnReqNextValidId.Click
-        If (Tws1.serverVersion() > 1) Then
-            Call Tws1.reqIds(1)
 
-        Else
-        End If
+        MsgBox(newid)
+
+        'If (Tws1.serverVersion() > 1) Then
+        '    Call Tws1.reqIds(1)
+
+        'Else
+        'End If
 
     End Sub
 
@@ -435,11 +438,25 @@ Friend Class Main
 
     End Sub
 
+
+    Public newid As Integer = 0
+
+
     Private Sub Tws1_nextValidId(ByVal eventSender As System.Object, ByVal eventArgs As _DTwsEvents_nextValidIdEvent) Handles Tws1.OnNextValidId
+        newid = eventArgs.Id + 1
         'm_dlgOrder.orderId = eventArgs.Id 'Set Order Id Here
+
     End Sub
 
+
+
+
+
+
     Private Sub Tws1_orderStatus(ByVal eventSender As System.Object, ByVal eventArgs As _DTwsEvents_orderStatusEvent) Handles Tws1.OnorderStatus
+
+        ' ANY CHANGE IN ORDER STATUS WILL HAPPEN HERE - SAVE THE VARS TO THE CLASS HERE FOR USE BEYOND THIS SUB
+
         Dim msg As String
 
         msg = "order status: orderId=" & eventArgs.orderId & " client id=" & eventArgs.clientId & " permId=" & eventArgs.permId &
@@ -695,6 +712,7 @@ Friend Class Main
         Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "===============================")
 
     End Sub
+
     Public WithEvents Tws1 As Tws
 
     ' CLASSES USED IN THE APPLICATION
