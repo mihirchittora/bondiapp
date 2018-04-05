@@ -2,6 +2,10 @@
 Imports System.Collections.Generic
 Imports IBApi
 
+
+
+
+
 Friend Class Tws
     Implements IBApi.EWrapper
 
@@ -9,6 +13,7 @@ Friend Class Tws
     Dim socket As IBApi.EClientSocket = New IBApi.EClientSocket(Me, eReaderSignal)
 
     Dim form As Form
+    Public Property StockTickPrice As Double
 
     Sub New(form As Form)
         Me.form = form
@@ -34,6 +39,14 @@ Friend Class Tws
 
     Sub reqIds(p1 As Integer)
         socket.reqIds(p1)
+    End Sub
+
+    Sub reqMarketDataType(p1 As Integer)
+        socket.reqMarketDataType(p1)
+    End Sub
+
+    Sub reqMktDataEx(tickerId As Integer, m_contractInfo As IBApi.Contract, genericTicks As String, snapshot As Boolean, m_mktDataOptions As Generic.List(Of IBApi.TagValue))
+        socket.reqMktData(tickerId, m_contractInfo, genericTicks, snapshot, m_mktDataOptions)
     End Sub
 
     Sub placeOrderEx(p1 As Integer, m_contractInfo As IBApi.Contract, m_orderInfo As IBApi.Order)
@@ -108,23 +121,59 @@ Friend Class Tws
     End Sub
 
     Public Sub tickPrice(tickerId As Integer, field As Integer, price As Double, canAutoExecute As Integer) Implements EWrapper.tickPrice
-        Throw New NotImplementedException()
+        'Throw New NotImplementedException()
+
+        InvokeIfRequired(Sub()
+                             RaiseEvent OnTickPrice(Me, New AxTWSLib._DTwsEvents_tickPriceEvent With {.id = tickerId, .price = price, .TickType = field, .canAutoExecute = canAutoExecute})
+                         End Sub)
+
+
     End Sub
 
     Public Sub tickSize(tickerId As Integer, field As Integer, size As Integer) Implements EWrapper.tickSize
-        Throw New NotImplementedException()
+        'Throw New NotImplementedException()
+
+        InvokeIfRequired(Sub()
+                             RaiseEvent OnTickSize(Me, New AxTWSLib._DTwsEvents_tickSizeEvent With {.id = tickerId, .size = size, .TickType = field})
+                         End Sub)
+
     End Sub
 
     Public Sub tickString(tickerId As Integer, field As Integer, value As String) Implements EWrapper.tickString
-        Throw New NotImplementedException()
+        'Throw New NotImplementedException()
+
+        InvokeIfRequired(Sub()
+                             RaiseEvent OnTickString(Me, New AxTWSLib._DTwsEvents_tickStringEvent With {.id = tickerId, .TickType = field, .value = value})
+                         End Sub)
+
     End Sub
 
     Public Sub tickGeneric(tickerId As Integer, field As Integer, value As Double) Implements EWrapper.tickGeneric
-        Throw New NotImplementedException()
+        'Throw New NotImplementedException()
+
+        InvokeIfRequired(Sub()
+                             RaiseEvent OnTickGeneric(Me, New AxTWSLib._DTwsEvents_tickGenericEvent With {.id = tickerId, .tickType = field, .value = value})
+                         End Sub)
+
     End Sub
 
     Public Sub tickEFP(tickerId As Integer, tickType As Integer, basisPoints As Double, formattedBasisPoints As String, impliedFuture As Double, holdDays As Integer, futureLastTradeDate As String, dividendImpact As Double, dividendsToLastTradeDate As Double) Implements EWrapper.tickEFP
-        Throw New NotImplementedException()
+        'Throw New NotImplementedException()
+
+        InvokeIfRequired(Sub()
+                             RaiseEvent OnTickEFP(Me, New AxTWSLib._DTwsEvents_tickEFPEvent With {
+                                                                                      .tickerId = tickerId,
+                                                                                      .field = tickType,
+                                                                                      .basisPoints = basisPoints,
+                                                                                      .formattedBasisPoints = formattedBasisPoints,
+                                                                                      .impliedFuture = impliedFuture,
+                                                                                      .holdDays = holdDays,
+                                                                                      .futureLastTradeDate = futureLastTradeDate,
+                                                                                      .dividendImpact = dividendImpact,
+                                                                                      .dividendsToLastTradeDate = dividendsToLastTradeDate
+                                                                                  })
+                         End Sub)
+
     End Sub
 
     Public Sub deltaNeutralValidation(reqId As Integer, underComp As UnderComp) Implements EWrapper.deltaNeutralValidation
@@ -132,7 +181,23 @@ Friend Class Tws
     End Sub
 
     Public Sub tickOptionComputation(tickerId As Integer, field As Integer, impliedVolatility As Double, delta As Double, optPrice As Double, pvDividend As Double, gamma As Double, vega As Double, theta As Double, undPrice As Double) Implements EWrapper.tickOptionComputation
-        Throw New NotImplementedException()
+        'Throw New NotImplementedException()
+
+        InvokeIfRequired(Sub()
+                             RaiseEvent OnTickOptionComputation(Me, New AxTWSLib._DTwsEvents_tickOptionComputationEvent With {
+                                                                                                    .tickerId = tickerId,
+                                                                                                    .tickType = field,
+                                                                                                    .impliedVolatility = impliedVolatility,
+                                                                                                    .delta = delta,
+                                                                                                    .optPrice = optPrice,
+                                                                                                    .pvDividend = pvDividend,
+                                                                                                    .gamma = gamma,
+                                                                                                    .vega = vega,
+                                                                                                    .theta = theta,
+                                                                                                    .undPrice = undPrice
+                                                                 })
+                         End Sub)
+
     End Sub
 
     Public Sub tickSnapshotEnd(tickerId As Integer) Implements EWrapper.tickSnapshotEnd
@@ -242,7 +307,16 @@ Friend Class Tws
     End Sub
 
     Public Sub execDetails(reqId As Integer, contract As Contract, execution As Execution) Implements EWrapper.execDetails
-        Throw New NotImplementedException()
+        'Throw New NotImplementedException()
+
+        InvokeIfRequired(Sub()
+                             RaiseEvent OnexecDetailsEx(Me, New AxTWSLib._DTwsEvents_execDetailsExEvent With {
+                                                                 .reqId = reqId,
+                                                                  .contract = contract,
+                                                                  .execution = execution
+                                                                 })
+                         End Sub)
+
     End Sub
 
     Public Sub execDetailsEnd(reqId As Integer) Implements EWrapper.execDetailsEnd
@@ -250,7 +324,15 @@ Friend Class Tws
     End Sub
 
     Public Sub commissionReport(commissionReport As CommissionReport) Implements EWrapper.commissionReport
-        Throw New NotImplementedException()
+        'Throw New NotImplementedException()
+
+        InvokeIfRequired(Sub()
+                             RaiseEvent OncommissionReport(Me, New AxTWSLib._DTwsEvents_commissionReportEvent With {
+                                                                 .commissionReport = commissionReport
+                                                                 })
+                         End Sub)
+
+
     End Sub
 
     Public Sub fundamentalData(reqId As Integer, data As String) Implements EWrapper.fundamentalData
@@ -265,9 +347,27 @@ Friend Class Tws
         Throw New NotImplementedException()
     End Sub
 
+
+
+
     Public Sub marketDataType(reqId As Integer, marketDataType As Integer) Implements EWrapper.marketDataType
-        Throw New NotImplementedException()
+        'Throw New NotImplementedException()
+
+        InvokeIfRequired(Sub()
+                             RaiseEvent OnmarketDataType(Me, New AxTWSLib._DTwsEvents_marketDataTypeEvent With {
+                                                                 .reqId = reqId,
+                                                                  .marketDataType = marketDataType
+                                                                 })
+                         End Sub)
+
     End Sub
+
+
+
+
+
+
+
 
     Public Sub updateMktDepth(tickerId As Integer, position As Integer, operation As Integer, side As Integer, price As Double, size As Integer) Implements EWrapper.updateMktDepth
         Throw New NotImplementedException()
@@ -360,6 +460,9 @@ Friend Class Tws
     Public Sub softDollarTiers(reqId As Integer, tiers() As SoftDollarTier) Implements EWrapper.softDollarTiers
         Throw New NotImplementedException()
     End Sub
+
+    ' EVENTS USED IN THE INTERACTION BETWEEN THE APP AND THE API
+
     Event OnNextValidId(ByVal sender As Object, ByVal eventArgs As _DTwsEvents_nextValidIdEvent)
     Event OnmanagedAccounts(tws As Tws, DTwsEvents_managedAccountsEvent As _DTwsEvents_managedAccountsEvent)
     Event OnorderStatus(tws As Tws, DTwsEvents_orderStatusEvent As _DTwsEvents_orderStatusEvent)
@@ -367,6 +470,16 @@ Friend Class Tws
     Event OnopenOrderEx(tws As Tws, DTwsEvents_openOrderExEvent As _DTwsEvents_openOrderExEvent)
     Event OncontractDetailsEx(tws As Tws, DTwsEvents_contractDetailsExEvent As _DTwsEvents_contractDetailsExEvent)
     Event OncontractDetailsEnd(tws As Tws, DTwsEvents_contractDetailsEndEvent As _DTwsEvents_contractDetailsEndEvent)
+    Event OnexecDetailsEx(tws As Tws, DTwsEvents_execDetailsExEvent As AxTWSLib._DTwsEvents_execDetailsExEvent)
+    Event OncommissionReport(tws As Tws, DTwsEvents_commissionReportEvent As AxTWSLib._DTwsEvents_commissionReportEvent)
 
+    Event OnmarketDataType(tws As Tws, DTwsEvents_marketDataTypeEvent As AxTWSLib._DTwsEvents_marketDataTypeEvent)
+
+    Event OnTickPrice(ByVal eventSender As System.Object, ByVal eventArgs As AxTWSLib._DTwsEvents_tickPriceEvent)
+    Event OnTickSize(ByVal eventSender As System.Object, ByVal eventArgs As AxTWSLib._DTwsEvents_tickSizeEvent)
+    Event OnTickGeneric(ByVal eventSender As System.Object, ByVal eventArgs As AxTWSLib._DTwsEvents_tickGenericEvent)
+    Event OnTickString(ByVal eventSender As System.Object, ByVal eventArgs As AxTWSLib._DTwsEvents_tickStringEvent)
+    Event OnTickEFP(ByVal eventSender As System.Object, ByVal eventArgs As AxTWSLib._DTwsEvents_tickEFPEvent)
+    Event OnTickOptionComputation(ByVal eventSender As System.Object, ByVal eventArgs As AxTWSLib._DTwsEvents_tickOptionComputationEvent)
 
 End Class
