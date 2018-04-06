@@ -823,21 +823,21 @@ Friend Class Main
         mktDataStr = "id=" & eventArgs.id & " =" & eventArgs.price
 
         'MsgBox("id=" & eventArgs.id & " VXX" & m_utils.getField(eventArgs.tickType) & "=" & eventArgs.price)
-        Thread.Sleep(1000)
-
         'If (eventArgs.canAutoExecute <> 0) Then
         '    mktDataStr = mktDataStr & " canAutoExecute"
         'Else
         '    mktDataStr = mktDataStr & " noAutoExecute"
         'End If
-        Call m_utils.addListItem(Utils.List_Types.MKT_DATA, mktDataStr)
+        If eventArgs.tickCount = 1 Then
+            Call m_utils.addListItem(Utils.List_Types.MKT_DATA, mktDataStr)
+        End If
         Exit Sub
         ' move into view
         'lstMktData.TopIndex = lstMktData.Items.Count - 1
     End Sub
 
     ' MIHIR THIS IS THE GET TICKPRICE BUTTON THAT SHOULD INITIATE GETTING A SINGLE TICKPRICE FOR THE SYMBOL SELECTED
-
+    Dim tickId As Integer = 0
     Private Sub btnGetPrice_Click(sender As Object, e As EventArgs) Handles btnGetPrice.Click
 
         Dim currentprice As Double = 0                                                                                                  ' VALUE RETURNED FROM THIS FUNCTION BEING CALLED
@@ -856,8 +856,8 @@ Friend Class Main
 
 
         Tws1.reqMarketDataType(3)                                                                                                       ' SETS DATA FEED TO (1) LIVE STREAMING  (2) FROZEN  (3) DELAYED 15 - 20 MINUTES 
-        Tws1.reqMktDataEx(1, contract, "", False, Nothing)                                                                              ' API CALL TO GET THE PRODUCTS TICK PRICE                       
-
+        Tws1.reqMktDataEx(tickId + 1, contract, "", False, Nothing)
+        Tws1.tickCount = 0
         currentprice = Tws1.StockTickPrice                                                                                             ' SET CURRENT PRICE TO STOCKTICKPRICE TO BE PASSED TO CALLING FUNCTION
         'Stop
 

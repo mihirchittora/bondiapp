@@ -119,15 +119,18 @@ Friend Class Tws
     Public Sub currentTime(time As Long) Implements EWrapper.currentTime
         Throw New NotImplementedException()
     End Sub
+    Public tickCount As Integer = 0
 
     Public Sub tickPrice(tickerId As Integer, field As Integer, price As Double, canAutoExecute As Integer) Implements EWrapper.tickPrice
         'Throw New NotImplementedException()
-
+        socket.cancelMktData(tickerId)
+        tickCount = tickCount + 1
         InvokeIfRequired(Sub()
-                             RaiseEvent OnTickPrice(Me, New AxTWSLib._DTwsEvents_tickPriceEvent With {.id = tickerId, .price = price, .TickType = field, .canAutoExecute = canAutoExecute})
+                             RaiseEvent OnTickPrice(Me, New AxTWSLib._DTwsEvents_tickPriceEvent With {.id = tickerId, .price = price, .tickType = field, .canAutoExecute = canAutoExecute, .tickCount = tickCount})
                          End Sub)
-
-
+    End Sub
+    Public Sub cancelMarketData(tickerId As Integer)
+        socket.cancelMktData(tickerId)
     End Sub
 
     Public Sub tickSize(tickerId As Integer, field As Integer, size As Integer) Implements EWrapper.tickSize
