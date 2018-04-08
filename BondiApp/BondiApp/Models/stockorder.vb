@@ -6,7 +6,7 @@ Imports System.Data.Entity.Spatial
 
 Partial Public Class stockorder
     Public Property id As Integer
-    Public Property USERID As Integer
+    Public Property USERID As Guid
 
     Public Property timestamp As Date?
 
