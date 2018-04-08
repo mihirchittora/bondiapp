@@ -10,25 +10,30 @@ Imports System.Data.SqlClient
 Imports IBApi
 Imports BondiApp.Tws
 
-
 Friend Class Main
     Inherits System.Windows.Forms.Form
 
     'Private WithEvents tws As New Tws                                                                                                          ' COMMENTED OUT WAS NOT WORKING
 
     Dim indexselected As String = ""
+    Dim tickId As Integer = 0
+
     Private m_utils As New Utils                                                                                                                ' CREATES A NEW INSTANCE OF UTILS TO BE USED IN THIS FORM 
     Private m_dlgAcctData As New dlgAcctData
     Private m_dlgConnect As New dlgConnect
     Private m_dlgHarvest As New dlgHarvest
     Private m_faAcctsList As String
     Private m_faAccount, faError As Boolean                                                                                                     ' VARIABLE TO HOLD FINACIAL ADVISOR STATUS SETTINGS
+    Dim connecting As Boolean = True
     Public backprices As List(Of backPrice)                                                                                                     ' CLASS DEFINITION TO HOUSE                         
     Public orderdetails As List(Of OrderDetail)
     Public fileNameRead As String
     Public currentorderid As Integer = 0                                                                                                        ' PUBLIC VARIABLE TO HOLD CURRENTORDERID - TO BE USED TO SET THE NEXTVALIDID FOR ORDERS
     Public PriceTest As Double = 0
+    Public currentprice As Double = 0                                                                                                              ' VALUE RETURNED FROM THIS FUNCTION BEING CALLED
     Public cntr As Integer = 1
+    Public datastring As String = ""
+    Public RobotOn As Boolean = False                                                                                                           ' INDICATES THAT THE ROBOT IS RUNNING IN THE OPENORDEREX SUB TO ADD ORDERS
 
     Public Sub New()
         MyBase.New()
@@ -62,7 +67,11 @@ Friend Class Main
 
     End Sub
 
+    ' INDIVIDUAL BUTTONS TO TEST EACH COMPONENT WITHIN THE API
+
     Private Sub btnConnect_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles btnConnect.Click
+
+        datastring = "Connected to TWS " & String.Format("{0:hh:mm:ss.fff tt}", Now.ToLocalTime) & " - "
         Dim connected As String = ""                                                                                                ' VARIABLE HOLDING THE CONNECTED STATUS STRING
         m_faAccount = False                                                                                                         ' THIS IS NOT A FINANCIAL ADVISORS ACCOUNT
         Dim msg As String
@@ -82,54 +91,79 @@ Friend Class Main
         End If
 
         ' Determine what the next order id should be.
+        datastring = datastring & String.Format("{0:hh:mm:ss.fff tt}", Now.ToLocalTime)
+        lblConStatus.Text = datastring
 
-        lblConStatus.Text = " " & connected & " at " & Tws1.TwsConnectionTime
 
     End Sub
 
-
-
-
     Private Sub btnDisconnect_Click(sender As Object, e As EventArgs) Handles btnDisconnect.Click
+
+        Dim datastring As String = "Disconnected from TWS " & String.Format("{0:hh:mm:ss.fff tt}", Now.ToLocalTime) & " - "
         Dim connected As String = ""
 
         Tws1.disconnect()
 
-        If (Tws1.serverVersion() > 0) Then
-            connected = "On Line"
-        Else
-            connected = "Off Line"
-        End If
-
-        lblConStatus.Text = " " & connected
+        datastring = datastring & String.Format("{0:hh:mm:ss.fff tt}", Now.ToLocalTime)
+        lblConStatus.Text = datastring
 
     End Sub
 
     Private Sub btnReqNextValidId_Click(sender As Object, e As EventArgs) Handles btnReqNextValidId.Click
 
-        MsgBox(currentorderid)
-
-        'If (Tws1.serverVersion() > 1) Then
-        '    Call Tws1.reqIds(1)
-
-        'Else
-        'End If
+        Dim datastring = "Next Valid Order Id: " & currentorderid & "  " & String.Format("{0:hh:mm:ss.fff tt}", Now.ToLocalTime) & " - "
+        datastring = datastring & String.Format("{0:hh:mm:ss.fff tt}", Now.ToLocalTime)
+        lblConStatus.Text = datastring
 
     End Sub
 
+    Private Sub cmbIndexes_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbIndexes.SelectedIndexChanged
+
+        ' if connected to TWS get the symbol from the database and get current price.
+        ' used to establish the first price for the harvest robot
+        Dim product As String = ""
+        indexselected = cmbIndexes.SelectedValue.ToString()
+
+        If (Tws1.serverVersion() > 0) Then
+
+            Dim contract As IBApi.Contract = New IBApi.Contract()                                                                           ' ESTABLISH A NEW CONTRACT CLASS
+
+            Using db As BondiModel = New BondiModel()                                                                      ' DATABASE MODEL USING ENTITY FRAMEWORK
+
+                Dim indexlist As List(Of HarvestIndex) = New List(Of HarvestIndex)()
+                indexlist = db.HarvestIndexes.AsEnumerable.Where(Function(x) x.harvestKey = cmbIndexes.SelectedValue).ToList()
+                product = indexlist.FirstOrDefault().product
+
+                contract.Symbol = product                                                                                    ' INITIALIZE SYMBOL VALUE FOR THE CONTRACT
+
+                contract.SecType = "STK"                                                                                                        ' INITIALIZE THE SECURITY TYPE FOR THE CONTRACT - MOVE TO SETTINGS AT SOME POINT
+                contract.Currency = "USD"                                                                                                       ' INITIALIZE CURRENCY TYPE FOR THE CONTRACT - MOVE TO SETTINGS AT SOME POINT
+                contract.Exchange = "SMART"                                                                                                     ' INITIALIZE EXCHANGE USED FOR THE CONTRACT
+
+                Tws1.reqMarketDataType(3)                                                                                                       ' SETS DATA FEED TO (1) LIVE STREAMING  (2) FROZEN  (3) DELAYED 15 - 20 MINUTES 
+                Tws1.reqMktDataEx(tickId + 1, contract, "", False, Nothing)
+                Tws1.tickCount = 0
+
+            End Using
+
+        End If
+
+
+    End Sub
 
     Private Sub btnSendOrder_Click(sender As Object, e As EventArgs) Handles btnSendOrder.Click
 
         Dim datastring As String = ""                                                                                                         ' SETS THE INITIAL DATASTRING VALUE - REWRITTEN WHEN THE CODE EXECUTES
 
+        Dim order As IBApi.Order = New IBApi.Order()
         Dim contract As IBApi.Contract = New IBApi.Contract()
         contract.Symbol = txtSymbol.Text
         contract.SecType = "STK"
         contract.Currency = "USD"
         contract.Exchange = "SMART"
-        Dim order As IBApi.Order = New IBApi.Order()
 
-        order.OrderId = txtOrderId.Text
+
+        Order.OrderId = txtOrderId.Text
 
         order.Action = txtAction.Text.ToUpper()
         order.OrderType = txtType.Text.ToUpper()
@@ -148,29 +182,36 @@ Friend Class Main
 
     ' Use this one to test db connections and get data
     Private Sub btnGetData_Click(sender As Object, e As EventArgs) Handles btnGetData.Click
-        Using _entity As BondiModel = New BondiModel()
+        Dim symbol As String = ""
+        Using db As BondiModel = New BondiModel()
+            'Dim _lstHarvestindex As List(Of HarvestIndex) = New List(Of HarvestIndex)()
+            '_lstHarvestindex = _entity.HarvestIndexes.AsEnumerable.[Select](Function(x) New HarvestIndex).Where(Function(s) s.harvestKey = cmbIndexes.SelectedValue).ToList()
+            'cmbIndexes.DataSource = _lstHarvestindex
+            'cmbIndexes.DisplayMember = "name"
+            'cmbIndexes.ValueMember = "harvestKey"
+
             Dim _lstHarvestindex As List(Of HarvestIndex) = New List(Of HarvestIndex)()
-            _lstHarvestindex = _entity.HarvestIndexes.AsEnumerable.[Select](Function(x) New HarvestIndex).Where(Function(s) s.harvestKey = cmbIndexes.SelectedValue).ToList()
-            cmbIndexes.DataSource = _lstHarvestindex
-            cmbIndexes.DisplayMember = "name"
-            cmbIndexes.ValueMember = "harvestKey"
+            _lstHarvestindex = db.HarvestIndexes.AsEnumerable.Where(Function(x) x.harvestKey = cmbIndexes.SelectedValue).ToList()
+            symbol = _lstHarvestindex.FirstOrDefault().product
+
+            Dim contract As IBApi.Contract = New IBApi.Contract()                                                                           ' ESTABLISH A NEW CONTRACT CLASS
+
+            If txtGetPriceSymbol.Text <> "" Then
+                contract.Symbol = txtGetPriceSymbol.Text                                                                                    ' INITIALIZE SYMBOL VALUE FOR THE CONTRACT
+            Else
+                MsgBox("Please enter a symbol.")
+                Exit Sub
+            End If
+
+            contract.SecType = "STK"                                                                                                        ' INITIALIZE THE SECURITY TYPE FOR THE CONTRACT - MOVE TO SETTINGS AT SOME POINT
+            contract.Currency = "USD"                                                                                                       ' INITIALIZE CURRENCY TYPE FOR THE CONTRACT - MOVE TO SETTINGS AT SOME POINT
+            contract.Exchange = "SMART"                                                                                                     ' INITIALIZE EXCHANGE USED FOR THE CONTRACT
+
+            Tws1.reqMarketDataType(3)                                                                                                       ' SETS DATA FEED TO (1) LIVE STREAMING  (2) FROZEN  (3) DELAYED 15 - 20 MINUTES 
+            Tws1.reqMktDataEx(tickId + 1, contract, "", False, Nothing)
+            Tws1.tickCount = 0
+
         End Using
-
-
-
-    End Sub
-
-
-
-
-
-
-
-
-
-    Private Sub cmbIndexes_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbIndexes.SelectedIndexChanged
-        indexselected = cmbIndexes.SelectedValue.ToString()
-
 
 
 
@@ -220,7 +261,7 @@ Friend Class Main
             Using textReader As New System.IO.StreamReader(path & filedate & "\table_" & symbol & ".csv")                                                                               ' TEXT READER READS THE CSV FILE INTO MEMORY
                 csvdata = textReader.ReadToEnd                                                                                                                                          ' LOAD THE ENTIRE FILE INTO THE STRING.
                 backprices = ParseBackData(csvdata)                                                                                                                                     ' CALL THE FUNCTION TO PARSE THE DATA INTO ROWS AND RETURN OPEN MARKET HOURS.                        
-                lblBacktestRecRead.Text = lblBacktestRecRead.Text & " " & backprices.Count                                                                                              ' LABEL INDICATOR SHOWING THAT PROCESSING IS COMPLETE
+                lblBacktestStatus.Text = lblBacktestStatus.Text & " " & backprices.Count                                                                                              ' LABEL INDICATOR SHOWING THAT PROCESSING IS COMPLETE
             End Using
         Catch Ex As Exception
             MessageBox.Show("Cannot read file from disk. Original error: " & Ex.Message)                                                                                                ' IF THERE IS AN ERROR READING THE FILE DISPLAY THE ERROR MESSAGE
@@ -232,6 +273,8 @@ Friend Class Main
 
 
     Private Sub btnReadBacktest_Click(sender As Object, e As EventArgs) Handles btnReadBacktest.Click
+
+        Dim datastring As String = "Backtest Run: " & String.Format("{0:hh:mm:ss.fff tt}", Now.ToLocalTime) & " - "
         Dim csvdata As String = ""                                                                                                                                                      ' STRING TO HOLD THE DATA FROM EACH CSV FILE READ INTO MEMORY
         Dim filedate As String = "20160104"                                                                                                                                             ' STRING TO HOLD THE FILE DATE FOR THE CSV FILE TO BE READ THIS WILL INCREMENT FROM DB
         Dim symbol As String = ""                                                                                                                                                       ' STRING TO HOLD THE SYMBOL OF THE PRODUCT BEING TESTED
@@ -240,11 +283,11 @@ Friend Class Main
         Dim checksum As Double = 0
         Dim opentrigger As Double = 0
 
-        Using _entity As BondiModel = New BondiModel()
-            Dim _lstHarvestindex As List(Of HarvestIndex) = New List(Of HarvestIndex)()
-            _lstHarvestindex = _entity.HarvestIndexes.AsEnumerable.Where(Function(x) x.harvestKey = cmbIndexes.SelectedValue).ToList()
-            symbol = _lstHarvestindex.FirstOrDefault().product
-            opentrigger = _lstHarvestindex.FirstOrDefault().opentrigger
+        Using db As BondiModel = New BondiModel()
+            Dim hi As List(Of HarvestIndex) = New List(Of HarvestIndex)()
+            hi = db.HarvestIndexes.AsEnumerable.Where(Function(x) x.harvestKey = cmbIndexes.SelectedValue).ToList()
+            symbol = hi.FirstOrDefault().product
+            opentrigger = hi.FirstOrDefault().opentrigger
         End Using
         Dim path As String = "C:\Users\Troy Belden\Desktop\stockprices\allstocks_"                                                                                                      ' GENERIC PATH FOR READING THE CSV FILES - WILL NEED TO SET TO USER INPUT FOR PRODUCTION
 
@@ -254,7 +297,7 @@ Friend Class Main
                 backprices = ParseBackData(csvdata)                                                                                                                                     ' CALL THE FUNCTION TO PARSE THE DATA INTO ROWS AND RETURN OPEN MARKET HOURS.                        
                 'Stop
 
-                lstOHLC.Items.Add("Interval" & vbTab & "Time" & vbTab & "Open" & vbTab & "High" & vbTab & "Low" & vbTab & "Close")
+                lstOHLC.Items.Add("Row" & vbTab & "Time" & vbTab & "Open" & vbTab & "High" & vbTab & "Low" & vbTab & "Close")
                 For Each price As backPrice In backprices
 
                     If price.interval = 0 Then
@@ -262,8 +305,6 @@ Friend Class Main
                         priceint = Int(price.OpenPrice)                                                                                                                                 ' RETURN THE INTERVAL OF THE STOCK TICK PRICE
                         checksum = price.OpenPrice - priceint                                                                                                                           ' RETURN THE DECIMALS IN THE STOCK TICK PRICE FOR THE CALCULATIONS
                         currentprice = (Int(checksum / opentrigger) * opentrigger + priceint)                                                                                         ' CALCULATE THE NEAREST MARK PRICE TO SET THE LIMIT ORDER AGAINST                    
-
-                        MsgBox(String.Format("{0:C}", currentprice))
 
                     End If
 
@@ -280,6 +321,10 @@ Friend Class Main
         Finally
 
         End Try
+
+        datastring = datastring & String.Format("{0:hh:mm:ss.fff tt}", Now.ToLocalTime)
+        lblBacktestStatus.Text = datastring
+
     End Sub
 
     Private Sub btnClearList_Click(sender As Object, e As EventArgs) Handles btnClearList.Click
@@ -309,42 +354,73 @@ Friend Class Main
     ' ROBOT CODE USED IN APPLICATION
 
     Private Sub btnWillie_Click(sender As Object, e As EventArgs) Handles btnWillie.Click
+
+        Dim datastring As String = "Willie Initiated: " & String.Format("{0:hh:mm:ss.fff tt}", Now.ToLocalTime) & " - "
         Dim priceint As Double = 0
+        Dim checksum As Double = 0
+        Dim cprice As Double = 0
         Dim Symbol As String = ""
         Dim opentrigger As Double = 0
         Dim contract As IBApi.Contract = New IBApi.Contract()
         Dim order As IBApi.Order = New IBApi.Order()
-        cntr = 1
-        Using _entity As BondiModel = New BondiModel()
-            Dim _lstHarvestindex As List(Of HarvestIndex) = New List(Of HarvestIndex)()
-            _lstHarvestindex = _entity.HarvestIndexes.AsEnumerable.Where(Function(x) x.harvestKey = cmbIndexes.SelectedValue).ToList()
-            contract.Symbol = _lstHarvestindex.FirstOrDefault().product.ToUpper()
-            contract.SecType = _lstHarvestindex.FirstOrDefault().stocksectype.ToUpper()
-            contract.Currency = _lstHarvestindex.FirstOrDefault().currencytype.ToUpper()
-            contract.Exchange = _lstHarvestindex.FirstOrDefault().exchange.ToUpper()
+        Dim userid As Guid
 
-            order.OrderType = _lstHarvestindex.FirstOrDefault().ordertype.ToUpper()
-            order.TotalQuantity = _lstHarvestindex.FirstOrDefault().shares
-            order.Tif = _lstHarvestindex.FirstOrDefault().inforce.ToUpper()
+        connecting = False
+        cntr = 1
+
+        'MsgBox(currentprice)
+
+        'Stop
+
+        Using db As BondiModel = New BondiModel()
+
+
+            ' SECOND CHECK TO SEE IF THERE HAVE BEEN ORDERS SUBMITTED FOR THIS USER AND HARVESTKEY
+            ' BUILD THE CONTRACT AND ORDER IF NEEDED
+            ' THERE IS AN ORDER THAT IS OPEN THERE IS NO NEED TO DO ANYTHING
+            ' WILL NEED TO WORK THROUGH IF THERE HAVE BEEN ORDERS BUT THE POSITION IS FLAT OVERNIGHT
+            ' NEED TO DETERMINE WHAT IS NEEDED TO ADDRESS A GAP UP AND GAP DOWN HERE AS WELL
+
+            Dim ul As List(Of User) = New List(Of User)()                                                                                       ' GET THE USERID OF THE USER TO CHECK FOR ORDERS FOR THIS ID AS WELL AS THE INDEX
+            ul = db.Users.AsEnumerable.Where(Function(u) u.UserName = "boss").ToList()                                                          ' BUILD THE LIST OF USERS BASED ON THIS USERNAME
+            userid = ul.FirstOrDefault().UserId                                                                                                 ' SET THE USERID EQUAL TO THE USERS USERID - CONSIDER DOING THIS IN A PUBLIC VAR AT LOGIN
+
+            Dim so As List(Of stockorder) = New List(Of stockorder)()
+            'so = db.stockorders.AsEnumerable.Where(Function(s) s.userid = userid And  = "boss").ToList()                                       ' BUILD THE LIST OF USERS BASED ON THIS USERNAME
+            so = db.stockorders.AsEnumerable.Where(Function(s) s.roboIndex = cmbIndexes.SelectedValue).ToList()                                 ' BUILD THE LIST OF USERS BASED ON THIS USERNAME
+
+            If so.Count = 0 Then                                                                                                                ' INDICATES THAT THIS IS THE FIRST ORDER CALC OPEN PRICE AND SEND FIRST BUY TO OPEN ORDER
+
+                Dim hi As List(Of HarvestIndex) = New List(Of HarvestIndex)()
+                hi = db.HarvestIndexes.AsEnumerable.Where(Function(x) x.harvestKey = cmbIndexes.SelectedValue).ToList()
+
+                priceint = Int(currentprice)                                                                                                                                 ' RETURN THE INTERVAL OF THE STOCK TICK PRICE
+                checksum = currentprice - priceint                                                                                                                           ' RETURN THE DECIMALS IN THE STOCK TICK PRICE FOR THE CALCULATIONS
+                cprice = (Int(checksum / hi.FirstOrDefault.opentrigger) * hi.FirstOrDefault.opentrigger + priceint)
+
+                contract.Symbol = hi.FirstOrDefault().product.ToUpper()
+                contract.SecType = hi.FirstOrDefault().stocksectype.ToUpper()
+                contract.Currency = hi.FirstOrDefault().currencytype.ToUpper()
+                contract.Exchange = hi.FirstOrDefault().exchange.ToUpper()
+
+                order.OrderType = hi.FirstOrDefault().ordertype.ToUpper()
+                order.TotalQuantity = hi.FirstOrDefault().shares
+                order.Tif = hi.FirstOrDefault().inforce.ToUpper()
+
+
+
+                order.OrderId = currentorderid
+                order.Action = "BUY"
+                order.LmtPrice = cprice
+
+                Call Tws1.placeOrderEx(order.OrderId, contract, order)
+
+            End If
 
         End Using
 
-        Dim datastring As String = ""                                                                                                         ' SETS THE INITIAL DATASTRING VALUE - REWRITTEN WHEN THE CODE EXECUTES
-
-        order.OrderId = currentorderid
-        order.Action = "BUY"
-        order.LmtPrice = txtOpeningPrice.Text
-
-        Call Tws1.placeOrderEx(order.OrderId, contract, order)
-
-
-        ' CODE TO SAVE THIS FIRST ORDER TO THE DATABASE GOES HERE.
-
-
-
-        datastring = DateTime.Parse(Now()).ToShortTimeString() & " Order Id:" & order.OrderId & " Symbol: " & contract.Symbol & " Total Shares: " & order.TotalQuantity & " Price: " & order.LmtPrice '& " Order Status:" & Tws1.Status
-
-        lbldatastring.Text = datastring
+        datastring = datastring & String.Format("{0:hh:mm:ss.fff tt}", Now.ToLocalTime)
+        lblConStatus.Text = datastring
 
     End Sub
 
@@ -488,10 +564,8 @@ Friend Class Main
     End Sub
 
     Private Sub Tws1_nextValidId(ByVal eventSender As System.Object, ByVal eventArgs As _DTwsEvents_nextValidIdEvent) Handles Tws1.OnNextValidId
+
         currentorderid = eventArgs.Id
-
-
-
         'm_dlgOrder.orderId = eventArgs.Id 'Set Order Id Here
 
     End Sub
@@ -510,32 +584,104 @@ Friend Class Main
         ' ADD CODE HERE TO WRITE ORDER STATUS TO DATABASE OPENED AND FILLED.
         Select Case eventArgs.status.ToLower()
             Case "submitted"
-                MsgBox(msg)
+                'MsgBox(msg)
             Case "presubmitted"
-                MsgBox(msg)
+                ' Presubmitted occurs when an order exists or is sent when the market is not open.
+                ' Initial orders that have a presubmitted status will be saved in the database with this status.
+                If cntr = 1 Then
+                    Using db As BondiModel = New BondiModel()                                                                      ' DATABASE MODEL USING ENTITY FRAMEWORK
+                        Dim ordersexist = (From q In db.stockorders Where q.OrderId = eventArgs.orderId Select q)
+                        'Stop
+                        If ordersexist.Count > 0 Then
+                            'MsgBox("Order Exists")
+                            'Stop
+                        Else
+                            'MsgBox("Order does not Exist")
+                            msg = msg & " Order Added to db."
+                            Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, msg)
+                        End If
+
+                    End Using
+
+                    cntr = cntr + 1
+                End If
+
             Case "filled"
                 If cntr = 1 Then
-                    MsgBox(msg)
+                    ' MsgBox(msg)
                     cntr = cntr + 1
                 End If
             Case "cancelled"
-                MsgBox(msg)
+                ' Use Cancelled to build the FILLED status mode start with BUY TO OPEN filled.
+                ' 1. Get the db record for the filled order to update it.
+                Dim contract As IBApi.Contract = New IBApi.Contract()
+                Dim order As IBApi.Order = New IBApi.Order()
+
+                Using db As BondiModel = New BondiModel()                                                                      ' DATABASE MODEL USING ENTITY FRAMEWORK
+
+                    Dim ordersexist = (From q In db.stockorders Where q.PermID = eventArgs.permId Select q)
+
+                    If ordersexist.Count > 0 Then
+                        'Simulate BUY TO OPEN order filled.  
+                        ' Update the database record.
+
+
+
+                        Dim ou = (From q In db.stockorders Where q.PermID = eventArgs.permId Select q).FirstOrDefault()
+
+                        If ou.Action = "BUY" Then
+
+
+                            ou.OrderStatus = "Filled"   ' eventArgs.status
+                            ou.Status = "Closed"
+                            ou.TickPrice = 49.5         'eventArgs.lastFillPrice
+                            db.SaveChanges()
+
+                            Dim hi As List(Of HarvestIndex) = New List(Of HarvestIndex)()
+                            hi = db.HarvestIndexes.AsEnumerable.Where(Function(x) x.harvestKey = ou.roboIndex).ToList()
+
+                            contract.Symbol = hi.FirstOrDefault().product.ToUpper()
+                            contract.SecType = hi.FirstOrDefault().stocksectype.ToUpper()
+                            contract.Currency = hi.FirstOrDefault().currencytype.ToUpper()
+                            contract.Exchange = hi.FirstOrDefault().exchange.ToUpper()
+
+                            order.OrderType = hi.FirstOrDefault().ordertype.ToUpper()
+                            order.TotalQuantity = hi.FirstOrDefault().shares
+                            order.Tif = hi.FirstOrDefault().inforce.ToUpper()
+
+                            order.OrderId = currentorderid + 1
+                            order.Action = "BUY"
+                            order.LmtPrice = ou.LimitPrice - hi.FirstOrDefault().width
+
+                            RobotOn = True
+
+                            Call Tws1.placeOrderEx(order.OrderId, contract, order)
+
+                            order.OrderId = order.OrderId + 1
+                            order.Action = "SELL"
+                            order.LmtPrice = ou.LimitPrice + hi.FirstOrDefault().width
+
+                            Call Tws1.placeOrderEx(order.OrderId, contract, order)
+
+
+
+                        ElseIf ou.Action = "SELL" Then
+                            Stop
+
+                        End If
+
+
+
+
+
+
+
+
+                    End If
+                End Using
+
+                'Stop
         End Select
-
-
-        'If eventArgs.status = "Submitted" Then
-        '    MsgBox(msg)
-        'End If
-
-        'If eventArgs.status = "Filled" Then
-        '    If cntr = 1 Then
-        '        MsgBox(msg)
-        '        cntr = cntr + 1
-        '    End If
-
-        'End If
-
-        Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, msg)
 
         ' move into view
         lstServerResponses.TopIndex = lstServerResponses.Items.Count - 1
@@ -566,7 +712,7 @@ Friend Class Main
 
         ordermsg = "Order Details: Id: " & order.OrderId & " Client Id: " & order.ClientId & " PermId: " & order.PermId & " Action: " & order.Action &
             " Qty: " & order.TotalQuantity & " Type: " & order.OrderType & " Price: " & String.Format("{0:C}", order.LmtPrice) &
-            " Tif: " & order.Tif 
+            " Tif: " & order.Tif
 
         Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, ordermsg)
 
@@ -794,6 +940,69 @@ Friend Class Main
 
         Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, orderstatemsg)
 
+        If connecting = False Then
+
+            ' FIRST ORDER ADD SHOULD GO HERE.
+            Using db As BondiModel = New BondiModel()                                                                      ' DATABASE MODEL USING ENTITY FRAMEWORK
+                ' ADD USERID SEARCH TO THIS AS WELL TO REFINE THE SEARCH. 
+                ' CHECK WITH MIHIR ON HOW TO UPDATE THE BONDIMODEL 
+
+                Dim ordersexist = (From q In db.stockorders Where q.roboIndex = indexselected Select q) 'eventArgs.orderId Select q)
+
+                If ordersexist.Count = 0 Then
+
+                    Dim newStockOrder As New stockorder                                                                                                                                     ' OPEN NEW STRUCTURE FOR RECORD IN STOCK PRODUCTION TABLE.
+                    'TryUpdateModel(newStockOrder)                                                                                                                                           ' TEST CONNECTION TO DATABASE TABLES.
+                    Dim newindex As New stockorder With {
+                                                            .timestamp = DateTime.Parse(Now).ToUniversalTime(),
+                                                            .OrderId = order.OrderId,
+                                                            .PermID = order.PermId,
+                                                            .Symbol = contract.Symbol.ToUpper(),
+                                                            .Action = order.Action,
+                                                            .TickPrice = currentprice,
+                                                            .LimitPrice = order.LmtPrice,
+                                                            .Status = orderState.Status,
+                                                            .Quantity = order.TotalQuantity,
+                                                            .OrderStatus = "Open",
+                                                            .roboIndex = indexselected,
+                                                            .matchID = order.OrderId,
+                                                            .OrderTimestamp = DateTime.Parse(Now).ToUniversalTime()
+                                                        }                                                                                                                               ' OPEN THE NEW RECORD (BOUGHT POSITION) IN THE TABLE.
+
+                    db.stockorders.Add(newindex)                                                                                                                                 ' INSERT THE NEW RECORD TO BE ADDED.
+                    db.SaveChanges()
+
+                End If
+
+                If RobotOn = True Then
+
+                    Dim newStockOrder As New stockorder                                                                                                                                     ' OPEN NEW STRUCTURE FOR RECORD IN STOCK PRODUCTION TABLE.
+                    'TryUpdateModel(newStockOrder)                                                                                                                                           ' TEST CONNECTION TO DATABASE TABLES.
+                    Dim newindex As New stockorder With {
+                                                            .timestamp = DateTime.Parse(Now).ToUniversalTime(),
+                                                            .OrderId = order.OrderId,
+                                                            .PermID = order.PermId,
+                                                            .Symbol = contract.Symbol.ToUpper(),
+                                                            .Action = order.Action,
+                                                            .TickPrice = currentprice,
+                                                            .LimitPrice = order.LmtPrice,
+                                                            .Status = orderState.Status,
+                                                            .Quantity = order.TotalQuantity,
+                                                            .OrderStatus = "Open",
+                                                            .roboIndex = indexselected,
+                                                            .matchID = order.OrderId,
+                                                            .OrderTimestamp = DateTime.Parse(Now).ToUniversalTime()
+                                                        }                                                                                                                               ' OPEN THE NEW RECORD (BOUGHT POSITION) IN THE TABLE.
+
+                    db.stockorders.Add(newindex)                                                                                                                                 ' INSERT THE NEW RECORD TO BE ADDED.
+                    db.SaveChanges()
+
+
+                End If
+
+            End Using
+        End If
+
         'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "OrderState:")
         'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  status=" & orderState.Status)
         'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  initMargin=" & orderState.InitMargin)
@@ -809,38 +1018,58 @@ Friend Class Main
 
     End Sub
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     Public WithEvents Tws1 As Tws
 
 
 
 
 
+
+    Function gettickprice(ByVal eventSender As System.Object, ByVal eventArgs As AxTWSLib._DTwsEvents_tickPriceEvent) As Double
+
+        MsgBox(eventArgs.price)
+        If eventArgs.tickCount = 1 Then
+            'Call m_utils.addListItem(Utils.List_Types.MKT_DATA, mktDataStr)
+            currentprice = eventArgs.price
+        End If
+
+        Return currentprice
+    End Function
+
+
     ' MIHIR - 04/06/18 SPRINT IS TO GET A SINGLE TICK PRICE WHEN btn
 
     Private Sub Tws1_tickPrice(ByVal eventSender As System.Object, ByVal eventArgs As AxTWSLib._DTwsEvents_tickPriceEvent) Handles Tws1.OnTickPrice
+
         Dim mktDataStr As String
+        mktDataStr = "Tick Type: " & eventArgs.tickType & " Current Price: " & String.Format("{0:C}", eventArgs.price)
 
-        mktDataStr = "id=" & eventArgs.id & " =" & eventArgs.price
-
-        'MsgBox("id=" & eventArgs.id & " VXX" & m_utils.getField(eventArgs.tickType) & "=" & eventArgs.price)
-        'If (eventArgs.canAutoExecute <> 0) Then
-        '    mktDataStr = mktDataStr & " canAutoExecute"
-        'Else
-        '    mktDataStr = mktDataStr & " noAutoExecute"
-        'End If
         If eventArgs.tickCount = 1 Then
-            Call m_utils.addListItem(Utils.List_Types.MKT_DATA, mktDataStr)
+            Call m_utils.addListItem(Utils.List_Types.MKT_DATA, mktDataStr)                                                             ' WRITES THE CURRENT PRICE TO THE LISTBOX
+            currentprice = eventArgs.price
+
         End If
-        Exit Sub
-        ' move into view
-        'lstMktData.TopIndex = lstMktData.Items.Count - 1
+
     End Sub
 
     ' MIHIR THIS IS THE GET TICKPRICE BUTTON THAT SHOULD INITIATE GETTING A SINGLE TICKPRICE FOR THE SYMBOL SELECTED
-    Dim tickId As Integer = 0
+
     Private Sub btnGetPrice_Click(sender As Object, e As EventArgs) Handles btnGetPrice.Click
 
-        Dim currentprice As Double = 0                                                                                                  ' VALUE RETURNED FROM THIS FUNCTION BEING CALLED
         Dim contract As IBApi.Contract = New IBApi.Contract()                                                                           ' ESTABLISH A NEW CONTRACT CLASS
 
         If txtGetPriceSymbol.Text <> "" Then
@@ -854,12 +1083,11 @@ Friend Class Main
         contract.Currency = "USD"                                                                                                       ' INITIALIZE CURRENCY TYPE FOR THE CONTRACT - MOVE TO SETTINGS AT SOME POINT
         contract.Exchange = "SMART"                                                                                                     ' INITIALIZE EXCHANGE USED FOR THE CONTRACT
 
-
         Tws1.reqMarketDataType(3)                                                                                                       ' SETS DATA FEED TO (1) LIVE STREAMING  (2) FROZEN  (3) DELAYED 15 - 20 MINUTES 
         Tws1.reqMktDataEx(tickId + 1, contract, "", False, Nothing)
         Tws1.tickCount = 0
-        currentprice = Tws1.StockTickPrice                                                                                             ' SET CURRENT PRICE TO STOCKTICKPRICE TO BE PASSED TO CALLING FUNCTION
-        'Stop
+        'currentprice = Tws1_tickPrice()                                                                                             ' SET CURRENT PRICE TO STOCKTICKPRICE TO BE PASSED TO CALLING FUNCTION
+
 
     End Sub
 
@@ -1028,6 +1256,14 @@ Friend Class Main
 
         Return backprices                                                                                                                                                               ' RETURN TO CALLING FUNCTION WITH BACKPRICES MODEL POPULATED
     End Function
+
+    Private Sub btnckprice_Click(sender As Object, e As EventArgs) Handles btnckprice.Click
+        MsgBox(currentprice.ToString())
+    End Sub
+
+    Private Sub bntlistclear_Click(sender As Object, e As EventArgs) Handles bntlistclear.Click
+        lstServerResponses.Items.Clear()
+    End Sub
 
     ' FUNCTION NOT USED AS OF 4.3.18
     Function getdatetime(ByVal marketdate As String, ByVal markettime As String) As String
