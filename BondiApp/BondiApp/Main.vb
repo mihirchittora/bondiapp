@@ -28,7 +28,7 @@ Friend Class Main
     Public backprices As List(Of backPrice)                                                                                                     ' CLASS DEFINITION TO HOUSE                         
     Public orderdetails As List(Of OrderDetail)
     Public fileNameRead As String
-    Public currentorderid As Integer = 0                                                                                                        ' PUBLIC VARIABLE TO HOLD CURRENTORDERID - TO BE USED TO SET THE NEXTVALIDID FOR ORDERS
+    Public nextValidOrderId As Integer = 0                                                                                                        ' PUBLIC VARIABLE TO HOLD CURRENTORDERID - TO BE USED TO SET THE NEXTVALIDID FOR ORDERS
     Public PriceTest As Double = 0
     Public currentprice As Double = 0                                                                                                              ' VALUE RETURNED FROM THIS FUNCTION BEING CALLED
     Public cntr As Integer = 1
@@ -111,7 +111,7 @@ Friend Class Main
 
     Private Sub btnReqNextValidId_Click(sender As Object, e As EventArgs) Handles btnReqNextValidId.Click
 
-        Dim datastring = "Next Valid Order Id: " & currentorderid & "  " & String.Format("{0:hh:mm:ss.fff tt}", Now.ToLocalTime) & " - "
+        Dim datastring = "Next Valid Order Id: " & nextValidOrderId & "  " & String.Format("{0:hh:mm:ss.fff tt}", Now.ToLocalTime) & " - "
         datastring = datastring & String.Format("{0:hh:mm:ss.fff tt}", Now.ToLocalTime)
         lblConStatus.Text = datastring
 
@@ -163,7 +163,7 @@ Friend Class Main
         contract.Exchange = "SMART"
 
 
-        Order.OrderId = txtOrderId.Text
+        order.OrderId = txtOrderId.Text
 
         order.Action = txtAction.Text.ToUpper()
         order.OrderType = txtType.Text.ToUpper()
@@ -409,7 +409,7 @@ Friend Class Main
 
 
 
-                order.OrderId = currentorderid
+                order.OrderId = nextValidOrderId
                 order.Action = "BUY"
                 order.LmtPrice = cprice
 
@@ -565,7 +565,7 @@ Friend Class Main
 
     Private Sub Tws1_nextValidId(ByVal eventSender As System.Object, ByVal eventArgs As _DTwsEvents_nextValidIdEvent) Handles Tws1.OnNextValidId
 
-        currentorderid = eventArgs.Id
+        nextValidOrderId = eventArgs.Id
         'm_dlgOrder.orderId = eventArgs.Id 'Set Order Id Here
 
     End Sub
@@ -649,7 +649,7 @@ Friend Class Main
                             order.TotalQuantity = hi.FirstOrDefault().shares
                             order.Tif = hi.FirstOrDefault().inforce.ToUpper()
 
-                            order.OrderId = currentorderid + 1
+                            order.OrderId = nextValidOrderId
                             order.Action = "BUY"
                             order.LmtPrice = ou.LimitPrice - hi.FirstOrDefault().width
 
@@ -657,7 +657,7 @@ Friend Class Main
 
                             Call Tws1.placeOrderEx(order.OrderId, contract, order)
 
-                            order.OrderId = order.OrderId + 1
+                            order.OrderId = nextValidOrderId
                             order.Action = "SELL"
                             order.LmtPrice = ou.LimitPrice + hi.FirstOrDefault().width
 

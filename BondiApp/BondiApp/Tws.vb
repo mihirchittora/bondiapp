@@ -51,6 +51,7 @@ Friend Class Tws
 
     Sub placeOrderEx(p1 As Integer, m_contractInfo As IBApi.Contract, m_orderInfo As IBApi.Order)
         socket.placeOrder(p1, m_contractInfo, m_orderInfo)
+        nextValidId(m_orderInfo.OrderId + 1)
     End Sub
 
     Sub cancelOrder(p1 As Integer)
