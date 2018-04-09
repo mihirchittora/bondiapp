@@ -1,0 +1,13 @@
+﻿We will use this document for sprints so it is contained within the project.
+
+04.10.18 Sprint:   
+1.	Modify the Entity Model so that we can make edits without having to do it via bash or shell commands.
+2.	Need help with polling the tickprice when a buy order only is placed.  What could happen is we have a BUY TO OPEN order placed at say $49.50.
+	poll the tick price to determine if the stock is running up.  If it is we need to know pnce it crosses the opening price plus the index.width 
+	in this case it would be $0.25 or $49.75.  Once that occurs we need to modify the BUY TO OPEN order up by the index.width (twenty-five cents).
+	This action would trail the run up until such time as that BUY TO OPEN order is filled.
+3.	Need help thinking through the logic of a gap down or gap up and determine if the code handles that.  If there is a gap up we should fill 
+	any SELL TO CLOSE orders whereby the opening Gap Up in price would be above.  If the stock gaps down we would have the existing BUY TO OPEN 
+	order filled but not anything new opened lower than that.  NOTE: This happens at the market open for 99.9% of the time.
+
+Targeted Spring Completion:  Wednesday April 12, 2018.

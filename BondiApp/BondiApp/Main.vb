@@ -183,7 +183,7 @@ Friend Class Main
     End Sub
 
     ' Use this one to test db connections and get data
-    Private Sub btnGetData_Click(sender As Object, e As EventArgs) Handles btnGetData.Click
+    Private Sub btnGetData_Click(sender As Object, e As EventArgs)
         Dim symbol As String = ""
         Using db As BondiModel = New BondiModel()
             'Dim _lstHarvestindex As List(Of HarvestIndex) = New List(Of HarvestIndex)()
@@ -619,7 +619,102 @@ Friend Class Main
 
             Case "filled"
                 If cntr = 1 Then
-                    ' MsgBox(msg)
+
+                    ' MOVE THIS CODE TO FILLED ORDERS FOR TESTING WHEN MARKET IS OPEN 4.09.18
+
+                    Dim contract As IBApi.Contract = New IBApi.Contract()                                                               ' INTIIATE THE CONTRACT VARIABLE CLASS TO HANDLE CONTRACT DATA
+                    Dim order As IBApi.Order = New IBApi.Order()                                                                        ' INITIATE THE ORDER VARIABLE CLASS TO HANDLE ORDER DATA
+
+                    Using db As BondiModel = New BondiModel()                                                                           ' DATABASE MODEL USING ENTITY FRAMEWORK
+
+                        Dim ordersexist = (From q In db.stockorders Where q.PermID = eventArgs.permId Select q)                         ' QUERY TO SEE IF THERE IS AN ORDER THAT ALREADY EXISTS
+
+                        If ordersexist.Count > 0 Then                                                                                   ' IF THE ORDER FOR THIS PERMID EXISTS
+                            'Simulate BUY TO OPEN order filled.  
+                            ' Update the database record.
+
+                            Dim ou = (From q In db.stockorders Where q.PermID = eventArgs.permId Select q).FirstOrDefault()             ' GET RECORD FROM THE DATABASE SO IT CAN BE UPDATED
+
+                            If ou.Action = "BUY" Then                                                                                   ' IF THE ACTION IS SET TO BUY THEN PROCESS THE BUY TO OPEN FILLED STEPS
+
+                                matchid = ou.matchID                                                                                    ' SET THE MATCHID FOR THE SELL TO CLOSE ORDER TO MATCH THE BUY TO OPEN ORDER
+                                ou.OrderStatus = "Filled"   ' eventArgs.status                                                          ' SET THE ORDERSTATUS OF THE RECORD TO THE EVENT STATUS RESULT
+                                ou.Status = "Closed"                                                                                    ' SET THE STATUS OF THE RECORD TO CLOSED
+                                ou.TickPrice = 49.5         'eventArgs.lastFillPrice                                                    ' SET THE TICK PRICE TO THE FILLED PRICE TO CAPTURE THE PRICE THE ORDER WAS FILLED AT
+                                db.SaveChanges()                                                                                        ' SAVE THE CHANGES TO THE DATABASE
+
+                                Dim hi As List(Of HarvestIndex) = New List(Of HarvestIndex)()                                           ' INITIALIZE THE HARVEST INDEX LIST TO BE USED TO GET THE INDEX RECORD
+                                hi = db.HarvestIndexes.AsEnumerable.Where(Function(x) x.harvestKey = ou.roboIndex).ToList()             ' PULL THE HARVEST INDEX RECORD TO GET THE CONTRACT AND ORDER PARAMETERS
+
+                                contract.Symbol = hi.FirstOrDefault().product.ToUpper()                                                 ' SET THE SYMBOL FOR THE CONTRACT TO THE INDEX SYMBOL 
+                                contract.SecType = hi.FirstOrDefault().stocksectype.ToUpper()                                           ' SET THE SECURITY TYPE FOR THE CONTRACT TO THE INDEX SECURITY TYPE
+                                contract.Currency = hi.FirstOrDefault().currencytype.ToUpper()                                          ' SET THE CURRENCY TYPE FOR THE CONTRACT TO THE INDEX CURRENCY TYPE
+                                contract.Exchange = hi.FirstOrDefault().exchange.ToUpper()                                              ' SET THE EXCHANGE FOR THE CONTRACT TO THE INDEX EXCHANGE 
+
+                                order.OrderType = hi.FirstOrDefault().ordertype.ToUpper()                                               ' SET THE ORDER TYPE FOR THE ORDER TO THE INDEX ORDER TYPE (lmt OR mkt)
+                                order.TotalQuantity = hi.FirstOrDefault().shares                                                        ' SET THE NUMBER OF SHARES FOR THE ORDER TO THE INDEX NUMBER OF SHARES 
+                                order.Tif = hi.FirstOrDefault().inforce.ToUpper()                                                       ' SET THE TRADE IN FORCE FOR THE ORDER TO THE INDEX TRADE IN FORCE (day OR gtc)
+
+                                order.OrderId = nextValidOrderId                                                                        ' SET THE ORDER ID OF THE ORDER TO THE NEXT VALID ID NUMBER
+                                order.Action = "SELL"                                                                                   ' SET THE ACTION OF THE ORDER TO SELL
+                                order.LmtPrice = ou.LimitPrice + hi.FirstOrDefault().width                                              ' SET THE LIMIT PRICE OF THE ORDER TO THE LIMIT PRICE OF THE RECORD PLUS THE WIDTH VALUE IN THE INDEX
+
+                                RobotOn = True                                                                                          ' FLAG TO INDICATE THAT THE ROBOT IS ON - HANDLED DURING ORDER PLACEMENT
+                                UpdateBuy = False                                                                                       ' FLAG TO INDICATE THAT THE BUY ORDER IS NOT NEEDED TO BE UPDATED (stc order was not filled)
+
+                                Call Tws1.placeOrderEx(order.OrderId, contract, order)                                                  ' CALL THE PLACEORDER FUNCTION TO SEND THE ORDER CREATED TO TWS
+
+                                ' AFTER THE SELL ORDER WAS SENT TO COMPLETE THE ROUND TRIP 
+                                ' OF THE FILLED BUY TO OPEN ORDER SEND ANOTHER BUY TO OPEN ORDER
+
+                                order.OrderId = nextValidOrderId                                                                        ' SET THE ORDER ID OF THE ORDER TO THE NEXT AVAILABLE ORDER ID
+                                order.Action = "BUY"                                                                                    ' SET THE ACTION OF THE ORDER TO BUY
+                                order.LmtPrice = ou.LimitPrice - hi.FirstOrDefault().width                                              ' SET THE LIMIT PRICE OF THE ORDER TO THE LIMIT PRICE OF THE RECORD MINUS THE WIDTH VALUE IN THE INDEX
+
+                                Call Tws1.placeOrderEx(order.OrderId, contract, order)                                                  ' CALL THE PLACEORDER FUNCTION TO SEND THE ORDER CREATED TO TWS
+
+                            ElseIf ou.Action = "SELL" Then                                                                              ' IF THE ACTION IS SET TO SELL THEN PROCESS THE SELL TO CLOSE FILLED STEPS
+
+                                ' When the SELL TO CLOSE order is filled modify the BUY TO OPEN below it raising it up one width.
+
+                                ' EDIT CODE WHEN IT IS MOVED TO FILLED STATUS - TEST TO MAKE SURE THAT IT WORKS WITH WHAT IS EXPECTED AS AN OUTCOME
+
+                                ou.OrderStatus = "Filled"   ' eventArgs.status                                                          ' SET ORDER STATUS OF THE RECORD TO UPDATE TO EVENTARGS STATUS
+                                ou.Status = "Closed"                                                                                    ' SET STATUS OF THE RECORD TO UPDATE TO CLOSED
+                                ou.TickPrice = 49.75         'eventArgs.lastFillPrice                                                   ' SET THE TICKPRICE OF THE RECORD TO UPDATE TO THE LASTFILLPRICE 
+                                ou.timestamp = DateTime.Parse(Now).ToUniversalTime()                                                    ' SET THE TIMESTAMP OF THE RECORD TO UPDATE TO THE CURRENT DATE AND TIME
+                                db.SaveChanges()                                                                                        ' SAVE THE CHANGES TO THE DATABASE
+
+                                Dim hi As List(Of HarvestIndex) = New List(Of HarvestIndex)()                                           ' INITIALIZE THE HARVEST INDEX LIST TO BE USED TO GET THE INDEX RECORD
+                                hi = db.HarvestIndexes.AsEnumerable.Where(Function(x) x.harvestKey = ou.roboIndex).ToList()             ' PULL THE HARVEST INDEX RECORD TO GET THE CONTRACT AND ORDER PARAMETERS
+
+                                Dim sl As List(Of stockorder) = New List(Of stockorder)()                                               ' INITIALIZE THE STOCKORDER LIST TO BE USED TO GET THE STOCK ORDER RECORD TO UPDATE
+                                sl = db.stockorders.AsEnumerable.Where(Function(s) s.LimitPrice =
+                                (ou.LimitPrice - (hi.FirstOrDefault().width * 2)) And s.OrderStatus = "Open").ToList()              ' PULL THE STOCKORDER RECORD STRANDED BUY TO OPEN ORDER BASED ON LIMITPRICE AND OPEN STATUS
+
+                                contract.Symbol = sl.FirstOrDefault().Symbol.ToUpper()                                                  ' SET THE CONTRACT SYMBOL TO THE STOCK ORDER UPDATED SYMBOL
+                                contract.SecType = hi.FirstOrDefault().stocksectype.ToUpper()                                           ' SET THE CONTRACT SECURITY TYPE TO THE INDEX STOCK SECURITY TYPE
+                                contract.Currency = hi.FirstOrDefault().currencytype.ToUpper()                                          ' SET THE CONTRACT CURRENCY TYPE TO THE INDEX CURRENCY TYPE
+                                contract.Exchange = hi.FirstOrDefault().exchange.ToUpper()                                              ' SET THE CONTRACT EXCHANGE TYPE TO THE INDEX EXCHANGE TYPE
+
+                                order.OrderType = hi.FirstOrDefault().ordertype.ToUpper()                                               ' SET THE ORDER ORDER TYPE TO THE INDEX ORDER TYPE (lmt OR mkt)
+                                order.TotalQuantity = hi.FirstOrDefault().shares                                                        ' SET THE ORDER NUMBER OF SHARES TO THE INDEX NUMBER OF SHARES - CONSIDER SETTING TO THE UPDATED ORDER SHARES VALUE
+                                order.Tif = hi.FirstOrDefault().inforce.ToUpper()                                                       ' SET THE ORDER TRADE IN FORCE TO THE INDEX TRADE IN FORCE (day OR gtc)
+
+                                order.OrderId = sl.FirstOrDefault().OrderId                                                             ' SET THE ORDER ORDER ID TO THE UPDATED RECORD ORDER ID
+                                order.Action = "BUY"                                                                                    ' SET THE ORDER ACTION TO BUY
+                                order.LmtPrice = sl.FirstOrDefault().LimitPrice + hi.FirstOrDefault().width                             ' SET THE ORDER LIMIT PRICE TO THE UPDATED RECORD LIMIT PRICE PLUS THE INDEX WIDTH VALUE
+
+                                RobotOn = True                                                                                          ' FLAG TO INDICATE THAT THE ROBOT IS ON - HANDLED DURING ORDER PLACEMENT
+                                UpdateBuy = True                                                                                       ' FLAG TO INDICATE THAT THE BUY ORDER IS NOT NEEDED TO BE UPDATED (stc order was not filled)
+
+                                Call Tws1.placeOrderEx(order.OrderId, contract, order)                                                  ' CALL THE PLACEORDER FUNCTION TO SEND THE ORDER CREATED TO TWS
+
+                            End If
+
+                        End If
+                    End Using
+
                     cntr = cntr + 1
                 End If
 
@@ -628,100 +723,7 @@ Friend Class Main
                 ' Use Cancelled to build the FILLED status mode start with BUY TO OPEN filled.
                 ' 1. Get the db record for the filled order to update it.
 
-                ' MOVE THIS CODE TO FILLED ORDERS FOR TESTING WHEN MARKET IS OPEN 4.09.18
 
-                Dim contract As IBApi.Contract = New IBApi.Contract()                                                               ' INTIIATE THE CONTRACT VARIABLE CLASS TO HANDLE CONTRACT DATA
-                Dim order As IBApi.Order = New IBApi.Order()                                                                        ' INITIATE THE ORDER VARIABLE CLASS TO HANDLE ORDER DATA
-
-                Using db As BondiModel = New BondiModel()                                                                           ' DATABASE MODEL USING ENTITY FRAMEWORK
-
-                    Dim ordersexist = (From q In db.stockorders Where q.PermID = eventArgs.permId Select q)                         ' QUERY TO SEE IF THERE IS AN ORDER THAT ALREADY EXISTS
-
-                    If ordersexist.Count > 0 Then                                                                                   ' IF THE ORDER FOR THIS PERMID EXISTS
-                        'Simulate BUY TO OPEN order filled.  
-                        ' Update the database record.
-
-                        Dim ou = (From q In db.stockorders Where q.PermID = eventArgs.permId Select q).FirstOrDefault()             ' GET RECORD FROM THE DATABASE SO IT CAN BE UPDATED
-
-                        If ou.Action = "BUY" Then                                                                                   ' IF THE ACTION IS SET TO BUY THEN PROCESS THE BUY TO OPEN FILLED STEPS
-
-                            matchid = ou.matchID                                                                                    ' SET THE MATCHID FOR THE SELL TO CLOSE ORDER TO MATCH THE BUY TO OPEN ORDER
-                            ou.OrderStatus = "Filled"   ' eventArgs.status                                                          ' SET THE ORDERSTATUS OF THE RECORD TO THE EVENT STATUS RESULT
-                            ou.Status = "Closed"                                                                                    ' SET THE STATUS OF THE RECORD TO CLOSED
-                            ou.TickPrice = 49.5         'eventArgs.lastFillPrice                                                    ' SET THE TICK PRICE TO THE FILLED PRICE TO CAPTURE THE PRICE THE ORDER WAS FILLED AT
-                            db.SaveChanges()                                                                                        ' SAVE THE CHANGES TO THE DATABASE
-
-                            Dim hi As List(Of HarvestIndex) = New List(Of HarvestIndex)()                                           ' INITIALIZE THE HARVEST INDEX LIST TO BE USED TO GET THE INDEX RECORD
-                            hi = db.HarvestIndexes.AsEnumerable.Where(Function(x) x.harvestKey = ou.roboIndex).ToList()             ' PULL THE HARVEST INDEX RECORD TO GET THE CONTRACT AND ORDER PARAMETERS
-
-                            contract.Symbol = hi.FirstOrDefault().product.ToUpper()                                                 ' SET THE SYMBOL FOR THE CONTRACT TO THE INDEX SYMBOL 
-                            contract.SecType = hi.FirstOrDefault().stocksectype.ToUpper()                                           ' SET THE SECURITY TYPE FOR THE CONTRACT TO THE INDEX SECURITY TYPE
-                            contract.Currency = hi.FirstOrDefault().currencytype.ToUpper()                                          ' SET THE CURRENCY TYPE FOR THE CONTRACT TO THE INDEX CURRENCY TYPE
-                            contract.Exchange = hi.FirstOrDefault().exchange.ToUpper()                                              ' SET THE EXCHANGE FOR THE CONTRACT TO THE INDEX EXCHANGE 
-
-                            order.OrderType = hi.FirstOrDefault().ordertype.ToUpper()                                               ' SET THE ORDER TYPE FOR THE ORDER TO THE INDEX ORDER TYPE (lmt OR mkt)
-                            order.TotalQuantity = hi.FirstOrDefault().shares                                                        ' SET THE NUMBER OF SHARES FOR THE ORDER TO THE INDEX NUMBER OF SHARES 
-                            order.Tif = hi.FirstOrDefault().inforce.ToUpper()                                                       ' SET THE TRADE IN FORCE FOR THE ORDER TO THE INDEX TRADE IN FORCE (day OR gtc)
-
-                            order.OrderId = nextValidOrderId                                                                        ' SET THE ORDER ID OF THE ORDER TO THE NEXT VALID ID NUMBER
-                            order.Action = "SELL"                                                                                   ' SET THE ACTION OF THE ORDER TO SELL
-                            order.LmtPrice = ou.LimitPrice + hi.FirstOrDefault().width                                              ' SET THE LIMIT PRICE OF THE ORDER TO THE LIMIT PRICE OF THE RECORD PLUS THE WIDTH VALUE IN THE INDEX
-
-                            RobotOn = True                                                                                          ' FLAG TO INDICATE THAT THE ROBOT IS ON - HANDLED DURING ORDER PLACEMENT
-                            UpdateBuy = False                                                                                       ' FLAG TO INDICATE THAT THE BUY ORDER IS NOT NEEDED TO BE UPDATED (stc order was not filled)
-
-                            Call Tws1.placeOrderEx(order.OrderId, contract, order)                                                  ' CALL THE PLACEORDER FUNCTION TO SEND THE ORDER CREATED TO TWS
-
-                            ' AFTER THE SELL ORDER WAS SENT TO COMPLETE THE ROUND TRIP 
-                            ' OF THE FILLED BUY TO OPEN ORDER SEND ANOTHER BUY TO OPEN ORDER
-
-                            order.OrderId = nextValidOrderId                                                                        ' SET THE ORDER ID OF THE ORDER TO THE NEXT AVAILABLE ORDER ID
-                            order.Action = "BUY"                                                                                    ' SET THE ACTION OF THE ORDER TO BUY
-                            order.LmtPrice = ou.LimitPrice - hi.FirstOrDefault().width                                              ' SET THE LIMIT PRICE OF THE ORDER TO THE LIMIT PRICE OF THE RECORD MINUS THE WIDTH VALUE IN THE INDEX
-
-                            Call Tws1.placeOrderEx(order.OrderId, contract, order)                                                  ' CALL THE PLACEORDER FUNCTION TO SEND THE ORDER CREATED TO TWS
-
-                        ElseIf ou.Action = "SELL" Then                                                                              ' IF THE ACTION IS SET TO SELL THEN PROCESS THE SELL TO CLOSE FILLED STEPS
-
-                            ' When the SELL TO CLOSE order is filled modify the BUY TO OPEN below it raising it up one width.
-
-                            ' EDIT CODE WHEN IT IS MOVED TO FILLED STATUS - TEST TO MAKE SURE THAT IT WORKS WITH WHAT IS EXPECTED AS AN OUTCOME
-
-                            ou.OrderStatus = "Filled"   ' eventArgs.status                                                          ' SET ORDER STATUS OF THE RECORD TO UPDATE TO EVENTARGS STATUS
-                            ou.Status = "Closed"                                                                                    ' SET STATUS OF THE RECORD TO UPDATE TO CLOSED
-                            ou.TickPrice = 49.75         'eventArgs.lastFillPrice                                                   ' SET THE TICKPRICE OF THE RECORD TO UPDATE TO THE LASTFILLPRICE 
-                            ou.timestamp = DateTime.Parse(Now).ToUniversalTime()                                                    ' SET THE TIMESTAMP OF THE RECORD TO UPDATE TO THE CURRENT DATE AND TIME
-                            db.SaveChanges()                                                                                        ' SAVE THE CHANGES TO THE DATABASE
-
-                            Dim hi As List(Of HarvestIndex) = New List(Of HarvestIndex)()                                           ' INITIALIZE THE HARVEST INDEX LIST TO BE USED TO GET THE INDEX RECORD
-                            hi = db.HarvestIndexes.AsEnumerable.Where(Function(x) x.harvestKey = ou.roboIndex).ToList()             ' PULL THE HARVEST INDEX RECORD TO GET THE CONTRACT AND ORDER PARAMETERS
-
-                            Dim sl As List(Of stockorder) = New List(Of stockorder)()                                               ' INITIALIZE THE STOCKORDER LIST TO BE USED TO GET THE STOCK ORDER RECORD TO UPDATE
-                            sl = db.stockorders.AsEnumerable.Where(Function(s) s.LimitPrice =
-                                (ou.LimitPrice - (hi.FirstOrDefault().width * 2)) And s.OrderStatus = "Open").ToList()              ' PULL THE STOCKORDER RECORD STRANDED BUY TO OPEN ORDER BASED ON LIMITPRICE AND OPEN STATUS
-
-                            contract.Symbol = sl.FirstOrDefault().Symbol.ToUpper()                                                  ' SET THE CONTRACT SYMBOL TO THE STOCK ORDER UPDATED SYMBOL
-                            contract.SecType = hi.FirstOrDefault().stocksectype.ToUpper()                                           ' SET THE CONTRACT SECURITY TYPE TO THE INDEX STOCK SECURITY TYPE
-                            contract.Currency = hi.FirstOrDefault().currencytype.ToUpper()                                          ' SET THE CONTRACT CURRENCY TYPE TO THE INDEX CURRENCY TYPE
-                            contract.Exchange = hi.FirstOrDefault().exchange.ToUpper()                                              ' SET THE CONTRACT EXCHANGE TYPE TO THE INDEX EXCHANGE TYPE
-
-                            order.OrderType = hi.FirstOrDefault().ordertype.ToUpper()                                               ' SET THE ORDER ORDER TYPE TO THE INDEX ORDER TYPE (lmt OR mkt)
-                            order.TotalQuantity = hi.FirstOrDefault().shares                                                        ' SET THE ORDER NUMBER OF SHARES TO THE INDEX NUMBER OF SHARES - CONSIDER SETTING TO THE UPDATED ORDER SHARES VALUE
-                            order.Tif = hi.FirstOrDefault().inforce.ToUpper()                                                       ' SET THE ORDER TRADE IN FORCE TO THE INDEX TRADE IN FORCE (day OR gtc)
-
-                            order.OrderId = sl.FirstOrDefault().OrderId                                                             ' SET THE ORDER ORDER ID TO THE UPDATED RECORD ORDER ID
-                            order.Action = "BUY"                                                                                    ' SET THE ORDER ACTION TO BUY
-                            order.LmtPrice = sl.FirstOrDefault().LimitPrice + hi.FirstOrDefault().width                             ' SET THE ORDER LIMIT PRICE TO THE UPDATED RECORD LIMIT PRICE PLUS THE INDEX WIDTH VALUE
-
-                            RobotOn = True                                                                                          ' FLAG TO INDICATE THAT THE ROBOT IS ON - HANDLED DURING ORDER PLACEMENT
-                            UpdateBuy = False                                                                                       ' FLAG TO INDICATE THAT THE BUY ORDER IS NOT NEEDED TO BE UPDATED (stc order was not filled)
-
-                            Call Tws1.placeOrderEx(order.OrderId, contract, order)                                                  ' CALL THE PLACEORDER FUNCTION TO SEND THE ORDER CREATED TO TWS
-
-                        End If
-
-                    End If
-                End Using
 
         End Select
 
@@ -842,8 +844,7 @@ Friend Class Main
                         ou.TickPrice = currentprice
                         ou.timestamp = DateTime.Parse(Now).ToUniversalTime()
                         db.SaveChanges()
-                        UpdateBuy = True
-
+                        UpdateBuy = False
                     End If
                 End If
 
@@ -902,10 +903,6 @@ Friend Class Main
 
 
     End Sub
-
-
-
-
 
 
     ' CLASSES USED IN THE APPLICATION
@@ -1076,6 +1073,8 @@ Friend Class Main
     Private Sub bntlistclear_Click(sender As Object, e As EventArgs) Handles bntlistclear.Click
         lstServerResponses.Items.Clear()
     End Sub
+
+
 
     ' FUNCTION NOT USED AS OF 4.3.18
     Function getdatetime(ByVal marketdate As String, ByVal markettime As String) As String

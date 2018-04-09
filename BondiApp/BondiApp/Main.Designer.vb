@@ -31,7 +31,6 @@ Partial Class Main
         Me.btnDisconnect = New System.Windows.Forms.Button()
         Me.lblConStatus = New System.Windows.Forms.Label()
         Me.btnReqNextValidId = New System.Windows.Forms.Button()
-        Me.lbldata = New System.Windows.Forms.Label()
         Me.HarvestIndexBindingSource = New System.Windows.Forms.BindingSource(Me.components)
         Me.OptionwavesdbDataSet = New BondiApp.optionwavesdbDataSet()
         Me.HarvestIndexTableAdapter = New BondiApp.optionwavesdbDataSetTableAdapters.HarvestIndexTableAdapter()
@@ -39,7 +38,6 @@ Partial Class Main
         Me.btnSendOrder = New System.Windows.Forms.Button()
         Me.lbldatastring = New System.Windows.Forms.Label()
         Me.cmbIndexes = New System.Windows.Forms.ComboBox()
-        Me.btnGetData = New System.Windows.Forms.Button()
         Me.OptionwavesdbDataSet1 = New BondiApp.optionwavesdbDataSet()
         Me.txtOrderId = New System.Windows.Forms.TextBox()
         Me.btnCancelOrder = New System.Windows.Forms.Button()
@@ -166,15 +164,6 @@ Partial Class Main
         Me.btnReqNextValidId.Text = "New Order Id"
         Me.btnReqNextValidId.UseVisualStyleBackColor = True
         '
-        'lbldata
-        '
-        Me.lbldata.AutoSize = True
-        Me.lbldata.Location = New System.Drawing.Point(172, 256)
-        Me.lbldata.Name = "lbldata"
-        Me.lbldata.Size = New System.Drawing.Size(28, 13)
-        Me.lbldata.TabIndex = 9
-        Me.lbldata.Text = "data"
-        '
         'HarvestIndexBindingSource
         '
         Me.HarvestIndexBindingSource.DataMember = "HarvestIndex"
@@ -201,7 +190,7 @@ Partial Class Main
         'lbldatastring
         '
         Me.lbldatastring.AutoSize = True
-        Me.lbldatastring.Location = New System.Drawing.Point(9, 353)
+        Me.lbldatastring.Location = New System.Drawing.Point(344, 295)
         Me.lbldatastring.Name = "lbldatastring"
         Me.lbldatastring.Size = New System.Drawing.Size(122, 13)
         Me.lbldatastring.TabIndex = 12
@@ -214,15 +203,6 @@ Partial Class Main
         Me.cmbIndexes.Name = "cmbIndexes"
         Me.cmbIndexes.Size = New System.Drawing.Size(172, 21)
         Me.cmbIndexes.TabIndex = 14
-        '
-        'btnGetData
-        '
-        Me.btnGetData.Location = New System.Drawing.Point(245, 251)
-        Me.btnGetData.Name = "btnGetData"
-        Me.btnGetData.Size = New System.Drawing.Size(81, 23)
-        Me.btnGetData.TabIndex = 15
-        Me.btnGetData.Text = "Get Data"
-        Me.btnGetData.UseVisualStyleBackColor = True
         '
         'OptionwavesdbDataSet1
         '
@@ -513,7 +493,7 @@ Partial Class Main
         '
         'btnOpenFile
         '
-        Me.btnOpenFile.Location = New System.Drawing.Point(241, 210)
+        Me.btnOpenFile.Location = New System.Drawing.Point(257, 382)
         Me.btnOpenFile.Name = "btnOpenFile"
         Me.btnOpenFile.Size = New System.Drawing.Size(81, 23)
         Me.btnOpenFile.TabIndex = 52
@@ -702,11 +682,9 @@ Partial Class Main
         Me.Controls.Add(Me.btnModOrder)
         Me.Controls.Add(Me.btnCancelOrder)
         Me.Controls.Add(Me.txtOrderId)
-        Me.Controls.Add(Me.btnGetData)
         Me.Controls.Add(Me.cmbIndexes)
         Me.Controls.Add(Me.lbldatastring)
         Me.Controls.Add(Me.btnSendOrder)
-        Me.Controls.Add(Me.lbldata)
         Me.Controls.Add(Me.btnReqNextValidId)
         Me.Controls.Add(Me.lblConStatus)
         Me.Controls.Add(Me.btnDisconnect)
@@ -734,7 +712,6 @@ Partial Class Main
     Friend WithEvents btnDisconnect As Button
     Friend WithEvents lblConStatus As Label
     Friend WithEvents btnReqNextValidId As Button
-    Friend WithEvents lbldata As Label
     Friend WithEvents OptionwavesdbDataSet As optionwavesdbDataSet
     Friend WithEvents HarvestIndexBindingSource As BindingSource
     Friend WithEvents HarvestIndexTableAdapter As optionwavesdbDataSetTableAdapters.HarvestIndexTableAdapter
@@ -742,7 +719,6 @@ Partial Class Main
     Friend WithEvents btnSendOrder As Button
     Friend WithEvents lbldatastring As Label
     Friend WithEvents cmbIndexes As ComboBox
-    Friend WithEvents btnGetData As Button
     Friend WithEvents OptionwavesdbDataSet1 As optionwavesdbDataSet
     Friend WithEvents txtOrderId As TextBox
     Friend WithEvents btnCancelOrder As Button
