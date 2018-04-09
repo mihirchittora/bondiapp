@@ -86,6 +86,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
@@ -112,51 +113,206 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Application.vb" />
-    <Compile Include="Models\aspnet_Applications.vb" />
-    <Compile Include="Models\aspnet_Membership.vb" />
-    <Compile Include="Models\aspnet_Paths.vb" />
-    <Compile Include="Models\aspnet_PersonalizationAllUsers.vb" />
-    <Compile Include="Models\aspnet_PersonalizationPerUser.vb" />
-    <Compile Include="Models\aspnet_Profile.vb" />
-    <Compile Include="Models\aspnet_Roles.vb" />
-    <Compile Include="Models\aspnet_SchemaVersions.vb" />
-    <Compile Include="Models\aspnet_Users.vb" />
-    <Compile Include="Models\aspnet_WebEvent_Events.vb" />
-    <Compile Include="Models\backtest.vb" />
-    <Compile Include="Models\BlogComment.vb" />
-    <Compile Include="Models\BlogEntry.vb" />
+    <Compile Include="Models\Application.vb">
+      <DependentUpon>BondiModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\aspnet_Applications.vb">
+      <DependentUpon>BondiModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\aspnet_Membership.vb">
+      <DependentUpon>BondiModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\aspnet_Paths.vb">
+      <DependentUpon>BondiModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\aspnet_PersonalizationAllUsers.vb">
+      <DependentUpon>BondiModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\aspnet_PersonalizationPerUser.vb">
+      <DependentUpon>BondiModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\aspnet_Profile.vb">
+      <DependentUpon>BondiModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\aspnet_Roles.vb">
+      <DependentUpon>BondiModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\aspnet_SchemaVersions.vb">
+      <DependentUpon>BondiModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\aspnet_Users.vb">
+      <DependentUpon>BondiModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\aspnet_WebEvent_Events.vb">
+      <DependentUpon>BondiModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\backtest.vb">
+      <DependentUpon>BondiModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BlogComment.vb">
+      <DependentUpon>BondiModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BlogEntry.vb">
+      <DependentUpon>BondiModelEntity.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\BondiModel.vb" />
-    <Compile Include="dlgAcctData.vb">
+    <Compile Include="Models\BondiModelEntity.Context.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BondiModelEntity.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BondiModelEntity.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BondiModelEntity.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BondiModelEntity.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BondiModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\email.vb">
+      <DependentUpon>BondiModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HarvestHedge.vb">
+      <DependentUpon>BondiModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HarvestIndex.vb">
+      <DependentUpon>BondiModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HarvestInterval.vb">
+      <DependentUpon>BondiModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HarvestLog.vb">
+      <DependentUpon>BondiModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HarvestMark.vb">
+      <DependentUpon>BondiModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HarvestPosition.vb">
+      <DependentUpon>BondiModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Membership.vb">
+      <DependentUpon>BondiModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\onesigmawide.vb">
+      <DependentUpon>BondiModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\position.vb">
+      <DependentUpon>BondiModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Price.vb">
+      <DependentUpon>BondiModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Pricing.vb">
+      <DependentUpon>BondiModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\productionhedge.vb">
+      <DependentUpon>BondiModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\productionlog.vb">
+      <DependentUpon>BondiModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\productionstock.vb">
+      <DependentUpon>BondiModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Profile.vb">
+      <DependentUpon>BondiModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Role.vb">
+      <DependentUpon>BondiModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\stockorder.vb">
+      <DependentUpon>BondiModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Task.vb">
+      <DependentUpon>BondiModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Ticket.vb">
+      <DependentUpon>BondiModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TicketComment.vb">
+      <DependentUpon>BondiModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TradeDetail.vb">
+      <DependentUpon>BondiModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TradeLog.vb">
+      <DependentUpon>BondiModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\User.vb">
+      <DependentUpon>BondiModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\visitor.vb">
+      <DependentUpon>BondiModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vw_aspnet_Applications.vb">
+      <DependentUpon>BondiModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vw_aspnet_MembershipUsers.vb">
+      <DependentUpon>BondiModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vw_aspnet_Profiles.vb">
+      <DependentUpon>BondiModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vw_aspnet_Roles.vb">
+      <DependentUpon>BondiModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vw_aspnet_Users.vb">
+      <DependentUpon>BondiModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vw_aspnet_UsersInRoles.vb">
+      <DependentUpon>BondiModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vw_aspnet_WebPartState_Paths.vb">
+      <DependentUpon>BondiModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vw_aspnet_WebPartState_Shared.vb">
+      <DependentUpon>BondiModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vw_aspnet_WebPartState_User.vb">
+      <DependentUpon>BondiModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vw_avg_daily_gap.vb">
+      <DependentUpon>BondiModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vw_avg_ranges.vb">
+      <DependentUpon>BondiModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vw_full_view_w_calc.vb">
+      <DependentUpon>BondiModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vw_Pricings_DESC.vb">
+      <DependentUpon>BondiModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Weekly.vb">
+      <DependentUpon>BondiModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\wStockOrder.vb">
+      <DependentUpon>BondiModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Views\dlgAcctData.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="dlgHarvest.vb">
+    <Compile Include="Views\dlgHarvest.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="dlgConnect.vb">
+    <Compile Include="Views\dlgConnect.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="dlgGroups.designer.vb">
+    <Compile Include="Views\dlgGroups.designer.vb">
       <DependentUpon>dlgGroups.vb</DependentUpon>
     </Compile>
-    <Compile Include="dlgGroups.vb">
+    <Compile Include="Views\dlgGroups.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Models\email.vb" />
-    <Compile Include="Models\HarvestHedge.vb" />
-    <Compile Include="Models\HarvestIndex.vb" />
-    <Compile Include="Models\HarvestInterval.vb" />
-    <Compile Include="Models\HarvestLog.vb" />
-    <Compile Include="Models\HarvestMark.vb" />
-    <Compile Include="Models\HarvestPosition.vb" />
-    <Compile Include="Main.vb">
+    <Compile Include="Views\Main.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Main.Designer.vb">
+    <Compile Include="Views\Main.Designer.vb">
       <DependentUpon>Main.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Models\Membership.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -172,76 +328,43 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Models\onesigmawide.vb" />
     <Compile Include="optionwavesdbDataSet.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>optionwavesdbDataSet.xsd</DependentUpon>
     </Compile>
-    <Compile Include="Models\position.vb" />
-    <Compile Include="Models\Price.vb" />
-    <Compile Include="Models\Pricing.vb" />
-    <Compile Include="Models\productionhedge.vb" />
-    <Compile Include="Models\productionlog.vb" />
-    <Compile Include="Models\productionstock.vb" />
-    <Compile Include="Models\Profile.vb" />
-    <Compile Include="Models\Role.vb" />
-    <Compile Include="Models\stockorder.vb" />
-    <Compile Include="Models\Task.vb" />
-    <Compile Include="Models\Ticket.vb" />
-    <Compile Include="Models\TicketComment.vb" />
-    <Compile Include="Models\TradeDetail.vb" />
-    <Compile Include="Models\TradeLog.vb" />
-    <Compile Include="Tws.vb" />
-    <Compile Include="Models\User.vb" />
-    <Compile Include="unusedCode.vb" />
-    <Compile Include="Utils.vb" />
-    <Compile Include="Models\visitor.vb" />
-    <Compile Include="Models\vw_aspnet_Applications.vb" />
-    <Compile Include="Models\vw_aspnet_MembershipUsers.vb" />
-    <Compile Include="Models\vw_aspnet_Profiles.vb" />
-    <Compile Include="Models\vw_aspnet_Roles.vb" />
-    <Compile Include="Models\vw_aspnet_Users.vb" />
-    <Compile Include="Models\vw_aspnet_UsersInRoles.vb" />
-    <Compile Include="Models\vw_aspnet_WebPartState_Paths.vb" />
-    <Compile Include="Models\vw_aspnet_WebPartState_Shared.vb" />
-    <Compile Include="Models\vw_aspnet_WebPartState_User.vb" />
-    <Compile Include="Models\vw_avg_daily_gap.vb" />
-    <Compile Include="Models\vw_avg_ranges.vb" />
-    <Compile Include="Models\vw_full_view_w_calc.vb" />
-    <Compile Include="Models\vw_Pricings_DESC.vb" />
-    <Compile Include="Models\Weekly.vb" />
-    <Compile Include="Models\wStockOrder.vb" />
-    <Compile Include="_DTwsEvents_commissionReportEvent.vb" />
-    <Compile Include="_DTwsEvents_contractDetailsEndEvent.vb" />
-    <Compile Include="_DTwsEvents_contractDetailsExEvent.vb" />
-    <Compile Include="_DTwsEvents_execDetailsExEvent.vb" />
-    <Compile Include="_DTwsEvents_managedAccountsEvent.vb" />
-    <Compile Include="_DTwsEvents_marketDataTypeEvent.vb" />
-    <Compile Include="_DTwsEvents_nextValidIdEvent.vb" />
-    <Compile Include="_DTwsEvents_openOrderExEvent.vb" />
-    <Compile Include="_DTwsEvents_orderStatusEvent.vb" />
-    <Compile Include="_DTwsEvents_tickEFPEvent.vb" />
-    <Compile Include="_DTwsEvents_tickGenericEvent.vb" />
-    <Compile Include="_DTwsEvents_tickOptionComputationEvent.vb" />
-    <Compile Include="_DTwsEvents_tickPriceEvent.vb" />
-    <Compile Include="_DTwsEvents_tickSizeEvent.vb" />
-    <Compile Include="_DTwsEvents_tickStringEvent.vb" />
+    <Compile Include="BL\Tws.vb" />
+    <Compile Include="BL\Utils.vb" />
+    <Compile Include="TWS_BL\_DTwsEvents_commissionReportEvent.vb" />
+    <Compile Include="TWS_BL\_DTwsEvents_contractDetailsEndEvent.vb" />
+    <Compile Include="TWS_BL\_DTwsEvents_contractDetailsExEvent.vb" />
+    <Compile Include="TWS_BL\_DTwsEvents_execDetailsExEvent.vb" />
+    <Compile Include="TWS_BL\_DTwsEvents_managedAccountsEvent.vb" />
+    <Compile Include="TWS_BL\_DTwsEvents_marketDataTypeEvent.vb" />
+    <Compile Include="TWS_BL\_DTwsEvents_nextValidIdEvent.vb" />
+    <Compile Include="TWS_BL\_DTwsEvents_openOrderExEvent.vb" />
+    <Compile Include="TWS_BL\_DTwsEvents_orderStatusEvent.vb" />
+    <Compile Include="TWS_BL\_DTwsEvents_tickEFPEvent.vb" />
+    <Compile Include="TWS_BL\_DTwsEvents_tickGenericEvent.vb" />
+    <Compile Include="TWS_BL\_DTwsEvents_tickOptionComputationEvent.vb" />
+    <Compile Include="TWS_BL\_DTwsEvents_tickPriceEvent.vb" />
+    <Compile Include="TWS_BL\_DTwsEvents_tickSizeEvent.vb" />
+    <Compile Include="TWS_BL\_DTwsEvents_tickStringEvent.vb" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="dlgAcctData.resX">
+    <EmbeddedResource Include="Views\dlgAcctData.resX">
       <DependentUpon>dlgAcctData.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="dlgHarvest.resX">
+    <EmbeddedResource Include="Views\dlgHarvest.resX">
       <DependentUpon>dlgHarvest.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="dlgConnect.resX">
+    <EmbeddedResource Include="Views\dlgConnect.resX">
       <DependentUpon>dlgConnect.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="dlgGroups.resX">
+    <EmbeddedResource Include="Views\dlgGroups.resX">
       <DependentUpon>dlgGroups.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Main.resx">
+    <EmbeddedResource Include="Views\Main.resx">
       <DependentUpon>Main.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
@@ -253,6 +376,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="BondiApp_TemporaryKey.pfx" />
+    <EntityDeploy Include="Models\BondiModelEntity.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>BondiModelEntity.Designer.vb</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Models\BondiModelEntity.edmx.diagram">
+      <DependentUpon>BondiModelEntity.edmx</DependentUpon>
+    </None>
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
@@ -292,7 +422,18 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Models\BondiModelEntity.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>BondiModelEntity.edmx</DependentUpon>
+      <LastGenOutput>BondiModelEntity.Context.vb</LastGenOutput>
+    </Content>
+    <Content Include="Models\BondiModelEntity.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>BondiModelEntity.edmx</DependentUpon>
+      <LastGenOutput>BondiModelEntity.vb</LastGenOutput>
+    </Content>
     <Content Include="SPRINT LOG.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>
