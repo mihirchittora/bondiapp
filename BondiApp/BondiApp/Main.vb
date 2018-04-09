@@ -34,6 +34,8 @@ Friend Class Main
     Public cntr As Integer = 1
     Public datastring As String = ""
     Public RobotOn As Boolean = False                                                                                                           ' INDICATES THAT THE ROBOT IS RUNNING IN THE OPENORDEREX SUB TO ADD ORDERS
+    Public UpdateBuy As Boolean = False
+    Public matchid As Integer
 
     Public Sub New()
         MyBase.New()
@@ -355,72 +357,65 @@ Friend Class Main
 
     Private Sub btnWillie_Click(sender As Object, e As EventArgs) Handles btnWillie.Click
 
-        Dim datastring As String = "Willie Initiated: " & String.Format("{0:hh:mm:ss.fff tt}", Now.ToLocalTime) & " - "
-        Dim priceint As Double = 0
-        Dim checksum As Double = 0
-        Dim cprice As Double = 0
-        Dim Symbol As String = ""
-        Dim opentrigger As Double = 0
-        Dim contract As IBApi.Contract = New IBApi.Contract()
-        Dim order As IBApi.Order = New IBApi.Order()
-        Dim userid As Guid
+        Dim datastring As String = "Willie Initiated: " & String.Format("{0:hh:mm:ss.fff tt}", Now.ToLocalTime) & " - "             ' DATASTRING USED TO PROVIDE FEEDBACK TO THE USER ON ACTIONS HAPPENING WITHIN THE APP
+        Dim priceint As Double = 0                                                                                                  ' VARIABLE USED TO CALCULATE THE STARTING BUY TO OPEN PRICE FOR EACH USER & INDEX
+        Dim checksum As Double = 0                                                                                                  ' VARIABLE USED TO CALCULATE THE STARTING BUY TO OPEN PRICE FOR EACH USER & INDEX
+        Dim cprice As Double = 0                                                                                                    ' VARIABLE USED TO HOLD THE STARTING OPEN TO BUY PRICE FOR EACH USER & INDEX
+        Dim Symbol As String = ""                                                                                                   ' VARIABLE USED TO HOLD THE SYMBOL FOR THE USER & INDEX
+        Dim opentrigger As Double = 0                                                                                               ' VARIABLE USED TO HOLD THE TRIGGER FOR THE BUY TO OPEN POSITIONS
+        Dim contract As IBApi.Contract = New IBApi.Contract()                                                                       ' INTIIATE THE CONTRACT VARIABLE CLASS TO HANDLE CONTRACT DATA
+        Dim order As IBApi.Order = New IBApi.Order()                                                                                ' INITIATE THE ORDER VARIABLE CLASS TO HANDLE ORDER DATA
 
-        connecting = False
-        cntr = 1
+        Dim userid As Guid                                                                                                          ' VARIABLE USED TO HOLD THE CURRENT USERS USERID (NEED TO DETERMINE IF I NEED TO KEEP THIS OR NOT)
 
-        'MsgBox(currentprice)
+        connecting = False                                                                                                          ' FLAG USED TO INDICATE THAT THIS CALL IS NOT DUE TO CONNECTING TO TWS
+        cntr = 1                                                                                                                    ' COUNTER FLAG USED TO ELIMINATE THE TWO CYCLES THROUGH THE ORDER PROCESSING 
 
-        'Stop
+        Using db As BondiModel = New BondiModel()                                                                                   ' DATABASE MODEL USED TO CAPTURE THE ROBOTS DATA
 
-        Using db As BondiModel = New BondiModel()
-
-
-            ' SECOND CHECK TO SEE IF THERE HAVE BEEN ORDERS SUBMITTED FOR THIS USER AND HARVESTKEY
-            ' BUILD THE CONTRACT AND ORDER IF NEEDED
-            ' THERE IS AN ORDER THAT IS OPEN THERE IS NO NEED TO DO ANYTHING
-            ' WILL NEED TO WORK THROUGH IF THERE HAVE BEEN ORDERS BUT THE POSITION IS FLAT OVERNIGHT
             ' NEED TO DETERMINE WHAT IS NEEDED TO ADDRESS A GAP UP AND GAP DOWN HERE AS WELL
+            ' NEED TO ADDRESS A RUN UP - WHEN YOU HAVE A BUY ORDER OPEN AND THE PRODUCTS PRICE RUNS UP NOT 
+            ' ALLOWING A CHANCE TO FILL THE BUY.  NEED CODE TO ASSESS THE TICKPRICE AND IF GREATER THAN THE OPENTRIGGER 
+            ' ABOVE MODIFY THE CURRENT BUY TO OPEN ORDER TO TRAIL THE RUN-UP UNTIL FILLED.  
 
-            Dim ul As List(Of User) = New List(Of User)()                                                                                       ' GET THE USERID OF THE USER TO CHECK FOR ORDERS FOR THIS ID AS WELL AS THE INDEX
-            ul = db.Users.AsEnumerable.Where(Function(u) u.UserName = "boss").ToList()                                                          ' BUILD THE LIST OF USERS BASED ON THIS USERNAME
-            userid = ul.FirstOrDefault().UserId                                                                                                 ' SET THE USERID EQUAL TO THE USERS USERID - CONSIDER DOING THIS IN A PUBLIC VAR AT LOGIN
+            Dim ul As List(Of User) = New List(Of User)()                                                                           ' GET THE USERID OF THE USER TO CHECK FOR ORDERS FOR THIS ID AS WELL AS THE INDEX
+            ul = db.Users.AsEnumerable.Where(Function(u) u.UserName = "boss").ToList()                                              ' BUILD THE LIST OF USERS BASED ON THIS USERNAME
+            userid = ul.FirstOrDefault().UserId                                                                                     ' SET THE USERID EQUAL TO THE USERS USERID - CONSIDER DOING THIS IN A PUBLIC VAR AT LOGIN
 
             Dim so As List(Of stockorder) = New List(Of stockorder)()
-            'so = db.stockorders.AsEnumerable.Where(Function(s) s.userid = userid And  = "boss").ToList()                                       ' BUILD THE LIST OF USERS BASED ON THIS USERNAME
-            so = db.stockorders.AsEnumerable.Where(Function(s) s.roboIndex = cmbIndexes.SelectedValue).ToList()                                 ' BUILD THE LIST OF USERS BASED ON THIS USERNAME
+            'so = db.stockorders.AsEnumerable.Where(Function(s) s.userid = userid And  = "boss").ToList()                           ' BUILD THE LIST OF USERS BASED ON THIS USERNAME
+            so = db.stockorders.AsEnumerable.Where(Function(s) s.roboIndex = cmbIndexes.SelectedValue).ToList()                     ' BUILD THE LIST OF USERS BASED ON THIS USERNAME
 
-            If so.Count = 0 Then                                                                                                                ' INDICATES THAT THIS IS THE FIRST ORDER CALC OPEN PRICE AND SEND FIRST BUY TO OPEN ORDER
+            If so.Count = 0 Then                                                                                                    ' INDICATES THAT THIS IS THE FIRST ORDER CALC OPEN PRICE AND SEND FIRST BUY TO OPEN ORDER
 
-                Dim hi As List(Of HarvestIndex) = New List(Of HarvestIndex)()
-                hi = db.HarvestIndexes.AsEnumerable.Where(Function(x) x.harvestKey = cmbIndexes.SelectedValue).ToList()
+                Dim hi As List(Of HarvestIndex) = New List(Of HarvestIndex)()                                                       ' INITIALIZE THE HARVEST INDEX LIST TO BE USED TO GET THE INDEX RECORD 
+                hi = db.HarvestIndexes.AsEnumerable.Where(Function(x) x.harvestKey = cmbIndexes.SelectedValue).ToList()             ' PULL THE HARVEST INDEX RECORD TO GET THE CONTRACT AND ORDER PARAMETERS
 
-                priceint = Int(currentprice)                                                                                                                                 ' RETURN THE INTERVAL OF THE STOCK TICK PRICE
-                checksum = currentprice - priceint                                                                                                                           ' RETURN THE DECIMALS IN THE STOCK TICK PRICE FOR THE CALCULATIONS
-                cprice = (Int(checksum / hi.FirstOrDefault.opentrigger) * hi.FirstOrDefault.opentrigger + priceint)
+                priceint = Int(currentprice)                                                                                        ' RETURN THE INTERVAL OF THE STOCK TICK PRICE
+                checksum = currentprice - priceint                                                                                  ' RETURN THE DECIMALS IN THE STOCK TICK PRICE FOR THE CALCULATIONS
+                cprice = (Int(checksum / hi.FirstOrDefault.opentrigger) * hi.FirstOrDefault.opentrigger + priceint)                 ' CALCULATE THE STARTING BUY TO OPEN PRICE 
 
-                contract.Symbol = hi.FirstOrDefault().product.ToUpper()
-                contract.SecType = hi.FirstOrDefault().stocksectype.ToUpper()
-                contract.Currency = hi.FirstOrDefault().currencytype.ToUpper()
-                contract.Exchange = hi.FirstOrDefault().exchange.ToUpper()
+                contract.Symbol = hi.FirstOrDefault().product.ToUpper()                                                             ' SET THE SYMBOL FOR THE CONTRACT TO THE INDEX SYMBOL 
+                contract.SecType = hi.FirstOrDefault().stocksectype.ToUpper()                                                       ' SET THE SECURITY TYPE FOR THE CONTRACT TO THE INDEX SECURITY TYPE
+                contract.Currency = hi.FirstOrDefault().currencytype.ToUpper()                                                      ' SET THE CURRENCY TYPE FOR THE CONTRACT TO THE INDEX CURRENCY TYPE
+                contract.Exchange = hi.FirstOrDefault().exchange.ToUpper()                                                          ' SET THE EXCHANGE FOR THE CONTRACT TO THE INDEX EXCHANGE 
 
-                order.OrderType = hi.FirstOrDefault().ordertype.ToUpper()
-                order.TotalQuantity = hi.FirstOrDefault().shares
-                order.Tif = hi.FirstOrDefault().inforce.ToUpper()
+                order.OrderType = hi.FirstOrDefault().ordertype.ToUpper()                                                           ' SET THE ORDER TYPE FOR THE ORDER TO THE INDEX ORDER TYPE (lmt OR mkt)
+                order.TotalQuantity = hi.FirstOrDefault().shares                                                                    ' SET THE NUMBER OF SHARES FOR THE ORDER TO THE INDEX NUMBER OF SHARES 
+                order.Tif = hi.FirstOrDefault().inforce.ToUpper()                                                                   ' SET THE TRADE IN FORCE FOR THE ORDER TO THE INDEX TRADE IN FORCE (day OR gtc)
 
+                order.OrderId = nextValidOrderId                                                                                    ' SET THE ORDER ID OF THE ORDER TO THE NEXT VALID ORDER ID
+                order.Action = "BUY"                                                                                                ' SET THE ORDER ACTION TO BUY
+                order.LmtPrice = cprice                                                                                             ' SET THE ORDER LIMIT PRICE TO THE CALCULATED BUY TO OPEN LIMIT PRICE
 
-
-                order.OrderId = nextValidOrderId
-                order.Action = "BUY"
-                order.LmtPrice = cprice
-
-                Call Tws1.placeOrderEx(order.OrderId, contract, order)
+                Call Tws1.placeOrderEx(order.OrderId, contract, order)                                                              ' CALL FUNCTION TO ADD MESSAGE TO THE LISTBOX AND PROCESS THE ORDER 
 
             End If
 
         End Using
 
-        datastring = datastring & String.Format("{0:hh:mm:ss.fff tt}", Now.ToLocalTime)
-        lblConStatus.Text = datastring
+        datastring = datastring & String.Format("{0:hh:mm:ss.fff tt}", Now.ToLocalTime)                                             ' ADD THE CURRENT FINISH TIME TO THE DATASTRING TO GET THE FULL CYCLE TIME
+        lblConStatus.Text = datastring                                                                                              ' DISPLAY THE DATASTRING TO THE USER
 
     End Sub
 
@@ -574,36 +569,52 @@ Friend Class Main
 
         ' ANY CHANGE IN ORDER STATUS WILL HAPPEN HERE - SAVE THE VARS TO THE CLASS HERE FOR USE BEYOND THIS SUB
 
-        Dim msg As String
+        Dim msg As String                                                                                                           ' MESSAGE VARIABLE USED TO HOLD THE MESSAGE DATA TO PRESENT TO THE USER
 
-        msg = "Order Status: Order Id: " & eventArgs.orderId & " Client Id: " & eventArgs.clientId & " Perm Id: " & eventArgs.permId &
-              " Status: " & eventArgs.status & " Filled: " & eventArgs.filled & " Fill Price: " & String.Format("{0:C}", eventArgs.lastFillPrice)
-        ' & " parentId=" & eventArgs.parentId & " whyHeld=" & eventArgs.whyHeld  & " avgFillPrice=" & eventArgs.avgFillPrice & remaining=" & eventArgs.remaining &
+        msg = "Order Status: Order Id: " & eventArgs.orderId & " Client Id: " &
+            eventArgs.clientId & " Perm Id: " & eventArgs.permId & " Status: " & eventArgs.status &
+            " Filled: " & eventArgs.filled & " Fill Price: " & String.Format("{0:C}", eventArgs.lastFillPrice)                      ' SETS THE MESSAGE BASED ON ACTIONS THAT OCCURRED IN THE ORDER STATUS FUNCTION
+        ' & " parentId=" & eventArgs.parentId & " whyHeld=" & eventArgs.whyHeld  & " avgFillPrice=" & 
+        'eventArgs.avgFillPrice & remaining=" & eventArgs.remaining &
 
         '
         ' ADD CODE HERE TO WRITE ORDER STATUS TO DATABASE OPENED AND FILLED.
-        Select Case eventArgs.status.ToLower()
+        Select Case eventArgs.status.ToLower()                                                                                      ' DETERMINE HOW TO PROCESS THE ORDER STATE CHANGE
+
             Case "submitted"
-                'MsgBox(msg)
-            Case "presubmitted"
-                ' Presubmitted occurs when an order exists or is sent when the market is not open.
-                ' Initial orders that have a presubmitted status will be saved in the database with this status.
-                If cntr = 1 Then
-                    Using db As BondiModel = New BondiModel()                                                                      ' DATABASE MODEL USING ENTITY FRAMEWORK
-                        Dim ordersexist = (From q In db.stockorders Where q.OrderId = eventArgs.orderId Select q)
-                        'Stop
-                        If ordersexist.Count > 0 Then
-                            'MsgBox("Order Exists")
-                            'Stop
+
+                ' Submitted orders occur when an order is placed and the market is open.  
+                If cntr = 1 Then                                                                                                    ' CNTR FLAG INDICATES WHETHER THIS IS THE FIRST ORDER SUBMITTED FOR THIS USER AND INDEX IF IT IS THEN PROCESS THE ORDER
+                    Using db As BondiModel = New BondiModel()                                                                       ' DATABASE MODEL USING ENTITY FRAMEWORK
+                        Dim ordersexist = (From q In db.stockorders Where q.OrderId = eventArgs.orderId Select q)                   ' QUERY TO SEE IF THERE IS AN ORDER THAT ALREADY EXISTS
+
+                        If ordersexist.Count > 0 Then                                                                               ' IF THERE IS AN ORDER DO NOTHING
                         Else
-                            'MsgBox("Order does not Exist")
-                            msg = msg & " Order Added to db."
-                            Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, msg)
+                            msg = msg & " Order Added to db."                                                                       ' ADD MESSAGE TO THE DATASTRING TO ALERT THE USER
+                            Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, msg)                                        ' CALL FUNCTION TO ADD MESSAGE TO THE LISTBOX AND PROCESS THE ORDER
                         End If
 
                     End Using
 
-                    cntr = cntr + 1
+                    cntr = cntr + 1                                                                                                 ' INCREMENT THE CNTR FLAG TO INDICATE THAT SYSTEM IS BEYOND THE FIRST ORDER
+                End If
+
+            Case "presubmitted"
+
+                ' Presubmitted occurs when an order exists or is sent when the market is not open.                
+                If cntr = 1 Then                                                                                                    ' CNTR FLAG INDICATES WHETHER THIS IS THE FIRST ORDER SUBMITTED FOR THIS USER AND INDEX IF IT IS THEN PROCESS THE ORDER
+                    Using db As BondiModel = New BondiModel()                                                                       ' DATABASE MODEL USING ENTITY FRAMEWORK
+                        Dim ordersexist = (From q In db.stockorders Where q.OrderId = eventArgs.orderId Select q)                   ' QUERY TO SEE IF THERE IS AN ORDER THAT ALREADY EXISTS
+
+                        If ordersexist.Count > 0 Then                                                                               ' IF THERE IS AN ORDER DO NOTHING
+                        Else
+                            msg = msg & " Order Added to db."                                                                       ' ADD MESSAGE TO THE DATASTRING TO ALERT THE USER
+                            Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, msg)                                        ' CALL FUNCTION TO ADD MESSAGE TO THE LISTBOX AND PROCESS THE ORDER
+                        End If
+
+                    End Using
+
+                    cntr = cntr + 1                                                                                                 ' INCREMENT THE CNTR FLAG TO INDICATE THAT SYSTEM IS BEYOND THE FIRST ORDER
                 End If
 
             Case "filled"
@@ -611,80 +622,110 @@ Friend Class Main
                     ' MsgBox(msg)
                     cntr = cntr + 1
                 End If
-            Case "cancelled"
+
+            Case "cancelled"                                                                                                        ' TODO: BUILD THE PROCESS TO HANDLE CANCELLED ORDERS FROM THE TWS PLATFORM
+
                 ' Use Cancelled to build the FILLED status mode start with BUY TO OPEN filled.
                 ' 1. Get the db record for the filled order to update it.
-                Dim contract As IBApi.Contract = New IBApi.Contract()
-                Dim order As IBApi.Order = New IBApi.Order()
 
-                Using db As BondiModel = New BondiModel()                                                                      ' DATABASE MODEL USING ENTITY FRAMEWORK
+                ' MOVE THIS CODE TO FILLED ORDERS FOR TESTING WHEN MARKET IS OPEN 4.09.18
 
-                    Dim ordersexist = (From q In db.stockorders Where q.PermID = eventArgs.permId Select q)
+                Dim contract As IBApi.Contract = New IBApi.Contract()                                                               ' INTIIATE THE CONTRACT VARIABLE CLASS TO HANDLE CONTRACT DATA
+                Dim order As IBApi.Order = New IBApi.Order()                                                                        ' INITIATE THE ORDER VARIABLE CLASS TO HANDLE ORDER DATA
 
-                    If ordersexist.Count > 0 Then
+                Using db As BondiModel = New BondiModel()                                                                           ' DATABASE MODEL USING ENTITY FRAMEWORK
+
+                    Dim ordersexist = (From q In db.stockorders Where q.PermID = eventArgs.permId Select q)                         ' QUERY TO SEE IF THERE IS AN ORDER THAT ALREADY EXISTS
+
+                    If ordersexist.Count > 0 Then                                                                                   ' IF THE ORDER FOR THIS PERMID EXISTS
                         'Simulate BUY TO OPEN order filled.  
                         ' Update the database record.
 
+                        Dim ou = (From q In db.stockorders Where q.PermID = eventArgs.permId Select q).FirstOrDefault()             ' GET RECORD FROM THE DATABASE SO IT CAN BE UPDATED
 
+                        If ou.Action = "BUY" Then                                                                                   ' IF THE ACTION IS SET TO BUY THEN PROCESS THE BUY TO OPEN FILLED STEPS
 
-                        Dim ou = (From q In db.stockorders Where q.PermID = eventArgs.permId Select q).FirstOrDefault()
+                            matchid = ou.matchID                                                                                    ' SET THE MATCHID FOR THE SELL TO CLOSE ORDER TO MATCH THE BUY TO OPEN ORDER
+                            ou.OrderStatus = "Filled"   ' eventArgs.status                                                          ' SET THE ORDERSTATUS OF THE RECORD TO THE EVENT STATUS RESULT
+                            ou.Status = "Closed"                                                                                    ' SET THE STATUS OF THE RECORD TO CLOSED
+                            ou.TickPrice = 49.5         'eventArgs.lastFillPrice                                                    ' SET THE TICK PRICE TO THE FILLED PRICE TO CAPTURE THE PRICE THE ORDER WAS FILLED AT
+                            db.SaveChanges()                                                                                        ' SAVE THE CHANGES TO THE DATABASE
 
-                        If ou.Action = "BUY" Then
+                            Dim hi As List(Of HarvestIndex) = New List(Of HarvestIndex)()                                           ' INITIALIZE THE HARVEST INDEX LIST TO BE USED TO GET THE INDEX RECORD
+                            hi = db.HarvestIndexes.AsEnumerable.Where(Function(x) x.harvestKey = ou.roboIndex).ToList()             ' PULL THE HARVEST INDEX RECORD TO GET THE CONTRACT AND ORDER PARAMETERS
 
+                            contract.Symbol = hi.FirstOrDefault().product.ToUpper()                                                 ' SET THE SYMBOL FOR THE CONTRACT TO THE INDEX SYMBOL 
+                            contract.SecType = hi.FirstOrDefault().stocksectype.ToUpper()                                           ' SET THE SECURITY TYPE FOR THE CONTRACT TO THE INDEX SECURITY TYPE
+                            contract.Currency = hi.FirstOrDefault().currencytype.ToUpper()                                          ' SET THE CURRENCY TYPE FOR THE CONTRACT TO THE INDEX CURRENCY TYPE
+                            contract.Exchange = hi.FirstOrDefault().exchange.ToUpper()                                              ' SET THE EXCHANGE FOR THE CONTRACT TO THE INDEX EXCHANGE 
 
-                            ou.OrderStatus = "Filled"   ' eventArgs.status
-                            ou.Status = "Closed"
-                            ou.TickPrice = 49.5         'eventArgs.lastFillPrice
-                            db.SaveChanges()
+                            order.OrderType = hi.FirstOrDefault().ordertype.ToUpper()                                               ' SET THE ORDER TYPE FOR THE ORDER TO THE INDEX ORDER TYPE (lmt OR mkt)
+                            order.TotalQuantity = hi.FirstOrDefault().shares                                                        ' SET THE NUMBER OF SHARES FOR THE ORDER TO THE INDEX NUMBER OF SHARES 
+                            order.Tif = hi.FirstOrDefault().inforce.ToUpper()                                                       ' SET THE TRADE IN FORCE FOR THE ORDER TO THE INDEX TRADE IN FORCE (day OR gtc)
 
-                            Dim hi As List(Of HarvestIndex) = New List(Of HarvestIndex)()
-                            hi = db.HarvestIndexes.AsEnumerable.Where(Function(x) x.harvestKey = ou.roboIndex).ToList()
+                            order.OrderId = nextValidOrderId                                                                        ' SET THE ORDER ID OF THE ORDER TO THE NEXT VALID ID NUMBER
+                            order.Action = "SELL"                                                                                   ' SET THE ACTION OF THE ORDER TO SELL
+                            order.LmtPrice = ou.LimitPrice + hi.FirstOrDefault().width                                              ' SET THE LIMIT PRICE OF THE ORDER TO THE LIMIT PRICE OF THE RECORD PLUS THE WIDTH VALUE IN THE INDEX
 
-                            contract.Symbol = hi.FirstOrDefault().product.ToUpper()
-                            contract.SecType = hi.FirstOrDefault().stocksectype.ToUpper()
-                            contract.Currency = hi.FirstOrDefault().currencytype.ToUpper()
-                            contract.Exchange = hi.FirstOrDefault().exchange.ToUpper()
+                            RobotOn = True                                                                                          ' FLAG TO INDICATE THAT THE ROBOT IS ON - HANDLED DURING ORDER PLACEMENT
+                            UpdateBuy = False                                                                                       ' FLAG TO INDICATE THAT THE BUY ORDER IS NOT NEEDED TO BE UPDATED (stc order was not filled)
 
-                            order.OrderType = hi.FirstOrDefault().ordertype.ToUpper()
-                            order.TotalQuantity = hi.FirstOrDefault().shares
-                            order.Tif = hi.FirstOrDefault().inforce.ToUpper()
+                            Call Tws1.placeOrderEx(order.OrderId, contract, order)                                                  ' CALL THE PLACEORDER FUNCTION TO SEND THE ORDER CREATED TO TWS
 
-                            order.OrderId = nextValidOrderId
-                            order.Action = "BUY"
-                            order.LmtPrice = ou.LimitPrice - hi.FirstOrDefault().width
+                            ' AFTER THE SELL ORDER WAS SENT TO COMPLETE THE ROUND TRIP 
+                            ' OF THE FILLED BUY TO OPEN ORDER SEND ANOTHER BUY TO OPEN ORDER
 
-                            RobotOn = True
+                            order.OrderId = nextValidOrderId                                                                        ' SET THE ORDER ID OF THE ORDER TO THE NEXT AVAILABLE ORDER ID
+                            order.Action = "BUY"                                                                                    ' SET THE ACTION OF THE ORDER TO BUY
+                            order.LmtPrice = ou.LimitPrice - hi.FirstOrDefault().width                                              ' SET THE LIMIT PRICE OF THE ORDER TO THE LIMIT PRICE OF THE RECORD MINUS THE WIDTH VALUE IN THE INDEX
 
-                            Call Tws1.placeOrderEx(order.OrderId, contract, order)
+                            Call Tws1.placeOrderEx(order.OrderId, contract, order)                                                  ' CALL THE PLACEORDER FUNCTION TO SEND THE ORDER CREATED TO TWS
 
-                            order.OrderId = nextValidOrderId
-                            order.Action = "SELL"
-                            order.LmtPrice = ou.LimitPrice + hi.FirstOrDefault().width
+                        ElseIf ou.Action = "SELL" Then                                                                              ' IF THE ACTION IS SET TO SELL THEN PROCESS THE SELL TO CLOSE FILLED STEPS
 
-                            Call Tws1.placeOrderEx(order.OrderId, contract, order)
+                            ' When the SELL TO CLOSE order is filled modify the BUY TO OPEN below it raising it up one width.
 
+                            ' EDIT CODE WHEN IT IS MOVED TO FILLED STATUS - TEST TO MAKE SURE THAT IT WORKS WITH WHAT IS EXPECTED AS AN OUTCOME
 
+                            ou.OrderStatus = "Filled"   ' eventArgs.status                                                          ' SET ORDER STATUS OF THE RECORD TO UPDATE TO EVENTARGS STATUS
+                            ou.Status = "Closed"                                                                                    ' SET STATUS OF THE RECORD TO UPDATE TO CLOSED
+                            ou.TickPrice = 49.75         'eventArgs.lastFillPrice                                                   ' SET THE TICKPRICE OF THE RECORD TO UPDATE TO THE LASTFILLPRICE 
+                            ou.timestamp = DateTime.Parse(Now).ToUniversalTime()                                                    ' SET THE TIMESTAMP OF THE RECORD TO UPDATE TO THE CURRENT DATE AND TIME
+                            db.SaveChanges()                                                                                        ' SAVE THE CHANGES TO THE DATABASE
 
-                        ElseIf ou.Action = "SELL" Then
-                            Stop
+                            Dim hi As List(Of HarvestIndex) = New List(Of HarvestIndex)()                                           ' INITIALIZE THE HARVEST INDEX LIST TO BE USED TO GET THE INDEX RECORD
+                            hi = db.HarvestIndexes.AsEnumerable.Where(Function(x) x.harvestKey = ou.roboIndex).ToList()             ' PULL THE HARVEST INDEX RECORD TO GET THE CONTRACT AND ORDER PARAMETERS
+
+                            Dim sl As List(Of stockorder) = New List(Of stockorder)()                                               ' INITIALIZE THE STOCKORDER LIST TO BE USED TO GET THE STOCK ORDER RECORD TO UPDATE
+                            sl = db.stockorders.AsEnumerable.Where(Function(s) s.LimitPrice =
+                                (ou.LimitPrice - (hi.FirstOrDefault().width * 2)) And s.OrderStatus = "Open").ToList()              ' PULL THE STOCKORDER RECORD STRANDED BUY TO OPEN ORDER BASED ON LIMITPRICE AND OPEN STATUS
+
+                            contract.Symbol = sl.FirstOrDefault().Symbol.ToUpper()                                                  ' SET THE CONTRACT SYMBOL TO THE STOCK ORDER UPDATED SYMBOL
+                            contract.SecType = hi.FirstOrDefault().stocksectype.ToUpper()                                           ' SET THE CONTRACT SECURITY TYPE TO THE INDEX STOCK SECURITY TYPE
+                            contract.Currency = hi.FirstOrDefault().currencytype.ToUpper()                                          ' SET THE CONTRACT CURRENCY TYPE TO THE INDEX CURRENCY TYPE
+                            contract.Exchange = hi.FirstOrDefault().exchange.ToUpper()                                              ' SET THE CONTRACT EXCHANGE TYPE TO THE INDEX EXCHANGE TYPE
+
+                            order.OrderType = hi.FirstOrDefault().ordertype.ToUpper()                                               ' SET THE ORDER ORDER TYPE TO THE INDEX ORDER TYPE (lmt OR mkt)
+                            order.TotalQuantity = hi.FirstOrDefault().shares                                                        ' SET THE ORDER NUMBER OF SHARES TO THE INDEX NUMBER OF SHARES - CONSIDER SETTING TO THE UPDATED ORDER SHARES VALUE
+                            order.Tif = hi.FirstOrDefault().inforce.ToUpper()                                                       ' SET THE ORDER TRADE IN FORCE TO THE INDEX TRADE IN FORCE (day OR gtc)
+
+                            order.OrderId = sl.FirstOrDefault().OrderId                                                             ' SET THE ORDER ORDER ID TO THE UPDATED RECORD ORDER ID
+                            order.Action = "BUY"                                                                                    ' SET THE ORDER ACTION TO BUY
+                            order.LmtPrice = sl.FirstOrDefault().LimitPrice + hi.FirstOrDefault().width                             ' SET THE ORDER LIMIT PRICE TO THE UPDATED RECORD LIMIT PRICE PLUS THE INDEX WIDTH VALUE
+
+                            RobotOn = True                                                                                          ' FLAG TO INDICATE THAT THE ROBOT IS ON - HANDLED DURING ORDER PLACEMENT
+                            UpdateBuy = False                                                                                       ' FLAG TO INDICATE THAT THE BUY ORDER IS NOT NEEDED TO BE UPDATED (stc order was not filled)
+
+                            Call Tws1.placeOrderEx(order.OrderId, contract, order)                                                  ' CALL THE PLACEORDER FUNCTION TO SEND THE ORDER CREATED TO TWS
 
                         End If
-
-
-
-
-
-
-
 
                     End If
                 End Using
 
-                'Stop
         End Select
 
-        ' move into view
-        lstServerResponses.TopIndex = lstServerResponses.Items.Count - 1
+        lstServerResponses.TopIndex = lstServerResponses.Items.Count - 1                                                            ' SETS THE FOCUS OF THE LISTBOX TO THE LATEST DETAIL SENT TO IT
     End Sub
 
     Private Sub Tws1_openOrderEx(ByVal eventSender As System.Object, ByVal eventArgs As _DTwsEvents_openOrderExEvent) Handles Tws1.OnopenOrderEx
@@ -698,7 +739,6 @@ Friend Class Main
 
         Dim contract As IBApi.Contract
         contract = eventArgs.contract
-
 
         Dim order As IBApi.Order
         order = eventArgs.order
@@ -716,225 +756,10 @@ Friend Class Main
 
         Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, ordermsg)
 
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "Order:")
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  orderId=" & order.OrderId)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  clientId=" & order.ClientId)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  permId=" & order.PermId)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  action=" & order.Action)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  quantity=" & order.TotalQuantity)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  orderType=" & order.OrderType)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  lmtPrice=" & DblMaxStr(order.LmtPrice))
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  auxPrice=" & DblMaxStr(order.AuxPrice))
-
         contractmsg = "Contract Details: Id: " & contract.ConId & " Symbol: " & contract.Symbol & " Security Type: " & contract.SecType &
             "Exchange: " & contract.Exchange & " Currency: " & contract.Currency
 
         Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, contractmsg)
-
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "Contract:")
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  conId=" & contract.ConId)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  symbol=" & contract.Symbol)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  secType=" & contract.SecType)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  lastTradeDate=" & contract.LastTradeDateOrContractMonth)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  strike=" & contract.Strike)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  right=" & contract.Right)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  multiplier=" & contract.Multiplier)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  exchange=" & contract.Exchange)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  primaryExchange=" & contract.PrimaryExch)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  currency=" & contract.Currency)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  localSymbol=" & contract.LocalSymbol)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  tradingClass=" & contract.TradingClass)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  comboLegsDescrip=" & contract.ComboLegsDescription)
-
-        ' combo legs
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  comboLegs={")
-
-        If Not contract.ComboLegs Is Nothing Then
-            Dim comboLegsCount As Long
-            Dim orderComboLegsCount As Long
-            comboLegsCount = contract.ComboLegs.Count
-            orderComboLegsCount = 0
-
-            If Not order.OrderComboLegs Is Nothing Then
-                orderComboLegsCount = order.OrderComboLegs.Count()
-            End If
-
-            Dim iLoop As Long
-            For iLoop = 0 To comboLegsCount - 1
-                Dim comboLeg As IBApi.ComboLeg
-                comboLeg = contract.ComboLegs.Item(iLoop)
-                Dim orderComboLegPriceStr As String
-                orderComboLegPriceStr = ""
-
-                If comboLegsCount = orderComboLegsCount Then
-                    Dim orderComboLeg As IBApi.OrderComboLeg
-                    orderComboLeg = order.OrderComboLegs.Item(iLoop)
-                    orderComboLegPriceStr = " price=" & DblMaxStr(orderComboLeg.Price)
-                End If
-
-                'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "    leg " & (iLoop + 1) &
-                '": conId=" & comboLeg.ConId & " ratio=" & comboLeg.Ratio & " action=" & comboLeg.Action &
-                '" exchange = " & comboLeg.Exchange & " openClose=" & comboLeg.OpenClose &
-                '" shortSaleSlot=" & comboLeg.ShortSaleSlot & " designatedLocation=" & comboLeg.DesignatedLocation &
-                '" exemptCode=" & comboLeg.ExemptCode & orderComboLegPriceStr)
-            Next iLoop
-        End If
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  }")
-
-        Dim underComp As IBApi.UnderComp
-        underComp = contract.UnderComp
-
-        If (Not underComp Is Nothing) Then
-            With underComp
-                Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  underComp.conId=" & .ConId)
-                Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  underComp.delta=" & .Delta)
-                Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  underComp.delta=" & .Price)
-            End With
-        End If
-
-
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "Order (extended):")
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  timeInForce=" & order.Tif)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  ocaGroup=" & order.OcaGroup)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  ocaType=" & order.OcaType)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  orderRef=" & order.OrderRef)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  transmit=" & order.Transmit)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  parentId=" & order.ParentId)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  blockOrder=" & order.BlockOrder)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  sweepToFill=" & order.SweepToFill)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  displaySize=" & order.DisplaySize)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  triggerMethod=" & order.TriggerMethod)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  outsideRth=" & order.OutsideRth)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  hidden=" & order.Hidden)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  goodAfterTime=" & order.GoodAfterTime)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  goodTillDate=" & order.GoodTillDate)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  overridePercentageConstraints=" & order.OverridePercentageConstraints)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  rule80A=" & order.Rule80A)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  allOrNone=" & order.AllOrNone)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  minQty=" & IntMaxStr(order.MinQty))
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  percentOffset=" & DblMaxStr(order.PercentOffset))
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  trailStopPrice=" & DblMaxStr(order.TrailStopPrice))
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  trailingPercent=" & DblMaxStr(order.TrailingPercent))
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  whatIf=" & order.WhatIf)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  notHeld=" & order.NotHeld)
-
-        ' Financial advisors only
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  faGroup=" & order.FaGroup)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  faProfile=" & order.FaProfile)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  faMethod=" & order.FaMethod)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  faPercentage=" & order.FaPercentage)
-
-        ' Clearing info
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  account=" & order.Account)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  modelCode=" & order.ModelCode)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  settlingFirm=" & order.SettlingFirm)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  clearingAccount=" & order.ClearingAccount)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  clearingIntent=" & order.ClearingIntent)
-
-        ' Institutional orders only
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  openClose=" & order.OpenClose)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  origin=" & order.Origin)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  shortSaleSlot=" & order.ShortSaleSlot)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  designatedLocation=" & order.DesignatedLocation)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  exemptCode=" & order.ExemptCode)
-
-        ' SMART routing only
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  discretionaryAmt=" & order.DiscretionaryAmt)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  eTradeOnly=" & order.ETradeOnly)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  firmQuoteOnly=" & order.FirmQuoteOnly)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  nbboPriceCap=" & DblMaxStr(order.NbboPriceCap))
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  optOutSmartRouting=" & order.OptOutSmartRouting)
-
-        ' BOX or VOL orders only
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  auctionStrategy=" & order.AuctionStrategy)
-
-        ' BOX order only
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  startingPrice=" & DblMaxStr(order.StartingPrice))
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  stockRefPrice=" & DblMaxStr(order.StockRefPrice))
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  delta=" & DblMaxStr(order.Delta))
-
-        ' pegged to stock or VOL orders
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  stockRangeLower=" & DblMaxStr(order.StockRangeLower))
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  stockRangeUpper=" & DblMaxStr(order.StockRangeUpper))
-
-        ' VOLATILITY orders only
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  volatility=" & DblMaxStr(order.Volatility))
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  volatilityType=" & order.VolatilityType)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  continuousUpdate=" & order.ContinuousUpdate)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  referencePriceType=" & order.ReferencePriceType)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  deltaNeutralOrderType=" & order.DeltaNeutralOrderType)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  deltaNeutralAuxPrice=" & DblMaxStr(order.DeltaNeutralAuxPrice))
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  deltaNeutralConId=" & order.DeltaNeutralConId)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  deltaNeutralSettlingFirm=" & order.DeltaNeutralSettlingFirm)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  deltaNeutralClearingAccount=" & order.DeltaNeutralClearingAccount)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  deltaNeutralClearingIntent=" & order.DeltaNeutralClearingIntent)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  deltaNeutralOpenClose=" & order.DeltaNeutralOpenClose)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  deltaNeutralShortSale=" & order.DeltaNeutralShortSale)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  deltaNeutralShortSaleSlot=" & order.DeltaNeutralShortSaleSlot)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  deltaNeutralDesignatedlocation=" & order.DeltaNeutralDesignatedLocation)
-
-        ' COMBO orders only
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  basisPoints=" & DblMaxStr(order.BasisPoints))
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  basisPointsType=" & IntMaxStr(order.BasisPointsType))
-
-        ' SCALE orders only
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  scaleInitLevelSize=" & IntMaxStr(order.ScaleInitLevelSize))
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  scaleSubsLevelSize=" & IntMaxStr(order.ScaleSubsLevelSize))
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  scalePriceIncrement=" & DblMaxStr(order.ScalePriceIncrement))
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  scalePriceAdjustValue=" & DblMaxStr(order.ScalePriceAdjustValue))
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  scalePriceAdjustInterval=" & IntMaxStr(order.ScalePriceAdjustInterval))
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  scaleProfitOffset=" & DblMaxStr(order.ScaleProfitOffset))
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  scaleAutoReset=" & order.ScaleAutoReset)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  scaleInitPosition=" & IntMaxStr(order.ScaleInitPosition))
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  scaleInitFillQty=" & IntMaxStr(order.ScaleInitFillQty))
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  scaleRandomPercent=" & IntMaxStr(order.ScaleRandomPercent))
-
-        ' HEDGE orders only
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  hedgeType=" & order.HedgeType)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  hedgeParam=" & order.HedgeParam)
-
-        ' Solicited orders only
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  solicited=" & order.Solicited)
-
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  randomize size=" & order.RandomizeSize)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  randomize price=" & order.RandomizePrice)
-
-        ' ALGO orders only
-        Dim algoStrategy As String
-        algoStrategy = order.AlgoStrategy
-        If (algoStrategy <> "") Then
-            Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  algoStrategy=" & algoStrategy)
-            Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  algoParams={")
-            Dim algoParams As List(Of IBApi.TagValue)
-            algoParams = order.AlgoParams
-            If (Not algoParams Is Nothing) Then
-                Dim algoParamsCount As Long
-                algoParamsCount = algoParams.Count
-                Dim iLoop As Long
-                For iLoop = 0 To algoParamsCount - 1
-                    Dim param As IBApi.TagValue
-                    param = algoParams.Item(iLoop)
-                    Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "    " & param.Tag & "=" & param.Value)
-                Next iLoop
-            End If
-            Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  }")
-        End If
-
-        ' Smart combo routing params
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  smartComboRoutingParams={")
-        Dim smartComboRoutingParams As List(Of IBApi.TagValue)
-        smartComboRoutingParams = order.SmartComboRoutingParams
-        If (Not smartComboRoutingParams Is Nothing) Then
-            Dim smartComboRoutingParamsCount As Long
-            smartComboRoutingParamsCount = smartComboRoutingParams.Count
-            Dim iLoop As Long
-            For iLoop = 0 To smartComboRoutingParamsCount - 1
-                Dim param As IBApi.TagValue
-                param = smartComboRoutingParams.Item(iLoop)
-                'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "    " & param.Tag & "=" & param.Value)
-            Next iLoop
-        End If
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  }")
 
         orderstatemsg = "Order Status: " & orderState.Status
 
@@ -953,6 +778,9 @@ Friend Class Main
 
                     Dim newStockOrder As New stockorder                                                                                                                                     ' OPEN NEW STRUCTURE FOR RECORD IN STOCK PRODUCTION TABLE.
                     'TryUpdateModel(newStockOrder)                                                                                                                                           ' TEST CONNECTION TO DATABASE TABLES.
+
+                    ' TODO:  CHANGE THE MODEL AND CODE BELOW TO SWAP STATUS AND ORDERSTATUS FIELD SIZES 
+
                     Dim newindex As New stockorder With {
                                                             .timestamp = DateTime.Parse(Now).ToUniversalTime(),
                                                             .OrderId = order.OrderId,
@@ -976,9 +804,17 @@ Friend Class Main
 
                 If RobotOn = True Then
 
-                    Dim newStockOrder As New stockorder                                                                                                                                     ' OPEN NEW STRUCTURE FOR RECORD IN STOCK PRODUCTION TABLE.
-                    'TryUpdateModel(newStockOrder)                                                                                                                                           ' TEST CONNECTION TO DATABASE TABLES.
-                    Dim newindex As New stockorder With {
+                    If order.Action = "SELL" Then
+
+                    Else
+                        matchid = order.OrderId
+                    End If
+
+                    If UpdateBuy = False Then
+
+                        Dim newStockOrder As New stockorder                                                                                                                                     ' OPEN NEW STRUCTURE FOR RECORD IN STOCK PRODUCTION TABLE.
+                        'TryUpdateModel(newStockOrder)                                                                                                                                           ' TEST CONNECTION TO DATABASE TABLES.
+                        Dim newindex As New stockorder With {
                                                             .timestamp = DateTime.Parse(Now).ToUniversalTime(),
                                                             .OrderId = order.OrderId,
                                                             .PermID = order.PermId,
@@ -990,54 +826,35 @@ Friend Class Main
                                                             .Quantity = order.TotalQuantity,
                                                             .OrderStatus = "Open",
                                                             .roboIndex = indexselected,
-                                                            .matchID = order.OrderId,
+                                                            .matchID = matchid,
                                                             .OrderTimestamp = DateTime.Parse(Now).ToUniversalTime()
                                                         }                                                                                                                               ' OPEN THE NEW RECORD (BOUGHT POSITION) IN THE TABLE.
 
-                    db.stockorders.Add(newindex)                                                                                                                                 ' INSERT THE NEW RECORD TO BE ADDED.
-                    db.SaveChanges()
+                        db.stockorders.Add(newindex)                                                                                                                                 ' INSERT THE NEW RECORD TO BE ADDED.
+                        db.SaveChanges()
 
+                    Else
 
+                        Dim ou = (From q In db.stockorders Where q.OrderId = order.OrderId Select q).FirstOrDefault()
+
+                        ou.Status = "Updated"
+                        ou.LimitPrice = order.LmtPrice
+                        ou.TickPrice = currentprice
+                        ou.timestamp = DateTime.Parse(Now).ToUniversalTime()
+                        db.SaveChanges()
+                        UpdateBuy = True
+
+                    End If
                 End If
 
             End Using
         End If
 
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "OrderState:")
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  status=" & orderState.Status)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  initMargin=" & orderState.InitMargin)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  maintMargin=" & orderState.MaintMargin)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  equityWithLoan=" & orderState.EquityWithLoan)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  commission=" & DblMaxStr(orderState.Commission))
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  minCommission=" & DblMaxStr(orderState.MinCommission))
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  maxCommission=" & DblMaxStr(orderState.MaxCommission))
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  comissionCurrency=" & orderState.CommissionCurrency)
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "  warningText=" & orderState.WarningText)
-
         Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "===============================")
 
     End Sub
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     Public WithEvents Tws1 As Tws
-
-
-
-
-
 
     Function gettickprice(ByVal eventSender As System.Object, ByVal eventArgs As AxTWSLib._DTwsEvents_tickPriceEvent) As Double
 
@@ -1049,9 +866,6 @@ Friend Class Main
 
         Return currentprice
     End Function
-
-
-    ' MIHIR - 04/06/18 SPRINT IS TO GET A SINGLE TICK PRICE WHEN btn
 
     Private Sub Tws1_tickPrice(ByVal eventSender As System.Object, ByVal eventArgs As AxTWSLib._DTwsEvents_tickPriceEvent) Handles Tws1.OnTickPrice
 
@@ -1065,8 +879,6 @@ Friend Class Main
         End If
 
     End Sub
-
-    ' MIHIR THIS IS THE GET TICKPRICE BUTTON THAT SHOULD INITIATE GETTING A SINGLE TICKPRICE FOR THE SYMBOL SELECTED
 
     Private Sub btnGetPrice_Click(sender As Object, e As EventArgs) Handles btnGetPrice.Click
 

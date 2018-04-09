@@ -194,6 +194,7 @@
     <Compile Include="Models\TradeLog.vb" />
     <Compile Include="Tws.vb" />
     <Compile Include="Models\User.vb" />
+    <Compile Include="unusedCode.vb" />
     <Compile Include="Utils.vb" />
     <Compile Include="Models\visitor.vb" />
     <Compile Include="Models\vw_aspnet_Applications.vb" />
@@ -289,6 +290,9 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="SPRINT LOG.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>
