@@ -1925,11 +1925,11 @@ warning 6002: The table/view 'optionwavesdb.dbo.vw_Pricings_DESC' does not have 
           <Property Name="PermID" Type="Int32" />
           <Property Name="Symbol" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
           <Property Name="Action" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
-          <Property Name="Status" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="TickPrice" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="LimitPrice" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="Quantity" Type="Int32" />
-          <Property Name="OrderStatus" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="OrderStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="OrderTimestamp" Type="DateTime" Precision="3" />
           <Property Name="roboIndex" Type="String" MaxLength="12" FixedLength="false" Unicode="true" />
           <Property Name="matchID" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />

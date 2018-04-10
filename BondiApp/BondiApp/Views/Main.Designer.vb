@@ -84,12 +84,11 @@ Partial Class Main
         Me.Label19 = New System.Windows.Forms.Label()
         Me.txtGetPriceSymbol = New System.Windows.Forms.TextBox()
         Me.cmbWillie = New System.Windows.Forms.ComboBox()
-        Me.Label20 = New System.Windows.Forms.Label()
-        Me.txtOpeningPrice = New System.Windows.Forms.TextBox()
         Me.btnckprice = New System.Windows.Forms.Button()
         Me.bntlistclear = New System.Windows.Forms.Button()
         Me.Timer60Sec = New System.Windows.Forms.Timer(Me.components)
         Me.TimerAtTime = New System.Windows.Forms.Timer(Me.components)
+        Me.ckRobotOn = New System.Windows.Forms.CheckBox()
         CType(Me.HarvestIndexBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.OptionwavesdbDataSet, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BindingSource1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -143,7 +142,7 @@ Partial Class Main
         '
         Me.btnDisconnect.Location = New System.Drawing.Point(808, 9)
         Me.btnDisconnect.Name = "btnDisconnect"
-        Me.btnDisconnect.Size = New System.Drawing.Size(72, 23)
+        Me.btnDisconnect.Size = New System.Drawing.Size(81, 23)
         Me.btnDisconnect.TabIndex = 5
         Me.btnDisconnect.Text = "Disconnect"
         Me.btnDisconnect.UseVisualStyleBackColor = True
@@ -596,23 +595,6 @@ Partial Class Main
         Me.cmbWillie.Size = New System.Drawing.Size(175, 21)
         Me.cmbWillie.TabIndex = 64
         '
-        'Label20
-        '
-        Me.Label20.AutoSize = True
-        Me.Label20.Location = New System.Drawing.Point(650, 53)
-        Me.Label20.Name = "Label20"
-        Me.Label20.Size = New System.Drawing.Size(74, 13)
-        Me.Label20.TabIndex = 66
-        Me.Label20.Text = "Opening Price"
-        '
-        'txtOpeningPrice
-        '
-        Me.txtOpeningPrice.Location = New System.Drawing.Point(730, 47)
-        Me.txtOpeningPrice.Name = "txtOpeningPrice"
-        Me.txtOpeningPrice.Size = New System.Drawing.Size(59, 20)
-        Me.txtOpeningPrice.TabIndex = 65
-        Me.txtOpeningPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        '
         'btnckprice
         '
         Me.btnckprice.Location = New System.Drawing.Point(808, 164)
@@ -639,15 +621,24 @@ Partial Class Main
         '
         Me.TimerAtTime.Interval = 30000
         '
+        'ckRobotOn
+        '
+        Me.ckRobotOn.AutoSize = True
+        Me.ckRobotOn.Location = New System.Drawing.Point(663, 51)
+        Me.ckRobotOn.Name = "ckRobotOn"
+        Me.ckRobotOn.Size = New System.Drawing.Size(78, 17)
+        Me.ckRobotOn.TabIndex = 69
+        Me.ckRobotOn.Text = "Run Robot"
+        Me.ckRobotOn.UseVisualStyleBackColor = True
+        '
         'Main
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(906, 441)
+        Me.ClientSize = New System.Drawing.Size(962, 489)
+        Me.Controls.Add(Me.ckRobotOn)
         Me.Controls.Add(Me.bntlistclear)
         Me.Controls.Add(Me.btnckprice)
-        Me.Controls.Add(Me.Label20)
-        Me.Controls.Add(Me.txtOpeningPrice)
         Me.Controls.Add(Me.cmbWillie)
         Me.Controls.Add(Me.Label19)
         Me.Controls.Add(Me.txtGetPriceSymbol)
@@ -775,10 +766,9 @@ Partial Class Main
     Friend WithEvents Label19 As Label
     Friend WithEvents txtGetPriceSymbol As TextBox
     Friend WithEvents cmbWillie As ComboBox
-    Friend WithEvents Label20 As Label
-    Friend WithEvents txtOpeningPrice As TextBox
     Friend WithEvents btnckprice As Button
     Friend WithEvents bntlistclear As Button
     Friend WithEvents Timer60Sec As Timer
     Friend WithEvents TimerAtTime As Timer
+    Friend WithEvents ckRobotOn As CheckBox
 End Class

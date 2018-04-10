@@ -129,6 +129,7 @@ Friend Class Tws
         InvokeIfRequired(Sub()
                              RaiseEvent OnTickPrice(Me, New AxTWSLib._DTwsEvents_tickPriceEvent With {.id = tickerId, .price = price, .tickType = field, .canAutoExecute = canAutoExecute, .tickCount = tickCount})
                          End Sub)
+
     End Sub
     Public Sub cancelMarketData(tickerId As Integer)
         socket.cancelMktData(tickerId)
