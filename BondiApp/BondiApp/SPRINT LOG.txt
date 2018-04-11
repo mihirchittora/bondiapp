@@ -16,6 +16,8 @@ Targeted Spring Completion:  Wednesday April 12, 2018.
 1. 	In order to check if an order has filled when the app is not running we need code that will check the open orders in the database against the open orders in TWS.
 	We need to think though when to execute this code as it has implications on additional orders sent.  That can be done later we do need the code to execute this though.
 	
+	Finished today 3 - 4 hours
+
 2. 	In the database there is the old ASP.net Membership database established for user authentication and membership.  Enrollment will occur via the website so no need to 
 	build that within the winforms app.  
 	- 	Build a small logon form that allows the user to enter their userid (which is in some cases an email address - not all so no need to validate the filed for email only)
@@ -36,4 +38,9 @@ Targeted Spring Completion:  Wednesday April 12, 2018.
 			- 	save the userid into a global variable 
 			-	Display the main form.
 			
+			
+			
+			Finished by Friday
+
+
 	Anything else I am missing on the logon section we can discuss in the morning US time.
