@@ -165,7 +165,7 @@ Partial Class Main
         'lblConStatus
         '
         Me.lblConStatus.AutoSize = True
-        Me.lblConStatus.Location = New System.Drawing.Point(326, 846)
+        Me.lblConStatus.Location = New System.Drawing.Point(336, 484)
         Me.lblConStatus.Name = "lblConStatus"
         Me.lblConStatus.Size = New System.Drawing.Size(44, 13)
         Me.lblConStatus.TabIndex = 7
@@ -473,7 +473,7 @@ Partial Class Main
         Me.lstServerResponses.Location = New System.Drawing.Point(335, 358)
         Me.lstServerResponses.Margin = New System.Windows.Forms.Padding(2)
         Me.lstServerResponses.Name = "lstServerResponses"
-        Me.lstServerResponses.Size = New System.Drawing.Size(546, 472)
+        Me.lstServerResponses.Size = New System.Drawing.Size(546, 121)
         Me.lstServerResponses.TabIndex = 48
         '
         'btnWillie
@@ -487,7 +487,7 @@ Partial Class Main
         '
         'btnClose
         '
-        Me.btnClose.Location = New System.Drawing.Point(800, 846)
+        Me.btnClose.Location = New System.Drawing.Point(804, 484)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(75, 23)
         Me.btnClose.TabIndex = 50
@@ -613,7 +613,7 @@ Partial Class Main
         '
         'bntlistclear
         '
-        Me.bntlistclear.Location = New System.Drawing.Point(714, 846)
+        Me.bntlistclear.Location = New System.Drawing.Point(718, 484)
         Me.bntlistclear.Name = "bntlistclear"
         Me.bntlistclear.Size = New System.Drawing.Size(81, 23)
         Me.bntlistclear.TabIndex = 68
@@ -782,7 +782,7 @@ Partial Class Main
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(899, 881)
+        Me.ClientSize = New System.Drawing.Size(899, 526)
         Me.Controls.Add(Me.Label17)
         Me.Controls.Add(Me.TextBox1)
         Me.Controls.Add(Me.Label20)
