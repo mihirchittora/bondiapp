@@ -93,7 +93,10 @@ Friend Class Tws
     End Sub
 
     Public Sub [error](e As Exception) Implements EWrapper.error
-        Throw New NotImplementedException()
+
+        MsgBox("eWrapper Error encountered: " & e.ToString())
+
+        ' Throw New NotImplementedException()
     End Sub
 
     Public Sub [error](str As String) Implements EWrapper.error
