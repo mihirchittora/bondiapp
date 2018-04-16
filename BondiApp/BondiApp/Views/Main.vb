@@ -17,7 +17,6 @@ Friend Class Main
     Dim tickId As Integer = 0
 
     Private m_utils As New Utils                                                                                                                ' CREATES A NEW INSTANCE OF UTILS TO BE USED IN THIS FORM 
-    Private m_dlgAcctData As New dlgAcctData
     Private m_dlgConnect As New dlgConnect
     Private m_dlgHarvest As New dlgHarvest
     Private m_faAcctsList As String
@@ -75,8 +74,7 @@ Friend Class Main
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
-        Call m_utils.init(Me, Nothing, Nothing)                                                                                                                                                     ' INITIALIZES THE UTILS TO SEND AND READ MESSAGES FROM THE API
-        Call m_dlgAcctData.init(m_utils)                                                                                                                                                            ' INITIALIZES THE ACCOUNT DIALOGUE TO GET ACCOUNT DETAIL TO POST TO THE FORM
+        Call m_utils.init(Me)                                                                                                                                                     ' INITIALIZES THE UTILS TO SEND AND READ MESSAGES FROM THE API
         Timer60Sec.Enabled = True                                                                                                                                                                   ' INITIALIZES THE 60 SECOND TIME TO REQUEST PRICING 
         TimerAtTime.Enabled = True                                                                                                                                                                  ' INITIALIZES THE TIMER TO RUN AT A SPECIFIED TIME TO DETERMINE WHETHER THERE IS A GAP UP OR DOWN IN PRODUCT PRICE        
 
@@ -1249,7 +1247,7 @@ Friend Class Main
     End Sub
 
     Private Sub btnTest_Click(sender As Object, e As EventArgs) Handles btnTest.Click
-        dlgHarvestBacktest.ShowDialog()
+        'dlgHarvestBacktest.ShowDialog()
     End Sub
 
 
