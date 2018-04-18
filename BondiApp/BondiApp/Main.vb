@@ -161,13 +161,6 @@ Friend Class Main
     End Sub
 
 
-
-
-
-
-
-
-
     Private Sub cmbIndexes_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbIndexes.SelectedIndexChanged
         indexselected = cmbIndexes.SelectedValue.ToString()
 
@@ -811,12 +804,6 @@ Friend Class Main
 
     Public WithEvents Tws1 As Tws
 
-
-
-
-
-    ' MIHIR - 04/06/18 SPRINT IS TO GET A SINGLE TICK PRICE WHEN btn
-
     Private Sub Tws1_tickPrice(ByVal eventSender As System.Object, ByVal eventArgs As AxTWSLib._DTwsEvents_tickPriceEvent) Handles Tws1.OnTickPrice
         Dim mktDataStr As String
 
@@ -835,8 +822,6 @@ Friend Class Main
         ' move into view
         'lstMktData.TopIndex = lstMktData.Items.Count - 1
     End Sub
-
-    ' MIHIR THIS IS THE GET TICKPRICE BUTTON THAT SHOULD INITIATE GETTING A SINGLE TICKPRICE FOR THE SYMBOL SELECTED
 
     Private Sub btnGetPrice_Click(sender As Object, e As EventArgs) Handles btnGetPrice.Click
 
@@ -859,7 +844,7 @@ Friend Class Main
         Tws1.reqMktDataEx(1, contract, "", False, Nothing)                                                                              ' API CALL TO GET THE PRODUCTS TICK PRICE                       
 
         currentprice = Tws1.StockTickPrice                                                                                             ' SET CURRENT PRICE TO STOCKTICKPRICE TO BE PASSED TO CALLING FUNCTION
-        'Stop
+
 
     End Sub
 
