@@ -1436,6 +1436,36 @@ Friend Class Main
 
 
     End Sub
+    Private Sub Tws1_OnSecurityDefinitionOptionParameter(tws As Tws, DTWsEvents_securityDefinitionOptionParameterEvent As AxTWSLib._DTWsEvents_securityDefinitionOptionParameterEvent) Handles Tws1.OnSecurityDefinitionOptionParameter
+        Dim displayString As String
+
+        displayString = String.Format("reqId: {0}, exchange {1}, underlyingConId: {2}, tradingClass: {3}, multiplier: {4}, expirations: {5}, strikes: {6}",
+            DTWsEvents_securityDefinitionOptionParameterEvent.reqId,
+            DTWsEvents_securityDefinitionOptionParameterEvent.exchange,
+            DTWsEvents_securityDefinitionOptionParameterEvent.underlyingConId,
+            DTWsEvents_securityDefinitionOptionParameterEvent.tradingClass,
+            DTWsEvents_securityDefinitionOptionParameterEvent.multiplier,
+            String.Join(",", DTWsEvents_securityDefinitionOptionParameterEvent.expirations),
+            String.Join(", ", DTWsEvents_securityDefinitionOptionParameterEvent.strikes))
+
+        Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, displayString)
+
+        ' move into view
+        lstServerResponses.TopIndex = lstServerResponses.Items.Count - 1
+    End Sub
+    Private Sub btnOptionChain_Click(sender As Object, e As EventArgs) Handles btnOptionChain.Click
+        Dim contract As Contract = New Contract
+        contract.Symbol = "VXX"
+        contract.SecType = "OPT"
+        contract.Exchange = "SMART"
+        contract.Currency = "USD"
+        'Tws1.reqContractDetailsEx(1, contract)
+        Tws1.reqMarketDataType(24)
+        Tws1.reqMktDataEx(1005, contract, String.Empty, False, Nothing)
+        Tws1.reqSecDefOptParams(1, "VXX", "", "STK", 285777413)
+        Tws1.calculateOptionPrice(1, contract, 0, 0)
+        Tws1.cancelCalculateOptionPrice(1)
+    End Sub
 
     Function getdatetime(ByVal marketdate As String, ByVal markettime As String) As String
         Dim dateandtime As String = ""

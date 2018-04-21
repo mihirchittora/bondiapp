@@ -291,6 +291,8 @@
     <Compile Include="Models\wStockOrder.vb">
       <DependentUpon>BondiModelEntity.tt</DependentUpon>
     </Compile>
+    <Compile Include="TWS_BL\_DTwsEvents_securityDefinitionOptionParameterEnd.vb" />
+    <Compile Include="TWS_BL\_DTWsEvents_securityDefinitionOptionParameterEvent.vb" />
     <Compile Include="Views\dlgAcctData.vb">
       <SubType>Form</SubType>
     </Compile>
