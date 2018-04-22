@@ -19,6 +19,10 @@ Friend Class Tws
         Me.form = form
     End Sub
 
+    Sub reqSecDefOptParams(reqId As Integer, underlyingSymbol As String, futFopExchange As String, underlyingSecType As String, underlyingConId As Integer)
+        socket.reqSecDefOptParams(reqId, underlyingSymbol, futFopExchange, underlyingSecType, underlyingConId)
+    End Sub
+
     Sub InvokeIfRequired(del As [Delegate])
         If form.InvokeRequired Then
             form.Invoke(del)
@@ -51,6 +55,7 @@ Friend Class Tws
 
     Sub placeOrderEx(p1 As Integer, m_contractInfo As IBApi.Contract, m_orderInfo As IBApi.Order)
         socket.placeOrder(p1, m_contractInfo, m_orderInfo)
+        nextValidId(m_orderInfo.OrderId + 1)
     End Sub
 
     Sub cancelOrder(p1 As Integer)
@@ -92,15 +97,30 @@ Friend Class Tws
     End Sub
 
     Public Sub [error](e As Exception) Implements EWrapper.error
-        Throw New NotImplementedException()
+
+        MsgBox("eWrapper Error encountered: " & e.ToString())
+
+        ' Throw New NotImplementedException()
     End Sub
 
     Public Sub [error](str As String) Implements EWrapper.error
         Throw New NotImplementedException()
     End Sub
 
+    Sub calculateImpliedVolatility(p1 As Integer, m_contractInfo As IBApi.Contract, p3 As Double, p4 As Double)
+        socket.calculateImpliedVolatility(p1, m_contractInfo, p3, p4, Nothing)
+    End Sub
 
+    Sub calculateOptionPrice(p1 As Integer, m_contractInfo As IBApi.Contract, p3 As Double, p4 As Double)
+        socket.calculateOptionPrice(p1, m_contractInfo, p3, p4, Nothing)
+    End Sub
 
+    Sub cancelCalculateImpliedVolatility(p1 As Integer)
+        socket.cancelCalculateImpliedVolatility(p1)
+    End Sub
+    Sub cancelCalculateOptionPrice(p1 As Integer)
+        socket.cancelCalculateOptionPrice(p1)
+    End Sub
 
 
     ' USE THIS TO LOG ERRORS OR DISPLAY ERRORS TO THE USER
@@ -127,7 +147,13 @@ Friend Class Tws
                              RaiseEvent OnTickPrice(Me, New AxTWSLib._DTwsEvents_tickPriceEvent With {.id = tickerId, .price = price, .TickType = field, .canAutoExecute = canAutoExecute})
                          End Sub)
 
+<<<<<<< HEAD:BondiApp/BondiApp/Tws.vb
 
+=======
+    End Sub
+    Public Sub cancelMarketData(tickerId As Integer)
+        socket.cancelMktData(tickerId)
+>>>>>>> 1baac7feec5225a8c3836fb45db4b4729b3eeeeb:BondiApp/BondiApp/BL/Tws.vb
     End Sub
 
     Public Sub tickSize(tickerId As Integer, field As Integer, size As Integer) Implements EWrapper.tickSize
@@ -180,9 +206,7 @@ Friend Class Tws
         Throw New NotImplementedException()
     End Sub
 
-    Public Sub tickOptionComputation(tickerId As Integer, field As Integer, impliedVolatility As Double, delta As Double, optPrice As Double, pvDividend As Double, gamma As Double, vega As Double, theta As Double, undPrice As Double) Implements EWrapper.tickOptionComputation
-        'Throw New NotImplementedException()
-
+    Public Sub tickOptionComputation(tickerId As Integer, field As Integer, impliedVolatility As Double, delta As Double, optPrice As Double, pvDividend As Double, gamma As Double, vega As Double, theta As Double, undPrice As Double) Implements IBApi.EWrapper.tickOptionComputation
         InvokeIfRequired(Sub()
                              RaiseEvent OnTickOptionComputation(Me, New AxTWSLib._DTwsEvents_tickOptionComputationEvent With {
                                                                                                     .tickerId = tickerId,
@@ -197,7 +221,6 @@ Friend Class Tws
                                                                                                     .undPrice = undPrice
                                                                  })
                          End Sub)
-
     End Sub
 
     Public Sub tickSnapshotEnd(tickerId As Integer) Implements EWrapper.tickSnapshotEnd
@@ -232,6 +255,9 @@ Friend Class Tws
 
     Public Sub accountSummaryEnd(reqId As Integer) Implements EWrapper.accountSummaryEnd
         Throw New NotImplementedException()
+    End Sub
+    Sub reqContractDetailsEx(p1 As Integer, m_contractInfo As IBApi.Contract)
+        socket.reqContractDetails(p1, m_contractInfo)
     End Sub
 
     Public Sub bondContractDetails(reqId As Integer, contract As ContractDetails) Implements EWrapper.bondContractDetails
@@ -450,11 +476,25 @@ Friend Class Tws
     End Sub
 
     Public Sub securityDefinitionOptionParameter(reqId As Integer, exchange As String, underlyingConId As Integer, tradingClass As String, multiplier As String, expirations As HashSet(Of String), strikes As HashSet(Of Double)) Implements EWrapper.securityDefinitionOptionParameter
-        Throw New NotImplementedException()
+        InvokeIfRequired(Sub()
+                             RaiseEvent OnSecurityDefinitionOptionParameter(Me, New AxTWSLib._DTWsEvents_securityDefinitionOptionParameterEvent With {
+                                                                            .reqId = reqId,
+                                                                            .exchange = exchange,
+                                                                            .underlyingConId = underlyingConId,
+                                                                            .tradingClass = tradingClass,
+                                                                            .multiplier = multiplier,
+                                                                            .expirations = expirations,
+                                                                            .strikes = strikes
+                                                                        })
+                         End Sub)
     End Sub
 
     Public Sub securityDefinitionOptionParameterEnd(reqId As Integer) Implements EWrapper.securityDefinitionOptionParameterEnd
-        Throw New NotImplementedException()
+        InvokeIfRequired(Sub()
+                             RaiseEvent OnSecurityDefinitionOptionParameterEnd(Me, New AxTWSLib._DTwsEvents_securityDefinitionOptionParameterEnd With {
+                                                          .reqId = reqId
+                                                          })
+                         End Sub)
     End Sub
 
     Public Sub softDollarTiers(reqId As Integer, tiers() As SoftDollarTier) Implements EWrapper.softDollarTiers
@@ -474,6 +514,8 @@ Friend Class Tws
     Event OncommissionReport(tws As Tws, DTwsEvents_commissionReportEvent As AxTWSLib._DTwsEvents_commissionReportEvent)
 
     Event OnmarketDataType(tws As Tws, DTwsEvents_marketDataTypeEvent As AxTWSLib._DTwsEvents_marketDataTypeEvent)
+    Event OnSecurityDefinitionOptionParameter(tws As Tws, DTWsEvents_securityDefinitionOptionParameterEvent As AxTWSLib._DTWsEvents_securityDefinitionOptionParameterEvent)
+    Event OnSecurityDefinitionOptionParameterEnd(tws As Tws, DTwsEvents_securityDefinitionOptionParameterEnd As AxTWSLib._DTwsEvents_securityDefinitionOptionParameterEnd)
 
     Event OnTickPrice(ByVal eventSender As System.Object, ByVal eventArgs As AxTWSLib._DTwsEvents_tickPriceEvent)
     Event OnTickSize(ByVal eventSender As System.Object, ByVal eventArgs As AxTWSLib._DTwsEvents_tickSizeEvent)

@@ -38,14 +38,10 @@ Public Class dlgHarvest
     Public ToolTip1 As System.Windows.Forms.ToolTip
     Public WithEvents cmdOk As System.Windows.Forms.Button
     Public WithEvents cmdCancel As System.Windows.Forms.Button
-    Public WithEvents txtPort As System.Windows.Forms.TextBox
-    Public WithEvents txtClientId As System.Windows.Forms.TextBox
-    Public WithEvents txtHostIP As System.Windows.Forms.TextBox
     Public WithEvents Label3 As System.Windows.Forms.Label
-    Public WithEvents Label2 As System.Windows.Forms.Label
-    Public WithEvents txtOptCapts As System.Windows.Forms.TextBox
     Public WithEvents Label4 As System.Windows.Forms.Label
-    Public WithEvents Label5 As System.Windows.Forms.Label
+    Friend WithEvents Panel1 As Panel
+    Friend WithEvents Label2 As Label
     Public WithEvents Label1 As System.Windows.Forms.Label
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.
@@ -55,15 +51,12 @@ Public Class dlgHarvest
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.cmdOk = New System.Windows.Forms.Button()
         Me.cmdCancel = New System.Windows.Forms.Button()
-        Me.txtPort = New System.Windows.Forms.TextBox()
-        Me.txtClientId = New System.Windows.Forms.TextBox()
-        Me.txtHostIP = New System.Windows.Forms.TextBox()
         Me.Label3 = New System.Windows.Forms.Label()
-        Me.Label2 = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
-        Me.txtOptCapts = New System.Windows.Forms.TextBox()
         Me.Label4 = New System.Windows.Forms.Label()
-        Me.Label5 = New System.Windows.Forms.Label()
+        Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.Panel1.SuspendLayout()
         Me.SuspendLayout()
         '
         'cmdOk
@@ -73,10 +66,10 @@ Public Class dlgHarvest
         Me.cmdOk.Cursor = System.Windows.Forms.Cursors.Default
         Me.cmdOk.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cmdOk.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.cmdOk.Location = New System.Drawing.Point(60, 547)
+        Me.cmdOk.Location = New System.Drawing.Point(120, 517)
         Me.cmdOk.Name = "cmdOk"
         Me.cmdOk.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.cmdOk.Size = New System.Drawing.Size(73, 25)
+        Me.cmdOk.Size = New System.Drawing.Size(146, 48)
         Me.cmdOk.TabIndex = 3
         Me.cmdOk.Text = "Ok"
         Me.cmdOk.UseVisualStyleBackColor = False
@@ -88,58 +81,13 @@ Public Class dlgHarvest
         Me.cmdCancel.Cursor = System.Windows.Forms.Cursors.Default
         Me.cmdCancel.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cmdCancel.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.cmdCancel.Location = New System.Drawing.Point(148, 547)
+        Me.cmdCancel.Location = New System.Drawing.Point(296, 517)
         Me.cmdCancel.Name = "cmdCancel"
         Me.cmdCancel.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.cmdCancel.Size = New System.Drawing.Size(73, 25)
+        Me.cmdCancel.Size = New System.Drawing.Size(146, 48)
         Me.cmdCancel.TabIndex = 4
         Me.cmdCancel.Text = "Cancel"
         Me.cmdCancel.UseVisualStyleBackColor = False
-        '
-        'txtPort
-        '
-        Me.txtPort.AcceptsReturn = True
-        Me.txtPort.BackColor = System.Drawing.SystemColors.Window
-        Me.txtPort.Cursor = System.Windows.Forms.Cursors.IBeam
-        Me.txtPort.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtPort.ForeColor = System.Drawing.SystemColors.WindowText
-        Me.txtPort.Location = New System.Drawing.Point(16, 96)
-        Me.txtPort.MaxLength = 0
-        Me.txtPort.Name = "txtPort"
-        Me.txtPort.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.txtPort.Size = New System.Drawing.Size(241, 20)
-        Me.txtPort.TabIndex = 1
-        Me.txtPort.Text = "7497"
-        '
-        'txtClientId
-        '
-        Me.txtClientId.AcceptsReturn = True
-        Me.txtClientId.BackColor = System.Drawing.SystemColors.Window
-        Me.txtClientId.Cursor = System.Windows.Forms.Cursors.IBeam
-        Me.txtClientId.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtClientId.ForeColor = System.Drawing.SystemColors.WindowText
-        Me.txtClientId.Location = New System.Drawing.Point(16, 152)
-        Me.txtClientId.MaxLength = 0
-        Me.txtClientId.Name = "txtClientId"
-        Me.txtClientId.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.txtClientId.Size = New System.Drawing.Size(241, 20)
-        Me.txtClientId.TabIndex = 2
-        Me.txtClientId.Text = "0"
-        '
-        'txtHostIP
-        '
-        Me.txtHostIP.AcceptsReturn = True
-        Me.txtHostIP.BackColor = System.Drawing.SystemColors.Window
-        Me.txtHostIP.Cursor = System.Windows.Forms.Cursors.IBeam
-        Me.txtHostIP.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtHostIP.ForeColor = System.Drawing.SystemColors.WindowText
-        Me.txtHostIP.Location = New System.Drawing.Point(16, 40)
-        Me.txtHostIP.MaxLength = 0
-        Me.txtHostIP.Name = "txtHostIP"
-        Me.txtHostIP.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.txtHostIP.Size = New System.Drawing.Size(241, 20)
-        Me.txtHostIP.TabIndex = 0
-        Me.txtHostIP.Text = "127.0.0.1"
         '
         'Label3
         '
@@ -147,25 +95,12 @@ Public Class dlgHarvest
         Me.Label3.Cursor = System.Windows.Forms.Cursors.Default
         Me.Label3.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label3.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Label3.Location = New System.Drawing.Point(16, 136)
+        Me.Label3.Location = New System.Drawing.Point(552, 529)
         Me.Label3.Name = "Label3"
         Me.Label3.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.Label3.Size = New System.Drawing.Size(89, 17)
+        Me.Label3.Size = New System.Drawing.Size(178, 32)
         Me.Label3.TabIndex = 7
         Me.Label3.Text = "Client ID"
-        '
-        'Label2
-        '
-        Me.Label2.BackColor = System.Drawing.SystemColors.Control
-        Me.Label2.Cursor = System.Windows.Forms.Cursors.Default
-        Me.Label2.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label2.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Label2.Location = New System.Drawing.Point(16, 80)
-        Me.Label2.Name = "Label2"
-        Me.Label2.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.Label2.Size = New System.Drawing.Size(41, 17)
-        Me.Label2.TabIndex = 6
-        Me.Label2.Text = "Port"
         '
         'Label1
         '
@@ -173,26 +108,12 @@ Public Class dlgHarvest
         Me.Label1.Cursor = System.Windows.Forms.Cursors.Default
         Me.Label1.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label1.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Label1.Location = New System.Drawing.Point(16, 16)
+        Me.Label1.Location = New System.Drawing.Point(32, 104)
         Me.Label1.Name = "Label1"
         Me.Label1.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.Label1.Size = New System.Drawing.Size(193, 17)
+        Me.Label1.Size = New System.Drawing.Size(386, 32)
         Me.Label1.TabIndex = 5
-        Me.Label1.Text = "HARVEST DIALOG"
-        '
-        'txtOptCapts
-        '
-        Me.txtOptCapts.AcceptsReturn = True
-        Me.txtOptCapts.BackColor = System.Drawing.SystemColors.Window
-        Me.txtOptCapts.Cursor = System.Windows.Forms.Cursors.IBeam
-        Me.txtOptCapts.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtOptCapts.ForeColor = System.Drawing.SystemColors.WindowText
-        Me.txtOptCapts.Location = New System.Drawing.Point(16, 206)
-        Me.txtOptCapts.MaxLength = 0
-        Me.txtOptCapts.Name = "txtOptCapts"
-        Me.txtOptCapts.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.txtOptCapts.Size = New System.Drawing.Size(241, 20)
-        Me.txtOptCapts.TabIndex = 8
+        Me.Label1.Text = "HARVEST BACKTEST"
         '
         'Label4
         '
@@ -200,42 +121,44 @@ Public Class dlgHarvest
         Me.Label4.Cursor = System.Windows.Forms.Cursors.Default
         Me.Label4.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label4.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Label4.Location = New System.Drawing.Point(16, 190)
+        Me.Label4.Location = New System.Drawing.Point(736, 528)
         Me.Label4.Name = "Label4"
         Me.Label4.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.Label4.Size = New System.Drawing.Size(117, 17)
+        Me.Label4.Size = New System.Drawing.Size(234, 33)
         Me.Label4.TabIndex = 9
         Me.Label4.Text = "Optional capabilities"
         '
-        'Label5
+        'Panel1
         '
-        Me.Label5.BackColor = System.Drawing.SystemColors.Control
-        Me.Label5.Cursor = System.Windows.Forms.Cursors.Default
-        Me.Label5.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label5.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Label5.Location = New System.Drawing.Point(16, 239)
-        Me.Label5.Name = "Label5"
-        Me.Label5.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.Label5.Size = New System.Drawing.Size(252, 60)
-        Me.Label5.TabIndex = 10
-        Me.Label5.Text = "Live Trading ports: TWS: 7496; IB Gateway: 4001. Simulated Trading ports for new " &
-    "installations of version 954.1 or newer:  TWS: 7497; IB Gateway: 4002"
+        Me.Panel1.BackColor = System.Drawing.Color.SlateGray
+        Me.Panel1.Controls.Add(Me.Label2)
+        Me.Panel1.Location = New System.Drawing.Point(-2, 1)
+        Me.Panel1.Name = "Panel1"
+        Me.Panel1.Size = New System.Drawing.Size(1332, 68)
+        Me.Panel1.TabIndex = 87
+        '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.875!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label2.ForeColor = System.Drawing.SystemColors.ButtonHighlight
+        Me.Label2.Location = New System.Drawing.Point(35, 12)
+        Me.Label2.Margin = New System.Windows.Forms.Padding(6, 0, 6, 0)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(353, 42)
+        Me.Label2.TabIndex = 72
+        Me.Label2.Text = "Willie Trading Robot"
         '
         'dlgHarvest
         '
-        Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
+        Me.AutoScaleBaseSize = New System.Drawing.Size(10, 25)
         Me.BackColor = System.Drawing.SystemColors.Control
-        Me.ClientSize = New System.Drawing.Size(732, 580)
-        Me.Controls.Add(Me.Label5)
-        Me.Controls.Add(Me.txtOptCapts)
+        Me.ClientSize = New System.Drawing.Size(1334, 580)
+        Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.Label4)
         Me.Controls.Add(Me.cmdOk)
         Me.Controls.Add(Me.cmdCancel)
-        Me.Controls.Add(Me.txtPort)
-        Me.Controls.Add(Me.txtClientId)
-        Me.Controls.Add(Me.txtHostIP)
         Me.Controls.Add(Me.Label3)
-        Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.Label1)
         Me.Cursor = System.Windows.Forms.Cursors.Default
         Me.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -247,9 +170,10 @@ Public Class dlgHarvest
         Me.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "Connection Parameters"
+        Me.Text = "Harvest Backtest"
+        Me.Panel1.ResumeLayout(False)
+        Me.Panel1.PerformLayout()
         Me.ResumeLayout(False)
-        Me.PerformLayout()
 
     End Sub
 #End Region
@@ -313,15 +237,21 @@ Public Class dlgHarvest
         End Get
     End Property
 
+    Private Sub dlgHarvest_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+
+
+
+    End Sub
+
+
+
+
     ' ========================================================
     ' Button Events
     ' ========================================================
     Private Sub cmdOK_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles cmdOk.Click
-        m_hostIP = txtHostIP.Text
-        m_port = CInt(txtPort.Text)
-        m_clientId = CInt(txtClientId.Text)
-        m_ok = True
-        m_optcapts = txtOptCapts.Text
+
 
         Close()
     End Sub
@@ -329,6 +259,10 @@ Public Class dlgHarvest
     Private Sub cmdCancel_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles cmdCancel.Click
         m_ok = False
         Close()
+    End Sub
+
+    Private Sub Panel1_Paint(sender As Object, e As PaintEventArgs)
+
     End Sub
 
 End Class

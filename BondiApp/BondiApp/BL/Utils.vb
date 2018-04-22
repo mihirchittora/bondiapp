@@ -92,17 +92,13 @@ Friend Class Utils
     Private Const LB_SETHORZEXTENT As Short = &H194S
 
     Private m_form1 As Main
-    Private m_dlgAcctData As dlgAcctData
     Private m_dlgGroups As dlgGroups
 
     '================================================================================
     ' Public Helper Routines
     '================================================================================
-    Public Sub init(ByVal dlgMainWnd As System.Windows.Forms.Form, ByVal dlgAcctData As System.Windows.Forms.Form, ByVal dlgGroups As System.Windows.Forms.Form)
-        m_form1 = Main
-        'm_dlgMainWnd = dlgMainWnd
-        m_dlgAcctData = dlgAcctData
-        'm_dlgGroups = dlgGroups
+    Public Sub init(ByVal dlgMainWnd As System.Windows.Forms.Form)
+        m_form1 = dlgMainWnd
 
 
 
