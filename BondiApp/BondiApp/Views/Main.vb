@@ -1453,19 +1453,82 @@ Friend Class Main
         ' move into view
         lstServerResponses.TopIndex = lstServerResponses.Items.Count - 1
     End Sub
-    Private Sub btnOptionChain_Click(sender As Object, e As EventArgs) Handles btnOptionChain.Click
+
+    Private Sub btnOpPrice_Click(sender As Object, e As EventArgs) Handles btnOpPrice.Click
         Dim contract As Contract = New Contract
-        contract.Symbol = "VXX"
+        contract.Symbol = "AAPL"
         contract.SecType = "OPT"
         contract.Exchange = "SMART"
         contract.Currency = "USD"
-        'Tws1.reqContractDetailsEx(1, contract)
-        Tws1.reqMarketDataType(24)
-        Tws1.reqMktDataEx(1005, contract, String.Empty, False, Nothing)
-        Tws1.reqSecDefOptParams(1, "VXX", "", "STK", 285777413)
-        Tws1.calculateOptionPrice(1, contract, 0, 0)
+        contract.Strike = 165
+        contract.Right = "P"
+        contract.Multiplier = "100"
+        contract.LastTradeDateOrContractMonth = "20180518"
+        Tws1.calculateOptionPrice(1, contract, 0.3264, 165.24)
         Tws1.cancelCalculateOptionPrice(1)
     End Sub
+    Private Sub Tws1_tickOptionComputation(ByVal eventSender As System.Object, ByVal eventArgs As AxTWSLib._DTwsEvents_tickOptionComputationEvent) Handles Tws1.OnTickOptionComputation
+        Dim mktDataStr As String, volStr As String, deltaStr As String, gammaStr As String, vegaStr As String,
+            thetaStr As String, optPriceStr As String, pvDividendStr As String, undPriceStr As String
+
+        If eventArgs.impliedVolatility = Double.MaxValue Or eventArgs.impliedVolatility < 0 Then
+            volStr = "N/A"
+        Else
+            volStr = eventArgs.impliedVolatility
+        End If
+        If eventArgs.delta = Double.MaxValue Or Math.Abs(eventArgs.delta) > 1 Then
+            deltaStr = "N/A"
+        Else
+            deltaStr = eventArgs.delta
+        End If
+        If eventArgs.gamma = Double.MaxValue Or Math.Abs(eventArgs.gamma) > 1 Then
+            gammaStr = "N/A"
+        Else
+            gammaStr = eventArgs.gamma
+        End If
+        If eventArgs.vega = Double.MaxValue Or Math.Abs(eventArgs.vega) > 1 Then
+            vegaStr = "N/A"
+        Else
+            vegaStr = eventArgs.vega
+        End If
+        If eventArgs.theta = Double.MaxValue Or Math.Abs(eventArgs.theta) > 1 Then
+            thetaStr = "N/A"
+        Else
+            thetaStr = eventArgs.theta
+        End If
+        If eventArgs.optPrice = Double.MaxValue Then
+            optPriceStr = "N/A"
+        Else
+            optPriceStr = eventArgs.optPrice
+        End If
+        If eventArgs.pvDividend = Double.MaxValue Then
+            pvDividendStr = "N/A"
+        Else
+            pvDividendStr = eventArgs.pvDividend
+        End If
+        If eventArgs.undPrice = Double.MaxValue Then
+            undPriceStr = "N/A"
+        Else
+            undPriceStr = eventArgs.undPrice
+        End If
+        mktDataStr = "id = " & eventArgs.tickerId & " " & m_utils.getField(eventArgs.tickType) & " vol = " & volStr & " delta = " & deltaStr &
+            " gamma = " & gammaStr & " vega = " & vegaStr & " theta = " & thetaStr &
+            " optPrice = " & optPriceStr & " pvDividend = " & pvDividendStr & " undPrice = " & undPriceStr
+        Call m_utils.addListItem(Utils.List_Types.MKT_DATA, mktDataStr)
+    End Sub
+    'Private Sub btnOptionChain_Click(sender As Object, e As EventArgs) Handles btnOptionChain.Click
+    '    Dim contract As Contract = New Contract
+    '    contract.Symbol = "VXX"
+    '    contract.SecType = "OPT"
+    '    contract.Exchange = "SMART"
+    '    contract.Currency = "USD"
+    '    'Tws1.reqContractDetailsEx(1, contract)
+    '    Tws1.reqMarketDataType(24)
+    '    Tws1.reqMktDataEx(1005, contract, String.Empty, False, Nothing)
+    '    Tws1.reqSecDefOptParams(1, "VXX", "", "STK", 285777413)
+    '    Tws1.calculateOptionPrice(1, contract, 0, 0)
+    '    Tws1.cancelCalculateOptionPrice(1)
+    'End Sub
 
     Function getdatetime(ByVal marketdate As String, ByVal markettime As String) As String
         Dim dateandtime As String = ""
