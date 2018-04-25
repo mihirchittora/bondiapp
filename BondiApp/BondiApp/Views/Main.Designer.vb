@@ -434,7 +434,7 @@ Partial Class Main
         '
         'btnWillie
         '
-        Me.btnWillie.Location = New System.Drawing.Point(322, 72)
+        Me.btnWillie.Location = New System.Drawing.Point(322, 70)
         Me.btnWillie.Name = "btnWillie"
         Me.btnWillie.Size = New System.Drawing.Size(81, 23)
         Me.btnWillie.TabIndex = 49

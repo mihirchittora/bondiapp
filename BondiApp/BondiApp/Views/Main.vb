@@ -1304,50 +1304,82 @@ Friend Class Main
 
 
     Private Sub Timer60Sec_Tick(sender As Object, e As EventArgs) Handles Timer60Sec.Tick
-        If RobotOn = True Then
 
-            getMarketDataTick(ticksymbol)
+        Dim datastring As String = "Order State: " & String.Format("{0:hh:mm:ss.fff tt}", Now.ToLocalTime) & " - "                                              ' DATASTRING USED TO PROVIDE FEEDBACK TO THE USER ON ACTIONS HAPPENING WITHIN THE APP
+        Dim contract As IBApi.Contract = New IBApi.Contract()                                                                                                   ' INTIIATE THE CONTRACT VARIABLE CLASS TO HANDLE CONTRACT DATA
+        Dim order As IBApi.Order = New IBApi.Order()                                                                                                            ' INITIATE THE ORDER VARIABLE CLASS TO HANDLE ORDER DATA
 
-            ' check to see if the price has moved above an open buy order
-            Using db As BondiModel = New BondiModel()
+        Try
 
-                Dim hi As List(Of HarvestIndex) = New List(Of HarvestIndex)()                                                                                                   ' INITIALIZE THE HARVEST INDEX LIST TO BE USED TO GET THE INDEX RECORD 
-                hi = db.HarvestIndexes.AsEnumerable.Where(Function(x) x.harvestKey = cmbWillie.SelectedValue).ToList()
+            If RobotOn = True Then
 
-                tempHarvestKey = hi.FirstOrDefault().harvestKey
+                getMarketDataTick(ticksymbol)
 
-                'Dim orderexists = (From q In db.stockorders Where q.roboIndex = tempHarvestKey And q.Action = "BUY" And q.Status = "Open" Select q)                             ' QUERY TO SEE IF THERE IS A RECORD IN THE DATABASE TO MATCH THE ORDER CANCELLED
-                Dim ordersexists = (From q In db.stockorders Where q.roboIndex = tempHarvestKey And q.Action = "BUY" And q.Status = "Open" Select q)                             ' QUERY TO SEE IF THERE IS A RECORD IN THE DATABASE TO MATCH THE ORDER CANCELLED
-                'Stop
+                ' check to see if the price has moved above an open buy order
+                Using db As BondiModel = New BondiModel()
 
-                If ordersexists.Count > 0 Then
+                    Dim hi As List(Of HarvestIndex) = New List(Of HarvestIndex)()                                                                                   ' INITIALIZE THE HARVEST INDEX LIST TO BE USED TO GET THE INDEX RECORD 
+                    hi = db.HarvestIndexes.AsEnumerable.Where(Function(x) x.harvestKey = cmbWillie.SelectedValue).ToList()
 
-                    If ordersexists.FirstOrDefault.LimitPrice < currentprice + (hi.FirstOrDefault().width * 2) Then
+                    tempHarvestKey = hi.FirstOrDefault().harvestKey
 
-                        ' When this condition is met modify the order by increasing it to follow the run up of the stock price.
+                    'Dim orderexists = (From q In db.stockorders Where q.roboIndex = tempHarvestKey And q.Action = "BUY" And q.Status = "Open" Select q)                             ' QUERY TO SEE IF THERE IS A RECORD IN THE DATABASE TO MATCH THE ORDER CANCELLED
+                    Dim ordersexists = (From q In db.stockorders Where q.roboIndex = tempHarvestKey And q.Action = "BUY" And q.Status = "Open" Select q)            ' QUERY TO SEE IF THERE IS A RECORD IN THE DATABASE TO MATCH THE ORDER CANCELLED
+                    'Stop
 
-                        Dim pricemove As Double = 0
-                        Dim gap As Double = 0
-                        Dim newLimitPrice As Double = 0
-                        pricemove = currentprice - ordersexists.FirstOrDefault.LimitPrice
-                        gap = Int(pricemove / hi.FirstOrDefault().width)
+                    If ordersexists.Count > 0 Then
 
-                        newLimitPrice = ordersexists.FirstOrDefault.LimitPrice + ((gap - 1) * hi.FirstOrDefault().width)
+                        If currentprice - ordersexists.FirstOrDefault.LimitPrice < hi.FirstOrDefault().width * 2 Then
 
+                            ' When this condition is met modify the order by increasing it to follow the run up of the stock price.
 
-                        MsgBox(String.Format("{0:C}", newLimitPrice))
+                            Dim pricemove As Double = 0
+                            Dim gap As Double = 0
+                            Dim newLimitPrice As Double = 0
+                            Dim oldLimitPrice As Double = ordersexists.FirstOrDefault.LimitPrice
+
+                            pricemove = currentprice - ordersexists.FirstOrDefault.LimitPrice
+                            gap = Int(pricemove / hi.FirstOrDefault().width)
+
+                            newLimitPrice = ordersexists.FirstOrDefault.LimitPrice + ((gap - 1) * hi.FirstOrDefault().width)
+
+                            contract.Symbol = ordersexists.FirstOrDefault().Symbol.ToUpper()                                                                        ' SET THE CONTRACT SYMBOL TO THE STOCK ORDER UPDATED SYMBOL
+                            contract.SecType = hi.FirstOrDefault().stocksectype.ToUpper()                                           ' SET THE CONTRACT SECURITY TYPE TO THE INDEX STOCK SECURITY TYPE
+                            contract.Currency = hi.FirstOrDefault().currencytype.ToUpper()                                          ' SET THE CONTRACT CURRENCY TYPE TO THE INDEX CURRENCY TYPE
+                            contract.Exchange = hi.FirstOrDefault().exchange.ToUpper()                                              ' SET THE CONTRACT EXCHANGE TYPE TO THE INDEX EXCHANGE TYPE
+
+                            order.OrderType = hi.FirstOrDefault().ordertype.ToUpper()                                               ' SET THE ORDER ORDER TYPE TO THE INDEX ORDER TYPE (lmt OR mkt)
+                            order.TotalQuantity = hi.FirstOrDefault().shares                                                        ' SET THE ORDER NUMBER OF SHARES TO THE INDEX NUMBER OF SHARES - CONSIDER SETTING TO THE UPDATED ORDER SHARES VALUE
+                            order.Tif = hi.FirstOrDefault().inforce.ToUpper()                                                       ' SET THE ORDER TRADE IN FORCE TO THE INDEX TRADE IN FORCE (day OR gtc)
+
+                            order.OrderId = ordersexists.FirstOrDefault().OrderId                                                             ' SET THE ORDER ORDER ID TO THE UPDATED RECORD ORDER ID
+                            order.Action = "BUY"                                                                                    ' SET THE ORDER ACTION TO BUY
+                            order.LmtPrice = newLimitPrice                             ' SET THE ORDER LIMIT PRICE TO THE UPDATED RECORD LIMIT PRICE PLUS THE INDEX WIDTH VALUE
+
+                            Call Tws1.placeOrderEx(order.OrderId, contract, order)                                                  ' CALL THE PLACEORDER FUNCTION TO SEND THE ORDER CREATED TO TWS
+
+                            ' UPDATE THE TRAINING BUY ORDER HERE.
+                            ordersexists.FirstOrDefault.Status = "Open"
+                            ordersexists.FirstOrDefault.LimitPrice = order.LmtPrice
+                            ordersexists.FirstOrDefault.timestamp = DateTime.Parse(Now).ToUniversalTime()                                                    ' SET THE TIMESTAMP OF THE RECORD TO UPDATE TO THE CURRENT DATE AND TIME
+
+                            db.SaveChanges()
+
+                            datastring = datastring & "BUY TO OPEN limit price changed from : " & String.Format("{0:C}", oldLimitPrice) & " to:" & String.Format("{0:C}", newLimitPrice)
+
+                        End If
 
                     End If
 
-                End If
+                End Using
 
+            End If
 
-
-
-
-            End Using
-
-        End If
+            datastring = datastring & String.Format("{0:hh:mm:ss.fff tt}", Now.ToLocalTime) & " " & loopcounter                             ' ADD THE CURRENT FINISH TIME TO THE DATASTRING TO GET THE FULL CYCLE TIME
+            lblStatus.Text = datastring
+        Catch ex As Exception
+            MsgBox("BUY TO OPEN Modification Error: " & ex.ToString())                                                                       ' SUPPLY AN ERROR MESSAGE TO BE DEBUGGED OR USED BY THE USER. 
+        End Try
 
     End Sub
 
