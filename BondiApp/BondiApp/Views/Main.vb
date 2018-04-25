@@ -24,7 +24,32 @@ Friend Class Main
 
     Public backprices As List(Of backPrice)                                                                                                     ' CLASS DEFINITION TO HOUSE                         
     'Public orderdetails As List(Of OrderDetail)     not used
-    Public fileNameRead As String
+    Public ticksymbol As String = ""
+
+    Public tempHarvestKey As String = ""
+
+
+
+
+
+
+
+    ' VARIABLES USED TO HOLD OPTION DATA
+    Public product As String = ""
+
+    Public optionsymbol As String = ""
+    Public optionexpirationdate As String = ""
+    Public optionstrike As String = ""
+    Public optionright As String = ""
+    Public optionmultiplier As String = ""
+    Public optionIV As String = ""
+
+    Public underlying As Double = 0
+    Public strike As Double
+    Public optType As String
+
+
+
     Public nextValidOrderId As Integer = 0                                                                                                        ' PUBLIC VARIABLE TO HOLD CURRENTORDERID - TO BE USED TO SET THE NEXTVALIDID FOR ORDERS
     Public PriceTest As Double = 0
     Public currentprice As Double = 0                                                                                                              ' VALUE RETURNED FROM THIS FUNCTION BEING CALLED
@@ -41,6 +66,8 @@ Friend Class Main
     Public RobotOn As Boolean                                                                                                                   ' INDICATES THAT THE ROBOT IS RUNNING IN THE OPENORDEREX SUB TO ADD ORDERS
     Dim connecting As Boolean = True
 
+    Public WithEvents Tws1 As Tws
+
     Public Sub New()
         MyBase.New()
 
@@ -50,12 +77,15 @@ Friend Class Main
 
     Private Sub getMarketDataTick(stk As String)
         Dim contract As IBApi.Contract = New IBApi.Contract()                                                                           ' ESTABLISH A NEW CONTRACT CLASS
-        If stk = "" Then
-            MsgBox("Please enter a symbol.")                                                                                            ' INITIALIZE SYMBOL VALUE FOR THE CONTRACT
+        'If stk = "" Then
+        '    MsgBox("Please enter a symbol.")                                                                                            ' INITIALIZE SYMBOL VALUE FOR THE CONTRACT
+        'End If
+        If ticksymbol = "" Then
+            Exit Sub
         End If
-        contract.Symbol = "VXX"                                                                                                           ' INITIALIZE SYMBOL VALUE FOR THE CONTRACT
+        contract.Symbol = ticksymbol                                                                                                    ' INITIALIZE SYMBOL VALUE FOR THE CONTRACT
 
-        contract.SecType = "STK"                    ' SET TO STK for STOCK tick price                                                                                                      ' INITIALIZE THE SECURITY TYPE FOR THE CONTRACT - MOVE TO SETTINGS AT SOME POINT
+        contract.SecType = "STK"                    ' SET TO STK for STOCK tick price                                                   ' INITIALIZE THE SECURITY TYPE FOR THE CONTRACT - MOVE TO SETTINGS AT SOME POINT
         contract.Currency = "USD"                                                                                                       ' INITIALIZE CURRENCY TYPE FOR THE CONTRACT - MOVE TO SETTINGS AT SOME POINT
         contract.Exchange = "SMART"                                                                                                     ' INITIALIZE EXCHANGE USED FOR THE CONTRACT
 
@@ -74,9 +104,14 @@ Friend Class Main
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
-        Call m_utils.init(Me)                                                                                                                                                     ' INITIALIZES THE UTILS TO SEND AND READ MESSAGES FROM THE API
+        ' BUILD 04.20.18 001
+        lblBuild.Text = "Build: 04.24.18.001"
+
+        ticksymbol = "VXX"
+
+        Call m_utils.init(Me)                                                                                                                                                                       ' INITIALIZES THE UTILS TO SEND AND READ MESSAGES FROM THE API
         Timer60Sec.Enabled = True                                                                                                                                                                   ' INITIALIZES THE 60 SECOND TIME TO REQUEST PRICING 
-        TimerAtTime.Enabled = True                                                                                                                                                                  ' INITIALIZES THE TIMER TO RUN AT A SPECIFIED TIME TO DETERMINE WHETHER THERE IS A GAP UP OR DOWN IN PRODUCT PRICE        
+        'TimerAtTime.Enabled = True                                                                                                                                                                  ' INITIALIZES THE TIMER TO RUN AT A SPECIFIED TIME TO DETERMINE WHETHER THERE IS A GAP UP OR DOWN IN PRODUCT PRICE        
 
         Try
 
@@ -92,6 +127,9 @@ Friend Class Main
                 cmbWillie.DisplayMember = "name"                                                                                                                                                    ' DROPDOWN DISPLAYS THE NAME FIELD OF THE LIST
                 cmbWillie.ValueMember = "harvestkey"                                                                                                                                                ' DROPDOWN VALUE TIED TO NAME IS THE HARVESTKEY FIELD
                 cmbWillie.SelectedIndex = 0                                                                                                                                                         ' SET THE INDEX DISPLAYED AS THE FIRST ONE
+
+                hi = db.HarvestIndexes.AsEnumerable.Where(Function(x) x.harvestKey = cmbWillie.SelectedValue).ToList()
+                ticksymbol = hi.FirstOrDefault().product
 
             End Using                                                                                                                                                                               ' END USING DB AS THE DATABSE MODEL
         Catch ex As Exception
@@ -478,6 +516,147 @@ Friend Class Main
     End Sub
 
 
+    Private Sub Tws1_OnSecurityDefinitionOptionParameter(tws As Tws, DTWsEvents_securityDefinitionOptionParameterEvent As AxTWSLib._DTWsEvents_securityDefinitionOptionParameterEvent) Handles Tws1.OnSecurityDefinitionOptionParameter
+        Dim displayString As String
+
+        displayString = String.Format("reqId: {0}, exchange {1}, underlyingConId: {2}, tradingClass: {3}, multiplier: {4}, expirations: {5}, strikes: {6}",
+            DTWsEvents_securityDefinitionOptionParameterEvent.reqId,
+            DTWsEvents_securityDefinitionOptionParameterEvent.exchange,
+            DTWsEvents_securityDefinitionOptionParameterEvent.underlyingConId,
+            DTWsEvents_securityDefinitionOptionParameterEvent.tradingClass,
+            DTWsEvents_securityDefinitionOptionParameterEvent.multiplier,
+            String.Join(",", DTWsEvents_securityDefinitionOptionParameterEvent.expirations),
+            String.Join(", ", DTWsEvents_securityDefinitionOptionParameterEvent.strikes))
+
+        Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, displayString)
+
+        ' move into view
+        lstServerResponses.TopIndex = lstServerResponses.Items.Count - 1
+    End Sub
+
+    Private Sub btnOpPrice_Click(sender As Object, e As EventArgs) Handles btnOpPrice.Click
+
+        ' THIS BUTTON TESTS CALCUALTING THE PRICE OF AN OPTION FOR A SPECIFIC UNDERLYING STOCK AT A SPECIFIED STRIKE AND iv LEVEL
+
+        ' Assign inputs to variables
+        optionsymbol = txtOptionSymbol.Text
+        optionexpirationdate = txtOptionExpirationDate.Text
+        optionstrike = txtOptionStrike.Text
+        optionright = txtOptionRight.Text
+        optionmultiplier = txtOptionMultiplier.Text
+        optionIV = txtOptionIV.Text
+
+
+        getOptionPrice(optionsymbol)
+
+    End Sub
+
+    Private Sub getOptionPrice(ByVal optionsymbol As String)
+
+        Dim contract As Contract = New Contract
+        product = optionsymbol
+        contract.Symbol = optionsymbol                                                                                                  ' INITIALIZE SYMBOL VALUE FOR THE CONTRACT
+        contract.SecType = "STK"                                                                                                        ' INITIALIZE THE SECURITY TYPE FOR THE CONTRACT - MOVE TO SETTINGS AT SOME POINT
+        contract.Currency = "USD"                                                                                                       ' INITIALIZE CURRENCY TYPE FOR THE CONTRACT - MOVE TO SETTINGS AT SOME POINT
+        contract.Exchange = "SMART"                                                                                                     ' INITIALIZE EXCHANGE USED FOR THE CONTRACT
+
+        Tws1.reqMarketDataType(3)                                                                                                       ' SETS DATA FEED TO (1) LIVE STREAMING  (2) FROZEN  (3) DELAYED 15 - 20 MINUTES 
+        Tws1.reqMktDataEx(tickId + 1, contract, "", False, Nothing)
+        Tws1.tickCount = 0
+
+
+        MsgBox(underlying.ToString())
+
+
+
+        contract.Symbol = optionsymbol
+        contract.SecType = "OPT"
+        'contract.Exchange = "SMART"
+        'contract.Currency = "USD"
+        contract.Strike = 165
+        contract.Right = "P"
+        contract.Multiplier = "100"
+        contract.LastTradeDateOrContractMonth = "20180518"
+
+        product = contract.Symbol
+        strike = contract.Strike
+
+        Tws1.calculateOptionPrice(1, contract, 0.3155, underlying)
+        Tws1.cancelCalculateOptionPrice(1)
+
+    End Sub
+
+
+
+
+
+    Private Sub Tws1_tickOptionComputation(ByVal eventSender As System.Object, ByVal eventArgs As AxTWSLib._DTwsEvents_tickOptionComputationEvent) Handles Tws1.OnTickOptionComputation
+        Dim mktDataStr As String, volStr As String, deltaStr As String, gammaStr As String, vegaStr As String,
+            thetaStr As String, optPriceStr As String, pvDividendStr As String, undPriceStr As String
+
+        If eventArgs.impliedVolatility = Double.MaxValue Or eventArgs.impliedVolatility < 0 Then
+            volStr = "N/A"
+        Else
+            volStr = eventArgs.impliedVolatility
+        End If
+        If eventArgs.delta = Double.MaxValue Or Math.Abs(eventArgs.delta) > 1 Then
+            deltaStr = "N/A"
+        Else
+            deltaStr = eventArgs.delta
+        End If
+        If eventArgs.gamma = Double.MaxValue Or Math.Abs(eventArgs.gamma) > 1 Then
+            gammaStr = "N/A"
+        Else
+            gammaStr = eventArgs.gamma
+        End If
+        If eventArgs.vega = Double.MaxValue Or Math.Abs(eventArgs.vega) > 1 Then
+            vegaStr = "N/A"
+        Else
+            vegaStr = eventArgs.vega
+        End If
+        If eventArgs.theta = Double.MaxValue Or Math.Abs(eventArgs.theta) > 1 Then
+            thetaStr = "N/A"
+        Else
+            thetaStr = eventArgs.theta
+        End If
+        If eventArgs.optPrice = Double.MaxValue Then
+            optPriceStr = "N/A"
+        Else
+            optPriceStr = eventArgs.optPrice
+        End If
+        If eventArgs.pvDividend = Double.MaxValue Then
+            pvDividendStr = "N/A"
+        Else
+            pvDividendStr = eventArgs.pvDividend
+        End If
+        If eventArgs.undPrice = Double.MaxValue Then
+            undPriceStr = "N/A"
+        Else
+            undPriceStr = eventArgs.undPrice
+        End If
+        mktDataStr = "Calculated Option Price for: " & product.ToUpper() ' " = " & eventArgs.tickerId & " vol = " & volStr & " delta = " & String.Format("{0:00.00}", deltaStr) '&
+        ' " gamma = " & gammaStr & " vega = " & vegaStr & " theta = " & thetaStr &
+        ' " Price = " & optPriceStr & " D = " & pvDividendStr & " underlying = " & undPriceStr & " " & m_utils.getField(eventArgs.tickType) 
+        Call m_utils.addListItem(Utils.List_Types.MKT_DATA, mktDataStr)
+    End Sub
+
+
+
+
+
+    'Private Sub btnOptionChain_Click(sender As Object, e As EventArgs) Handles btnOptionChain.Click
+    '    Dim contract As Contract = New Contract
+    '    contract.Symbol = "VXX"
+    '    contract.SecType = "OPT"
+    '    contract.Exchange = "SMART"
+    '    contract.Currency = "USD"
+    '    'Tws1.reqContractDetailsEx(1, contract)
+    '    Tws1.reqMarketDataType(24)
+    '    Tws1.reqMktDataEx(1005, contract, String.Empty, False, Nothing)
+    '    Tws1.reqSecDefOptParams(1, "VXX", "", "STK", 285777413)
+    '    Tws1.calculateOptionPrice(1, contract, 0, 0)
+    '    Tws1.cancelCalculateOptionPrice(1)
+    'End Sub
 
 
 
@@ -490,6 +669,7 @@ Friend Class Main
 
 
     ' Use this one to test db connections and get data
+
     Private Sub btnGetData_Click(sender As Object, e As EventArgs)
         Dim symbol As String = ""
         Using db As BondiModel = New BondiModel()
@@ -734,7 +914,7 @@ Friend Class Main
 
         Dim datastring As String                                                                                                        ' INITIALIZE DATASTRING VARIABLE TO HOLD MESSAGING FOR THE USER
 
-        datastring = "Tick Type: " & eventArgs.tickType & " Current Price: " & String.Format("{0:C}", eventArgs.price) &
+        datastring = "Synbol: " & ticksymbol & " Tick Type: " & eventArgs.tickType & " Current Price: " & String.Format("{0:C}", eventArgs.price) &
             " Time: " & String.Format("{0:hh:mm:ss}", Now.ToLocalTime)                                                           ' SET THE DATASTRING FOR THE LISTBOX DISPLAY
 
         If eventArgs.tickCount = 1 Then
@@ -745,6 +925,7 @@ Friend Class Main
             lblConStatus.Text = datastring
             currentprice = eventArgs.price                                                                                              ' SET THE PUBLIC VARIABLE CURRENT PRICE TO THE TICKPRICE
             txtPrice.Text = currentprice                                                                                                ' SEND THE TICKPRICE TO THE VIEW FOR THE USER TO SEE
+            underlying = eventArgs.price
         End If
 
     End Sub
@@ -1119,10 +1300,56 @@ Friend Class Main
     End Sub
 
 
-    Public WithEvents Tws1 As Tws
+    'Public WithEvents Tws1 As Tws
+
+
+    Private Sub Timer60Sec_Tick(sender As Object, e As EventArgs) Handles Timer60Sec.Tick
+        If RobotOn = True Then
+
+            getMarketDataTick(ticksymbol)
+
+            ' check to see if the price has moved above an open buy order
+            Using db As BondiModel = New BondiModel()
+
+                Dim hi As List(Of HarvestIndex) = New List(Of HarvestIndex)()                                                                                                   ' INITIALIZE THE HARVEST INDEX LIST TO BE USED TO GET THE INDEX RECORD 
+                hi = db.HarvestIndexes.AsEnumerable.Where(Function(x) x.harvestKey = cmbWillie.SelectedValue).ToList()
+
+                tempHarvestKey = hi.FirstOrDefault().harvestKey
+
+                'Dim orderexists = (From q In db.stockorders Where q.roboIndex = tempHarvestKey And q.Action = "BUY" And q.Status = "Open" Select q)                             ' QUERY TO SEE IF THERE IS A RECORD IN THE DATABASE TO MATCH THE ORDER CANCELLED
+                Dim ordersexists = (From q In db.stockorders Where q.roboIndex = tempHarvestKey And q.Action = "BUY" And q.Status = "Open" Select q)                             ' QUERY TO SEE IF THERE IS A RECORD IN THE DATABASE TO MATCH THE ORDER CANCELLED
+                'Stop
+
+                If ordersexists.Count > 0 Then
+
+                    If ordersexists.FirstOrDefault.LimitPrice < currentprice + (hi.FirstOrDefault().width * 2) Then
+
+                        ' When this condition is met modify the order by increasing it to follow the run up of the stock price.
+
+                        Dim pricemove As Double = 0
+                        Dim gap As Double = 0
+                        Dim newLimitPrice As Double = 0
+                        pricemove = currentprice - ordersexists.FirstOrDefault.LimitPrice
+                        gap = Int(pricemove / hi.FirstOrDefault().width)
+
+                        newLimitPrice = ordersexists.FirstOrDefault.LimitPrice + ((gap - 1) * hi.FirstOrDefault().width)
+
+
+                        MsgBox(String.Format("{0:C}", newLimitPrice))
+
+                    End If
+
+                End If
 
 
 
+
+
+            End Using
+
+        End If
+
+    End Sub
 
 
 
@@ -1136,6 +1363,7 @@ Friend Class Main
         If eventArgs.tickCount = 1 Then
             'Call m_utils.addListItem(Utils.List_Types.MKT_DATA, mktDataStr)
             currentprice = eventArgs.price
+            underlying = eventArgs.price
         End If
 
         Return currentprice
@@ -1225,9 +1453,7 @@ Friend Class Main
         lstServerResponses.Items.Clear()
     End Sub
 
-    Private Sub Timer60Sec_Tick(sender As Object, e As EventArgs) Handles Timer60Sec.Tick
-        getMarketDataTick("VXX")
-    End Sub
+
 
     Private Sub TimerAtTime_Tick(sender As Object, e As EventArgs) Handles TimerAtTime.Tick
         Dim now As DateTime = DateTime.Now
@@ -1243,16 +1469,26 @@ Friend Class Main
     End Sub
 
     Private Sub ckRobotOn_CheckedChanged(sender As Object, e As EventArgs) Handles ckRobotOn.CheckedChanged
-        RobotOn = True                                                                                                  ' SET THE FLAG FOR THE ROBOT ON TO TRUE
+        If ckRobotOn.Checked = True Then
+            RobotOn = True                                                                                  ' SET THE FLAG FOR THE ROBOT ON TO TRUE 
+        Else
+            RobotOn = False                                                                                 ' SET THE FLAG FOR THE ROBOT ON TO FALSE
+        End If
+
     End Sub
+
+
+
 
     Private Sub btnTest_Click(sender As Object, e As EventArgs) Handles btnTest.Click
         'dlgHarvestBacktest.ShowDialog()
     End Sub
 
 
-    ' FUNCTION NOT USED 
 
+
+
+    ' FUNCTIONS NOT USED 
 
     Private Sub cmbIndexes_SelectedIndexChanged(sender As Object, e As EventArgs)
 
@@ -1418,7 +1654,7 @@ Friend Class Main
                 txtQty.Text = hi.FirstOrDefault().shares
 
                 txtGetPriceSymbol.Text = product
-
+                ticksymbol = product
                 contract.Symbol = product                                                                                    ' INITIALIZE SYMBOL VALUE FOR THE CONTRACT
 
                 contract.SecType = "STK"                                                                                                        ' INITIALIZE THE SECURITY TYPE FOR THE CONTRACT - MOVE TO SETTINGS AT SOME POINT
@@ -1436,99 +1672,6 @@ Friend Class Main
 
 
     End Sub
-    Private Sub Tws1_OnSecurityDefinitionOptionParameter(tws As Tws, DTWsEvents_securityDefinitionOptionParameterEvent As AxTWSLib._DTWsEvents_securityDefinitionOptionParameterEvent) Handles Tws1.OnSecurityDefinitionOptionParameter
-        Dim displayString As String
-
-        displayString = String.Format("reqId: {0}, exchange {1}, underlyingConId: {2}, tradingClass: {3}, multiplier: {4}, expirations: {5}, strikes: {6}",
-            DTWsEvents_securityDefinitionOptionParameterEvent.reqId,
-            DTWsEvents_securityDefinitionOptionParameterEvent.exchange,
-            DTWsEvents_securityDefinitionOptionParameterEvent.underlyingConId,
-            DTWsEvents_securityDefinitionOptionParameterEvent.tradingClass,
-            DTWsEvents_securityDefinitionOptionParameterEvent.multiplier,
-            String.Join(",", DTWsEvents_securityDefinitionOptionParameterEvent.expirations),
-            String.Join(", ", DTWsEvents_securityDefinitionOptionParameterEvent.strikes))
-
-        Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, displayString)
-
-        ' move into view
-        lstServerResponses.TopIndex = lstServerResponses.Items.Count - 1
-    End Sub
-
-    Private Sub btnOpPrice_Click(sender As Object, e As EventArgs) Handles btnOpPrice.Click
-        Dim contract As Contract = New Contract
-        contract.Symbol = "AAPL"
-        contract.SecType = "OPT"
-        contract.Exchange = "SMART"
-        contract.Currency = "USD"
-        contract.Strike = 165
-        contract.Right = "P"
-        contract.Multiplier = "100"
-        contract.LastTradeDateOrContractMonth = "20180518"
-        Tws1.calculateOptionPrice(1, contract, 0.3264, 165.24)
-        Tws1.cancelCalculateOptionPrice(1)
-    End Sub
-    Private Sub Tws1_tickOptionComputation(ByVal eventSender As System.Object, ByVal eventArgs As AxTWSLib._DTwsEvents_tickOptionComputationEvent) Handles Tws1.OnTickOptionComputation
-        Dim mktDataStr As String, volStr As String, deltaStr As String, gammaStr As String, vegaStr As String,
-            thetaStr As String, optPriceStr As String, pvDividendStr As String, undPriceStr As String
-
-        If eventArgs.impliedVolatility = Double.MaxValue Or eventArgs.impliedVolatility < 0 Then
-            volStr = "N/A"
-        Else
-            volStr = eventArgs.impliedVolatility
-        End If
-        If eventArgs.delta = Double.MaxValue Or Math.Abs(eventArgs.delta) > 1 Then
-            deltaStr = "N/A"
-        Else
-            deltaStr = eventArgs.delta
-        End If
-        If eventArgs.gamma = Double.MaxValue Or Math.Abs(eventArgs.gamma) > 1 Then
-            gammaStr = "N/A"
-        Else
-            gammaStr = eventArgs.gamma
-        End If
-        If eventArgs.vega = Double.MaxValue Or Math.Abs(eventArgs.vega) > 1 Then
-            vegaStr = "N/A"
-        Else
-            vegaStr = eventArgs.vega
-        End If
-        If eventArgs.theta = Double.MaxValue Or Math.Abs(eventArgs.theta) > 1 Then
-            thetaStr = "N/A"
-        Else
-            thetaStr = eventArgs.theta
-        End If
-        If eventArgs.optPrice = Double.MaxValue Then
-            optPriceStr = "N/A"
-        Else
-            optPriceStr = eventArgs.optPrice
-        End If
-        If eventArgs.pvDividend = Double.MaxValue Then
-            pvDividendStr = "N/A"
-        Else
-            pvDividendStr = eventArgs.pvDividend
-        End If
-        If eventArgs.undPrice = Double.MaxValue Then
-            undPriceStr = "N/A"
-        Else
-            undPriceStr = eventArgs.undPrice
-        End If
-        mktDataStr = "id = " & eventArgs.tickerId & " " & m_utils.getField(eventArgs.tickType) & " vol = " & volStr & " delta = " & deltaStr &
-            " gamma = " & gammaStr & " vega = " & vegaStr & " theta = " & thetaStr &
-            " optPrice = " & optPriceStr & " pvDividend = " & pvDividendStr & " undPrice = " & undPriceStr
-        Call m_utils.addListItem(Utils.List_Types.MKT_DATA, mktDataStr)
-    End Sub
-    'Private Sub btnOptionChain_Click(sender As Object, e As EventArgs) Handles btnOptionChain.Click
-    '    Dim contract As Contract = New Contract
-    '    contract.Symbol = "VXX"
-    '    contract.SecType = "OPT"
-    '    contract.Exchange = "SMART"
-    '    contract.Currency = "USD"
-    '    'Tws1.reqContractDetailsEx(1, contract)
-    '    Tws1.reqMarketDataType(24)
-    '    Tws1.reqMktDataEx(1005, contract, String.Empty, False, Nothing)
-    '    Tws1.reqSecDefOptParams(1, "VXX", "", "STK", 285777413)
-    '    Tws1.calculateOptionPrice(1, contract, 0, 0)
-    '    Tws1.cancelCalculateOptionPrice(1)
-    'End Sub
 
     Function getdatetime(ByVal marketdate As String, ByVal markettime As String) As String
         Dim dateandtime As String = ""
