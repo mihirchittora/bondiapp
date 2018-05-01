@@ -117,6 +117,22 @@ Partial Class Main
         Me.txtOptionMultiplier = New System.Windows.Forms.TextBox()
         Me.Label30 = New System.Windows.Forms.Label()
         Me.txtOptionExpirationDate = New System.Windows.Forms.TextBox()
+        Me.Label31 = New System.Windows.Forms.Label()
+        Me.txtSpreadExp = New System.Windows.Forms.TextBox()
+        Me.Label34 = New System.Windows.Forms.Label()
+        Me.txtSpreadRight = New System.Windows.Forms.TextBox()
+        Me.Label35 = New System.Windows.Forms.Label()
+        Me.txtSpreadStrike = New System.Windows.Forms.TextBox()
+        Me.Label36 = New System.Windows.Forms.Label()
+        Me.txtSpreadSymbol = New System.Windows.Forms.TextBox()
+        Me.btnAddLeg = New System.Windows.Forms.Button()
+        Me.btnSpreadOrder = New System.Windows.Forms.Button()
+        Me.grdContracts = New System.Windows.Forms.DataGridView()
+        Me.colSymbol = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.colExpDate = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.colStrike = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.colRight = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.colConId = New System.Windows.Forms.DataGridViewTextBoxColumn()
         CType(Me.HarvestIndexBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.OptionwavesdbDataSet, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.OptionwavesdbDataSet1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -124,6 +140,7 @@ Partial Class Main
         Me.Panel1.SuspendLayout()
         Me.Panel3.SuspendLayout()
         Me.Panel5.SuspendLayout()
+        CType(Me.grdContracts, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'lblConStatus
@@ -919,11 +936,150 @@ Partial Class Main
         Me.txtOptionExpirationDate.TabIndex = 104
         Me.txtOptionExpirationDate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
+        'Label31
+        '
+        Me.Label31.AutoSize = True
+        Me.Label31.Location = New System.Drawing.Point(5, 147)
+        Me.Label31.Name = "Label31"
+        Me.Label31.Size = New System.Drawing.Size(79, 13)
+        Me.Label31.TabIndex = 118
+        Me.Label31.Text = "Expiration Date"
+        '
+        'txtSpreadExp
+        '
+        Me.txtSpreadExp.Location = New System.Drawing.Point(9, 162)
+        Me.txtSpreadExp.Name = "txtSpreadExp"
+        Me.txtSpreadExp.Size = New System.Drawing.Size(98, 20)
+        Me.txtSpreadExp.TabIndex = 117
+        Me.txtSpreadExp.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'Label34
+        '
+        Me.Label34.AutoSize = True
+        Me.Label34.Location = New System.Drawing.Point(12, 226)
+        Me.Label34.Name = "Label34"
+        Me.Label34.Size = New System.Drawing.Size(36, 13)
+        Me.Label34.TabIndex = 112
+        Me.Label34.Text = "P or C"
+        '
+        'txtSpreadRight
+        '
+        Me.txtSpreadRight.Location = New System.Drawing.Point(16, 241)
+        Me.txtSpreadRight.Name = "txtSpreadRight"
+        Me.txtSpreadRight.Size = New System.Drawing.Size(41, 20)
+        Me.txtSpreadRight.TabIndex = 111
+        Me.txtSpreadRight.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'Label35
+        '
+        Me.Label35.AutoSize = True
+        Me.Label35.Location = New System.Drawing.Point(12, 187)
+        Me.Label35.Name = "Label35"
+        Me.Label35.Size = New System.Drawing.Size(34, 13)
+        Me.Label35.TabIndex = 110
+        Me.Label35.Text = "Strike"
+        '
+        'txtSpreadStrike
+        '
+        Me.txtSpreadStrike.Location = New System.Drawing.Point(16, 202)
+        Me.txtSpreadStrike.Name = "txtSpreadStrike"
+        Me.txtSpreadStrike.Size = New System.Drawing.Size(41, 20)
+        Me.txtSpreadStrike.TabIndex = 109
+        Me.txtSpreadStrike.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'Label36
+        '
+        Me.Label36.AutoSize = True
+        Me.Label36.Location = New System.Drawing.Point(7, 103)
+        Me.Label36.Name = "Label36"
+        Me.Label36.Size = New System.Drawing.Size(41, 13)
+        Me.Label36.TabIndex = 108
+        Me.Label36.Text = "Symbol"
+        '
+        'txtSpreadSymbol
+        '
+        Me.txtSpreadSymbol.Location = New System.Drawing.Point(8, 119)
+        Me.txtSpreadSymbol.Name = "txtSpreadSymbol"
+        Me.txtSpreadSymbol.Size = New System.Drawing.Size(41, 20)
+        Me.txtSpreadSymbol.TabIndex = 107
+        Me.txtSpreadSymbol.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'btnAddLeg
+        '
+        Me.btnAddLeg.Location = New System.Drawing.Point(130, 116)
+        Me.btnAddLeg.Name = "btnAddLeg"
+        Me.btnAddLeg.Size = New System.Drawing.Size(81, 23)
+        Me.btnAddLeg.TabIndex = 106
+        Me.btnAddLeg.Text = "Add Leg"
+        Me.btnAddLeg.UseVisualStyleBackColor = True
+        '
+        'btnSpreadOrder
+        '
+        Me.btnSpreadOrder.Location = New System.Drawing.Point(130, 162)
+        Me.btnSpreadOrder.Name = "btnSpreadOrder"
+        Me.btnSpreadOrder.Size = New System.Drawing.Size(81, 23)
+        Me.btnSpreadOrder.TabIndex = 120
+        Me.btnSpreadOrder.Text = "Spread Order"
+        Me.btnSpreadOrder.UseVisualStyleBackColor = True
+        '
+        'grdContracts
+        '
+        Me.grdContracts.AllowUserToAddRows = False
+        Me.grdContracts.AllowUserToDeleteRows = False
+        Me.grdContracts.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.grdContracts.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.colSymbol, Me.colExpDate, Me.colStrike, Me.colRight, Me.colConId})
+        Me.grdContracts.Location = New System.Drawing.Point(294, 103)
+        Me.grdContracts.Name = "grdContracts"
+        Me.grdContracts.ReadOnly = True
+        Me.grdContracts.Size = New System.Drawing.Size(545, 150)
+        Me.grdContracts.TabIndex = 121
+        '
+        'colSymbol
+        '
+        Me.colSymbol.HeaderText = "Symbol"
+        Me.colSymbol.Name = "colSymbol"
+        Me.colSymbol.ReadOnly = True
+        '
+        'colExpDate
+        '
+        Me.colExpDate.HeaderText = "Exp Date"
+        Me.colExpDate.Name = "colExpDate"
+        Me.colExpDate.ReadOnly = True
+        '
+        'colStrike
+        '
+        Me.colStrike.HeaderText = "Strike"
+        Me.colStrike.Name = "colStrike"
+        Me.colStrike.ReadOnly = True
+        '
+        'colRight
+        '
+        Me.colRight.HeaderText = "Right"
+        Me.colRight.Name = "colRight"
+        Me.colRight.ReadOnly = True
+        '
+        'colConId
+        '
+        Me.colConId.HeaderText = "ConId"
+        Me.colConId.Name = "colConId"
+        Me.colConId.ReadOnly = True
+        '
         'Main
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(896, 855)
+        Me.ClientSize = New System.Drawing.Size(896, 749)
+        Me.Controls.Add(Me.grdContracts)
+        Me.Controls.Add(Me.btnSpreadOrder)
+        Me.Controls.Add(Me.Label31)
+        Me.Controls.Add(Me.txtSpreadExp)
+        Me.Controls.Add(Me.Label34)
+        Me.Controls.Add(Me.txtSpreadRight)
+        Me.Controls.Add(Me.Label35)
+        Me.Controls.Add(Me.txtSpreadStrike)
+        Me.Controls.Add(Me.Label36)
+        Me.Controls.Add(Me.txtSpreadSymbol)
+        Me.Controls.Add(Me.btnAddLeg)
         Me.Controls.Add(Me.Label30)
         Me.Controls.Add(Me.txtOptionExpirationDate)
         Me.Controls.Add(Me.Label29)
@@ -1010,6 +1166,7 @@ Partial Class Main
         Me.Panel3.PerformLayout()
         Me.Panel5.ResumeLayout(False)
         Me.Panel5.PerformLayout()
+        CType(Me.grdContracts, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -1108,4 +1265,20 @@ Partial Class Main
     Friend WithEvents txtOptionMultiplier As TextBox
     Friend WithEvents Label30 As Label
     Friend WithEvents txtOptionExpirationDate As TextBox
+    Friend WithEvents Label31 As Label
+    Friend WithEvents txtSpreadExp As TextBox
+    Friend WithEvents Label34 As Label
+    Friend WithEvents txtSpreadRight As TextBox
+    Friend WithEvents Label35 As Label
+    Friend WithEvents txtSpreadStrike As TextBox
+    Friend WithEvents Label36 As Label
+    Friend WithEvents txtSpreadSymbol As TextBox
+    Friend WithEvents btnAddLeg As Button
+    Friend WithEvents btnSpreadOrder As Button
+    Friend WithEvents grdContracts As DataGridView
+    Friend WithEvents colSymbol As DataGridViewTextBoxColumn
+    Friend WithEvents colExpDate As DataGridViewTextBoxColumn
+    Friend WithEvents colStrike As DataGridViewTextBoxColumn
+    Friend WithEvents colRight As DataGridViewTextBoxColumn
+    Friend WithEvents colConId As DataGridViewTextBoxColumn
 End Class
