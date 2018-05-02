@@ -296,6 +296,12 @@
     <Compile Include="Views\dlgAcctData.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Views\dlgAnalysis.Designer.vb">
+      <DependentUpon>dlgAnalysis.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Views\dlgAnalysis.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Views\dlgHarvest.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -368,6 +374,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Views\dlgAcctData.resX">
       <DependentUpon>dlgAcctData.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\dlgAnalysis.resx">
+      <DependentUpon>dlgAnalysis.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\dlgHarvest.resX">
       <DependentUpon>dlgHarvest.vb</DependentUpon>

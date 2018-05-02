@@ -56,33 +56,68 @@ Friend Class dlgHarvestBacktest
             symbol = hi.FirstOrDefault().product
             opentrigger = hi.FirstOrDefault().opentrigger
         End Using
+
         Dim path As String = "C:\Users\Troy Belden\Desktop\stockprices\allstocks_"                                                                                                      ' GENERIC PATH FOR READING THE CSV FILES - WILL NEED TO SET TO USER INPUT FOR PRODUCTION
 
+        Dim strFile As String = "C:\Users\Troy Belden\Desktop\" & symbol.ToUpper() & "_StockData" & ".txt"
+        Dim sw As StreamWriter
+
+        If (Not File.Exists(strFile)) Then
+            sw = File.CreateText(strFile)
+            'sw.WriteLine("Start Error Log for today")
+        Else
+            sw = File.AppendText(strFile)
+        End If
+
         Try
-            Using textReader As New System.IO.StreamReader(path & filedate & "\table_" & symbol & ".csv")                                                                               ' TEXT READER READS THE CSV FILE INTO MEMORY
-                csvdata = textReader.ReadToEnd                                                                                                                                          ' LOAD THE ENTIRE FILE INTO THE STRING.
-                backprices = ParseBackData(csvdata)                                                                                                                                     ' CALL THE FUNCTION TO PARSE THE DATA INTO ROWS AND RETURN OPEN MARKET HOURS.                        
-                'Stop
+            For yr = 0 To 1
+                For mnth = 0 To 11
+                    For dy = 0 To 30
 
-                lstOHLC.Items.Add("Row" & vbTab & "Time" & vbTab & "Open" & vbTab & "High" & vbTab & "Low" & vbTab & "Close")
-                For Each price As backPrice In backprices
+                        filedate = (2016 + yr & String.Format("{0:00}", 1 + mnth) & String.Format("{0:00}", 1 + dy))
 
-                    If price.interval = 0 Then
+                        If (Not File.Exists(path & filedate & "\table_" & symbol & ".csv")) Then
 
-                        priceint = Int(price.OpenPrice)                                                                                                                                 ' RETURN THE INTERVAL OF THE STOCK TICK PRICE
-                        checksum = price.OpenPrice - priceint                                                                                                                           ' RETURN THE DECIMALS IN THE STOCK TICK PRICE FOR THE CALCULATIONS
-                        currentprice = (Int(checksum / opentrigger) * opentrigger + priceint)                                                                                           ' CALCULATE THE NEAREST MARK PRICE TO SET THE LIMIT ORDER AGAINST                    
+                        Else
 
-                    End If
+                            'For i As Integer = 0 To marketdates.Length - 1
+                            'MessageBox.Show(marketdates(i))
 
-                    lstOHLC.Items.Add(price.interval & vbTab & price.MarketTime & vbTab & (String.Format("{0:C}", price.OpenPrice)) &
-                                      vbTab & (String.Format("{0:C}", price.HighPrice)) & vbTab & (String.Format("{0:C}", price.LowPrice)) &
-                                      vbTab & (String.Format("{0:C}", price.ClosePrice)))
-                    recordsread += 1
+                            Using textReader As New System.IO.StreamReader(path & filedate & "\table_" & symbol & ".csv")                                                                               ' TEXT READER READS THE CSV FILE INTO MEMORY
+                                csvdata = textReader.ReadToEnd                                                                                                                                          ' LOAD THE ENTIRE FILE INTO THE STRING.
+                                backprices = ParseBackData(csvdata)                                                                                                                                     ' CALL THE FUNCTION TO PARSE THE DATA INTO ROWS AND RETURN OPEN MARKET HOURS.                        
+                                'Stop
+
+                                'lstOHLC.Items.Add("Row" & vbTab & "Time" & vbTab & "Open" & vbTab & "High" & vbTab & "Low" & vbTab & "Close")
+                                For Each price As backPrice In backprices
+
+                                    If price.interval = 0 Then
+
+                                        priceint = Int(price.OpenPrice)                                                                                                                                 ' RETURN THE INTERVAL OF THE STOCK TICK PRICE
+                                        checksum = price.OpenPrice - priceint                                                                                                                           ' RETURN THE DECIMALS IN THE STOCK TICK PRICE FOR THE CALCULATIONS
+                                        currentprice = (Int(checksum / opentrigger) * opentrigger + priceint)                                                                                           ' CALCULATE THE NEAREST MARK PRICE TO SET THE LIMIT ORDER AGAINST                    
+
+                                    End If
+
+                                    'lstOHLC.Items.Add(price.interval & vbTab & price.MarketTime & vbTab & (String.Format("{0:C}", price.OpenPrice)) &
+                                    '                  vbTab & (String.Format("{0:C}", price.HighPrice)) & vbTab & (String.Format("{0:C}", price.LowPrice)) &
+                                    '                  vbTab & (String.Format("{0:C}", price.ClosePrice)))
+
+                                    sw.WriteLine(filedate & "," & price.interval & "," & price.MarketTime & "," & price.OpenPrice & "," & price.HighPrice & "," & price.LowPrice &
+                                                 "," & price.ClosePrice)
+
+                                    recordsread += 1
+                                Next
+
+                                'lblRecordsProcessed.Text = "Records Processed: " & backprices.Count                                                                                                    ' LABEL INDICATOR SHOWING THAT PROCESSING IS COMPLETE
+                            End Using
+                        End If
+                        'Next
+                    Next
                 Next
+            Next
+            sw.Close()
 
-                'lblRecordsProcessed.Text = "Records Processed: " & backprices.Count                                                                                                    ' LABEL INDICATOR SHOWING THAT PROCESSING IS COMPLETE
-            End Using
         Catch Ex As Exception
             MessageBox.Show("Cannot read file from disk. Original error: " & Ex.Message)                                                                                                ' IF THERE IS AN ERROR READING THE FILE DISPLAY THE ERROR MESSAGE
         Finally
@@ -292,4 +327,16 @@ Friend Class dlgHarvestBacktest
 
     End Class
 
+    Private Sub btnArrayTest_Click(sender As Object, e As EventArgs) Handles btnArrayTest.Click
+
+        For yr = 0 To 1
+            For mnth = 0 To 11
+                For dy = 0 To 30
+                    MsgBox(2016 + yr & String.Format("{0:00}", 1 + mnth) & String.Format("{0:00}", 1 + dy))
+                Next
+            Next
+        Next
+
+
+    End Sub
 End Class

@@ -34,6 +34,7 @@ Partial Class dlgHarvestBacktest
         Me.dtpBackDate = New System.Windows.Forms.DateTimePicker()
         Me.btnClose = New System.Windows.Forms.Button()
         Me.btnRunTest = New System.Windows.Forms.Button()
+        Me.btnArrayTest = New System.Windows.Forms.Button()
         Me.Panel1.SuspendLayout()
         Me.Panel5.SuspendLayout()
         Me.SuspendLayout()
@@ -154,11 +155,22 @@ Partial Class dlgHarvestBacktest
         Me.btnRunTest.Text = "Run Test"
         Me.btnRunTest.UseVisualStyleBackColor = True
         '
+        'btnArrayTest
+        '
+        Me.btnArrayTest.Location = New System.Drawing.Point(695, 208)
+        Me.btnArrayTest.Margin = New System.Windows.Forms.Padding(6)
+        Me.btnArrayTest.Name = "btnArrayTest"
+        Me.btnArrayTest.Size = New System.Drawing.Size(162, 44)
+        Me.btnArrayTest.TabIndex = 99
+        Me.btnArrayTest.Text = "Array Test"
+        Me.btnArrayTest.UseVisualStyleBackColor = True
+        '
         'dlgHarvestBacktest
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(12.0!, 25.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1584, 772)
+        Me.Controls.Add(Me.btnArrayTest)
         Me.Controls.Add(Me.btnRunTest)
         Me.Controls.Add(Me.btnClose)
         Me.Controls.Add(Me.dtpBackDate)
@@ -192,4 +204,5 @@ Partial Class dlgHarvestBacktest
     Friend WithEvents dtpBackDate As DateTimePicker
     Friend WithEvents btnClose As Button
     Friend WithEvents btnRunTest As Button
+    Friend WithEvents btnArrayTest As Button
 End Class

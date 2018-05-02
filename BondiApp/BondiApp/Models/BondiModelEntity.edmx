@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="optionwavesdbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="optionwavesdbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Applications">
           <Key>
             <PropertyRef Name="ApplicationId" />
@@ -506,11 +506,12 @@
           <Property Name="TickPrice" Type="money" />
           <Property Name="LimitPrice" Type="money" />
           <Property Name="Quantity" Type="int" />
-          <Property Name="OrderStatus" Type="nvarchar" MaxLength="10" />
+          <Property Name="OrderStatus" Type="nvarchar" MaxLength="50" />
           <Property Name="OrderTimestamp" Type="datetime" />
           <Property Name="roboIndex" Type="nvarchar" MaxLength="12" />
           <Property Name="matchID" Type="nvarchar" MaxLength="15" />
           <Property Name="userid" Type="uniqueidentifier" />
+          <Property Name="ordertype" Type="nvarchar" MaxLength="10" />
         </EntityType>
         <EntityType Name="Tasks">
           <Key>
@@ -1403,8 +1404,7 @@ warning 6002: The table/view 'optionwavesdb.dbo.vw_Pricings_DESC' does not have 
             <End Role="UsersInRoles" EntitySet="UsersInRoles" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="optionwavesdbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -1925,7 +1925,7 @@ warning 6002: The table/view 'optionwavesdb.dbo.vw_Pricings_DESC' does not have 
           <Property Name="PermID" Type="Int32" />
           <Property Name="Symbol" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
           <Property Name="Action" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
-          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
           <Property Name="TickPrice" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="LimitPrice" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="Quantity" Type="Int32" />
@@ -1934,6 +1934,7 @@ warning 6002: The table/view 'optionwavesdb.dbo.vw_Pricings_DESC' does not have 
           <Property Name="roboIndex" Type="String" MaxLength="12" FixedLength="false" Unicode="true" />
           <Property Name="matchID" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
           <Property Name="userid" Type="Guid" />
+          <Property Name="ordertype" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Task">
           <Key>
@@ -3129,6 +3130,7 @@ warning 6002: The table/view 'optionwavesdb.dbo.vw_Pricings_DESC' does not have 
           <EntitySetMapping Name="stockorders">
             <EntityTypeMapping TypeName="optionwavesdbModel.stockorder">
               <MappingFragment StoreEntitySet="stockorders">
+                <ScalarProperty Name="ordertype" ColumnName="ordertype" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="timestamp" ColumnName="timestamp" />
                 <ScalarProperty Name="OrderId" ColumnName="OrderId" />

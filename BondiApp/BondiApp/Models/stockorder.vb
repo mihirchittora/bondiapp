@@ -26,5 +26,6 @@ Partial Public Class stockorder
     Public Property roboIndex As String
     Public Property matchID As String
     Public Property userid As Nullable(Of System.Guid)
+    Public Property ordertype As String
 
 End Class
