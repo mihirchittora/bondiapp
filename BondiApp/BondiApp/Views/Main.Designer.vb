@@ -133,6 +133,9 @@ Partial Class Main
         Me.colStrike = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.colRight = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.colConId = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.lstConnectionResponses = New System.Windows.Forms.ListBox()
+        Me.Label32 = New System.Windows.Forms.Label()
+        Me.lstErrorResponses = New System.Windows.Forms.ListBox()
         CType(Me.HarvestIndexBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.OptionwavesdbDataSet, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.OptionwavesdbDataSet1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -187,7 +190,7 @@ Partial Class Main
         'lbldatastring
         '
         Me.lbldatastring.AutoSize = True
-        Me.lbldatastring.Location = New System.Drawing.Point(648, 472)
+        Me.lbldatastring.Location = New System.Drawing.Point(510, 472)
         Me.lbldatastring.Name = "lbldatastring"
         Me.lbldatastring.Size = New System.Drawing.Size(122, 13)
         Me.lbldatastring.TabIndex = 12
@@ -446,14 +449,14 @@ Partial Class Main
         Me.lstServerResponses.Location = New System.Drawing.Point(16, 496)
         Me.lstServerResponses.Margin = New System.Windows.Forms.Padding(2)
         Me.lstServerResponses.Name = "lstServerResponses"
-        Me.lstServerResponses.Size = New System.Drawing.Size(753, 277)
+        Me.lstServerResponses.Size = New System.Drawing.Size(753, 69)
         Me.lstServerResponses.TabIndex = 48
         '
         'btnWillie
         '
-        Me.btnWillie.Location = New System.Drawing.Point(322, 70)
+        Me.btnWillie.Location = New System.Drawing.Point(339, 101)
         Me.btnWillie.Name = "btnWillie"
-        Me.btnWillie.Size = New System.Drawing.Size(81, 23)
+        Me.btnWillie.Size = New System.Drawing.Size(117, 33)
         Me.btnWillie.TabIndex = 49
         Me.btnWillie.Text = "Start Willie"
         Me.btnWillie.UseVisualStyleBackColor = True
@@ -526,7 +529,7 @@ Partial Class Main
         '
         'Timer60Sec
         '
-        Me.Timer60Sec.Interval = 60000
+        Me.Timer60Sec.Interval = 5000
         '
         'TimerAtTime
         '
@@ -535,11 +538,11 @@ Partial Class Main
         'ckRobotOn
         '
         Me.ckRobotOn.AutoSize = True
-        Me.ckRobotOn.Location = New System.Drawing.Point(421, 76)
+        Me.ckRobotOn.Location = New System.Drawing.Point(470, 110)
         Me.ckRobotOn.Name = "ckRobotOn"
-        Me.ckRobotOn.Size = New System.Drawing.Size(78, 17)
+        Me.ckRobotOn.Size = New System.Drawing.Size(52, 17)
         Me.ckRobotOn.TabIndex = 69
-        Me.ckRobotOn.Text = "Run Robot"
+        Me.ckRobotOn.Text = "Timer"
         Me.ckRobotOn.UseVisualStyleBackColor = True
         '
         'btnTest
@@ -670,7 +673,7 @@ Partial Class Main
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(2)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(769, 35)
+        Me.Panel1.Size = New System.Drawing.Size(682, 35)
         Me.Panel1.TabIndex = 85
         '
         'Label3
@@ -698,12 +701,12 @@ Partial Class Main
         Me.Panel3.Location = New System.Drawing.Point(0, 36)
         Me.Panel3.Margin = New System.Windows.Forms.Padding(2)
         Me.Panel3.Name = "Panel3"
-        Me.Panel3.Size = New System.Drawing.Size(769, 31)
+        Me.Panel3.Size = New System.Drawing.Size(688, 31)
         Me.Panel3.TabIndex = 87
         '
         'btnConnect
         '
-        Me.btnConnect.Location = New System.Drawing.Point(609, 3)
+        Me.btnConnect.Location = New System.Drawing.Point(526, 5)
         Me.btnConnect.Name = "btnConnect"
         Me.btnConnect.Size = New System.Drawing.Size(72, 23)
         Me.btnConnect.TabIndex = 66
@@ -712,7 +715,7 @@ Partial Class Main
         '
         'btnDisconnect
         '
-        Me.btnDisconnect.Location = New System.Drawing.Point(690, 3)
+        Me.btnDisconnect.Location = New System.Drawing.Point(604, 4)
         Me.btnDisconnect.Name = "btnDisconnect"
         Me.btnDisconnect.Size = New System.Drawing.Size(72, 23)
         Me.btnDisconnect.TabIndex = 65
@@ -731,7 +734,7 @@ Partial Class Main
         '
         'txtClientId
         '
-        Me.txtClientId.Location = New System.Drawing.Point(564, 6)
+        Me.txtClientId.Location = New System.Drawing.Point(470, 7)
         Me.txtClientId.Name = "txtClientId"
         Me.txtClientId.Size = New System.Drawing.Size(38, 20)
         Me.txtClientId.TabIndex = 64
@@ -740,7 +743,7 @@ Partial Class Main
         'Label18
         '
         Me.Label18.AutoSize = True
-        Me.Label18.Location = New System.Drawing.Point(514, 8)
+        Me.Label18.Location = New System.Drawing.Point(418, 8)
         Me.Label18.Name = "Label18"
         Me.Label18.Size = New System.Drawing.Size(45, 13)
         Me.Label18.TabIndex = 63
@@ -748,7 +751,7 @@ Partial Class Main
         '
         'txtPort
         '
-        Me.txtPort.Location = New System.Drawing.Point(470, 6)
+        Me.txtPort.Location = New System.Drawing.Point(374, 6)
         Me.txtPort.Name = "txtPort"
         Me.txtPort.Size = New System.Drawing.Size(38, 20)
         Me.txtPort.TabIndex = 62
@@ -757,7 +760,7 @@ Partial Class Main
         'label2
         '
         Me.label2.AutoSize = True
-        Me.label2.Location = New System.Drawing.Point(434, 8)
+        Me.label2.Location = New System.Drawing.Point(338, 8)
         Me.label2.Name = "label2"
         Me.label2.Size = New System.Drawing.Size(26, 13)
         Me.label2.TabIndex = 61
@@ -765,7 +768,7 @@ Partial Class Main
         '
         'txtHost
         '
-        Me.txtHost.Location = New System.Drawing.Point(369, 6)
+        Me.txtHost.Location = New System.Drawing.Point(273, 6)
         Me.txtHost.Name = "txtHost"
         Me.txtHost.Size = New System.Drawing.Size(59, 20)
         Me.txtHost.TabIndex = 3
@@ -774,7 +777,7 @@ Partial Class Main
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(336, 8)
+        Me.Label1.Location = New System.Drawing.Point(240, 8)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(29, 13)
         Me.Label1.TabIndex = 2
@@ -811,15 +814,15 @@ Partial Class Main
         'cmbWillie
         '
         Me.cmbWillie.FormattingEnabled = True
-        Me.cmbWillie.Location = New System.Drawing.Point(130, 72)
+        Me.cmbWillie.Location = New System.Drawing.Point(470, 75)
         Me.cmbWillie.Name = "cmbWillie"
-        Me.cmbWillie.Size = New System.Drawing.Size(176, 21)
+        Me.cmbWillie.Size = New System.Drawing.Size(206, 21)
         Me.cmbWillie.TabIndex = 91
         '
         'Label26
         '
         Me.Label26.AutoSize = True
-        Me.Label26.Location = New System.Drawing.Point(6, 75)
+        Me.Label26.Location = New System.Drawing.Point(336, 78)
         Me.Label26.Name = "Label26"
         Me.Label26.Size = New System.Drawing.Size(120, 13)
         Me.Label26.TabIndex = 92
@@ -939,7 +942,7 @@ Partial Class Main
         'Label31
         '
         Me.Label31.AutoSize = True
-        Me.Label31.Location = New System.Drawing.Point(5, 147)
+        Me.Label31.Location = New System.Drawing.Point(1147, 292)
         Me.Label31.Name = "Label31"
         Me.Label31.Size = New System.Drawing.Size(79, 13)
         Me.Label31.TabIndex = 118
@@ -947,7 +950,7 @@ Partial Class Main
         '
         'txtSpreadExp
         '
-        Me.txtSpreadExp.Location = New System.Drawing.Point(9, 162)
+        Me.txtSpreadExp.Location = New System.Drawing.Point(1151, 307)
         Me.txtSpreadExp.Name = "txtSpreadExp"
         Me.txtSpreadExp.Size = New System.Drawing.Size(98, 20)
         Me.txtSpreadExp.TabIndex = 117
@@ -956,7 +959,7 @@ Partial Class Main
         'Label34
         '
         Me.Label34.AutoSize = True
-        Me.Label34.Location = New System.Drawing.Point(12, 226)
+        Me.Label34.Location = New System.Drawing.Point(1154, 371)
         Me.Label34.Name = "Label34"
         Me.Label34.Size = New System.Drawing.Size(36, 13)
         Me.Label34.TabIndex = 112
@@ -964,7 +967,7 @@ Partial Class Main
         '
         'txtSpreadRight
         '
-        Me.txtSpreadRight.Location = New System.Drawing.Point(16, 241)
+        Me.txtSpreadRight.Location = New System.Drawing.Point(1158, 386)
         Me.txtSpreadRight.Name = "txtSpreadRight"
         Me.txtSpreadRight.Size = New System.Drawing.Size(41, 20)
         Me.txtSpreadRight.TabIndex = 111
@@ -973,7 +976,7 @@ Partial Class Main
         'Label35
         '
         Me.Label35.AutoSize = True
-        Me.Label35.Location = New System.Drawing.Point(12, 187)
+        Me.Label35.Location = New System.Drawing.Point(1154, 332)
         Me.Label35.Name = "Label35"
         Me.Label35.Size = New System.Drawing.Size(34, 13)
         Me.Label35.TabIndex = 110
@@ -981,7 +984,7 @@ Partial Class Main
         '
         'txtSpreadStrike
         '
-        Me.txtSpreadStrike.Location = New System.Drawing.Point(16, 202)
+        Me.txtSpreadStrike.Location = New System.Drawing.Point(1158, 347)
         Me.txtSpreadStrike.Name = "txtSpreadStrike"
         Me.txtSpreadStrike.Size = New System.Drawing.Size(41, 20)
         Me.txtSpreadStrike.TabIndex = 109
@@ -990,7 +993,7 @@ Partial Class Main
         'Label36
         '
         Me.Label36.AutoSize = True
-        Me.Label36.Location = New System.Drawing.Point(7, 103)
+        Me.Label36.Location = New System.Drawing.Point(1149, 248)
         Me.Label36.Name = "Label36"
         Me.Label36.Size = New System.Drawing.Size(41, 13)
         Me.Label36.TabIndex = 108
@@ -998,7 +1001,7 @@ Partial Class Main
         '
         'txtSpreadSymbol
         '
-        Me.txtSpreadSymbol.Location = New System.Drawing.Point(8, 119)
+        Me.txtSpreadSymbol.Location = New System.Drawing.Point(1150, 264)
         Me.txtSpreadSymbol.Name = "txtSpreadSymbol"
         Me.txtSpreadSymbol.Size = New System.Drawing.Size(41, 20)
         Me.txtSpreadSymbol.TabIndex = 107
@@ -1006,7 +1009,7 @@ Partial Class Main
         '
         'btnAddLeg
         '
-        Me.btnAddLeg.Location = New System.Drawing.Point(130, 116)
+        Me.btnAddLeg.Location = New System.Drawing.Point(1272, 261)
         Me.btnAddLeg.Name = "btnAddLeg"
         Me.btnAddLeg.Size = New System.Drawing.Size(81, 23)
         Me.btnAddLeg.TabIndex = 106
@@ -1015,7 +1018,7 @@ Partial Class Main
         '
         'btnSpreadOrder
         '
-        Me.btnSpreadOrder.Location = New System.Drawing.Point(130, 162)
+        Me.btnSpreadOrder.Location = New System.Drawing.Point(1272, 307)
         Me.btnSpreadOrder.Name = "btnSpreadOrder"
         Me.btnSpreadOrder.Size = New System.Drawing.Size(81, 23)
         Me.btnSpreadOrder.TabIndex = 120
@@ -1028,7 +1031,7 @@ Partial Class Main
         Me.grdContracts.AllowUserToDeleteRows = False
         Me.grdContracts.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.grdContracts.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.colSymbol, Me.colExpDate, Me.colStrike, Me.colRight, Me.colConId})
-        Me.grdContracts.Location = New System.Drawing.Point(294, 103)
+        Me.grdContracts.Location = New System.Drawing.Point(808, 89)
         Me.grdContracts.Name = "grdContracts"
         Me.grdContracts.ReadOnly = True
         Me.grdContracts.Size = New System.Drawing.Size(545, 150)
@@ -1064,11 +1067,43 @@ Partial Class Main
         Me.colConId.Name = "colConId"
         Me.colConId.ReadOnly = True
         '
+        'lstConnectionResponses
+        '
+        Me.lstConnectionResponses.BackColor = System.Drawing.SystemColors.MenuBar
+        Me.lstConnectionResponses.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.lstConnectionResponses.FormattingEnabled = True
+        Me.lstConnectionResponses.Location = New System.Drawing.Point(8, 96)
+        Me.lstConnectionResponses.Margin = New System.Windows.Forms.Padding(2)
+        Me.lstConnectionResponses.Name = "lstConnectionResponses"
+        Me.lstConnectionResponses.Size = New System.Drawing.Size(324, 39)
+        Me.lstConnectionResponses.TabIndex = 122
+        '
+        'Label32
+        '
+        Me.Label32.AutoSize = True
+        Me.Label32.Location = New System.Drawing.Point(5, 78)
+        Me.Label32.Name = "Label32"
+        Me.Label32.Size = New System.Drawing.Size(97, 13)
+        Me.Label32.TabIndex = 123
+        Me.Label32.Text = "Connection Status:"
+        '
+        'lstErrorResponses
+        '
+        Me.lstErrorResponses.FormattingEnabled = True
+        Me.lstErrorResponses.Location = New System.Drawing.Point(16, 588)
+        Me.lstErrorResponses.Margin = New System.Windows.Forms.Padding(2)
+        Me.lstErrorResponses.Name = "lstErrorResponses"
+        Me.lstErrorResponses.Size = New System.Drawing.Size(753, 69)
+        Me.lstErrorResponses.TabIndex = 124
+        '
         'Main
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(896, 749)
+        Me.ClientSize = New System.Drawing.Size(1459, 1052)
+        Me.Controls.Add(Me.lstErrorResponses)
+        Me.Controls.Add(Me.Label32)
+        Me.Controls.Add(Me.lstConnectionResponses)
         Me.Controls.Add(Me.grdContracts)
         Me.Controls.Add(Me.btnSpreadOrder)
         Me.Controls.Add(Me.Label31)
@@ -1281,4 +1316,7 @@ Partial Class Main
     Friend WithEvents colStrike As DataGridViewTextBoxColumn
     Friend WithEvents colRight As DataGridViewTextBoxColumn
     Friend WithEvents colConId As DataGridViewTextBoxColumn
+    Friend WithEvents lstConnectionResponses As ListBox
+    Friend WithEvents Label32 As Label
+    Friend WithEvents lstErrorResponses As ListBox
 End Class

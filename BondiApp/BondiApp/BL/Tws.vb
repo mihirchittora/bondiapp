@@ -3,9 +3,6 @@ Imports System.Collections.Generic
 Imports IBApi
 
 
-
-
-
 Friend Class Tws
     Implements IBApi.EWrapper
 
@@ -81,15 +78,21 @@ Friend Class Tws
     End Sub
 
     Sub connect(p1 As String, p2 As Integer, p3 As Integer, p4 As Boolean, optcapts As String)                                              ' CONNECTION STRING & FUNCTION USED TO CONNECT THE APP TO TWS
-        socket.optionalCapabilities = optcapts
 
-        socket.eConnect(p1, p2, p3, p4)
+        socket.optionalCapabilities = optcapts                                                                                              ' SET THE OPTIONAL CAPABILITIES FLAG EQUAL TO THE OPTCAPTS FLAG PASSED FROM THE CONNECT SUB ROUTINE
 
-        Dim msgThread As Threading.Thread = New Threading.Thread(AddressOf msgProcessing)
+        socket.eConnect(p1, p2, p3, p4)                                                                                                     ' CALL THE eCONNECT SUB PROCESS PASSING HOSTIP, PORT NUMBER, CLIENT ID, AND EXTRA AUTHENTICAL FLAG  
 
-        msgThread.IsBackground = True
+        Dim msgThread As Threading.Thread = New Threading.Thread(AddressOf msgProcessing)                                                   ' INITIALIZE THE MESSAGE THREADING STRUCTURE FOR THE APPLICATION
 
-        If serverVersion() > 0 Then Call msgThread.Start()
+        msgThread.IsBackground = True                                                                                                       ' SET MESSAGE THREADING TO RUN IN THE BACKGROUND 
+
+        If serverVersion() > 0 Then Call msgThread.Start()                                                                                  ' IF THE SERVERVERSION IS > 0 START THE MESSAGE THREADING IN THE BACKGROUND
+
+
+
+        'twsServerVersion = serverVersion()                                                                                                  ' SET THE PUBLIC SERVERVERSION VARIABLE TO BE USED IN THE CONNECTION MESSAGING
+
     End Sub
 
     Sub disconnect()
