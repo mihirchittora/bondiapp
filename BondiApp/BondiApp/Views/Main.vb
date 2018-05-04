@@ -679,45 +679,30 @@ Friend Class Main
 
                             If currentprice - buyOrderExists.FirstOrDefault.LimitPrice >= hi.FirstOrDefault().width * 2 Then    ' DETERMINE IF THE CURRENT TICK PRICE OF THE TICKSYMBOL IS MORE THAN 2 WIDTHS GREATER THAN THE TRAILING BTO ORDER 
 
+                                contract.Symbol = sl.FirstOrDefault().Symbol.ToUpper()                                          ' SET THE CONTRACT SYMBOL TO THE STOCK ORDER UPDATED SYMBOL
+                                contract.SecType = hi.FirstOrDefault().stocksectype.ToUpper()                                   ' SET THE CONTRACT SECURITY TYPE TO THE INDEX STOCK SECURITY TYPE
+                                contract.Currency = hi.FirstOrDefault().currencytype.ToUpper()                                  ' SET THE CONTRACT CURRENCY TYPE TO THE INDEX CURRENCY TYPE
+                                contract.Exchange = hi.FirstOrDefault().exchange.ToUpper()                                      ' SET THE CONTRACT EXCHANGE TYPE TO THE INDEX EXCHANGE TYPE
+
+                                order.OrderType = hi.FirstOrDefault().ordertype.ToUpper()                                       ' SET THE ORDER ORDER TYPE TO THE INDEX ORDER TYPE (lmt OR mkt)
+                                order.TotalQuantity = hi.FirstOrDefault().shares                                                ' SET THE ORDER NUMBER OF SHARES TO THE INDEX NUMBER OF SHARES - CONSIDER SETTING TO THE UPDATED ORDER SHARES VALUE
+                                order.Tif = hi.FirstOrDefault().inforce.ToUpper()                                               ' SET THE ORDER TRADE IN FORCE TO THE INDEX TRADE IN FORCE (day OR gtc)
+
+                                order.OrderId = sl.FirstOrDefault().OrderId                                                     ' SET THE ORDER ORDER ID TO THE UPDATED RECORD ORDER ID
+                                order.Action = "BUY"                                                                            ' SET THE ORDER ACTION TO BUY
+                                order.LmtPrice = buyOrderExists.FirstOrDefault().LimitPrice + hi.FirstOrDefault().width         ' SET THE ORDER LIMIT PRICE TO THE UPDATED RECORD LIMIT PRICE PLUS THE INDEX WIDTH VALUE
+
+                                Call Tws1.placeOrderEx(order.OrderId, contract, order)                                          ' CALL THE PLACEORDER FUNCTION TO SEND THE ORDER CREATED TO TWS
+
+                                ' UPDATE THE TRAINING BUY ORDER HERE.
+                                ou.Status = "Open"
+                                ou.LimitPrice = order.LmtPrice
+                                ou.timestamp = DateTime.Parse(Now).ToUniversalTime()                                            ' SET THE TIMESTAMP OF THE RECORD TO UPDATE TO THE CURRENT DATE AND TIME
+
+                                db.SaveChanges()                                                                                ' SAVE THE CHANGES TO THE DATABASE   
 
                                 lbldatastring.Text = "Elevated Stranded Buy Order " &
                                     String.Format("{0:C}", (currentprice + hi.FirstOrDefault().width).ToString())               ' IF THE BTO IS LESS THAN 2 WIDTHS BELOW CURRENT PRICE SEND A MESSAGE TO THE USER INDICATING THE CONDITION
-
-                                '            ' When this condition is met modify the order by increasing it to follow the run up of the stock price.
-
-                                '            Dim pricemove As Double = 0
-                                '            Dim gap As Double = 0
-                                '            Dim newLimitPrice As Double = 0
-                                '            Dim oldLimitPrice As Double = ordersexists.FirstOrDefault.LimitPrice
-
-                                '            pricemove = currentprice - ordersexists.FirstOrDefault.LimitPrice
-                                '            gap = Int(pricemove / hi.FirstOrDefault().width)
-
-                                '            newLimitPrice = ordersexists.FirstOrDefault.LimitPrice + ((gap - 1) * hi.FirstOrDefault().width)
-
-                                '            contract.Symbol = ordersexists.FirstOrDefault().Symbol.ToUpper()                                                                        ' SET THE CONTRACT SYMBOL TO THE STOCK ORDER UPDATED SYMBOL
-                                '            contract.SecType = hi.FirstOrDefault().stocksectype.ToUpper()                                           ' SET THE CONTRACT SECURITY TYPE TO THE INDEX STOCK SECURITY TYPE
-                                '            contract.Currency = hi.FirstOrDefault().currencytype.ToUpper()                                          ' SET THE CONTRACT CURRENCY TYPE TO THE INDEX CURRENCY TYPE
-                                '            contract.Exchange = hi.FirstOrDefault().exchange.ToUpper()                                              ' SET THE CONTRACT EXCHANGE TYPE TO THE INDEX EXCHANGE TYPE
-
-                                '            order.OrderType = hi.FirstOrDefault().ordertype.ToUpper()                                               ' SET THE ORDER ORDER TYPE TO THE INDEX ORDER TYPE (lmt OR mkt)
-                                '            order.TotalQuantity = hi.FirstOrDefault().shares                                                        ' SET THE ORDER NUMBER OF SHARES TO THE INDEX NUMBER OF SHARES - CONSIDER SETTING TO THE UPDATED ORDER SHARES VALUE
-                                '            order.Tif = hi.FirstOrDefault().inforce.ToUpper()                                                       ' SET THE ORDER TRADE IN FORCE TO THE INDEX TRADE IN FORCE (day OR gtc)
-
-                                '            order.OrderId = ordersexists.FirstOrDefault().OrderId                                                             ' SET THE ORDER ORDER ID TO THE UPDATED RECORD ORDER ID
-                                '            order.Action = "BUY"                                                                                    ' SET THE ORDER ACTION TO BUY
-                                '            order.LmtPrice = newLimitPrice                             ' SET THE ORDER LIMIT PRICE TO THE UPDATED RECORD LIMIT PRICE PLUS THE INDEX WIDTH VALUE
-
-                                '            Call Tws1.placeOrderEx(order.OrderId, contract, order)                                                  ' CALL THE PLACEORDER FUNCTION TO SEND THE ORDER CREATED TO TWS
-
-                                '            ' UPDATE THE TRAINING BUY ORDER HERE.
-                                '            ordersexists.FirstOrDefault.Status = "Open"
-                                '            ordersexists.FirstOrDefault.LimitPrice = order.LmtPrice
-                                '            ordersexists.FirstOrDefault.timestamp = DateTime.Parse(Now).ToUniversalTime()                                                    ' SET THE TIMESTAMP OF THE RECORD TO UPDATE TO THE CURRENT DATE AND TIME
-
-                                '            db.SaveChanges()
-
-                                '            datastring = datastring & "BUY TO OPEN limit price changed from : " & String.Format("{0:C}", oldLimitPrice) & " to:" & String.Format("{0:C}", newLimitPrice)
 
                             End If
 
