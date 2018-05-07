@@ -1802,6 +1802,23 @@ Friend Class Main
         dlgHarvestBacktest.ShowDialog()
     End Sub
 
+    Private Sub btnTickPrice_Click(sender As Object, e As EventArgs) Handles btnTickPrice.Click
+        Dim contract As IBApi.Contract = New IBApi.Contract()
+        contract.Symbol = "VXX"                                                                                                   ' INITIALIZE SYMBOL VALUE FOR THE CONTRACT
+        contract.SecType = "STK"                                                                                                    ' INITIALIZE THE SECURITY TYPE FOR THE CONTRACT - MOVE TO SETTINGS AT SOME POINT
+        contract.Currency = "USD"                                                                                                   ' INITIALIZE CURRENCY TYPE FOR THE CONTRACT - MOVE TO SETTINGS AT SOME POINT
+        contract.Exchange = "SMART"                                                                                                 ' INITIALIZE EXCHANGE USED FOR THE CONTRACT
+        'contract.Symbol = txtSpreadSymbol.Text
+        'contract.SecType = "OPT"
+        'contract.Exchange = "SMART"
+        'contract.Currency = "USD"
+        'contract.LastTradeDateOrContractMonth = txtSpreadExp.Text
+        'contract.Strike = txtSpreadStrike.Text
+        'contract.Right = txtSpreadRight.Text
+        Tws1.reqMarketDataType(txtTickId.Text)                                                                                                   ' SETS DATA FEED TO (1) LIVE STREAMING  (2) FROZEN  (3) DELAYED 15 - 20 MINUTES 
+        Tws1.reqMktDataEx(1, contract, "", False, Nothing)
+    End Sub
+
     Function getdatetime(ByVal marketdate As String, ByVal markettime As String) As String
         Dim dateandtime As String = ""
         Dim dte As String = ""
@@ -1818,4 +1835,70 @@ Friend Class Main
         Return dateandtime
     End Function
 
+    Private Sub Tws1_tickSize(ByVal eventSender As System.Object, ByVal eventArgs As AxTWSLib._DTwsEvents_tickSizeEvent) Handles Tws1.OnTickSize
+        Dim mktDataStr As String
+
+        mktDataStr = "id=" & eventArgs.id & " " & m_utils.getField(eventArgs.tickType) & "=" & eventArgs.size
+        Call m_utils.addListItem(Utils.List_Types.MKT_DATA, mktDataStr)
+
+        ' move into view
+        'lstMktData.TopIndex = lstMktData.Items.Count - 1
+    End Sub
+
+    '--------------------------------------------------------------------------------
+    ' Market data generic tick event - triggered by the reqMktDataEx() method
+    '--------------------------------------------------------------------------------
+    Private Sub Tws1_tickGeneric(ByVal eventSender As System.Object, ByVal eventArgs As AxTWSLib._DTwsEvents_tickGenericEvent) Handles Tws1.OnTickGeneric
+        Dim mktDataStr As String
+
+        mktDataStr = "id=" & eventArgs.id & " " & m_utils.getField(eventArgs.tickType) & "=" & eventArgs.value
+        Call m_utils.addListItem(Utils.List_Types.MKT_DATA, mktDataStr)
+
+        ' move into view
+        'lstMktData.TopIndex = lstMktData.Items.Count - 1
+    End Sub
+
+    '--------------------------------------------------------------------------------
+    ' Market data string tick event - triggered by the reqMktDataEx() method
+    '--------------------------------------------------------------------------------
+    Private Sub Tws1_tickString(ByVal eventSender As System.Object, ByVal eventArgs As AxTWSLib._DTwsEvents_tickStringEvent) Handles Tws1.OnTickString
+        Dim mktDataStr As String
+
+        mktDataStr = "id=" & eventArgs.id & " " & m_utils.getField(eventArgs.tickType) & "=" & eventArgs.value
+        Call m_utils.addListItem(Utils.List_Types.MKT_DATA, mktDataStr)
+
+        ' move into view
+        'lstMktData.TopIndex = lstMktData.Items.Count - 1
+    End Sub
+
+    '--------------------------------------------------------------------------------
+    ' Market data EFP computation event - triggered by the reqMktDataEx() method
+    '--------------------------------------------------------------------------------
+    Private Sub Tws1_tickEFP(ByVal eventSender As System.Object, ByVal eventArgs As AxTWSLib._DTwsEvents_tickEFPEvent) Handles Tws1.OnTickEFP
+        Dim mktDataStr As String
+        mktDataStr = "id=" & eventArgs.tickerId & " " & m_utils.getField(eventArgs.field) & ":" &
+             eventArgs.basisPoints & " / " & eventArgs.formattedBasisPoints &
+             " totalDividends=" & eventArgs.totalDividends & " holdDays=" & eventArgs.holdDays &
+             " futureLastTradeDate=" & eventArgs.futureLastTradeDate & " dividendImpact=" & eventArgs.dividendImpact &
+             " dividendsToLastTradeDate=" & eventArgs.dividendsToLastTradeDate
+
+        Call m_utils.addListItem(Utils.List_Types.MKT_DATA, mktDataStr)
+
+        ' move into view
+        'lstMktData.TopIndex = lstMktData.Items.Count - 1
+    End Sub
+
+    '--------------------------------------------------------------------------------
+    ' Market depth book entry - triggered by the reqMktDepthEx() method
+    '--------------------------------------------------------------------------------
+    'Private Sub Tws1_updateMktDepth(ByVal eventSender As System.Object, ByVal eventArgs As AxTWSLib._DTwsEvents_updateMktDepthEvent) Handles Tws1.OnUpdateMktDepth
+    ' m_dlgMktDepth.updateMktDepth(eventArgs.tickerId, eventArgs.position, " ", eventArgs.operation, eventArgs.side, eventArgs.price, eventArgs.size)
+    'End Sub
+
+    '--------------------------------------------------------------------------------
+    ' Market depth Level II book entry - triggered by the reqMktDepthEx() method
+    '--------------------------------------------------------------------------------
+    'Private Sub Tws1_updateMktDepthL2(ByVal eventSender As System.Object, ByVal eventArgs As AxTWSLib._DTwsEvents_updateMktDepthL2Event) Handles Tws1.OnUpdateMktDepthL2
+    'm_dlgMktDepth.updateMktDepth(eventArgs.tickerId, eventArgs.position, eventArgs.marketMaker, eventArgs.operation, eventArgs.side, eventArgs.price, eventArgs.size)
+    'End Sub
 End Class

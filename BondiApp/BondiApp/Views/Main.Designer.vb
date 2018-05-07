@@ -137,6 +137,9 @@ Partial Class Main
         Me.Label33 = New System.Windows.Forms.Label()
         Me.Label19 = New System.Windows.Forms.Label()
         Me.Label29 = New System.Windows.Forms.Label()
+        Me.Label37 = New System.Windows.Forms.Label()
+        Me.txtTickId = New System.Windows.Forms.TextBox()
+        Me.btnTickPrice = New System.Windows.Forms.Button()
         CType(Me.HarvestIndexBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.OptionwavesdbDataSet, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.OptionwavesdbDataSet1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -1108,11 +1111,40 @@ Partial Class Main
         Me.Label29.TabIndex = 128
         Me.Label29.Text = "Additional Controls Here If Needed"
         '
+        'Label37
+        '
+        Me.Label37.AutoSize = True
+        Me.Label37.Location = New System.Drawing.Point(13, 488)
+        Me.Label37.Name = "Label37"
+        Me.Label37.Size = New System.Drawing.Size(40, 13)
+        Me.Label37.TabIndex = 130
+        Me.Label37.Text = "Tick Id"
+        '
+        'txtTickId
+        '
+        Me.txtTickId.Location = New System.Drawing.Point(68, 485)
+        Me.txtTickId.Name = "txtTickId"
+        Me.txtTickId.Size = New System.Drawing.Size(41, 20)
+        Me.txtTickId.TabIndex = 129
+        Me.txtTickId.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'btnTickPrice
+        '
+        Me.btnTickPrice.Location = New System.Drawing.Point(118, 483)
+        Me.btnTickPrice.Name = "btnTickPrice"
+        Me.btnTickPrice.Size = New System.Drawing.Size(100, 23)
+        Me.btnTickPrice.TabIndex = 131
+        Me.btnTickPrice.Text = "Get Tick"
+        Me.btnTickPrice.UseVisualStyleBackColor = True
+        '
         'Main
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(696, 816)
+        Me.ClientSize = New System.Drawing.Size(696, 749)
+        Me.Controls.Add(Me.btnTickPrice)
+        Me.Controls.Add(Me.Label37)
+        Me.Controls.Add(Me.txtTickId)
         Me.Controls.Add(Me.Label29)
         Me.Controls.Add(Me.Label19)
         Me.Controls.Add(Me.Label33)
@@ -1333,4 +1365,7 @@ Partial Class Main
     Friend WithEvents Label33 As Label
     Friend WithEvents Label19 As Label
     Friend WithEvents Label29 As Label
+    Friend WithEvents Label37 As Label
+    Friend WithEvents txtTickId As TextBox
+    Friend WithEvents btnTickPrice As Button
 End Class
