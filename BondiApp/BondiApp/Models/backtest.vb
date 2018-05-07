@@ -12,9 +12,13 @@ Imports System.Collections.Generic
 
 Partial Public Class backtest
     Public Property id As Integer
-    Public Property month As String
-    Public Property year As Nullable(Of Integer)
-    Public Property marketdate As Nullable(Of Date)
-    Public Property complete As Nullable(Of Boolean)
+    Public Property timestamp As Nullable(Of Date)
+    Public Property index As String
+    Public Property symbol As String
+    Public Property buyprice As Nullable(Of Decimal)
+    Public Property btomarketdate As Nullable(Of Date)
+    Public Property open As Nullable(Of Boolean)
+    Public Property stcmarketdate As Nullable(Of Date)
+    Public Property sellprice As Nullable(Of Decimal)
 
 End Class

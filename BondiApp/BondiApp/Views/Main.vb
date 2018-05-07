@@ -679,7 +679,7 @@ Friend Class Main
 
                             If currentprice - buyOrderExists.FirstOrDefault.LimitPrice >= hi.FirstOrDefault().width * 2 Then    ' DETERMINE IF THE CURRENT TICK PRICE OF THE TICKSYMBOL IS MORE THAN 2 WIDTHS GREATER THAN THE TRAILING BTO ORDER 
 
-                                contract.Symbol = sl.FirstOrDefault().Symbol.ToUpper()                                          ' SET THE CONTRACT SYMBOL TO THE STOCK ORDER UPDATED SYMBOL
+                                contract.Symbol = buyOrderExists.FirstOrDefault().Symbol.ToUpper()                              ' SET THE CONTRACT SYMBOL TO THE STOCK ORDER UPDATED SYMBOL
                                 contract.SecType = hi.FirstOrDefault().stocksectype.ToUpper()                                   ' SET THE CONTRACT SECURITY TYPE TO THE INDEX STOCK SECURITY TYPE
                                 contract.Currency = hi.FirstOrDefault().currencytype.ToUpper()                                  ' SET THE CONTRACT CURRENCY TYPE TO THE INDEX CURRENCY TYPE
                                 contract.Exchange = hi.FirstOrDefault().exchange.ToUpper()                                      ' SET THE CONTRACT EXCHANGE TYPE TO THE INDEX EXCHANGE TYPE
@@ -688,16 +688,16 @@ Friend Class Main
                                 order.TotalQuantity = hi.FirstOrDefault().shares                                                ' SET THE ORDER NUMBER OF SHARES TO THE INDEX NUMBER OF SHARES - CONSIDER SETTING TO THE UPDATED ORDER SHARES VALUE
                                 order.Tif = hi.FirstOrDefault().inforce.ToUpper()                                               ' SET THE ORDER TRADE IN FORCE TO THE INDEX TRADE IN FORCE (day OR gtc)
 
-                                order.OrderId = sl.FirstOrDefault().OrderId                                                     ' SET THE ORDER ORDER ID TO THE UPDATED RECORD ORDER ID
+                                order.OrderId = buyOrderExists.FirstOrDefault().OrderId                                         ' SET THE ORDER ORDER ID TO THE UPDATED RECORD ORDER ID
                                 order.Action = "BUY"                                                                            ' SET THE ORDER ACTION TO BUY
                                 order.LmtPrice = buyOrderExists.FirstOrDefault().LimitPrice + hi.FirstOrDefault().width         ' SET THE ORDER LIMIT PRICE TO THE UPDATED RECORD LIMIT PRICE PLUS THE INDEX WIDTH VALUE
 
                                 Call Tws1.placeOrderEx(order.OrderId, contract, order)                                          ' CALL THE PLACEORDER FUNCTION TO SEND THE ORDER CREATED TO TWS
 
-                                ' UPDATE THE TRAINING BUY ORDER HERE.
-                                ou.Status = "Open"
-                                ou.LimitPrice = order.LmtPrice
-                                ou.timestamp = DateTime.Parse(Now).ToUniversalTime()                                            ' SET THE TIMESTAMP OF THE RECORD TO UPDATE TO THE CURRENT DATE AND TIME
+                                ' UPDATE THE TRAILING BUY ORDER HERE.
+                                buyOrderExists.FirstOrDefault.Status = "Open"
+                                buyOrderExists.FirstOrDefault.LimitPrice = order.LmtPrice
+                                buyOrderExists.FirstOrDefault.timestamp = DateTime.Parse(Now).ToUniversalTime()                 ' SET THE TIMESTAMP OF THE RECORD TO UPDATE TO THE CURRENT DATE AND TIME
 
                                 db.SaveChanges()                                                                                ' SAVE THE CHANGES TO THE DATABASE   
 
@@ -1049,9 +1049,6 @@ Friend Class Main
         Dim orderState As IBApi.OrderState                                                                                                  ' INITIALIZE THE ORDER STATE CLASS VARIABLE AS AN ibapi ORDER STATE
         orderState = eventArgs.orderState                                                                                                   ' ASSIGN THE CURRENT ORDERSTATE TO THE ORDER STATE VARIABLE
 
-        ' LISTBOX MESSAGE CENTER
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "OpenOrderEx called, orderId= " & eventArgs.orderId)                   ' CALLED FUNCTION TO ADD THE ORDERID TO THE LISTBOX
-        'If loopcntr <> 1 Then
         If order.Action = "BUY" Then
 
             If orderState.Status.ToLower() = "presubmitted" Or orderState.Status.ToLower() = "submitted" Then
@@ -1078,9 +1075,6 @@ Friend Class Main
                     Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, " ")                                                                ' CALL FUNTION TO ADD A BLANK LINE TO THE LISTBOX
                 End If
 
-                ' TODO: ADD ORDERSTATE.STATUS FOR CANCELLED TO INDICATE THAT THE ORDER WAS CANCELLED
-
-                'loopcntr = 0
             End If
 
         ElseIf order.Action = "SELL" Then
@@ -1111,31 +1105,13 @@ Friend Class Main
                 loopcounter = 0
             End If
 
-            'order.OrderId & " PermId: " & order.PermId & " Action: " & order.Action & " Qty: " & order.TotalQuantity & " Type: " &
-            'order.OrderType & " Price: " & String.Format("{0:C}", order.LmtPrice) & " Tif: " & order.Tif                                        ' BUILD THE ORDER MESSAGE TO SEND TO THE LISTBOX
-
-
-
-            'contractmsg = String.Format("{0:hh:mm:ss}", Now.ToLocalTime) & " Contract Id: " & contract.ConId & " Symbol: " &
-            'contract.Symbol & " Security Type: " & contract.SecType &
-            '" Ex: " & contract.Exchange & " Currency: " & contract.Currency                                                                      ' BUILD THE CONTRACT MESSAGE TO SEND TO THE LISTBOX
-
-            'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, contractmsg)                                                            ' CALLED FUNCTION TO ADD THE CONTRACT MESSAGE TO THE LISTBOX
-
-            ' orderstatemsg = String.Format("{0:hh:mm:ss}", Now.ToLocalTime) & " Order Status: " & orderState.Status                                                                                ' BUILD THE ORDERSTATE MESSAGE
-            ' Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, orderstatemsg)                                                          ' CALLED FUNCTION TO ADD THE ORDERSTATE MESSAGE TO THE LISTBOX
 
         End If
 
-        'End If
-
-        ' ANY ORDER SENT TO TWS WILL BE ADDED TO THE DATABASE HERE AS THIS IS WHERE THE ORDER & CONTRACT DETAILS EXIST.
 
         Using db As BondiModel = New BondiModel()                                                                                           ' DATABASE MODEL USING ENTITY FRAMEWORK
             ' ADD USERID SEARCH TO THIS AS WELL TO REFINE THE SEARCH. 
             ' CHECK WITH MIHIR ON HOW TO UPDATE THE BONDIMODEL 
-
-            'If ManualOrder = True Then                                                                                                      ' IF THE ORDER SENT IS A MANUAL ORDER THEN ADD THE RECORD TO THE DATABASE IF IT DOESNT ALREADY EXIST
 
             Dim ordersexist = (From q In db.stockorders Where q.PermID = order.PermId Select q)
 
@@ -1169,101 +1145,9 @@ Friend Class Main
                 db.stockorders.Add(newindex)                                                                                            ' INSERT THE NEW RECORD TO BE ADDED.
                 db.SaveChanges()                                                                                                        ' SAVE THE RECORD TO THE DATABASE
 
-                'Thread.Sleep(1000)
-
-                'End If
-
             End If
 
         End Using
-
-
-
-
-
-
-
-
-        'Dim ordermsg As String = ""                                                                                                         ' INITIALIZE THE ORDER MESSAGE VARIABLE TO HOLD ORDER MESSAGE DETAILS FOR THE USER
-        'Dim contractmsg As String = ""                                                                                                      ' INITIALIZE THE CONTRACT MESSAGE VARIABLE TO HOLD CONTRACT MESSAGE DETAILS FOR THE USER
-        'Dim orderstatemsg As String = ""                                                                                                    ' INITIALIZE THE ORDER STATE MESSAGE TO HOLD ORDER STATE DETAILS FOR THE USER
-
-        'Dim contract As IBApi.Contract                                                                                                      ' INITIALIZE THE CONTRACT CLASS VARIABLE AS AN ibapi CONTRACT
-        'contract = eventArgs.contract                                                                                                       ' ASSIGN THE VALUES OF THE CURRENT EVENT ARGUMENTS TO THE CONTRACT CLASS VARIABLE
-
-        'Dim order As IBApi.Order                                                                                                            ' INITIALIZE THE ORDER CLASS VARIABLE AS AN ibapi ORDER
-        'order = eventArgs.order                                                                                                             ' ASSIGN THE VALUES OF THE CURRENT EVENT ARGUMENTS TO THE ORDER CLASS VARIABLE
-
-        'Dim orderState As IBApi.OrderState                                                                                                  ' INITIALIZE THE ORDER STATE CLASS VARIABLE AS AN ibapi ORDER STATE
-        'orderState = eventArgs.orderState                                                                                                   ' ASSIGN THE CURRENT ORDERSTATE TO THE ORDER STATE VARIABLE
-
-        '' LISTBOX MESSAGE CENTER
-        ''Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "OpenOrderEx called, orderId= " & eventArgs.orderId)                    ' CALLED FUNCTION TO ADD THE ORDERID TO THE LISTBOX
-
-        'ordermsg = "Order Details: Id: " & order.OrderId & " Client Id: " &
-        '    order.ClientId & " PermId: " & order.PermId & " Action: " & order.Action &
-        '    " Qty: " & order.TotalQuantity & " Type: " & order.OrderType & " Price: " &
-        '    String.Format("{0:C}", order.LmtPrice) & " Tif: " & order.Tif                                                                   ' BUILD THE ORDER MESSAGE TO SEND TO THE LISTBOX
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, ordermsg)                                                               ' CALLED FUNCTION TO ADD THE ORDER MESSAGE TO THE LISTBOX
-
-        'contractmsg = "Contract Details: Id: " & contract.ConId & " Symbol: " &
-        '    contract.Symbol & " Security Type: " & contract.SecType &
-        '    "Exchange: " & contract.Exchange & " Currency: " & contract.Currency                                                            ' BUILD THE CONTRACT MESSAGE TO SEND TO THE LISTBOX
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, contractmsg)                                                            ' CALLED FUNCTION TO ADD THE CONTRACT MESSAGE TO THE LISTBOX
-
-        'orderstatemsg = "Order Status: " & orderState.Status                                                                                ' BUILD THE ORDERSTATE MESSAGE
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, orderstatemsg)                                                          ' CALLED FUNCTION TO ADD THE ORDERSTATE MESSAGE TO THE LISTBOX
-
-
-        '' ANY ORDER SENT TO TWS WILL BE ADDED TO THE DATABASE HERE AS THIS IS WHERE THE ORDER & CONTRACT DETAILS EXIST.
-
-        'Using db As BondiModel = New BondiModel()                                                                                           ' DATABASE MODEL USING ENTITY FRAMEWORK
-        '    ' ADD USERID SEARCH TO THIS AS WELL TO REFINE THE SEARCH. 
-        '    ' CHECK WITH MIHIR ON HOW TO UPDATE THE BONDIMODEL 
-
-        '    If ManualOrder = True Then                                                                                                      ' IF THE ORDER SENT IS A MANUAL ORDER THEN ADD THE RECORD TO THE DATABASE IF IT DOESNT ALREADY EXIST
-
-        '        Dim ordersexist = (From q In db.stockorders Where q.PermID = order.PermId Select q)
-
-        '        If ordersexist.Count = 0 Then                                                                                               ' IF THE RECORD DOESNT ALREADY EXIST ADD A NEW RECORD TO THE DATABASE
-
-        '            Dim newStockOrder As New stockorder                                                                                     ' OPEN NEW STRUCTURE FOR RECORD IN STOCK PRODUCTION TABLE.                    
-
-        '            '' TODO:  CHANGE THE MODEL AND CODE BELOW TO SWAP STATUS AND ORDERSTATUS FIELD SIZES 
-
-        '            If order.Action = "BUY" Then
-        '                matchid = order.OrderId
-        '            End If
-
-        '            Dim newindex As New stockorder With {
-        '                                                    .timestamp = DateTime.Parse(Now).ToUniversalTime(),
-        '                                                    .OrderId = order.OrderId,
-        '                                                    .PermID = order.PermId,
-        '                                                    .Symbol = contract.Symbol.ToUpper(),
-        '                                                    .Action = order.Action,
-        '                                                    .TickPrice = currentprice,
-        '                                                    .LimitPrice = order.LmtPrice,
-        '                                                    .Status = "Open",
-        '                                                    .Quantity = order.TotalQuantity,
-        '                                                    .OrderStatus = orderState.Status,
-        '                                                    .roboIndex = indexselected,
-        '                                                    .matchID = matchid,
-        '                                                    .OrderTimestamp = DateTime.Parse(Now).ToUniversalTime()
-        '                                                }                                                                                   ' OPEN THE NEW RECORD (BOUGHT POSITION) IN THE TABLE.
-
-        '            db.stockorders.Add(newindex)                                                                                            ' INSERT THE NEW RECORD TO BE ADDED.
-        '            db.SaveChanges()                                                                                                        ' SAVE THE RECORD TO THE DATABASE
-
-        '            'Thread.Sleep(1000)
-
-        '        End If
-
-        '    End If
-
-        'End Using
-
-
-        'Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "===============================")                                      ' CALL FUNTION TO ADD THE LAST LINT TO THE LISTBOX
 
     End Sub
 
@@ -1271,23 +1155,7 @@ Friend Class Main
 
         ' ANY CHANGE IN ORDER STATUS WILL HAPPEN HERE - SAVE THE VARS TO THE CLASS HERE FOR USE BEYOND THIS SUB
 
-        Dim datastring As String = "Order State: " & String.Format("{0:hh:mm:ss.fff tt}", Now.ToLocalTime) & " - "                   ' DATASTRING USED TO PROVIDE FEEDBACK TO THE USER ON ACTIONS HAPPENING WITHIN THE APP
-
-
-
-
-        'datastring = datastring & "Order Status: Order Id: " & eventArgs.orderId & " Client Id: " &
-        '    eventArgs.clientId & " Perm Id: " & eventArgs.permId & " Status: " & eventArgs.status &
-        '    " Filled: " & eventArgs.filled & " Fill Price: " & String.Format("{0:C}", eventArgs.lastFillPrice)                             ' SETS THE MESSAGE BASED ON ACTIONS THAT OCCURRED IN THE ORDER STATUS FUNCTION
-
-        ' ADD CODE HERE TO WRITE ORDER STATUS TO DATABASE OPENED AND FILLED.
-
-
-
-        'loopcounter += 1
-
-        'Stop
-
+        Dim datastring As String = "Order State: " & String.Format("{0:hh:mm:ss.fff tt}", Now.ToLocalTime) & " - "                          ' DATASTRING USED TO PROVIDE FEEDBACK TO THE USER ON ACTIONS HAPPENING WITHIN THE APP
 
         Select Case eventArgs.status.ToLower()                                                                                              ' DETERMINE HOW TO PROCESS THE ORDER STATE CHANGE
 
@@ -1411,7 +1279,6 @@ Friend Class Main
 
                                 db.SaveChanges()                                                                                            ' SAVE THE CHANGES TO THE DATABASE                            
                                 datastring = datastring & " Order Filled "                                                                  ' INDICATE TO THE USER WHAT HAPPENED IN THE ORDER STATE CHANGE
-
 
                                 filledaction = ou.Action                                                                                        ' SET THE FILLEDACTION FLAG TO THE ORDER ACTION TO DETERMINE WHAT NEXT STEPS FOR ADDITIONAL ORDERS SHOULD BE
                                 filledharvestkey = ou.roboIndex                                                                                 ' SET THE FILLED HARVEST KEY TO THE ROBOINDEX KEY TO BE USED IN SENDING THE NEXT SET OF ORDERS BASED ON THIS FILLED ORDER

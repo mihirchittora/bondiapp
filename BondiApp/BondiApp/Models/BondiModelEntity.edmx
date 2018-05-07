@@ -149,10 +149,14 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="month" Type="nvarchar" MaxLength="10" />
-          <Property Name="year" Type="int" />
-          <Property Name="marketdate" Type="date" />
-          <Property Name="complete" Type="bit" />
+          <Property Name="timestamp" Type="datetime" />
+          <Property Name="index" Type="nvarchar" MaxLength="13" />
+          <Property Name="symbol" Type="nvarchar" MaxLength="4" />
+          <Property Name="btomarketdate" Type="datetime" />
+          <Property Name="buyprice" Type="money" />
+          <Property Name="open" Type="bit" />
+          <Property Name="stcmarketdate" Type="datetime" />
+          <Property Name="sellprice" Type="money" />
         </EntityType>
         <EntityType Name="BlogComments">
           <Key>
@@ -1567,10 +1571,14 @@ warning 6002: The table/view 'optionwavesdb.dbo.vw_Pricings_DESC' does not have 
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="month" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="year" Type="Int32" />
-          <Property Name="marketdate" Type="DateTime" Precision="0" />
-          <Property Name="complete" Type="Boolean" />
+          <Property Name="timestamp" Type="DateTime" Precision="3" />
+          <Property Name="index" Type="String" MaxLength="13" FixedLength="false" Unicode="true" />
+          <Property Name="symbol" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="buyprice" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="btomarketdate" Type="DateTime" Precision="3" />
+          <Property Name="open" Type="Boolean" />
+          <Property Name="stcmarketdate" Type="DateTime" Precision="3" />
+          <Property Name="sellprice" Type="Decimal" Precision="19" Scale="4" />
         </EntityType>
         <EntityType Name="BlogComment">
           <Key>
@@ -2762,12 +2770,16 @@ warning 6002: The table/view 'optionwavesdb.dbo.vw_Pricings_DESC' does not have 
           <EntitySetMapping Name="backtests">
             <EntityTypeMapping TypeName="optionwavesdbModel.backtest">
               <MappingFragment StoreEntitySet="backtest">
+                <ScalarProperty Name="sellprice" ColumnName="sellprice" />
+                <ScalarProperty Name="stcmarketdate" ColumnName="stcmarketdate" />
+                <ScalarProperty Name="open" ColumnName="open" />
+                <ScalarProperty Name="btomarketdate" ColumnName="btomarketdate" />
+                <ScalarProperty Name="buyprice" ColumnName="buyprice" />
+                <ScalarProperty Name="symbol" ColumnName="symbol" />
+                <ScalarProperty Name="index" ColumnName="index" />
+                <ScalarProperty Name="timestamp" ColumnName="timestamp" />
                 <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="month" ColumnName="month" />
-                <ScalarProperty Name="year" ColumnName="year" />
-                <ScalarProperty Name="marketdate" ColumnName="marketdate" />
-                <ScalarProperty Name="complete" ColumnName="complete" />
-              </MappingFragment>
+                </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="BlogComments">
