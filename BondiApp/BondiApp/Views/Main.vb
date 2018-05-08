@@ -1013,8 +1013,10 @@ Friend Class Main
 
         Dim datastring As String                                                                                                        ' INITIALIZE DATASTRING VARIABLE TO HOLD MESSAGING FOR THE USER
 
-        datastring = "Synbol: " & ticksymbol & " Tick Type: " & eventArgs.tickType & " Current Price: " & String.Format("{0:C}", eventArgs.price) &
+        datastring = "Symbol: " & ticksymbol & " Tick Type: " & eventArgs.tickType & " Current Price: " & String.Format("{0:C}", eventArgs.price) &
             " Time: " & String.Format("{0:hh:mm:ss}", Now.ToLocalTime)                                                           ' SET THE DATASTRING FOR THE LISTBOX DISPLAY
+        Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, datastring)                                                               ' CALLED FUNCTION TO ADD THE ORDER MESSAGE TO THE LISTBOX
+        Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "===============================")                                      ' CALL FUNTION TO ADD THE LAST LINT TO THE LISTBOX
 
         If eventArgs.tickCount = 1 Then
 
@@ -1808,13 +1810,12 @@ Friend Class Main
         contract.SecType = "STK"                                                                                                    ' INITIALIZE THE SECURITY TYPE FOR THE CONTRACT - MOVE TO SETTINGS AT SOME POINT
         contract.Currency = "USD"                                                                                                   ' INITIALIZE CURRENCY TYPE FOR THE CONTRACT - MOVE TO SETTINGS AT SOME POINT
         contract.Exchange = "SMART"                                                                                                 ' INITIALIZE EXCHANGE USED FOR THE CONTRACT
-        'contract.Symbol = txtSpreadSymbol.Text
         'contract.SecType = "OPT"
         'contract.Exchange = "SMART"
         'contract.Currency = "USD"
-        'contract.LastTradeDateOrContractMonth = txtSpreadExp.Text
-        'contract.Strike = txtSpreadStrike.Text
-        'contract.Right = txtSpreadRight.Text
+        'contract.LastTradeDateOrContractMonth = 20180518
+        'contract.Strike = 40
+        'contract.Right = "C"
         Tws1.reqMarketDataType(txtTickId.Text)                                                                                                   ' SETS DATA FEED TO (1) LIVE STREAMING  (2) FROZEN  (3) DELAYED 15 - 20 MINUTES 
         Tws1.reqMktDataEx(1, contract, "", False, Nothing)
     End Sub

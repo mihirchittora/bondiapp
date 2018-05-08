@@ -1116,13 +1116,13 @@ Partial Class Main
         Me.Label37.AutoSize = True
         Me.Label37.Location = New System.Drawing.Point(13, 488)
         Me.Label37.Name = "Label37"
-        Me.Label37.Size = New System.Drawing.Size(40, 13)
+        Me.Label37.Size = New System.Drawing.Size(67, 13)
         Me.Label37.TabIndex = 130
-        Me.Label37.Text = "Tick Id"
+        Me.Label37.Text = "Tick Type Id"
         '
         'txtTickId
         '
-        Me.txtTickId.Location = New System.Drawing.Point(68, 485)
+        Me.txtTickId.Location = New System.Drawing.Point(88, 485)
         Me.txtTickId.Name = "txtTickId"
         Me.txtTickId.Size = New System.Drawing.Size(41, 20)
         Me.txtTickId.TabIndex = 129
@@ -1130,7 +1130,7 @@ Partial Class Main
         '
         'btnTickPrice
         '
-        Me.btnTickPrice.Location = New System.Drawing.Point(118, 483)
+        Me.btnTickPrice.Location = New System.Drawing.Point(138, 483)
         Me.btnTickPrice.Name = "btnTickPrice"
         Me.btnTickPrice.Size = New System.Drawing.Size(100, 23)
         Me.btnTickPrice.TabIndex = 131
