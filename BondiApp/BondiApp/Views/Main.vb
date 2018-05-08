@@ -1011,12 +1011,14 @@ Friend Class Main
 
     Private Sub Tws1_tickPrice(ByVal eventSender As System.Object, ByVal eventArgs As AxTWSLib._DTwsEvents_tickPriceEvent) Handles Tws1.OnTickPrice
 
-        Dim datastring As String                                                                                                        ' INITIALIZE DATASTRING VARIABLE TO HOLD MESSAGING FOR THE USER
-
+        Dim datastring As String
         datastring = "Symbol: " & ticksymbol & " Tick Type: " & eventArgs.tickType & " Current Price: " & String.Format("{0:C}", eventArgs.price) &
             " Time: " & String.Format("{0:hh:mm:ss}", Now.ToLocalTime)                                                           ' SET THE DATASTRING FOR THE LISTBOX DISPLAY
-        Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, datastring)                                                               ' CALLED FUNCTION TO ADD THE ORDER MESSAGE TO THE LISTBOX
-        Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "===============================")                                      ' CALL FUNTION TO ADD THE LAST LINT TO THE LISTBOX
+        ' INITIALIZE DATASTRING VARIABLE TO HOLD MESSAGING FOR THE USER
+        If (tickTypeId = eventArgs.tickType) Then
+            Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, datastring)                                                               ' CALLED FUNCTION TO ADD THE ORDER MESSAGE TO THE LISTBOX
+            Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "===============================")                                      ' CALL FUNTION TO ADD THE LAST LINT TO THE LISTBOX
+        End If
 
         If eventArgs.tickCount = 1 Then
 
@@ -1803,7 +1805,7 @@ Friend Class Main
     Private Sub btnBackTest_Click(sender As Object, e As EventArgs) Handles btnBackTest.Click
         dlgHarvestBacktest.ShowDialog()
     End Sub
-
+    Dim tickTypeId As Integer = 0
     Private Sub btnTickPrice_Click(sender As Object, e As EventArgs) Handles btnTickPrice.Click
         Dim contract As IBApi.Contract = New IBApi.Contract()
         contract.Symbol = "VXX"                                                                                                   ' INITIALIZE SYMBOL VALUE FOR THE CONTRACT
@@ -1816,7 +1818,8 @@ Friend Class Main
         'contract.LastTradeDateOrContractMonth = 20180518
         'contract.Strike = 40
         'contract.Right = "C"
-        Tws1.reqMarketDataType(txtTickId.Text)                                                                                                   ' SETS DATA FEED TO (1) LIVE STREAMING  (2) FROZEN  (3) DELAYED 15 - 20 MINUTES 
+        tickTypeId = txtTickId.Text
+        Tws1.reqMarketDataType(3)                                                                                                   ' SETS DATA FEED TO (1) LIVE STREAMING  (2) FROZEN  (3) DELAYED 15 - 20 MINUTES 
         Tws1.reqMktDataEx(1, contract, "", False, Nothing)
     End Sub
 
@@ -1838,9 +1841,10 @@ Friend Class Main
 
     Private Sub Tws1_tickSize(ByVal eventSender As System.Object, ByVal eventArgs As AxTWSLib._DTwsEvents_tickSizeEvent) Handles Tws1.OnTickSize
         Dim mktDataStr As String
-
         mktDataStr = "id=" & eventArgs.id & " " & m_utils.getField(eventArgs.tickType) & "=" & eventArgs.size
-        Call m_utils.addListItem(Utils.List_Types.MKT_DATA, mktDataStr)
+        If (tickTypeId = eventArgs.tickType) Then
+            Call m_utils.addListItem(Utils.List_Types.MKT_DATA, mktDataStr)
+        End If
 
         ' move into view
         'lstMktData.TopIndex = lstMktData.Items.Count - 1
@@ -1853,7 +1857,10 @@ Friend Class Main
         Dim mktDataStr As String
 
         mktDataStr = "id=" & eventArgs.id & " " & m_utils.getField(eventArgs.tickType) & "=" & eventArgs.value
-        Call m_utils.addListItem(Utils.List_Types.MKT_DATA, mktDataStr)
+        If (tickTypeId = eventArgs.tickType) Then
+            Call m_utils.addListItem(Utils.List_Types.MKT_DATA, mktDataStr)
+        End If
+
 
         ' move into view
         'lstMktData.TopIndex = lstMktData.Items.Count - 1
@@ -1866,7 +1873,10 @@ Friend Class Main
         Dim mktDataStr As String
 
         mktDataStr = "id=" & eventArgs.id & " " & m_utils.getField(eventArgs.tickType) & "=" & eventArgs.value
-        Call m_utils.addListItem(Utils.List_Types.MKT_DATA, mktDataStr)
+        If (tickTypeId = eventArgs.tickType) Then
+            Call m_utils.addListItem(Utils.List_Types.MKT_DATA, mktDataStr)
+        End If
+
 
         ' move into view
         'lstMktData.TopIndex = lstMktData.Items.Count - 1
