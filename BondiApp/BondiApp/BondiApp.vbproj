@@ -24,7 +24,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>10</ApplicationRevision>
+    <ApplicationRevision>12</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -320,6 +320,12 @@
     <Compile Include="Views\dlgHarvestBacktest.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Views\dlgManual.Designer.vb">
+      <DependentUpon>dlgManual.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Views\dlgManual.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Views\LoginForm.Designer.vb">
       <DependentUpon>LoginForm.vb</DependentUpon>
     </Compile>
@@ -389,6 +395,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\dlgHarvestBacktest.resx">
       <DependentUpon>dlgHarvestBacktest.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\dlgManual.resx">
+      <DependentUpon>dlgManual.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\LoginForm.resx">
       <DependentUpon>LoginForm.vb</DependentUpon>

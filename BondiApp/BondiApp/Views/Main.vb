@@ -10,6 +10,12 @@ Imports System.Data.SqlClient
 Imports IBApi
 Imports BondiApp.Tws
 
+' This area defines any immediate actions to take to improve, bug fix, or enhance the code of the application
+' TODO:  
+
+
+
+
 Friend Class Main
     Inherits System.Windows.Forms.Form                                                                                                          ' SYSTEM INHERITANCE FOR WINDOWS FORMS
 
@@ -19,6 +25,7 @@ Friend Class Main
     Private m_utils As New Utils                                                                                                                ' CREATES A NEW INSTANCE OF UTILS TO BE USED IN THIS FORM 
     Private m_dlgConnect As New dlgConnect                                                                                                      ' DEFINE THE CONNECT DIALOG BOX
     Private m_dlgHarvest As New dlgHarvest                                                                                                      ' DEFINE THE HARVEST DIALOG BOX
+    Private m_dlgManual As New dlgManual                                                                                                      ' DEFINE THE HARVEST DIALOG BOX
     Private m_faAcctsList As String                                                                                                             ' VARIABLE TO HOUSE THE FINANCIAL ADVISOR LIST PARAMETERS
     Private m_faAccount, faError As Boolean                                                                                                     ' VARIABLE TO HOLD FINACIAL ADVISOR STATUS SETTINGS
 
@@ -86,6 +93,11 @@ Friend Class Main
                 cmbWillie.DisplayMember = "name"                                                                                                ' DROPDOWN DISPLAYS THE NAME FIELD OF THE LIST
                 cmbWillie.ValueMember = "harvestkey"                                                                                            ' DROPDOWN VALUE TIED TO NAME IS THE HARVESTKEY FIELD
                 cmbWillie.SelectedIndex = 0                                                                                                     ' SET THE INDEX DISPLAYED AS THE FIRST ONE
+                cmbWillie.Enabled = False
+                ckRobotOn.Enabled = False
+
+
+
 
                 hi = db.HarvestIndexes.AsEnumerable.Where(Function(x) x.harvestKey = cmbWillie.SelectedValue).ToList()                          ' INITIALIZE THE HARVEST INDEX DATABASE RECORDS TO A LIST
                 ticksymbol = hi.FirstOrDefault().product                                                                                        ' ASSIGN THE FIRST HARVEST INDEX PRODUCT SYMBOL TO TICKSYMBOL WITH THE FORM LOAD
@@ -163,7 +175,7 @@ Friend Class Main
 
     End Sub
 
-    Private Sub btnSendOrder_Click(sender As Object, e As EventArgs) Handles btnSendOrder.Click
+    Private Sub btnSendOrder_Click(sender As Object, e As EventArgs)
 
         Dim datastring As String = "Order Sent: " & String.Format("{0:hh:mm:ss.fff tt}", Now.ToLocalTime) & " - "                   ' DATASTRING USED TO PROVIDE FEEDBACK TO THE USER ON ACTIONS HAPPENING WITHIN THE APP
         Dim priceint As Double = 0                                                                                                  ' VARIABLE USED TO CALCULATE THE STARTING BUY TO OPEN PRICE FOR EACH USER & INDEX
@@ -236,7 +248,7 @@ Friend Class Main
 
     End Sub
 
-    Private Sub btnModOrder_Click(sender As Object, e As EventArgs) Handles btnModOrder.Click
+    Private Sub btnModOrder_Click(sender As Object, e As EventArgs)
 
         ' TODO:  DETERMINE HOW I WANT THE CONTRACT SYMBOL POPULATED.  TAKE FROM USER OR PULL FROM THE DATABASE
 
@@ -273,25 +285,18 @@ Friend Class Main
 
     End Sub
 
-    Private Sub btnCancelOrder_Click(sender As Object, e As EventArgs) Handles btnCancelOrder.Click
 
-        Dim datastring As String = "Order Sent: " & String.Format("{0:hh:mm:ss.fff tt}", Now.ToLocalTime) & " - "               ' DATASTRING USED TO PROVIDE FEEDBACK TO THE USER ON ACTIONS HAPPENING WITHIN THE APP
 
-        Try
-            Call Tws1.cancelOrder(txtCancelId.Text)                                                                             ' CALLED FUNCTION TO CANCEL THE ORDER OF THE ORDER NUMBER INPUT IN THE TEXTBOX 
-        Catch ex As Exception
-            ' TODO: ADD CODE HERE TO LOG THIS IN A TABLE IN THE DB.
-            Call m_utils.addListItem(Utils.List_Types.ERRORS, "Form Load Error: " & ex.ToString())                              ' ADD DESCRIPTION TO THE LIST BOX TO INDICATE ERROR STATUS
 
-        End Try
-
-        datastring = "Order Cancelled: " & DateTime.Parse(Now()).ToShortTimeString() & " Order Id:" &
-            txtCancelId.Text & " " & String.Format("{0:hh:mm:ss.fff tt}", Now.ToLocalTime)                                      ' ADD PROCESSING DETAILS FOR THE MODIFICATION OF THE ORDER TO THE DATASTRING WITH THE CURRENT TIME OF FINISH 
-        lblStatus.Text = datastring                                                                                             ' DISPLAY THE DATASTRING VALUE TO THE USER USING THE STATUS LABEL
+    Private Sub btnCancelOrder_Click(sender As Object, e As EventArgs)
 
     End Sub
 
-    Private Sub btnSendOption_Click(sender As Object, e As EventArgs) Handles btnSendOption.Click
+
+
+
+
+    Private Sub btnSendOption_Click(sender As Object, e As EventArgs)
 
         ' TODO: WORK ON GETTING PARAMETERS DYNAMICALLY FROM THE DATABASE OR THE API - EXAMPLE: OPTION PRICE SHOULD BE SUPPLIED BY THE TICK REQUEST TO GET THE CURRENT OPTION PRICE. DISPLAY FOR USER TO DECIDE TO USE OR SET ANOTHER PRICE TO SEND.
 
@@ -368,7 +373,7 @@ Friend Class Main
     ' TODO: COMMECT THESE CODE BLOCKS AND ADD ERROR HANDLING.
     ' TODO: TEST & VALIDATE THESE CODE BLOCKS - INTEGRATE THEM AS TO HOW I WANT TO USE THEM IN THE ROBOT
 
-    Private Sub btnAddLeg_Click(sender As Object, e As EventArgs) Handles btnAddLeg.Click
+    Private Sub btnAddLeg_Click(sender As Object, e As EventArgs)
         Dim contract As Contract = New Contract
         contract.Symbol = txtSpreadSymbol.Text
         contract.SecType = "OPT"
@@ -380,7 +385,7 @@ Friend Class Main
         Tws1.reqContractDetailsEx(1, contract)
     End Sub
 
-    Private Sub btnSpreadOrder_Click(sender As Object, e As EventArgs) Handles btnSpreadOrder.Click
+    Private Sub btnSpreadOrder_Click(sender As Object, e As EventArgs)
         If (grdContracts.Rows.Count > 0) Then
             Dim order As Order = New Order()
             order.OrderType = "LMT"                                                        ' SET THE ORDER TYPE FOR THE ORDER TO THE INDEX ORDER TYPE (lmt OR mkt)
@@ -534,7 +539,7 @@ Friend Class Main
 
     End Sub
 
-    Private Sub btnckprice_Click(sender As Object, e As EventArgs) Handles btnckprice.Click
+    Private Sub btnckprice_Click(sender As Object, e As EventArgs)
         MsgBox(currentprice.ToString())                                                                                         ' DISPLAY THE CURRENT PRICE TO THE USER VIA A MESSAGE BOX
     End Sub
 
@@ -588,7 +593,7 @@ Friend Class Main
     End Sub
 
     ' NEED TO VALIDATE THAT THESE STILL WORK AND THAT THEY ARE NEEDED.  btnOpPrice & getOptionPrice
-    Private Sub btnOpPrice_Click(sender As Object, e As EventArgs) Handles btnOpPrice.Click
+    Private Sub btnOpPrice_Click(sender As Object, e As EventArgs)
 
         ' THIS BUTTON TESTS CALCUALTING THE PRICE OF AN OPTION FOR A SPECIFIC UNDERLYING STOCK AT A SPECIFIED STRIKE AND iv LEVEL
 
@@ -690,7 +695,7 @@ Friend Class Main
 
                                 order.OrderId = buyOrderExists.FirstOrDefault().OrderId                                         ' SET THE ORDER ORDER ID TO THE UPDATED RECORD ORDER ID
                                 order.Action = "BUY"                                                                            ' SET THE ORDER ACTION TO BUY
-                                order.LmtPrice = buyOrderExists.FirstOrDefault().LimitPrice + hi.FirstOrDefault().width         ' SET THE ORDER LIMIT PRICE TO THE UPDATED RECORD LIMIT PRICE PLUS THE INDEX WIDTH VALUE
+                                order.LmtPrice = buyOrderExists.FirstOrDefault().LimitPrice + hi.FirstOrDefault().opentrigger   ' SET THE ORDER LIMIT PRICE TO THE UPDATED RECORD LIMIT PRICE PLUS THE INDEX WIDTH VALUE
 
                                 Call Tws1.placeOrderEx(order.OrderId, contract, order)                                          ' CALL THE PLACEORDER FUNCTION TO SEND THE ORDER CREATED TO TWS
 
@@ -727,7 +732,7 @@ Friend Class Main
         lblStatus.Text = ""                                                                                                                 ' CLEAR THE STATUS MESSAGES
     End Sub
 
-    Private Sub btnGetPrice_Click(sender As Object, e As EventArgs) Handles btnGetPrice.Click
+    Private Sub btnGetPrice_Click(sender As Object, e As EventArgs)
 
         Dim contract As IBApi.Contract = New IBApi.Contract()                                                                               ' ESTABLISH A NEW CONTRACT CLASS
 
@@ -800,7 +805,7 @@ Friend Class Main
 
     End Sub
 
-    Private Sub btnReqNextValidId_Click(sender As Object, e As EventArgs) Handles btnReqNextValidId.Click
+    Private Sub btnReqNextValidId_Click(sender As Object, e As EventArgs)
 
         Dim datastring = "Next Valid Order Id: " & nextValidOrderId & "  "                                                              ' DATASTRING USED TO PROVIDE FEEDBACK TO THE USER ON ACTIONS OCCURRING WITHIN THE APPLICAITON
         datastring = datastring & String.Format("{0:hh:mm:ss.fff tt}", Now.ToLocalTime)                                                 ' ADD THE TIME STAMP TO THE DATASTRING FOR THE NEXT ORDERID PRESENTED
@@ -1012,6 +1017,7 @@ Friend Class Main
     Private Sub Tws1_tickPrice(ByVal eventSender As System.Object, ByVal eventArgs As AxTWSLib._DTwsEvents_tickPriceEvent) Handles Tws1.OnTickPrice
 
         Dim datastring As String
+        'Stop
         datastring = "Symbol: " & ticksymbol & " Tick Type: " & eventArgs.tickType & " Current Price: " & String.Format("{0:C}", eventArgs.price) &
             " Time: " & String.Format("{0:hh:mm:ss}", Now.ToLocalTime)                                                           ' SET THE DATASTRING FOR THE LISTBOX DISPLAY
         ' INITIALIZE DATASTRING VARIABLE TO HOLD MESSAGING FOR THE USER
@@ -1323,7 +1329,7 @@ Friend Class Main
 
                                 order.OrderId = nextValidOrderId                                                                        ' SET THE ORDER ID OF THE ORDER TO THE NEXT VALID ORDER ID
                                 order.Action = "SELL"                                                                                   ' SET THE ORDER ACTION 
-                                order.LmtPrice = filledlimitprice + hi.FirstOrDefault().width                                           ' SET TO REDUCE THE PRICE BY  $.50 FOR TESTING REMOVE WHEN DONE                                                    ' SET THE ORDER LIMIT PRICE TO THE CALCULATED BUY TO OPEN LIMIT PRICE
+                                order.LmtPrice = filledlimitprice + hi.FirstOrDefault().width                                         ' SET TO REDUCE THE PRICE BY  $.50 FOR TESTING REMOVE WHEN DONE                                                    ' SET THE ORDER LIMIT PRICE TO THE CALCULATED BUY TO OPEN LIMIT PRICE
                                 matchid = filledmatchid                                                                                 ' SET THE MATCH ID TO THE SAME AS THE FILLED ORDER TO TRACK THE PAIR OF ORDERS
 
                                 Call Tws1.placeOrderEx(order.OrderId, contract, order)                                                  ' CALL FUNCTION TO ADD MESSAGE TO THE LISTBOX AND PROCESS THE ORDER 
@@ -1333,7 +1339,7 @@ Friend Class Main
 
                                 order.OrderId = nextValidOrderId                                                                        ' SET THE ORDER ID OF THE ORDER TO THE NEXT VALID ORDER ID
                                 order.Action = "BUY"                                                                                    ' SET THE ORDER ACTION 
-                                order.LmtPrice = filledlimitprice - hi.FirstOrDefault().width                                           ' SET TO REDUCE THE PRICE BY  $.50 FOR TESTING REMOVE WHEN DONE.                                                    ' SET THE ORDER LIMIT PRICE TO THE CALCULATED BUY TO OPEN LIMIT PRICE
+                                order.LmtPrice = filledlimitprice - hi.FirstOrDefault().opentrigger                                           ' SET TO REDUCE THE PRICE BY  $.50 FOR TESTING REMOVE WHEN DONE.                                                    ' SET THE ORDER LIMIT PRICE TO THE CALCULATED BUY TO OPEN LIMIT PRICE
                                 '                   matchid = nextValidOrderId                                                                              ' SET THE MATCHID FOR THE ADDITIONAL BUY TO OPEN TO THE SAME AS THE ORDERID 
 
                                 Call Tws1.placeOrderEx(order.OrderId, contract, order)                                                  ' CALL FUNCTION TO ADD MESSAGE TO THE LISTBOX AND PROCESS THE ORDER 
@@ -1379,7 +1385,7 @@ Friend Class Main
 
                                     order.OrderId = sl.FirstOrDefault().OrderId                                                             ' SET THE ORDER ORDER ID TO THE UPDATED RECORD ORDER ID
                                     order.Action = "BUY"                                                                                    ' SET THE ORDER ACTION TO BUY
-                                    order.LmtPrice = sl.FirstOrDefault().LimitPrice + hi.FirstOrDefault().width                             ' SET THE ORDER LIMIT PRICE TO THE UPDATED RECORD LIMIT PRICE PLUS THE INDEX WIDTH VALUE
+                                    order.LmtPrice = sl.FirstOrDefault().LimitPrice + hi.FirstOrDefault().opentrigger                             ' SET THE ORDER LIMIT PRICE TO THE UPDATED RECORD LIMIT PRICE PLUS THE INDEX WIDTH VALUE
 
                                     Call Tws1.placeOrderEx(order.OrderId, contract, order)                                                  ' CALL THE PLACEORDER FUNCTION TO SEND THE ORDER CREATED TO TWS
 
@@ -1533,7 +1539,7 @@ Friend Class Main
 
     ' BLOCK 5: FUNCTIONS NOT USED 
 
-    Private Sub btnOpenFile_Click(sender As Object, e As EventArgs) Handles btnOpenFile.Click
+    Private Sub btnOpenFile_Click(sender As Object, e As EventArgs)
 
         Dim csvdata As String = ""                                                                                                                                                      ' STRING TO HOLD THE DATA FROM EACH CSV FILE READ INTO MEMORY
         Dim filedate As String = "20160104"                                                                                                                                             ' STRING TO HOLD THE FILE DATE FOR THE CSV FILE TO BE READ THIS WILL INCREMENT FROM DB
@@ -1806,7 +1812,7 @@ Friend Class Main
         dlgHarvestBacktest.ShowDialog()
     End Sub
     Dim tickTypeId As Integer = 0
-    Private Sub btnTickPrice_Click(sender As Object, e As EventArgs) Handles btnTickPrice.Click
+    Private Sub btnTickPrice_Click(sender As Object, e As EventArgs)
         Dim contract As IBApi.Contract = New IBApi.Contract()
         contract.Symbol = "VXX"                                                                                                   ' INITIALIZE SYMBOL VALUE FOR THE CONTRACT
         contract.SecType = "STK"                                                                                                    ' INITIALIZE THE SECURITY TYPE FOR THE CONTRACT - MOVE TO SETTINGS AT SOME POINT
@@ -1881,6 +1887,19 @@ Friend Class Main
         ' move into view
         'lstMktData.TopIndex = lstMktData.Items.Count - 1
     End Sub
+
+    Private Sub btnManualOrders_Click(sender As Object, e As EventArgs) Handles btnSendOrders.Click
+        'dlgManual.Show()
+        pnlManual.Visible = True
+    End Sub
+
+    Private Sub btnHideManual_Click(sender As Object, e As EventArgs) Handles btnHideManual.Click
+        pnlManual.Visible = False
+    End Sub
+
+
+
+
 
     '--------------------------------------------------------------------------------
     ' Market data EFP computation event - triggered by the reqMktDataEx() method
