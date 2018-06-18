@@ -69,6 +69,7 @@ Friend Class Utils
     Public Enum List_Types
         MKT_DATA = 0
         SERVER_RESPONSES
+        CONNECTION_RESPONSES
         ERRORS
         ACCOUNT_DATA
         PORTFOLIO_DATA
@@ -149,12 +150,14 @@ Friend Class Utils
     Public Sub addListItem(ByRef listType As List_Types, ByRef data As String, Optional ByVal scrollList As Boolean = True)
         Dim listBox As System.Windows.Forms.ListBox
         Select Case listType
+            Case List_Types.CONNECTION_RESPONSES
+                listBox = m_form1.lstConnectionResponses
             Case List_Types.MKT_DATA
                 listBox = m_form1.lstServerResponses
             Case List_Types.SERVER_RESPONSES
                 listBox = m_form1.lstServerResponses
             Case List_Types.ERRORS
-                listBox = m_form1.lstServerResponses
+                listBox = m_form1.lstErrorResponses
             Case List_Types.ACCOUNT_DATA
                 listBox = m_form1.lstServerResponses
             Case List_Types.PORTFOLIO_DATA

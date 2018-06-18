@@ -32,7 +32,7 @@ Namespace My
         
         <Global.System.Diagnostics.DebuggerStepThroughAttribute()>  _
         Protected Overrides Sub OnCreateMainForm()
-            Me.MainForm = Global.BondiApp.LoginForm
+            Me.MainForm = Global.BondiApp.Main
         End Sub
     End Class
 End Namespace

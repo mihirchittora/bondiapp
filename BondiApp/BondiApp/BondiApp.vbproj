@@ -14,7 +14,7 @@
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>C:\Users\Troy Belden\Desktop\bondiapp\</PublishUrl>
+    <PublishUrl>C:\Users\Troy Belden\Desktop\Willie\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
@@ -24,7 +24,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>6</ApplicationRevision>
+    <ApplicationRevision>12</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -296,6 +296,12 @@
     <Compile Include="Views\dlgAcctData.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Views\dlgAnalysis.Designer.vb">
+      <DependentUpon>dlgAnalysis.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Views\dlgAnalysis.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Views\dlgHarvest.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -312,6 +318,12 @@
       <DependentUpon>dlgHarvestBacktest.vb</DependentUpon>
     </Compile>
     <Compile Include="Views\dlgHarvestBacktest.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\dlgManual.Designer.vb">
+      <DependentUpon>dlgManual.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Views\dlgManual.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Views\LoginForm.Designer.vb">
@@ -369,6 +381,9 @@
     <EmbeddedResource Include="Views\dlgAcctData.resX">
       <DependentUpon>dlgAcctData.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\dlgAnalysis.resx">
+      <DependentUpon>dlgAnalysis.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\dlgHarvest.resX">
       <DependentUpon>dlgHarvest.vb</DependentUpon>
     </EmbeddedResource>
@@ -380,6 +395,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\dlgHarvestBacktest.resx">
       <DependentUpon>dlgHarvestBacktest.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\dlgManual.resx">
+      <DependentUpon>dlgManual.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\LoginForm.resx">
       <DependentUpon>LoginForm.vb</DependentUpon>
