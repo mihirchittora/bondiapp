@@ -3,6 +3,9 @@ Imports System.Collections.Generic
 Imports IBApi
 
 
+
+
+
 Friend Class Tws
     Implements IBApi.EWrapper
 
@@ -78,21 +81,15 @@ Friend Class Tws
     End Sub
 
     Sub connect(p1 As String, p2 As Integer, p3 As Integer, p4 As Boolean, optcapts As String)                                              ' CONNECTION STRING & FUNCTION USED TO CONNECT THE APP TO TWS
+        socket.optionalCapabilities = optcapts
 
-        socket.optionalCapabilities = optcapts                                                                                              ' SET THE OPTIONAL CAPABILITIES FLAG EQUAL TO THE OPTCAPTS FLAG PASSED FROM THE CONNECT SUB ROUTINE
+        socket.eConnect(p1, p2, p3, p4)
 
-        socket.eConnect(p1, p2, p3, p4)                                                                                                     ' CALL THE eCONNECT SUB PROCESS PASSING HOSTIP, PORT NUMBER, CLIENT ID, AND EXTRA AUTHENTICAL FLAG  
+        Dim msgThread As Threading.Thread = New Threading.Thread(AddressOf msgProcessing)
 
-        Dim msgThread As Threading.Thread = New Threading.Thread(AddressOf msgProcessing)                                                   ' INITIALIZE THE MESSAGE THREADING STRUCTURE FOR THE APPLICATION
+        msgThread.IsBackground = True
 
-        msgThread.IsBackground = True                                                                                                       ' SET MESSAGE THREADING TO RUN IN THE BACKGROUND 
-
-        If serverVersion() > 0 Then Call msgThread.Start()                                                                                  ' IF THE SERVERVERSION IS > 0 START THE MESSAGE THREADING IN THE BACKGROUND
-
-
-
-        'twsServerVersion = serverVersion()                                                                                                  ' SET THE PUBLIC SERVERVERSION VARIABLE TO BE USED IN THE CONNECTION MESSAGING
-
+        If serverVersion() > 0 Then Call msgThread.Start()
     End Sub
 
     Sub disconnect()
@@ -142,21 +139,19 @@ Friend Class Tws
     Public Sub currentTime(time As Long) Implements EWrapper.currentTime
         Throw New NotImplementedException()
     End Sub
+    Public tickCount As Integer = 0
 
     Public Sub tickPrice(tickerId As Integer, field As Integer, price As Double, canAutoExecute As Integer) Implements EWrapper.tickPrice
         'Throw New NotImplementedException()
-
+        socket.cancelMktData(tickerId)
+        tickCount = tickCount + 1
         InvokeIfRequired(Sub()
-                             RaiseEvent OnTickPrice(Me, New AxTWSLib._DTwsEvents_tickPriceEvent With {.id = tickerId, .price = price, .TickType = field, .canAutoExecute = canAutoExecute})
+                             RaiseEvent OnTickPrice(Me, New AxTWSLib._DTwsEvents_tickPriceEvent With {.id = tickerId, .price = price, .tickType = field, .canAutoExecute = canAutoExecute, .tickCount = tickCount})
                          End Sub)
 
-<<<<<<< HEAD:BondiApp/BondiApp/Tws.vb
-
-=======
     End Sub
     Public Sub cancelMarketData(tickerId As Integer)
         socket.cancelMktData(tickerId)
->>>>>>> 1baac7feec5225a8c3836fb45db4b4729b3eeeeb:BondiApp/BondiApp/BL/Tws.vb
     End Sub
 
     Public Sub tickSize(tickerId As Integer, field As Integer, size As Integer) Implements EWrapper.tickSize
