@@ -23,9 +23,6 @@ Partial Class dlgAnalysis
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.Cancel = New System.Windows.Forms.Button()
-        Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
-        Me.btnGetFile = New System.Windows.Forms.Button()
-        Me.lblstatus = New System.Windows.Forms.Label()
         Me.SuspendLayout()
         '
         'Cancel
@@ -37,45 +34,17 @@ Partial Class dlgAnalysis
         Me.Cancel.Text = "Close"
         Me.Cancel.UseVisualStyleBackColor = True
         '
-        'OpenFileDialog1
-        '
-        Me.OpenFileDialog1.FileName = "OpenFileDialog1"
-        '
-        'btnGetFile
-        '
-        Me.btnGetFile.Location = New System.Drawing.Point(43, 42)
-        Me.btnGetFile.Name = "btnGetFile"
-        Me.btnGetFile.Size = New System.Drawing.Size(182, 54)
-        Me.btnGetFile.TabIndex = 1
-        Me.btnGetFile.Text = "Get File"
-        Me.btnGetFile.UseVisualStyleBackColor = True
-        '
-        'lblstatus
-        '
-        Me.lblstatus.AutoSize = True
-        Me.lblstatus.Location = New System.Drawing.Point(38, 198)
-        Me.lblstatus.Name = "lblstatus"
-        Me.lblstatus.Size = New System.Drawing.Size(107, 25)
-        Me.lblstatus.TabIndex = 2
-        Me.lblstatus.Text = "Last 300: "
-        '
         'dlgAnalysis
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(12.0!, 25.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1168, 450)
-        Me.Controls.Add(Me.lblstatus)
-        Me.Controls.Add(Me.btnGetFile)
         Me.Controls.Add(Me.Cancel)
         Me.Name = "dlgAnalysis"
         Me.Text = "dlgAnalysis"
         Me.ResumeLayout(False)
-        Me.PerformLayout()
 
     End Sub
 
     Friend WithEvents Cancel As Button
-    Friend WithEvents OpenFileDialog1 As OpenFileDialog
-    Friend WithEvents btnGetFile As Button
-    Friend WithEvents lblstatus As Label
 End Class
