@@ -11,6 +11,7 @@ Friend Class Tws
 
     Dim form As Form
     Public Property StockTickPrice As Double
+    Public tickCount As Integer = 0
 
     Sub New(form As Form)
         Me.form = form
@@ -125,6 +126,10 @@ Friend Class Tws
         socket.cancelCalculateOptionPrice(p1)
     End Sub
 
+    Sub requestOpenOrders()
+        socket.reqAllOpenOrders()
+    End Sub
+
 
     ' USE THIS TO LOG ERRORS OR DISPLAY ERRORS TO THE USER
     Public Sub [error](id As Integer, errorCode As Integer, errorMsg As String) Implements EWrapper.error
@@ -150,13 +155,7 @@ Friend Class Tws
                              RaiseEvent OnTickPrice(Me, New AxTWSLib._DTwsEvents_tickPriceEvent With {.id = tickerId, .price = price, .TickType = field, .canAutoExecute = canAutoExecute})
                          End Sub)
 
-<<<<<<< HEAD:BondiApp/BondiApp/Tws.vb
 
-=======
-    End Sub
-    Public Sub cancelMarketData(tickerId As Integer)
-        socket.cancelMktData(tickerId)
->>>>>>> 1baac7feec5225a8c3836fb45db4b4729b3eeeeb:BondiApp/BondiApp/BL/Tws.vb
     End Sub
 
     Public Sub tickSize(tickerId As Integer, field As Integer, size As Integer) Implements EWrapper.tickSize

@@ -25,7 +25,7 @@ Friend Class Main
     Private m_utils As New Utils                                                                                                                ' CREATES A NEW INSTANCE OF UTILS TO BE USED IN THIS FORM 
     Private m_dlgConnect As New dlgConnect                                                                                                      ' DEFINE THE CONNECT DIALOG BOX
     Private m_dlgHarvest As New dlgHarvest                                                                                                      ' DEFINE THE HARVEST DIALOG BOX
-    Private m_dlgManual As New dlgManual                                                                                                      ' DEFINE THE HARVEST DIALOG BOX
+    'Private m_dlgManual As New dlgManual                                                                                                      ' DEFINE THE HARVEST DIALOG BOX
     Private m_faAcctsList As String                                                                                                             ' VARIABLE TO HOUSE THE FINANCIAL ADVISOR LIST PARAMETERS
     Private m_faAccount, faError As Boolean                                                                                                     ' VARIABLE TO HOLD FINACIAL ADVISOR STATUS SETTINGS
 
@@ -63,6 +63,7 @@ Friend Class Main
     Public SendSingleOrder As Boolean                                                                                                           ' PUBLIC VARIABLE INDICAITNG WHETHER THIS IS A SINGLE ORDER OR NOT
     Public RobotOn As Boolean                                                                                                                   ' INDICATES THAT THE ROBOT IS RUNNING IN THE OPENORDEREX SUB TO ADD ORDERS
     Dim connecting As Boolean = True                                                                                                            ' VARIABLE INDICATING THE APP IS CONNECTING TO THE TWS PLATFORM VIA THE API
+    Public tickCounter As Integer = 0
 
     Public WithEvents Tws1 As Tws
 
@@ -80,7 +81,7 @@ Friend Class Main
         lblBuild.Text = "Build Date: " & String.Format("{0: MM.dd.yy}", #05/01/2018#)                                                           ' DISPLAY THE LATEST BUILD DATE
 
         Call m_utils.init(Me)                                                                                                                   ' INITIALIZES THE UTILS TO SEND AND READ MESSAGES FROM THE API
-        Timer60Sec.Enabled = True                                                                                                               ' INITIALIZES THE 60 SECOND TIME TO REQUEST PRICING 
+        'Timer60Sec.Enabled = True                                                                                                               ' INITIALIZES THE 60 SECOND TIME TO REQUEST PRICING 
 
         Try                                                                                                                                     ' OPEN THE TRY / CATCH PROCESS
 
@@ -145,7 +146,7 @@ Friend Class Main
             End If
 
             getMarketDataTick(ticksymbol)                                                                                                               ' GET THE TICK PRICE OF THE CURRENT TICKSYMBOL IN THE SYSTEM
-
+            Timer60Sec.Start()
             datastring = datastring & String.Format("{0:hh:mm:ss.fff tt}", Now.ToLocalTime)                                                             ' SET THE DATASTRING TO THE EXIT TIME OF THE SUB TO DISPLAY FULL CYCLE TIME OF THE CONNECTION
             lblStatus.Text = datastring                                                                                                                 ' SEND THE DATASTRING TO THE FORM VIEW 
 
@@ -164,7 +165,7 @@ Friend Class Main
         Try
 
             Tws1.disconnect()                                                                                                                           ' CALLED FUNCTION TO DISCONNECT THE APP FROM THE TWS PLATFORM USING THE API
-
+            Timer60Sec.Stop()
             datastring = datastring & String.Format("{0:hh:mm:ss.fff tt}", Now.ToLocalTime)                                                             ' INITIALIZE THE DATASTRING WITH THE CURRENT TIME CLOSING THE TIME SPAN LOOP
             Call m_utils.addListItem(Utils.List_Types.CONNECTION_RESPONSES, datastring)                                                                 ' CALL THE ADD LIST ITEM FUNCTION TO ADD THE MESSAGE TO THE LISTBOX 
 
@@ -647,75 +648,77 @@ Friend Class Main
 
     Private Sub Timer60Sec_Tick(sender As Object, e As EventArgs) Handles Timer60Sec.Tick
 
+        tickCounter += 1
+        If (tickCounter = 1) Then
+            Return
+        End If
         Dim datastring As String = "Order State: " & String.Format("{0:hh:mm:ss.fff tt}", Now.ToLocalTime) & " - "              ' DATASTRING USED TO PROVIDE FEEDBACK TO THE USER ON ACTIONS HAPPENING WITHIN THE APP
         Dim contract As IBApi.Contract = New IBApi.Contract()                                                                   ' INTIIATE THE CONTRACT VARIABLE CLASS TO HANDLE CONTRACT DATA
         Dim order As IBApi.Order = New IBApi.Order()                                                                            ' INITIATE THE ORDER VARIABLE CLASS TO HANDLE ORDER DATA
 
         Try
 
-            If RobotOn = True Then                                                                                              ' DETERMINE IF THE TIMER ACTION OF THE ROBOT TO GET PRICES EVERY x SECONDS IS ACTIVE 
+            getMarketDataTick(ticksymbol)                                                                                   ' CALL GET MARKET DATA FUNCTION TO GET THE CURRENT PRICE OF THIS TICKSYMBOL(S) IN PLAY
+            Tws1.requestOpenOrders()
+            ' check to see if the price has moved above an open buy order
+            'Using db As BondiModel = New BondiModel()                                                                       ' INITIALIZE CONNECTION TO THE DATABASE USING THE ENTITY FRAMEWORK
 
-                getMarketDataTick(ticksymbol)                                                                                   ' CALL GET MARKET DATA FUNCTION TO GET THE CURRENT PRICE OF THIS TICKSYMBOL(S) IN PLAY
+            '        Dim hi As List(Of HarvestIndex) = New List(Of HarvestIndex)()                                               ' INITIALIZE THE HARVEST INDEX LIST TO BE USED TO GET THE INDEX RECORD 
+            '        hi = db.HarvestIndexes.AsEnumerable.Where(Function(x) x.harvestKey = cmbWillie.SelectedValue).ToList()      ' GET THE INDEX DATA FOR THE SELECTED INDEX FROM THE HARVEST INDEX TABLE
 
-                ' check to see if the price has moved above an open buy order
-                Using db As BondiModel = New BondiModel()                                                                       ' INITIALIZE CONNECTION TO THE DATABASE USING THE ENTITY FRAMEWORK
+            '        tempHarvestKey = hi.FirstOrDefault().harvestKey                                                             ' SET THE TEMP HARVEST KEY TO THE SELECTED INDEX HARVEST KEY
 
-                    Dim hi As List(Of HarvestIndex) = New List(Of HarvestIndex)()                                               ' INITIALIZE THE HARVEST INDEX LIST TO BE USED TO GET THE INDEX RECORD 
-                    hi = db.HarvestIndexes.AsEnumerable.Where(Function(x) x.harvestKey = cmbWillie.SelectedValue).ToList()      ' GET THE INDEX DATA FOR THE SELECTED INDEX FROM THE HARVEST INDEX TABLE
+            '        Dim sellOrderExists = (From q In db.stockorders Where q.roboIndex = tempHarvestKey And
+            '                                                            q.Action = "SELL" And q.Status = "Open" Select q)       ' DETERMINE IF A SELL TO CLOSE ORDER EXISTS - INDICATES THAT THE TRAILING BUY TO OPEN ORDER IS COVERED WITH A STC ORDER
 
-                    tempHarvestKey = hi.FirstOrDefault().harvestKey                                                             ' SET THE TEMP HARVEST KEY TO THE SELECTED INDEX HARVEST KEY
+            '        If sellOrderExists.Count > 0 Then                                                                           ' DOES A STC ORDER EXIST
 
-                    Dim sellOrderExists = (From q In db.stockorders Where q.roboIndex = tempHarvestKey And
-                                                                        q.Action = "SELL" And q.Status = "Open" Select q)       ' DETERMINE IF A SELL TO CLOSE ORDER EXISTS - INDICATES THAT THE TRAILING BUY TO OPEN ORDER IS COVERED WITH A STC ORDER
+            '            lbldatastring.Text = ("Sell Order Active")                                                              ' SEND A MESSAGE TO THE USER INDICATING THAT A STC ORDER EXISTS
 
-                    If sellOrderExists.Count > 0 Then                                                                           ' DOES A STC ORDER EXIST
+            '        Else                                                                                                        ' IF A STC ORDER DOES NOT EXIST
 
-                        lbldatastring.Text = ("Sell Order Active")                                                              ' SEND A MESSAGE TO THE USER INDICATING THAT A STC ORDER EXISTS
+            '            lbldatastring.Text = "No Sell Order Active"                                                             ' SEND A MESSAGE TO THE USER INDICATING THAT A STC ORDER DOES NOT EXIST
 
-                    Else                                                                                                        ' IF A STC ORDER DOES NOT EXIST
+            '            Dim buyOrderExists = (From q In db.stockorders Where q.roboIndex = tempHarvestKey And
+            '                                                               q.Action = "BUY" And q.Status = "Open" Select q)     ' GET THE TRAILING BUY TO OPEN ORDER INFORMATION FROM THE DATABASE
+            '        '    'Stop
 
-                        lbldatastring.Text = "No Sell Order Active"                                                             ' SEND A MESSAGE TO THE USER INDICATING THAT A STC ORDER DOES NOT EXIST
+            '        'If buyOrderExists.Count > 0 Then                                                                        ' IF THE BTO ORDER EXISTS
 
-                        Dim buyOrderExists = (From q In db.stockorders Where q.roboIndex = tempHarvestKey And
-                                                                           q.Action = "BUY" And q.Status = "Open" Select q)     ' GET THE TRAILING BUY TO OPEN ORDER INFORMATION FROM THE DATABASE
-                        '    'Stop
+            '        ' If currentprice - buyOrderExists.FirstOrDefault.LimitPrice >= hi.FirstOrDefault().width * 2 Then    ' DETERMINE IF THE CURRENT TICK PRICE OF THE TICKSYMBOL IS MORE THAN 2 WIDTHS GREATER THAN THE TRAILING BTO ORDER 
 
-                        If buyOrderExists.Count > 0 Then                                                                        ' IF THE BTO ORDER EXISTS
+            '        contract.Symbol = buyOrderExists.FirstOrDefault().Symbol.ToUpper()                              ' SET THE CONTRACT SYMBOL TO THE STOCK ORDER UPDATED SYMBOL
+            '                    contract.SecType = hi.FirstOrDefault().stocksectype.ToUpper()                                   ' SET THE CONTRACT SECURITY TYPE TO THE INDEX STOCK SECURITY TYPE
+            '                    contract.Currency = hi.FirstOrDefault().currencytype.ToUpper()                                  ' SET THE CONTRACT CURRENCY TYPE TO THE INDEX CURRENCY TYPE
+            '                    contract.Exchange = hi.FirstOrDefault().exchange.ToUpper()                                      ' SET THE CONTRACT EXCHANGE TYPE TO THE INDEX EXCHANGE TYPE
 
-                            If currentprice - buyOrderExists.FirstOrDefault.LimitPrice >= hi.FirstOrDefault().width * 2 Then    ' DETERMINE IF THE CURRENT TICK PRICE OF THE TICKSYMBOL IS MORE THAN 2 WIDTHS GREATER THAN THE TRAILING BTO ORDER 
+            '                    order.OrderType = hi.FirstOrDefault().ordertype.ToUpper()                                       ' SET THE ORDER ORDER TYPE TO THE INDEX ORDER TYPE (lmt OR mkt)
+            '                    order.TotalQuantity = hi.FirstOrDefault().shares                                                ' SET THE ORDER NUMBER OF SHARES TO THE INDEX NUMBER OF SHARES - CONSIDER SETTING TO THE UPDATED ORDER SHARES VALUE
+            '                    order.Tif = hi.FirstOrDefault().inforce.ToUpper()                                               ' SET THE ORDER TRADE IN FORCE TO THE INDEX TRADE IN FORCE (day OR gtc)
 
-                                contract.Symbol = buyOrderExists.FirstOrDefault().Symbol.ToUpper()                              ' SET THE CONTRACT SYMBOL TO THE STOCK ORDER UPDATED SYMBOL
-                                contract.SecType = hi.FirstOrDefault().stocksectype.ToUpper()                                   ' SET THE CONTRACT SECURITY TYPE TO THE INDEX STOCK SECURITY TYPE
-                                contract.Currency = hi.FirstOrDefault().currencytype.ToUpper()                                  ' SET THE CONTRACT CURRENCY TYPE TO THE INDEX CURRENCY TYPE
-                                contract.Exchange = hi.FirstOrDefault().exchange.ToUpper()                                      ' SET THE CONTRACT EXCHANGE TYPE TO THE INDEX EXCHANGE TYPE
+            '                    order.OrderId = buyOrderExists.FirstOrDefault().OrderId                                         ' SET THE ORDER ORDER ID TO THE UPDATED RECORD ORDER ID
+            '                    order.Action = "BUY"                                                                            ' SET THE ORDER ACTION TO BUY
+            '                    order.LmtPrice = buyOrderExists.FirstOrDefault().LimitPrice + hi.FirstOrDefault().opentrigger   ' SET THE ORDER LIMIT PRICE TO THE UPDATED RECORD LIMIT PRICE PLUS THE INDEX WIDTH VALUE
 
-                                order.OrderType = hi.FirstOrDefault().ordertype.ToUpper()                                       ' SET THE ORDER ORDER TYPE TO THE INDEX ORDER TYPE (lmt OR mkt)
-                                order.TotalQuantity = hi.FirstOrDefault().shares                                                ' SET THE ORDER NUMBER OF SHARES TO THE INDEX NUMBER OF SHARES - CONSIDER SETTING TO THE UPDATED ORDER SHARES VALUE
-                                order.Tif = hi.FirstOrDefault().inforce.ToUpper()                                               ' SET THE ORDER TRADE IN FORCE TO THE INDEX TRADE IN FORCE (day OR gtc)
+            '                    Call Tws1.placeOrderEx(order.OrderId, contract, order)                                          ' CALL THE PLACEORDER FUNCTION TO SEND THE ORDER CREATED TO TWS
 
-                                order.OrderId = buyOrderExists.FirstOrDefault().OrderId                                         ' SET THE ORDER ORDER ID TO THE UPDATED RECORD ORDER ID
-                                order.Action = "BUY"                                                                            ' SET THE ORDER ACTION TO BUY
-                                order.LmtPrice = buyOrderExists.FirstOrDefault().LimitPrice + hi.FirstOrDefault().opentrigger   ' SET THE ORDER LIMIT PRICE TO THE UPDATED RECORD LIMIT PRICE PLUS THE INDEX WIDTH VALUE
+            '                    ' UPDATE THE TRAILING BUY ORDER HERE.
+            '                    buyOrderExists.FirstOrDefault.Status = "Open"
+            '                    buyOrderExists.FirstOrDefault.LimitPrice = order.LmtPrice
+            '                    buyOrderExists.FirstOrDefault.timestamp = DateTime.Parse(Now).ToUniversalTime()                 ' SET THE TIMESTAMP OF THE RECORD TO UPDATE TO THE CURRENT DATE AND TIME
 
-                                Call Tws1.placeOrderEx(order.OrderId, contract, order)                                          ' CALL THE PLACEORDER FUNCTION TO SEND THE ORDER CREATED TO TWS
+            '                    db.SaveChanges()                                                                                ' SAVE THE CHANGES TO THE DATABASE   
 
-                                ' UPDATE THE TRAILING BUY ORDER HERE.
-                                buyOrderExists.FirstOrDefault.Status = "Open"
-                                buyOrderExists.FirstOrDefault.LimitPrice = order.LmtPrice
-                                buyOrderExists.FirstOrDefault.timestamp = DateTime.Parse(Now).ToUniversalTime()                 ' SET THE TIMESTAMP OF THE RECORD TO UPDATE TO THE CURRENT DATE AND TIME
+            '                    lbldatastring.Text = "Elevated Stranded Buy Order " &
+            '                        String.Format("{0:C}", (currentprice + hi.FirstOrDefault().width).ToString())               ' IF THE BTO IS LESS THAN 2 WIDTHS BELOW CURRENT PRICE SEND A MESSAGE TO THE USER INDICATING THE CONDITION
 
-                                db.SaveChanges()                                                                                ' SAVE THE CHANGES TO THE DATABASE   
+            '        ' End If
 
-                                lbldatastring.Text = "Elevated Stranded Buy Order " &
-                                    String.Format("{0:C}", (currentprice + hi.FirstOrDefault().width).ToString())               ' IF THE BTO IS LESS THAN 2 WIDTHS BELOW CURRENT PRICE SEND A MESSAGE TO THE USER INDICATING THE CONDITION
+            '        ' End If
+            '    End If
+            '    End Using
 
-                            End If
 
-                        End If
-                    End If
-                End Using
-
-            End If
 
             datastring = datastring & String.Format("{0:hh:mm:ss.fff tt}", Now.ToLocalTime) & " " & loopcounter                             ' ADD THE CURRENT FINISH TIME TO THE DATASTRING TO GET THE FULL CYCLE TIME
             lblStatus.Text = datastring                                                                                                     ' DISPLAY THE APPLICATION MESSAGE TO THE USER 
@@ -1147,7 +1150,7 @@ Friend Class Main
                                                             .Status = "Open",
                                                             .Quantity = order.TotalQuantity,
                                                             .OrderStatus = orderState.Status,
-                                                            .roboIndex = indexselected,
+                                                            .roboIndex = "FYODHP6KFPX1",
                                                             .matchID = matchid,
                                                             .OrderTimestamp = DateTime.Parse(Now).ToUniversalTime()
                                                         }                                                                                   ' OPEN THE NEW RECORD (BOUGHT POSITION) IN THE TABLE.
@@ -1895,6 +1898,14 @@ Friend Class Main
 
     Private Sub btnHideManual_Click(sender As Object, e As EventArgs) Handles btnHideManual.Click
         pnlManual.Visible = False
+    End Sub
+
+    Private Sub Button12_Click(sender As Object, e As EventArgs) Handles Button12.Click
+
+    End Sub
+
+    Private Sub Button8_Click(sender As Object, e As EventArgs) Handles Button8.Click
+
     End Sub
 
 
