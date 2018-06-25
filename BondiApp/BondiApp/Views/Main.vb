@@ -146,6 +146,10 @@ Friend Class Main
             End If
 
             getMarketDataTick(ticksymbol)                                                                                                               ' GET THE TICK PRICE OF THE CURRENT TICKSYMBOL IN THE SYSTEM
+            Dim currentTimeDiff = 5 - (DateAndTime.Now.Second Mod 5)
+            If (currentTimeDiff <> 5) Then
+                Thread.Sleep(currentTimeDiff * 1000)
+            End If
             Timer60Sec.Start()
             datastring = datastring & String.Format("{0:hh:mm:ss.fff tt}", Now.ToLocalTime)                                                             ' SET THE DATASTRING TO THE EXIT TIME OF THE SUB TO DISPLAY FULL CYCLE TIME OF THE CONNECTION
             lblStatus.Text = datastring                                                                                                                 ' SEND THE DATASTRING TO THE FORM VIEW 
@@ -648,10 +652,6 @@ Friend Class Main
 
     Private Sub Timer60Sec_Tick(sender As Object, e As EventArgs) Handles Timer60Sec.Tick
 
-        tickCounter += 1
-        If (tickCounter = 1) Then
-            Return
-        End If
         Dim datastring As String = "Order State: " & String.Format("{0:hh:mm:ss.fff tt}", Now.ToLocalTime) & " - "              ' DATASTRING USED TO PROVIDE FEEDBACK TO THE USER ON ACTIONS HAPPENING WITHIN THE APP
         Dim contract As IBApi.Contract = New IBApi.Contract()                                                                   ' INTIIATE THE CONTRACT VARIABLE CLASS TO HANDLE CONTRACT DATA
         Dim order As IBApi.Order = New IBApi.Order()                                                                            ' INITIATE THE ORDER VARIABLE CLASS TO HANDLE ORDER DATA
