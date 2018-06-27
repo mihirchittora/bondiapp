@@ -78,7 +78,7 @@ Friend Class Main
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
-        lblBuild.Text = "Build Date: " & String.Format("{0: MM.dd.yy}", #05/01/2018#)                                                           ' DISPLAY THE LATEST BUILD DATE
+        lblBuild.Text = "Build Date: " & String.Format("{0: MM.dd.yy}", #06/25/2018#)                                                           ' DISPLAY THE LATEST BUILD DATE
 
         Call m_utils.init(Me)                                                                                                                   ' INITIALIZES THE UTILS TO SEND AND READ MESSAGES FROM THE API
         'Timer60Sec.Enabled = True                                                                                                               ' INITIALIZES THE 60 SECOND TIME TO REQUEST PRICING 
@@ -93,16 +93,12 @@ Friend Class Main
                 cmbWillie.DataSource = hi                                                                                                       ' SET THE DROPDOWN DATASOURCE EQUAL TO THE INDEX LIST
                 cmbWillie.DisplayMember = "name"                                                                                                ' DROPDOWN DISPLAYS THE NAME FIELD OF THE LIST
                 cmbWillie.ValueMember = "harvestkey"                                                                                            ' DROPDOWN VALUE TIED TO NAME IS THE HARVESTKEY FIELD
+
                 cmbWillie.SelectedIndex = 0                                                                                                     ' SET THE INDEX DISPLAYED AS THE FIRST ONE
-                cmbWillie.Enabled = False
-                ckRobotOn.Enabled = False
-
-
-
 
                 hi = db.HarvestIndexes.AsEnumerable.Where(Function(x) x.harvestKey = cmbWillie.SelectedValue).ToList()                          ' INITIALIZE THE HARVEST INDEX DATABASE RECORDS TO A LIST
                 ticksymbol = hi.FirstOrDefault().product                                                                                        ' ASSIGN THE FIRST HARVEST INDEX PRODUCT SYMBOL TO TICKSYMBOL WITH THE FORM LOAD
-
+                txtPriceSymbol.Text = ticksymbol
             End Using                                                                                                                           ' END USING DB AS THE DATABSE MODEL
 
         Catch ex As Exception                                                                                                                   ' ANY ERROR CAUGHT HERE AND DISPLAYED TO THE USER
@@ -116,9 +112,6 @@ Friend Class Main
     Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
         Me.Close()                                                                                                                              ' CLOSE THE APPLICATION
     End Sub
-
-
-
 
 
 
@@ -141,16 +134,30 @@ Friend Class Main
 
             If Tws1.serverVersion() > 0 Then     ' WORK ON SETTING THIS IN THE CONNECTION tws PASS AND USING A GLOBAL VARIABLE TO MAKE MORE EFFICIENT   ' IF THE RESPONSE BACK IS THE SERVER VERSION THAT IS THE INDICATION THAT THE APP IS CONNECTED TO TWS
                 msg = "CONNECTING - ClientID: " & txtClientId.Text & " SV: " & Tws1.serverVersion() & " at " & Tws1.TwsConnectionTime()                 ' SET THE MSG TO THE CONNECTION STRING AND TIME OF CONNECTION
-                Call m_utils.addListItem(Utils.List_Types.CONNECTION_RESPONSES, msg)                                                                    ' CALL THE ADD LIST ITEM FUNCTION TO ADD THE MESSAGE TO THE LISTBOX                 
+                Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, msg)                                                                    ' CALL THE ADD LIST ITEM FUNCTION TO ADD THE MESSAGE TO THE LISTBOX                 
                 '    'Call m_utils.addListItem(Utils.List_Types.CONNECTION_RESPONSES, "------------------------------")                                 ' CALL THE ADD A BLANK LINE TO THE MESSAGE TO THE LISTBOX 
             End If
 
-            getMarketDataTick(ticksymbol)                                                                                                               ' GET THE TICK PRICE OF THE CURRENT TICKSYMBOL IN THE SYSTEM
-            Dim currentTimeDiff = 5 - (DateAndTime.Now.Second Mod 5)
-            If (currentTimeDiff <> 5) Then
-                Thread.Sleep(currentTimeDiff * 1000)
-            End If
-            Timer60Sec.Start()
+            'getMarketDataTick(ticksymbol)                                                                                                               ' GET THE TICK PRICE OF THE CURRENT TICKSYMBOL IN THE SYSTEM
+
+            'Dim currentTimeDiff = 5 - (DateAndTime.Now.Second Mod 5)
+            'If (currentTimeDiff <> 5) Then
+            '    Thread.Sleep(currentTimeDiff * 1000)
+            'End If
+
+            'Timer60Sec.Start()
+
+            Tws1.reqAllOpenOrders()
+
+            MsgBox(Utils.orderExists.ToString())
+
+
+
+
+
+
+            btnConnect.Enabled = False
+
             datastring = datastring & String.Format("{0:hh:mm:ss.fff tt}", Now.ToLocalTime)                                                             ' SET THE DATASTRING TO THE EXIT TIME OF THE SUB TO DISPLAY FULL CYCLE TIME OF THE CONNECTION
             lblStatus.Text = datastring                                                                                                                 ' SEND THE DATASTRING TO THE FORM VIEW 
 
@@ -161,6 +168,20 @@ Friend Class Main
 
     End Sub
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     Private Sub btnDisconnect_Click(sender As Object, e As EventArgs) Handles btnDisconnect.Click
 
         lstConnectionResponses.Items.Clear()                                                                                                            ' CLEAR ANY CONNECTION MESSAGE BEFORE THE NEXT ACTION IS TAKEN
@@ -169,9 +190,11 @@ Friend Class Main
         Try
 
             Tws1.disconnect()                                                                                                                           ' CALLED FUNCTION TO DISCONNECT THE APP FROM THE TWS PLATFORM USING THE API
-            Timer60Sec.Stop()
+            'Timer60Sec.stop()
             datastring = datastring & String.Format("{0:hh:mm:ss.fff tt}", Now.ToLocalTime)                                                             ' INITIALIZE THE DATASTRING WITH THE CURRENT TIME CLOSING THE TIME SPAN LOOP
-            Call m_utils.addListItem(Utils.List_Types.CONNECTION_RESPONSES, datastring)                                                                 ' CALL THE ADD LIST ITEM FUNCTION TO ADD THE MESSAGE TO THE LISTBOX 
+            Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, datastring)                                                                 ' CALL THE ADD LIST ITEM FUNCTION TO ADD THE MESSAGE TO THE LISTBOX 
+
+            btnConnect.Enabled = True
 
             lblStatus.Text = datastring                                                                                                                 ' PROVIDE THE USER WITH THE STATUS MESSAGE OF THIS SUBROUTINE
         Catch ex As Exception
@@ -658,8 +681,8 @@ Friend Class Main
 
         Try
 
-            getMarketDataTick(ticksymbol)                                                                                   ' CALL GET MARKET DATA FUNCTION TO GET THE CURRENT PRICE OF THIS TICKSYMBOL(S) IN PLAY
-            Tws1.requestOpenOrders()
+            ' getMarketDataTick(ticksymbol)                                                                                   ' CALL GET MARKET DATA FUNCTION TO GET THE CURRENT PRICE OF THIS TICKSYMBOL(S) IN PLAY
+            'Tws1.requestOpenOrders()
             ' check to see if the price has moved above an open buy order
             'Using db As BondiModel = New BondiModel()                                                                       ' INITIALIZE CONNECTION TO THE DATABASE USING THE ENTITY FRAMEWORK
 
@@ -835,7 +858,7 @@ Friend Class Main
         Else
             msg = "CONNECTED : The LIVE account: [" & eventArgs.accountsList & "]"                                                      ' MESSAGE SENT TO THE CONNECTED MESSAGE LISTBOX INDICATING CONNECTED, ACCOUNT TYPE, AND ACCOUNT NUMBER 
         End If
-        Call m_utils.addListItem(Utils.List_Types.CONNECTION_RESPONSES, msg)                                                            ' CALL THE MESSAGE UTILITY TO PRESENT THE CONNECTED ACCOUNT INFORMATIOJN TO THE USER
+        Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, msg)                                                            ' CALL THE MESSAGE UTILITY TO PRESENT THE CONNECTED ACCOUNT INFORMATIOJN TO THE USER
 
         m_faAccount = True                                                                                                              ' SET THE FINANCIAL ACCOUNT MANAGER STATUS TO TRUE
         m_faAcctsList = eventArgs.accountsList                                                                                          ' SET THE ACCOUNTS LIS TO THE CURRENT LIST OF ACCOUNTS FOR THE LOGGED IN USER        
@@ -1024,21 +1047,21 @@ Friend Class Main
         datastring = "Symbol: " & ticksymbol & " Tick Type: " & eventArgs.tickType & " Current Price: " & String.Format("{0:C}", eventArgs.price) &
             " Time: " & String.Format("{0:hh:mm:ss}", Now.ToLocalTime)                                                           ' SET THE DATASTRING FOR THE LISTBOX DISPLAY
         ' INITIALIZE DATASTRING VARIABLE TO HOLD MESSAGING FOR THE USER
-        If (tickTypeId = eventArgs.tickType) Then
-            Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, datastring)                                                               ' CALLED FUNCTION TO ADD THE ORDER MESSAGE TO THE LISTBOX
-            Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "===============================")                                      ' CALL FUNTION TO ADD THE LAST LINT TO THE LISTBOX
-        End If
+        'If (tickTypeId = eventArgs.tickType) Then
+        Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, datastring)                                                               ' CALLED FUNCTION TO ADD THE ORDER MESSAGE TO THE LISTBOX
+        Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "===============================")                                      ' CALL FUNTION TO ADD THE LAST LINT TO THE LISTBOX
+        'End If
 
-        If eventArgs.tickCount = 1 Then
+        'If eventArgs.tickCount = 1 Then
 
-            ' DETERMINE IF I WANT TO HAVE OTHER PRICE TICKS SAVED OR STORE THE LAST 5 OR 10 MINUTES OF TICKS.
+        ' DETERMINE IF I WANT TO HAVE OTHER PRICE TICKS SAVED OR STORE THE LAST 5 OR 10 MINUTES OF TICKS.
 
-            'Call m_utils.addListItem(Utils.List_Types.MKT_DATA, datastring)                                                             ' WRITES THE CURRENT PRICE TO THE LISTBOX
-            lblConStatus.Text = datastring
+        'Call m_utils.addListItem(Utils.List_Types.MKT_DATA, datastring)                                                             ' WRITES THE CURRENT PRICE TO THE LISTBOX
+        lblConStatus.Text = datastring
             currentprice = eventArgs.price                                                                                              ' SET THE PUBLIC VARIABLE CURRENT PRICE TO THE TICKPRICE
             txtPrice.Text = currentprice                                                                                                ' SEND THE TICKPRICE TO THE VIEW FOR THE USER TO SEE
             underlying = eventArgs.price
-        End If
+        'End If
 
     End Sub
 
@@ -1103,6 +1126,9 @@ Friend Class Main
                 Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, "===============================")                                      ' CALL FUNTION TO ADD THE LAST LINT TO THE LISTBOX
                 Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, " ")                                                                    ' CALL FUNTION TO ADD A BLANK LINE TO THE LISTBOX
 
+                Utils.openSTCs = +1
+                lblopenSTCs.Text = Utils.openSTCs
+
             ElseIf orderState.Status.ToLower() = "filled" Then
 
                 If loopcounter < 1 Then
@@ -1117,6 +1143,7 @@ Friend Class Main
                 End If
                 loopcounter = 0
             End If
+
 
 
         End If
@@ -1509,6 +1536,37 @@ Friend Class Main
         lstServerResponses.TopIndex = lstServerResponses.Items.Count - 1
     End Sub
 
+    '--------------------------------------------------------------------------------
+    ' Market data EFP computation event - triggered by the reqMktDataEx() method
+    '--------------------------------------------------------------------------------
+    Private Sub Tws1_tickEFP(ByVal eventSender As System.Object, ByVal eventArgs As AxTWSLib._DTwsEvents_tickEFPEvent) Handles Tws1.OnTickEFP
+        Dim mktDataStr As String
+        mktDataStr = "id=" & eventArgs.tickerId & " " & m_utils.getField(eventArgs.field) & ":" &
+             eventArgs.basisPoints & " / " & eventArgs.formattedBasisPoints &
+             " totalDividends=" & eventArgs.totalDividends & " holdDays=" & eventArgs.holdDays &
+             " futureLastTradeDate=" & eventArgs.futureLastTradeDate & " dividendImpact=" & eventArgs.dividendImpact &
+             " dividendsToLastTradeDate=" & eventArgs.dividendsToLastTradeDate
+
+        Call m_utils.addListItem(Utils.List_Types.MKT_DATA, mktDataStr)
+
+        ' move into view
+        'lstMktData.TopIndex = lstMktData.Items.Count - 1
+    End Sub
+
+    '--------------------------------------------------------------------------------
+    ' Market depth book entry - triggered by the reqMktDepthEx() method
+    '--------------------------------------------------------------------------------
+    'Private Sub Tws1_updateMktDepth(ByVal eventSender As System.Object, ByVal eventArgs As AxTWSLib._DTwsEvents_updateMktDepthEvent) Handles Tws1.OnUpdateMktDepth
+    ' m_dlgMktDepth.updateMktDepth(eventArgs.tickerId, eventArgs.position, " ", eventArgs.operation, eventArgs.side, eventArgs.price, eventArgs.size)
+    'End Sub
+
+    '--------------------------------------------------------------------------------
+    ' Market depth Level II book entry - triggered by the reqMktDepthEx() method
+    '--------------------------------------------------------------------------------
+    'Private Sub Tws1_updateMktDepthL2(ByVal eventSender As System.Object, ByVal eventArgs As AxTWSLib._DTwsEvents_updateMktDepthL2Event) Handles Tws1.OnUpdateMktDepthL2
+    'm_dlgMktDepth.updateMktDepth(eventArgs.tickerId, eventArgs.position, eventArgs.marketMaker, eventArgs.operation, eventArgs.side, eventArgs.price, eventArgs.size)
+    'End Sub
+
     Private Function DblMaxStr(ByRef dblVal As Double) As String
         If dblVal = Double.MaxValue Then
             DblMaxStr = ""
@@ -1815,6 +1873,7 @@ Friend Class Main
         dlgHarvestBacktest.ShowDialog()
     End Sub
     Dim tickTypeId As Integer = 0
+
     Private Sub btnTickPrice_Click(sender As Object, e As EventArgs)
         Dim contract As IBApi.Contract = New IBApi.Contract()
         contract.Symbol = "VXX"                                                                                                   ' INITIALIZE SYMBOL VALUE FOR THE CONTRACT
@@ -1893,18 +1952,58 @@ Friend Class Main
 
     Private Sub btnManualOrders_Click(sender As Object, e As EventArgs) Handles btnSendOrders.Click
         'dlgManual.Show()
-        pnlManual.Visible = True
+        pnlMan.Visible = True
     End Sub
 
     Private Sub btnHideManual_Click(sender As Object, e As EventArgs) Handles btnHideManual.Click
+        pnlMan.Visible = False
+    End Sub
+
+    Private Sub btnCloseManual_Click(sender As Object, e As EventArgs) Handles btnCloseManual.Click
         pnlManual.Visible = False
     End Sub
 
-    Private Sub Button12_Click(sender As Object, e As EventArgs) Handles Button12.Click
+    Private Sub btnShowManual_Click(sender As Object, e As EventArgs) Handles btnShowManual.Click
+        pnlManual.Visible = True
+    End Sub
+
+    Private Sub btnGetOpenOrders_Click(sender As Object, e As EventArgs) Handles btnGetOpenOrders.Click
+
+        Call Tws1.reqAllOpenOrders()
 
     End Sub
 
-    Private Sub Button8_Click(sender As Object, e As EventArgs) Handles Button8.Click
+
+
+
+
+
+
+
+
+
+
+    ' WORK AREA
+
+    Private Sub btnGetPrice_Click_1(sender As Object, e As EventArgs) Handles btnGetPrice.Click
+
+        Dim contract As IBApi.Contract = New IBApi.Contract()                                                                           ' ESTABLISH A NEW CONTRACT CLASS
+
+        If txtPriceSymbol.Text <> "" Then
+            contract.Symbol = txtPriceSymbol.Text                                                                                       ' INITIALIZE SYMBOL VALUE FOR THE CONTRACT
+        Else
+            MsgBox("Please enter a symbol.")
+            Exit Sub
+        End If
+
+        contract.SecType = "STK"                                                                                                        ' INITIALIZE THE SECURITY TYPE FOR THE CONTRACT - MOVE TO SETTINGS AT SOME POINT
+        contract.Currency = "USD"                                                                                                       ' INITIALIZE CURRENCY TYPE FOR THE CONTRACT - MOVE TO SETTINGS AT SOME POINT
+        contract.Exchange = "SMART"                                                                                                     ' INITIALIZE EXCHANGE USED FOR THE CONTRACT
+
+        Tws1.reqMarketDataType(1)                                                                                                       ' SETS DATA FEED TO (1) LIVE STREAMING  (2) FROZEN  (3) DELAYED 15 - 20 MINUTES 
+        Tws1.reqMktDataEx(tickId + 1, contract, "", False, Nothing)
+        Tws1.tickCount = 0
+        'currentprice = Tws1_tickPrice()                                                                                                ' SET CURRENT PRICE TO STOCKTICKPRICE TO BE PASSED TO CALLING FUNCTION
 
     End Sub
 
@@ -1912,34 +2011,22 @@ Friend Class Main
 
 
 
-    '--------------------------------------------------------------------------------
-    ' Market data EFP computation event - triggered by the reqMktDataEx() method
-    '--------------------------------------------------------------------------------
-    Private Sub Tws1_tickEFP(ByVal eventSender As System.Object, ByVal eventArgs As AxTWSLib._DTwsEvents_tickEFPEvent) Handles Tws1.OnTickEFP
-        Dim mktDataStr As String
-        mktDataStr = "id=" & eventArgs.tickerId & " " & m_utils.getField(eventArgs.field) & ":" &
-             eventArgs.basisPoints & " / " & eventArgs.formattedBasisPoints &
-             " totalDividends=" & eventArgs.totalDividends & " holdDays=" & eventArgs.holdDays &
-             " futureLastTradeDate=" & eventArgs.futureLastTradeDate & " dividendImpact=" & eventArgs.dividendImpact &
-             " dividendsToLastTradeDate=" & eventArgs.dividendsToLastTradeDate
 
-        Call m_utils.addListItem(Utils.List_Types.MKT_DATA, mktDataStr)
 
-        ' move into view
-        'lstMktData.TopIndex = lstMktData.Items.Count - 1
-    End Sub
 
-    '--------------------------------------------------------------------------------
-    ' Market depth book entry - triggered by the reqMktDepthEx() method
-    '--------------------------------------------------------------------------------
-    'Private Sub Tws1_updateMktDepth(ByVal eventSender As System.Object, ByVal eventArgs As AxTWSLib._DTwsEvents_updateMktDepthEvent) Handles Tws1.OnUpdateMktDepth
-    ' m_dlgMktDepth.updateMktDepth(eventArgs.tickerId, eventArgs.position, " ", eventArgs.operation, eventArgs.side, eventArgs.price, eventArgs.size)
-    'End Sub
 
-    '--------------------------------------------------------------------------------
-    ' Market depth Level II book entry - triggered by the reqMktDepthEx() method
-    '--------------------------------------------------------------------------------
-    'Private Sub Tws1_updateMktDepthL2(ByVal eventSender As System.Object, ByVal eventArgs As AxTWSLib._DTwsEvents_updateMktDepthL2Event) Handles Tws1.OnUpdateMktDepthL2
-    'm_dlgMktDepth.updateMktDepth(eventArgs.tickerId, eventArgs.position, eventArgs.marketMaker, eventArgs.operation, eventArgs.side, eventArgs.price, eventArgs.size)
-    'End Sub
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 End Class

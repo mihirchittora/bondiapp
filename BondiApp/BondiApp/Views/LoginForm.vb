@@ -25,6 +25,17 @@ Public Class LoginForm
                     Dim password = EncodePassword(txtPassword.Text.Trim(), loggedinUser.PasswordFormat, loggedinUser.PasswordSalt)
 
                     If (password = loggedinUser.Password AndAlso loggedinUser.IsApproved = True) Then
+
+                        Utils.username = loggedinUser.User.UserName
+                        Utils.userid = loggedinUser.User.UserId
+
+                        Dim um = (From q In db.Memberships Where q.UserId = Utils.userid Select q).FirstOrDefault()                                 ' GET RECORD FROM THE DATABASE SO IT CAN BE UPDATED                           
+                        um.LastLoginDate = DateTime.Parse(Now).ToUniversalTime()                                                                    ' SET THE TIMESTAMP OF THE RECORD TO UPDATE TO THE CURRENT DATE AND TIME
+
+                        Dim uu = (From q In db.Users Where q.UserId = Utils.userid Select q).FirstOrDefault()                                       ' GET RECORD FROM THE DATABASE SO IT CAN BE UPDATED                           
+                        uu.LastActivityDate = DateTime.Parse(Now).ToUniversalTime()                                                                 ' SET THE TIMESTAMP OF THE RECORD TO UPDATE TO THE CURRENT DATE AND TIME
+                        db.SaveChanges()
+
                         Me.Hide()
                         mainForm.Show()
                     Else
@@ -107,4 +118,7 @@ Public Class LoginForm
         Return Convert.ToBase64String(bRet)
     End Function
 
+    Private Sub LinkLabel1_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles LinkLabel1.LinkClicked
+
+    End Sub
 End Class

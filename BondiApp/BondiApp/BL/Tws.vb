@@ -81,18 +81,12 @@ Friend Class Tws
     Sub connect(p1 As String, p2 As Integer, p3 As Integer, p4 As Boolean, optcapts As String)                                              ' CONNECTION STRING & FUNCTION USED TO CONNECT THE APP TO TWS
 
         socket.optionalCapabilities = optcapts                                                                                              ' SET THE OPTIONAL CAPABILITIES FLAG EQUAL TO THE OPTCAPTS FLAG PASSED FROM THE CONNECT SUB ROUTINE
-
         socket.eConnect(p1, p2, p3, p4)                                                                                                     ' CALL THE eCONNECT SUB PROCESS PASSING HOSTIP, PORT NUMBER, CLIENT ID, AND EXTRA AUTHENTICAL FLAG  
-
         Dim msgThread As Threading.Thread = New Threading.Thread(AddressOf msgProcessing)                                                   ' INITIALIZE THE MESSAGE THREADING STRUCTURE FOR THE APPLICATION
-
         msgThread.IsBackground = True                                                                                                       ' SET MESSAGE THREADING TO RUN IN THE BACKGROUND 
-
         If serverVersion() > 0 Then Call msgThread.Start()                                                                                  ' IF THE SERVERVERSION IS > 0 START THE MESSAGE THREADING IN THE BACKGROUND
 
-
-
-        'twsServerVersion = serverVersion()                                                                                                  ' SET THE PUBLIC SERVERVERSION VARIABLE TO BE USED IN THE CONNECTION MESSAGING
+        'Utils.twsServerVersion = serverVersion()                                                                                                  ' SET THE PUBLIC SERVERVERSION VARIABLE TO BE USED IN THE CONNECTION MESSAGING
 
     End Sub
 
@@ -122,11 +116,16 @@ Friend Class Tws
     Sub cancelCalculateImpliedVolatility(p1 As Integer)
         socket.cancelCalculateImpliedVolatility(p1)
     End Sub
+
     Sub cancelCalculateOptionPrice(p1 As Integer)
         socket.cancelCalculateOptionPrice(p1)
     End Sub
 
     Sub requestOpenOrders()
+        socket.reqOpenOrders()
+    End Sub
+
+    Sub reqAllOpenOrders()
         socket.reqAllOpenOrders()
     End Sub
 
@@ -309,6 +308,7 @@ Friend Class Tws
                                                                   .orderState = orderState
                                                                  })
                          End Sub)
+
     End Sub
 
     Public Sub openOrderEnd() Implements IBApi.EWrapper.openOrderEnd

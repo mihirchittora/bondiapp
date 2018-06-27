@@ -86,6 +86,13 @@ Friend Class Utils
     Public Shared ReadOnly LFSTR As String = Chr(10)
     Public Shared ReadOnly CRLFSTR As String = CRSTR & LFSTR
 
+    Public Shared serverversion As Integer = 0
+    Public Shared username As String = ""
+    Public Shared userid As Guid
+    Public Shared orderExists As Boolean = False
+    Public Shared openBTOs As Integer = 0
+    Public Shared openSTCs As Integer = 0
+
     ' Win32 API functions
     Private Declare Function SendMessageByNum Lib "user32" Alias "SendMessageA" (ByVal hwnd As Integer, ByVal wMsg As Integer, ByVal wParam As Integer, ByVal lParam As Integer) As Integer
 
@@ -182,7 +189,7 @@ Friend Class Utils
     '--------------------------------------------------------------------------------
     Public Function getField(ByRef field As TickType) As Object
         Select Case field
-            Case TickType.BID_SIZE : getField = "bidSize"
+            Case TickType.BID_SIZE : getField = "Bid Size"
             Case TickType.BID_PRICE : getField = "bidPrice"
             Case TickType.ASK_PRICE : getField = "askPrice"
             Case TickType.ASK_SIZE : getField = "askSize"
