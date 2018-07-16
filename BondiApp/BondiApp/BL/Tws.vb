@@ -51,6 +51,10 @@ Friend Class Tws
         socket.reqMktData(tickerId, m_contractInfo, genericTicks, snapshot, m_mktDataOptions)
     End Sub
 
+    Sub cancelMktData(p1 As Integer)
+        socket.cancelMktData(p1)
+    End Sub
+
     Sub placeOrderEx(p1 As Integer, m_contractInfo As IBApi.Contract, m_orderInfo As IBApi.Order)
         socket.placeOrder(p1, m_contractInfo, m_orderInfo)
         nextValidId(m_orderInfo.OrderId + 1)

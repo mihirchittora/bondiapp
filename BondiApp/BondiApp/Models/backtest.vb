@@ -13,12 +13,37 @@ Imports System.Collections.Generic
 Partial Public Class backtest
     Public Property id As Integer
     Public Property timestamp As Nullable(Of Date)
-    Public Property index As String
     Public Property symbol As String
     Public Property buyprice As Nullable(Of Decimal)
     Public Property btomarketdate As Nullable(Of Date)
     Public Property open As Nullable(Of Boolean)
     Public Property stcmarketdate As Nullable(Of Date)
     Public Property sellprice As Nullable(Of Decimal)
+    Public Property harvestkey As String
+    Public Property hedge As Nullable(Of Boolean)
+    Public Property hedgeclosed As Nullable(Of Boolean)
+    Public Property shares As Nullable(Of Integer)
+    Public Property btocapital As Nullable(Of Decimal)
+    Public Property maxcapital As Nullable(Of Decimal)
+    Public Property currentcapital As Nullable(Of Decimal)
+    Public Property btofield As String
+    Public Property stcfield As String
+    Public Property type As String
+    Public Property lots As Nullable(Of Integer)
+    Public Property strike As Nullable(Of Decimal)
+    Public Property exp As Nullable(Of Date)
+    Public Property hedgeBTOprice As Nullable(Of Decimal)
+    Public Property hedgeOpenTimestamp As Nullable(Of Date)
+    Public Property targetexit As Nullable(Of Decimal)
+    Public Property hedgeSTCprice As Nullable(Of Decimal)
+    Public Property hedgeCloseTimestamp As Nullable(Of Date)
+    Public Property lastaction As Nullable(Of Date)
+    Public Property shortHedge As Nullable(Of Boolean)
+    Public Property shortHedgeSTOtimestamp As Nullable(Of Date)
+    Public Property shortHedgeEXP As Nullable(Of Date)
+    Public Property shortHedgeSTOcredit As Nullable(Of Decimal)
+    Public Property shortHedgeBTCtimestamp As Nullable(Of Date)
+    Public Property shortHedgeBTCdebit As Nullable(Of Decimal)
+    Public Property shortHedgeLastaction As Nullable(Of Date)
 
 End Class

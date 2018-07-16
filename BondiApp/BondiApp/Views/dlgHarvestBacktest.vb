@@ -7,6 +7,7 @@ Imports System.Data
 Imports System.Configuration
 Imports System.IO
 Imports System.Data.SqlClient
+Imports Excel = Microsoft.Office.Interop.Excel
 
 Friend Class dlgHarvestBacktest
     Inherits System.Windows.Forms.Form
@@ -16,6 +17,8 @@ Friend Class dlgHarvestBacktest
     Public filedate As String = ""                                                                                                                                                      ' ESTABLISHES THE VARIABLE TO HOLD THE FILE DATE FROM THE DATETIME SELECTOR ON THE FORM
     Public datastring As String = ""                                                                                                                                                    ' ESTABLISHES THE VARIABLE TO HOLD THE STRING TO COMMUNICATE MESSAGES BACK TO THE FORM
     Public firstprice As Double = 0                                                                                                                                                     ' ESTABLISHES THE VARIABLE TO HOLD THE FIRST TRIGGER PRICE IN THE BACKTEST (USED WHEN THERE IS NOT AN ORDER IN THE DATABASE)
+    Public ticksymbol As String = ""
+    Public putprice As Double = 0
 
     Private Sub dlgHarvestBacktest_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
@@ -29,9 +32,18 @@ Friend Class dlgHarvestBacktest
             cmbWillie.ValueMember = "harvestkey"                                                                                                                                                ' DROPDOWN VALUE TIED TO NAME IS THE HARVESTKEY FIELD
             cmbWillie.SelectedIndex = 0                                                                                                                                                         ' SET THE INDEX DISPLAYED AS THE FIRST ONE
 
+            hi = db.HarvestIndexes.AsEnumerable.Where(Function(x) x.harvestKey = cmbWillie.SelectedValue).ToList()                          ' INITIALIZE THE HARVEST INDEX DATABASE RECORDS TO A LIST
+            ticksymbol = hi.FirstOrDefault().product                                                                                        ' ASSIGN THE FIRST HARVEST INDEX PRODUCT SYMBOL TO TICKSYMBOL WITH THE FORM LOAD
+            txtSymbol.Text = ticksymbol
+
         End Using                                                                                                                                                                               ' RELEASE THE CONNECTION TO THE DATABASE 
 
     End Sub
+
+
+
+
+
 
     Private Sub btnStartBackTest_Click(sender As Object, e As EventArgs) Handles btnStartBackTest.Click
         Dim datastring As String = "  Backtest Cycle Time: " & String.Format("{0:hh:mm:ss.fff tt}", Now.ToLocalTime) & " - "
@@ -49,14 +61,27 @@ Friend Class dlgHarvestBacktest
         Dim levels As Integer = 0
         Dim buytarget As Double = 0
         Dim selltarget As Double = 0
+        Dim buyprice As Double = 0
         Dim BTO As Integer = 0
         Dim STC As Integer = 0
         Dim gap As Double = 0
         Dim trans As Double = 0
-
+        Dim currentCapital As Double = 0
+        Dim maxCapital As Double = 0
         'Dim path As String = "C:\Users\Troy Belden\Desktop\stockprices\allstocks_"                                                                                                      ' GENERIC PATH FOR READING THE CSV FILES - WILL NEED TO SET TO USER INPUT FOR PRODUCTION
+        Dim harvestkey As String = ""
+        Dim setHedge As Boolean = False
+        Dim lots As Integer = 0
+        Dim strike As Double = 0
+        Dim type As String = ""
+        Dim hedgeexit As Double = 0
+        Dim targetprice As Double = 0
+        Dim width As Integer = 0
+
 
         Try
+
+            btnStartBackTest.Enabled = False
 
             Using db As BondiModel = New BondiModel()
 
@@ -68,6 +93,8 @@ Friend Class dlgHarvestBacktest
                 symbol = hi.FirstOrDefault().product
                 buytrigger = hi.FirstOrDefault().opentrigger
                 selltrigger = hi.FirstOrDefault().width
+                harvestkey = hi.FirstOrDefault().harvestKey
+                width = hi.FirstOrDefault().width                                                                                                                                                       ' SET THE WIDTH 
 
 
                 Dim readFile As String = "C:\Users\Troy Belden\Desktop\" & txtSymbol.Text & "_StockData.txt"
@@ -96,6 +123,8 @@ Friend Class dlgHarvestBacktest
 
                     price.MarketDate = price.MarketDate.Substring(4, 2) & "/" & price.MarketDate.Substring(6, 2) & "/" & price.MarketDate.Substring(0, 4)
 
+                    Dim edate As Date = String.Format("{0: MM/dd/yy}", expdate(harvestkey, price.MarketDate))
+
                     If recordsread = 0 Then
 
                         priceint = Int(price.OpenPrice)                                                                                                                                 ' RETURN THE INTERVAL OF THE STOCK TICK PRICE
@@ -112,6 +141,10 @@ Friend Class dlgHarvestBacktest
                         direction = "D"
                     End If
 
+                    ' DIRECTION UP
+
+
+
                     If direction = "U" Then
 
                         If price.OpenPrice < buytarget Then
@@ -123,7 +156,7 @@ Friend Class dlgHarvestBacktest
                                 ' SAVE THE RECORD TO THE DATABASE
                                 Dim newBuyOrder As New backtest With {
                                                                         .timestamp = DateTime.Parse(Now).ToUniversalTime(),
-                                                                        .index = hi.FirstOrDefault().harvestKey,
+                                                                        .harvestkey = hi.FirstOrDefault().harvestKey,
                                                                         .symbol = hi.FirstOrDefault().product,
                                                                         .btomarketdate = DateTime.Parse(price.MarketDate & " " & price.MarketTime).ToUniversalTime(),
                                                                         .buyprice = buytarget - (buytrigger * l),
@@ -171,32 +204,128 @@ Friend Class dlgHarvestBacktest
                             'MsgBox(buytarget & " " & selltarget)
                         End If
 
+
+
+
+
+
+
+
+
+
+
                         If price.LowPrice < buytarget Then
                             levels = Int((buytarget - price.LowPrice) / buytrigger)
                             For l = 0 To levels
+
+                                buyprice = buytarget - (buytrigger * l)
+
                                 lstOHLC.Items.Add(price.MarketDate & " " & price.MarketTime & vbTab & String.Format("{0:C}", buytarget - (buytrigger * l)) & vbTab & "B")
                                 sw.WriteLine(price.MarketDate & "," & String.Format("{0:hh:mm}", price.MarketTime) & "," & "," & String.Format("{0:C}", buytarget - (buytrigger * l)) & "," & "B")
+
+                                ' Handle capital calculations and hedging here
+
+                                Dim orderexists = (From q In db.backtests Where q.harvestkey = harvestkey Select q)                                                                                         ' QUERY TO SEE IF THERE IS A RECORD IN THE DATABASE TO FOR THIS HARVESTKEY
+                                If orderexists.Count = 0 Then                                                                                                                                               ' IF THE ORDER DOES NOT EXIST THEN ADD THIS RECORD TO THE db - **** CHECK IF NEED TO MOVE THIS CHECK UP RIGHT AFTER THE IF LOW<BUYTARGET
+
+
+
+                                    ' Set capital 
+                                    currentCapital = (String.Format("{0:C}", (buytarget * 100 - (buytrigger * l))))                                                                                         ' BASED ON THIS BUYTARGET BEING HIT SET THE CURRENT CAPITAL LEVEL FOR THIS STOCK PURCHASE
+                                    If currentCapital > maxCapital Then                                                                                                                                     ' IF THE CURRENT CAPITAL LEVEL IS GREATER THAN THE MAX CAPITAL THEN REPLACE MAX CAPITAL WITH CURRENT CAPITAL 
+                                        maxCapital = currentCapital                                                                                                                                         ' MAX CAPITAL EQUALS CURRENT CAPITAL
+                                    End If                                                                                                                                                                  ' END IF CONDITION
+
+                                    ' Hedge for first order here
+                                    setHedge = True                                                                                                                                                         ' HEDGE FLAG EQUALS TRUE BASED ON THIS BEING THE FIRST RECORD IN THE DB FOR THIS HARVESTKEY
+                                    Dim iv As Double = 0.72                                                                                                                                                 ' TO CALCULATE THE PUTPRICE IN EXCEL NEED TO PASS THE IMPLIED VOLATILITY VALUE
+                                    lots = hi.FirstOrDefault().hedgelots                                                                                                                                    ' SET THE LOTS VALUE EQUAL TO THE HARVEST INDEX FOR THIS KEYS LOTS VALUE
+                                    strike = Int(buyprice) - hi.FirstOrDefault().hedgewidth                                                                                                                 ' CALCULATE THE STRIKE PRICE FOR THE HEDGE BASED ON THE INDEX
+                                    type = "P"                                                                                                                                                              ' SET THE HEDGE TYPE EQUAL TO P FOR PUTS ***** NEED TO INCORPORATE THIS INTO THE INDEX
+                                    targetprice = Int(buyprice - hi.FirstOrDefault().hedgewidth)                                                                                                            ' USED IN CALCULATING THE TARGET MAX EXIT PRICE TO ACHEIVE PROFITABILITY IN THE HEDGE TARGET EXIT PRICE
+
+                                    Call BSCS(buyprice, Int(buyprice) - hi.FirstOrDefault().hedgewidth, price.MarketDate, edate, iv)                                                                        ' CALL THE FUNCTION TO CALCULATE THE OPTION PRICE IN EXCEL USING THE BLACK SCHOLES MODEL - WHILE THIS IS NOT 100% ACCURATE IT WILL PROVIDE THE DATA FOR BACKTESTING HEDGES
+
+                                    hedgeexit = ((((targetprice - buyprice) / lots) - putprice) - (hi.FirstOrDefault.width / lots)) * -1                                                                    ' CALCULATE THE HEDGE TARGET EXIT PRICE 
+
+                                Else
+                                    ' If an order exists check here for duplicate if not a duplicate then process else next record
+
+                                    Dim ol = From p In db.backtests Where p.harvestkey = harvestkey Order By p.timestamp Descending Select p                                                                ' ESTABLISH THE LIST TO HOUSE THE HARVEST INDEX RECORDS
+                                    currentCapital = ((String.Format("{0:C}", (buytarget * 100 - (buytrigger * l) + currentCapital))))
+
+                                    If currentCapital > maxCapital Then
+                                        maxCapital = currentCapital
+                                    End If
+
+                                    Dim ho = From h In db.backtests Where h.harvestkey = harvestkey And h.buyprice = buyprice And h.hedge = False Select h
+                                    If ho.Count = 0 Then
+                                        setHedge = True
+
+                                        Dim iv As Double = 0.71
+                                        Call BSCS(buyprice, Int(buyprice) - hi.FirstOrDefault().hedgewidth, price.MarketDate, edate, iv)
+
+                                        lots = hi.FirstOrDefault().hedgelots
+                                        strike = Int(buyprice) - hi.FirstOrDefault().hedgewidth
+                                        type = "P"
+                                        targetprice = Int(buyprice - hi.FirstOrDefault().hedgewidth)
+                                        hedgeexit = ((((targetprice - buyprice) / lots) - putprice) - (hi.FirstOrDefault.width / hi.FirstOrDefault.hedgelots)) * -1
+
+                                    Else
+                                        setHedge = False
+                                        Dim iv As Double = 0.0
+
+                                        lots = 0
+                                        strike = 0
+                                        type = " "
+                                        targetprice = 0
+                                        hedgeexit = 0
+
+                                    End If
+
+                                End If
 
                                 ' SAVE THE RECORD TO THE DATABASE
                                 Dim newBuyOrder As New backtest With {
                                                                         .timestamp = DateTime.Parse(Now).ToUniversalTime(),
-                                                                        .index = hi.FirstOrDefault().harvestKey,
+                                                                        .harvestkey = harvestkey,
                                                                         .symbol = hi.FirstOrDefault().product,
                                                                         .btomarketdate = DateTime.Parse(price.MarketDate & " " & price.MarketTime).ToUniversalTime(),
                                                                         .buyprice = buytarget - (buytrigger * l),
+                                                                        .shares = hi.FirstOrDefault().shares,
+                                                                        .currentcapital = currentCapital,
+                                                                        .maxcapital = maxCapital,
+                                                                        .btofield = "UL",
+                                                                        .hedge = setHedge,
+                                                                        .strike = strike,
+                                                                        .lots = lots,
+                                                                        .type = type,
+                                                                        .exp = DateTime.Parse(edate).ToUniversalTime(),
+                                                                        .hedgeBTOprice = putprice,
+                                                                        .targetexit = hedgeexit,
+                                                                        .hedgeOpenTimestamp = DateTime.Parse(price.MarketDate & " " & price.MarketTime).ToUniversalTime(),
                                                                         .open = True
                                                                         }
                                 db.backtests.Add(newBuyOrder)                                                                                            ' INSERT THE NEW RECORD TO BE ADDED.
                                 db.SaveChanges()                                                                                                        ' SAVE THE RECORD TO THE DATABASE
-
+                                setHedge = False
                             Next
                             buytarget = buytarget - (buytrigger * (levels + 1))
                             selltarget = buytarget + (selltrigger * 2)
                             trans = trans + levels + 1
                             levels = 0
 
-                            'MsgBox(buytarget & " " & selltarget)
                         End If
+
+
+
+
+
+
+
+
+
+
 
                         If price.HighPrice > selltarget Then
                             levels = Int((price.HighPrice - selltarget) / selltrigger)
@@ -239,7 +368,7 @@ Friend Class dlgHarvestBacktest
                                 ' SAVE THE RECORD TO THE DATABASE
                                 Dim newBuyOrder As New backtest With {
                                                                         .timestamp = DateTime.Parse(Now).ToUniversalTime(),
-                                                                        .index = hi.FirstOrDefault().harvestKey,
+                                                                        .harvestkey = hi.FirstOrDefault().harvestKey,
                                                                         .symbol = hi.FirstOrDefault().product,
                                                                         .btomarketdate = DateTime.Parse(price.MarketDate & " " & price.MarketTime).ToUniversalTime(),
                                                                         .buyprice = buytarget - (buytrigger * l),
@@ -257,7 +386,12 @@ Friend Class dlgHarvestBacktest
                         End If
                         'MsgBox(buytarget & " " & selltarget)
 
-                    Else
+
+                    Else        ' DIRECTION DOWN
+
+
+                        ' HANDLE THE OPEN PRICE
+
                         If price.OpenPrice > selltarget Then
                             levels = Int((price.OpenPrice - selltarget) / selltrigger)
                             For l = 0 To levels
@@ -289,15 +423,24 @@ Friend Class dlgHarvestBacktest
                             levels = 0
 
                         ElseIf price.OpenPrice < buytarget Then
+
                             levels = Int((buytarget - price.OpenPrice) / buytrigger)
+
                             For l = 0 To levels
+
                                 lstOHLC.Items.Add(price.MarketDate & " " & price.MarketTime & vbTab & String.Format("{0:C}", buytarget - (buytrigger * l)) & vbTab & "B")
                                 sw.WriteLine(price.MarketDate & "," & String.Format("{0:hh:mm}", price.MarketTime) & "," & "," & String.Format("{0:C}", buytarget - (buytrigger * l)) & "," & "B")
+
+                                Dim orderexists = (From q In db.backtests Select q)                                                                                                                         ' QUERY TO SEE IF THERE IS A RECORD IN THE DATABASE TO FOR THIS BACKTEST
+                                If orderexists.Count = 0 Then
+                                    Stop
+                                End If
+
 
                                 ' SAVE THE RECORD TO THE DATABASE
                                 Dim newBuyOrder As New backtest With {
                                                                         .timestamp = DateTime.Parse(Now).ToUniversalTime(),
-                                                                        .index = hi.FirstOrDefault().harvestKey,
+                                                                        .harvestkey = hi.FirstOrDefault().harvestKey,
                                                                         .symbol = hi.FirstOrDefault().product,
                                                                         .btomarketdate = DateTime.Parse(price.MarketDate & " " & price.MarketTime).ToUniversalTime(),
                                                                         .buyprice = buytarget - (buytrigger * l),
@@ -354,18 +497,55 @@ Friend Class dlgHarvestBacktest
                                 lstOHLC.Items.Add(price.MarketDate & " " & price.MarketTime & vbTab & String.Format("{0:C}", buytarget - (buytrigger * l)) & vbTab & "B")
                                 sw.WriteLine(price.MarketDate & "," & String.Format("{0:hh:mm}", price.MarketTime) & "," & "," & String.Format("{0:C}", buytarget - (buytrigger * l)) & "," & "B")
 
+                                ' Calculate Capital Requirements
+
+                                Dim orderexists = (From q In db.backtests Select q)                                                                                                                         ' QUERY TO SEE IF THERE IS A RECORD IN THE DATABASE TO FOR THIS BACKTEST
+                                If orderexists.Count = 0 Then                                                                                                                                               ' NO ORDERS FOR THIS KEY AT ALL START THE CAPITAL CALCULATION HERE.
+                                    currentCapital = (String.Format("{0:C}", (buytarget * 100 - (buytrigger * l))))
+                                    If currentCapital > maxCapital Then
+                                        maxCapital = maxCapital + currentCapital
+                                    End If
+
+                                    setHedge = True
+                                Else
+
+                                    Dim ol = From p In db.backtests Where p.harvestkey = harvestkey Order By p.timestamp Descending Select p                                                                                                                   ' ESTABLISH THE LIST TO HOUSE THE HARVEST INDEX RECORDS
+                                    currentCapital = ((String.Format("{0:C}", (buytarget * 100 - (buytrigger * l) + currentCapital))))
+
+                                    If currentCapital > maxCapital Then
+                                        maxCapital = currentCapital
+                                    End If
+
+                                    Dim ho = From h In db.backtests Where h.harvestkey = harvestkey And h.buyprice = buyprice And h.hedge = False Select h
+                                    If ho.Count = 0 Then
+                                        setHedge = True
+                                    Else
+                                        setHedge = False
+                                    End If
+
+                                End If
+
+                                ' Determine Hedge Needs
+
+
+
+
                                 ' SAVE THE RECORD TO THE DATABASE
                                 Dim newBuyOrder As New backtest With {
                                                                         .timestamp = DateTime.Parse(Now).ToUniversalTime(),
-                                                                        .index = hi.FirstOrDefault().harvestKey,
+                                                                        .harvestkey = hi.FirstOrDefault().harvestKey,
                                                                         .symbol = hi.FirstOrDefault().product,
                                                                         .btomarketdate = DateTime.Parse(price.MarketDate & " " & price.MarketTime).ToUniversalTime(),
                                                                         .buyprice = buytarget - (buytrigger * l),
+                                                                        .currentcapital = currentCapital,
+                                                                        .maxcapital = maxCapital,
+                                                                        .btofield = "DL",
+                                                                        .hedge = setHedge,
                                                                         .open = True
                                                                         }
                                 db.backtests.Add(newBuyOrder)                                                                                            ' INSERT THE NEW RECORD TO BE ADDED.
                                 db.SaveChanges()                                                                                                        ' SAVE THE RECORD TO THE DATABASE
-
+                                setHedge = False
                             Next
                             buytarget = buytarget - (buytrigger * (levels + 1))
                             selltarget = buytarget + (selltrigger * 2)
@@ -411,9 +591,9 @@ Friend Class dlgHarvestBacktest
 
                     recordsread += 1
 
-                    'If recordsread > 390 Then
-                    '    Exit For
-                    'End If
+                    If recordsread > 0 Then
+                        Exit For
+                    End If
 
                 Next
 
@@ -430,7 +610,19 @@ Friend Class dlgHarvestBacktest
         datastring = datastring & String.Format("{0:hh:mm:ss.fff tt}", Now.ToLocalTime)
         lblStatus.Text = "Backtest Records Read: " & recordsread & " Trans: " & trans & datastring
 
+        btnStartBackTest.Enabled = True
+
     End Sub
+
+
+
+
+
+
+
+
+
+
 
     Private Sub btnReadBacktest_Click(sender As Object, e As EventArgs) Handles btnReadBacktest.Click
 
@@ -518,11 +710,11 @@ Friend Class dlgHarvestBacktest
         Catch Ex As Exception
             MessageBox.Show("Cannot read file from disk. Original error: " & Ex.Message)                                                                                                ' IF THERE IS AN ERROR READING THE FILE DISPLAY THE ERROR MESSAGE
         Finally
-
+            datastring = datastring & String.Format("{0:hh:mm:ss.fff tt}", Now.ToLocalTime)
+            lblStatus.Text = "Backtest Records Read: " & recordsread & " " & datastring
         End Try
 
-        datastring = datastring & String.Format("{0:hh:mm:ss.fff tt}", Now.ToLocalTime)
-        lblStatus.Text = "Backtest Records Read: " & recordsread & " " & datastring
+
 
     End Sub
 
@@ -744,6 +936,134 @@ Friend Class dlgHarvestBacktest
 
     End Class
 
+
+
+
+    ' make this a function and pass the data to it from the backtest code.
+
+    Private Function BSCS(ByVal stockprice As Double, ByVal strike As Double, ByVal startdate As Date, ByVal enddate As Date, ByVal iv As Double) As Decimal
+
+        Dim excel As New Excel.Application
+        Dim fullpath As String = "C:\Users\Troy Belden\Desktop\BSCS.xlsx"
+
+        Dim wb As Excel.Workbook = excel.Workbooks.Open(fullpath)
+        Dim ws As Excel.Worksheet = wb.Worksheets("Pricing")
+        Dim interestrate As Double = 0
+        Dim dividend As Double = 0
+
+        ws.Range("C4").Value = stockprice
+        ws.Range("C6").Value = strike
+        ws.Range("C8").Value = iv
+        ws.Range("C10").Value = interestrate
+        ws.Range("C12").Value = dividend
+        ws.Range("C15").Value = startdate
+        ws.Range("C17").Value = enddate
+
+        Dim callprice As Double = ws.Range("h4").Value
+        putprice = ws.Range("h6").Value
+
+        'MsgBox("Black Scholes Call Price: " & String.Format("{0:C}", callprice))
+        'MsgBox("Black Scholes Put Price: " & String.Format("{0:C}", putprice))
+
+        ws = Nothing
+        wb.Close(False)
+        wb = Nothing
+
+        excel.Quit()
+        excel = Nothing
+
+        Return putprice
+
+    End Function
+
+    Private Sub btnBSBC_Click(sender As Object, e As EventArgs) Handles btnBSBC.Click
+
+        Dim excel As New Excel.Application
+        Dim fullpath As String = "C:\Users\Troy Belden\Desktop\BSCS.xlsx"
+
+        Dim wb As Excel.Workbook = excel.Workbooks.Open(fullpath)
+        Dim ws As Excel.Worksheet = wb.Worksheets("Pricing")
+
+        'MsgBox(ws.Cells(1, 1).value.ToString())
+
+        'excel.Visible = True
+
+        Dim stockprice As Double = 27.75
+        Dim strike As Double = 25
+        Dim startdate As Date = #1/2/2018# 'Date.Now
+        Dim enddate As Date = #3/18/2018#
+
+        'Dim timetoexpiration As TimeSpan = enddate.Subtract(startdate)
+        'Dim dte As Integer = timetoexpiration.Days
+        'Dim prctofyear As Double = dte / 365
+
+        Dim iv As Double = 0.7
+        Dim interestrate As Double = 0
+        Dim dividend As Double = 0
+
+        ws.Range("C4").Value = stockprice
+        ws.Range("C6").Value = strike
+        ws.Range("C8").Value = iv
+        ws.Range("C10").Value = interestrate
+        ws.Range("C12").Value = dividend
+        ws.Range("C15").Value = startdate
+        ws.Range("C17").Value = enddate
+
+        Dim callprice As Double = ws.Range("h4").Value
+        Dim putprice As Double = ws.Range("h6").Value
+
+        'MsgBox("Black Scholes Call Price: " & String.Format("{0:C}", callprice))
+        'MsgBox("Black Scholes Put Price: " & String.Format("{0:C}", putprice))
+
+        'Stop
+        ws = Nothing
+        wb.Close(False)
+        wb = Nothing
+
+        excel.Quit()
+        excel = Nothing
+
+    End Sub
+
+
+
+
+    Function expdate(ByVal harvestkey As String, ByVal marketdate As Date) As Date                                                                                                      ' CALLED FUNCTION TO CALCULATE THE EXPIRATION DATE FOR THE HEDGE OPTIONS.
+
+        Dim expDateWidth As Integer = 0                                                                                                                                                 ' VARIABLE CONTAINING THE WIDTH IN MONTHS FOR THE OPTION CONTRACT FOR THE HEDGE RETRIEVED FROM THE HEDGEINDEX TABLE.  
+
+        Using db As BondiModel = New BondiModel()
+
+            'Dim hi = db.GetHarvestIndex(harvestkey, True)
+            Dim hi = (From q In db.HarvestIndexes Where q.harvestKey = harvestkey Select q)
+
+            Dim expyear As Integer = marketdate.Year
+            Dim expmonth As Integer = marketdate.Month                                                                                                                                  ' SET THE MONTH FOR THE EXPIRATION OF THE HEDGE.
+
+            expmonth = expmonth + hi.FirstOrDefault().expdatewidth                                                                                                                                         ' ADD 2 MONTHS TO THE HEDGE EXPIRATION                              ****  NEED TO MAKE THIS DYNAMIC FOR USER TO SET  ****
+
+
+            If expmonth = 13 Then
+                expmonth = 1
+                expyear = expyear + 1
+            ElseIf expmonth = 14 Then
+                expmonth = 2
+                expyear = expyear + 1
+            End If
+
+            Dim exp As Date = New DateTime(expyear, expmonth, 1)                                                                                                                        ' SET THE FIRST DATE TO CHECK AS THE 1ST OF THE MONTH.              ****  THIS ONLY ALLOWS MONTHLY EXPIRATIONS AT THIS POINT NEED TO ADD WEEKLYS  ****
+            For d = 0 To 6                                                                                                                                                              ' LOOP THROUGH 7 DAYS TO FIND FRIDAY.
+                If exp.DayOfWeek = DayOfWeek.Friday Then                                                                                                                                ' CHECK TO SEE IF THE DAY OF THE WEEK FOR EXP IS FRIDAY.
+                    exp = exp.AddDays(14)                                                                                                                                               ' ADD 2 WEEKS TO THE FRIDAY TO GET THE THIRD FRIDAY OF THE MONTH FOR EXPIRATION.
+                    Exit For
+                End If
+                exp = exp.AddDays(d)
+            Next
+            expdate = exp
+        End Using
+
+        Return expdate
+    End Function
 
 
 End Class

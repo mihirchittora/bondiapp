@@ -111,6 +111,12 @@ Friend Class Utils
 
 
     End Sub
+
+
+
+
+
+
     '--------------------------------------------------------------------------------
     ' Display an XML message
     '--------------------------------------------------------------------------------
@@ -254,4 +260,11 @@ Friend Class Utils
     Public Shared Function StringToDouble(val As String) As Double
         Return If(String.IsNullOrWhiteSpace(val), Double.MaxValue, CDbl(val))
     End Function
+
+
+
+
+
+
+
 End Class

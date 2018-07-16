@@ -150,13 +150,38 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="timestamp" Type="datetime" />
-          <Property Name="index" Type="nvarchar" MaxLength="13" />
+          <Property Name="harvestkey" Type="nvarchar" MaxLength="12" />
           <Property Name="symbol" Type="nvarchar" MaxLength="4" />
           <Property Name="btomarketdate" Type="datetime" />
           <Property Name="buyprice" Type="money" />
           <Property Name="open" Type="bit" />
           <Property Name="stcmarketdate" Type="datetime" />
           <Property Name="sellprice" Type="money" />
+          <Property Name="hedge" Type="bit" />
+          <Property Name="hedgeclosed" Type="bit" />
+          <Property Name="shares" Type="int" />
+          <Property Name="btocapital" Type="money" />
+          <Property Name="currentcapital" Type="money" />
+          <Property Name="maxcapital" Type="money" />
+          <Property Name="btofield" Type="nvarchar" MaxLength="2" />
+          <Property Name="stcfield" Type="nvarchar" MaxLength="2" />
+          <Property Name="type" Type="nvarchar" MaxLength="1" />
+          <Property Name="lots" Type="int" />
+          <Property Name="strike" Type="money" />
+          <Property Name="exp" Type="date" />
+          <Property Name="hedgeBTOprice" Type="money" />
+          <Property Name="hedgeOpenTimestamp" Type="datetime" />
+          <Property Name="targetexit" Type="money" />
+          <Property Name="hedgeSTCprice" Type="money" />
+          <Property Name="hedgeCloseTimestamp" Type="datetime" />
+          <Property Name="lastaction" Type="datetime" />
+          <Property Name="shortHedge" Type="bit" />
+          <Property Name="shortHedgeSTOtimestamp" Type="datetime" />
+          <Property Name="shortHedgeEXP" Type="date" />
+          <Property Name="shortHedgeSTOcredit" Type="money" />
+          <Property Name="shortHedgeBTCtimestamp" Type="datetime" />
+          <Property Name="shortHedgeBTCdebit" Type="money" />
+          <Property Name="shortHedgeLastaction" Type="datetime" />
         </EntityType>
         <EntityType Name="BlogComments">
           <Key>
@@ -1572,13 +1597,38 @@ warning 6002: The table/view 'optionwavesdb.dbo.vw_Pricings_DESC' does not have 
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="timestamp" Type="DateTime" Precision="3" />
-          <Property Name="index" Type="String" MaxLength="13" FixedLength="false" Unicode="true" />
           <Property Name="symbol" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
           <Property Name="buyprice" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="btomarketdate" Type="DateTime" Precision="3" />
           <Property Name="open" Type="Boolean" />
           <Property Name="stcmarketdate" Type="DateTime" Precision="3" />
           <Property Name="sellprice" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="harvestkey" Type="String" MaxLength="12" FixedLength="false" Unicode="true" />
+          <Property Name="hedge" Type="Boolean" />
+          <Property Name="hedgeclosed" Type="Boolean" />
+          <Property Name="shares" Type="Int32" />
+          <Property Name="btocapital" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="maxcapital" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="currentcapital" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="btofield" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="stcfield" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="type" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+          <Property Name="lots" Type="Int32" />
+          <Property Name="strike" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="exp" Type="DateTime" Precision="0" />
+          <Property Name="hedgeBTOprice" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="hedgeOpenTimestamp" Type="DateTime" Precision="3" />
+          <Property Name="targetexit" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="hedgeSTCprice" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="hedgeCloseTimestamp" Type="DateTime" Precision="3" />
+          <Property Name="lastaction" Type="DateTime" Precision="3" />
+          <Property Name="shortHedge" Type="Boolean" />
+          <Property Name="shortHedgeSTOtimestamp" Type="DateTime" Precision="3" />
+          <Property Name="shortHedgeEXP" Type="DateTime" Precision="0" />
+          <Property Name="shortHedgeSTOcredit" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="shortHedgeBTCtimestamp" Type="DateTime" Precision="3" />
+          <Property Name="shortHedgeBTCdebit" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="shortHedgeLastaction" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="BlogComment">
           <Key>
@@ -2770,13 +2820,38 @@ warning 6002: The table/view 'optionwavesdb.dbo.vw_Pricings_DESC' does not have 
           <EntitySetMapping Name="backtests">
             <EntityTypeMapping TypeName="optionwavesdbModel.backtest">
               <MappingFragment StoreEntitySet="backtest">
+                <ScalarProperty Name="shortHedgeLastaction" ColumnName="shortHedgeLastaction" />
+                <ScalarProperty Name="shortHedgeBTCdebit" ColumnName="shortHedgeBTCdebit" />
+                <ScalarProperty Name="shortHedgeBTCtimestamp" ColumnName="shortHedgeBTCtimestamp" />
+                <ScalarProperty Name="shortHedgeSTOcredit" ColumnName="shortHedgeSTOcredit" />
+                <ScalarProperty Name="shortHedgeEXP" ColumnName="shortHedgeEXP" />
+                <ScalarProperty Name="shortHedgeSTOtimestamp" ColumnName="shortHedgeSTOtimestamp" />
+                <ScalarProperty Name="shortHedge" ColumnName="shortHedge" />
+                <ScalarProperty Name="lastaction" ColumnName="lastaction" />
+                <ScalarProperty Name="hedgeCloseTimestamp" ColumnName="hedgeCloseTimestamp" />
+                <ScalarProperty Name="hedgeSTCprice" ColumnName="hedgeSTCprice" />
+                <ScalarProperty Name="targetexit" ColumnName="targetexit" />
+                <ScalarProperty Name="hedgeOpenTimestamp" ColumnName="hedgeOpenTimestamp" />
+                <ScalarProperty Name="hedgeBTOprice" ColumnName="hedgeBTOprice" />
+                <ScalarProperty Name="exp" ColumnName="exp" />
+                <ScalarProperty Name="strike" ColumnName="strike" />
+                <ScalarProperty Name="lots" ColumnName="lots" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="stcfield" ColumnName="stcfield" />
+                <ScalarProperty Name="btofield" ColumnName="btofield" />
+                <ScalarProperty Name="currentcapital" ColumnName="currentcapital" />
+                <ScalarProperty Name="maxcapital" ColumnName="maxcapital" />
+                <ScalarProperty Name="btocapital" ColumnName="btocapital" />
+                <ScalarProperty Name="shares" ColumnName="shares" />
+                <ScalarProperty Name="hedgeclosed" ColumnName="hedgeclosed" />
+                <ScalarProperty Name="hedge" ColumnName="hedge" />
+                <ScalarProperty Name="harvestkey" ColumnName="harvestkey" />
                 <ScalarProperty Name="sellprice" ColumnName="sellprice" />
                 <ScalarProperty Name="stcmarketdate" ColumnName="stcmarketdate" />
                 <ScalarProperty Name="open" ColumnName="open" />
                 <ScalarProperty Name="btomarketdate" ColumnName="btomarketdate" />
                 <ScalarProperty Name="buyprice" ColumnName="buyprice" />
                 <ScalarProperty Name="symbol" ColumnName="symbol" />
-                <ScalarProperty Name="index" ColumnName="index" />
                 <ScalarProperty Name="timestamp" ColumnName="timestamp" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 </MappingFragment>

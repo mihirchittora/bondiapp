@@ -9,15 +9,22 @@ Imports System.IO
 Imports System.Data.SqlClient
 Imports IBApi
 Imports BondiApp.Tws
+Imports Excel = Microsoft.Office.Interop.Excel
 
 ' This area defines any immediate actions to take to improve, bug fix, or enhance the code of the application
-' TODO:  
-
+' TODO: Organize the code into logical blocks
+'       Check off form load event 
+'       Install connection event.  This will pull orders from TWS based on the user being logged into TWS. 
+'       Order reconcilation: Upon connection need to reconcile orders in the DB and orders from TWS by Perm ID. Need to determine how to handle any discrepencies.
+'           - An order that has been cancelled in TWS that shows open in the DB
+'           - An order that was filled in TWS while Willie was not running that shows open in the DB
 
 
 
 Friend Class Main
     Inherits System.Windows.Forms.Form                                                                                                          ' SYSTEM INHERITANCE FOR WINDOWS FORMS
+
+    Dim codebuild As Date = #07/16/2018#
 
     Dim indexselected As String = ""                                                                                                            ' INITIALIZE THE INDEXSELECTED AS EMPTY - USED TO GET THE HARVEST INDEX
     Dim tickId As Integer = 0                                                                                                                   ' INITIALIZE THE TICK ID EQUAL TO ZERO - USED IN GATHERING MARKET DATA FOR A PRODUCT
@@ -29,10 +36,38 @@ Friend Class Main
     Private m_faAcctsList As String                                                                                                             ' VARIABLE TO HOUSE THE FINANCIAL ADVISOR LIST PARAMETERS
     Private m_faAccount, faError As Boolean                                                                                                     ' VARIABLE TO HOLD FINACIAL ADVISOR STATUS SETTINGS
 
-    Public backprices As List(Of backPrice)                                                                                                     ' CLASS DEFINITION TO HOUSE BACKPRICES FROM CSV FILES                             
-    Public ticksymbol As String = ""                                                                                                            ' VARIABLE USED TO HOLD THE TICKSYMBOL WITHIN THE APPLICATION
 
+    ' VARIABLES USED IN THE BACKTEST PROCESSES
+    Public backprices As List(Of backPrice)                                                                                                     ' CLASS DEFINITION TO HOUSE BACKPRICES FROM CSV FILES                             
+    Public harvestindexes As List(Of HarvestIndex)
+    Public ticksymbol As String = ""                                                                                                            ' VARIABLE USED TO HOLD THE TICKSYMBOL WITHIN THE APPLICATION
+    Public harvestkey As String = ""                                                                                                            ' USED TO HOLD THE HARVEST INDEX KEY WHEN CALLING FUNCTIONS
     Public tempHarvestKey As String = ""                                                                                                        ' USED TO HOLD HARVEST INDEX KEYS IN SEARCH FUNCTIONS
+    Public buytrigger As Decimal = 0                                                                                                            ' USED TO HOLD THE BUYTRIGGER VALUE FROM THE DATABASE FOR A HARVEST INDEX RECORD
+    Public selltrigger As Decimal = 0                                                                                                           ' USED TO HOLD THE SELLTRIGGER VALUE FROM THE DATABASE FOR A HARVEST INDEX RECORD
+    Public currentCapital As Decimal = 0
+    Public rollingcapital As Decimal = 0
+    Public hedgecapital As Decimal = 0
+    Public maxCapital As Decimal = 0
+    Public currcap As Decimal = 0                                                                           ' USED TO HOLD THE WIDTH VALUE FROM THE DATABASE FOR A HARVEST INDEX RECORD EXAMPLE: $1 OR $2 WIDE ON THE HEDGE
+    Public lots As Integer = 0                                                                                                                  ' USED TO HOLD THE LOTS VALUE FROM THE DATABASE FOR A HARVEST INDEX RECORD
+    Public shares As Integer = 0                                                                                                                ' USED TO HOLD THE SHARES VALUE FROM THE DATABASE FOR A HARVEST INDEX RECORD
+    Public hedgewidth As Integer = 0                                                                                                            ' USED TO HOLD THE HEDGEWIDTH VALUE FROM THE DATABASE FOR A HARVEST INDEX RECORD
+    Public expdatewidth As Integer = 0                                                                                                          ' USED TO HOLD THE EXPDATEWIDTH VALUE FROM THE DATABASE FOR A HARVEST INDEX RECORD EX: 2 MONTHS OR 3 MONTHS
+    Public hedge As Boolean = False                                                                                                             ' USED TO HOLD THE HEDGE VALUE FROM THE DATABASE FOR A HARVEST INDEX RECORD WHETHER WE USE A HEDGE OR NOT ON THIS INDEX
+    Public buytarget As Decimal = 0
+    Public outputstring As String = ""
+    Public putprice As Decimal = 0
+
+    ' Backtesting Stats Variables Here
+
+    Public openedBTO As Integer = 0
+    Public closedBTO As Integer = 0
+    Public openedSTC As Integer = 0
+    Public closedSTC As Integer = 0
+    Public trans As Integer = 0
+    'Public width As Integer = 0
+
 
     ' VARIABLES USED TO HOLD OPTION DATA
     Public product As String = ""                                                                                                               ' VARIABLE TO REPRESENT A PRODUCT USED IN TRADING (STOCK, OPTION, FUTURE) SYMBOL HOUSED HERE
@@ -64,6 +99,8 @@ Friend Class Main
     Public RobotOn As Boolean                                                                                                                   ' INDICATES THAT THE ROBOT IS RUNNING IN THE OPENORDEREX SUB TO ADD ORDERS
     Dim connecting As Boolean = True                                                                                                            ' VARIABLE INDICATING THE APP IS CONNECTING TO THE TWS PLATFORM VIA THE API
     Public tickCounter As Integer = 0
+    Dim tickTypeId As Integer = 0
+    Public DPdatetime As DateTime = Now()
 
     Public WithEvents Tws1 As Tws
 
@@ -78,9 +115,10 @@ Friend Class Main
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
-        lblBuild.Text = "Build Date: " & String.Format("{0: MM.dd.yy}", #06/25/2018#)                                                           ' DISPLAY THE LATEST BUILD DATE
-
+        lblBuild.Text = "Build Date: " & String.Format("{0: MM.dd.yy}", codebuild)                                                              ' DISPLAY THE LATEST BUILD DATE
+        Me.CenterToScreen()
         Call m_utils.init(Me)                                                                                                                   ' INITIALIZES THE UTILS TO SEND AND READ MESSAGES FROM THE API
+
         'Timer60Sec.Enabled = True                                                                                                               ' INITIALIZES THE 60 SECOND TIME TO REQUEST PRICING 
 
         Try                                                                                                                                     ' OPEN THE TRY / CATCH PROCESS
@@ -113,6 +151,9 @@ Friend Class Main
         Me.Close()                                                                                                                              ' CLOSE THE APPLICATION
     End Sub
 
+    Private Sub btnCloseApp_Click(sender As Object, e As EventArgs) Handles btnCloseApp.Click
+        Me.Close()                                                                                                                              ' CLOSE THE APPLICATION
+    End Sub
 
 
     ' BLOCK 2: CODE INITIATED BY THE VIEW THE INTERACTS WITH TWS VIA THE API CONTROLS AND CODE USED TO CONNECT TO THE TWS API   
@@ -1058,9 +1099,9 @@ Friend Class Main
 
         'Call m_utils.addListItem(Utils.List_Types.MKT_DATA, datastring)                                                             ' WRITES THE CURRENT PRICE TO THE LISTBOX
         lblConStatus.Text = datastring
-            currentprice = eventArgs.price                                                                                              ' SET THE PUBLIC VARIABLE CURRENT PRICE TO THE TICKPRICE
-            txtPrice.Text = currentprice                                                                                                ' SEND THE TICKPRICE TO THE VIEW FOR THE USER TO SEE
-            underlying = eventArgs.price
+        currentprice = eventArgs.price                                                                                              ' SET THE PUBLIC VARIABLE CURRENT PRICE TO THE TICKPRICE
+        txtPrice.Text = currentprice                                                                                                ' SEND THE TICKPRICE TO THE VIEW FOR THE USER TO SEE
+        underlying = eventArgs.price
         'End If
 
     End Sub
@@ -1535,6 +1576,50 @@ Friend Class Main
         ' move into view
         lstServerResponses.TopIndex = lstServerResponses.Items.Count - 1
     End Sub
+    Private Sub Tws1_tickSize(ByVal eventSender As System.Object, ByVal eventArgs As AxTWSLib._DTwsEvents_tickSizeEvent) Handles Tws1.OnTickSize
+        Dim mktDataStr As String
+        mktDataStr = "id=" & eventArgs.id & " " & m_utils.getField(eventArgs.tickType) & "=" & eventArgs.size
+        If (tickTypeId = eventArgs.tickType) Then
+            Call m_utils.addListItem(Utils.List_Types.MKT_DATA, mktDataStr)
+        End If
+
+        ' move into view
+        'lstMktData.TopIndex = lstMktData.Items.Count - 1
+    End Sub
+
+
+    '--------------------------------------------------------------------------------
+    ' Market data generic tick event - triggered by the reqMktDataEx() method
+    '--------------------------------------------------------------------------------
+    Private Sub Tws1_tickGeneric(ByVal eventSender As System.Object, ByVal eventArgs As AxTWSLib._DTwsEvents_tickGenericEvent) Handles Tws1.OnTickGeneric
+        Dim mktDataStr As String
+
+        mktDataStr = "id=" & eventArgs.id & " " & m_utils.getField(eventArgs.tickType) & "=" & eventArgs.value
+        If (tickTypeId = eventArgs.tickType) Then
+            Call m_utils.addListItem(Utils.List_Types.MKT_DATA, mktDataStr)
+        End If
+
+
+        ' move into view
+        'lstMktData.TopIndex = lstMktData.Items.Count - 1
+    End Sub
+
+    '--------------------------------------------------------------------------------
+    ' Market data string tick event - triggered by the reqMktDataEx() method
+    '--------------------------------------------------------------------------------
+    Private Sub Tws1_tickString(ByVal eventSender As System.Object, ByVal eventArgs As AxTWSLib._DTwsEvents_tickStringEvent) Handles Tws1.OnTickString
+        Dim mktDataStr As String
+
+        mktDataStr = "id=" & eventArgs.id & " " & m_utils.getField(eventArgs.tickType) & "=" & eventArgs.value
+        If (tickTypeId = eventArgs.tickType) Then
+            Call m_utils.addListItem(Utils.List_Types.MKT_DATA, mktDataStr)
+        End If
+
+
+        ' move into view
+        'lstMktData.TopIndex = lstMktData.Items.Count - 1
+    End Sub
+
 
     '--------------------------------------------------------------------------------
     ' Market data EFP computation event - triggered by the reqMktDataEx() method
@@ -1583,6 +1668,8 @@ Friend Class Main
         End If
     End Function
 
+
+
     Function gettickprice(ByVal eventSender As System.Object, ByVal eventArgs As AxTWSLib._DTwsEvents_tickPriceEvent) As Double
 
         'MsgBox(eventArgs.price)
@@ -1623,58 +1710,6 @@ Friend Class Main
     End Sub
 
     Private Sub btnReadBacktest_Click(sender As Object, e As EventArgs)
-
-        Dim datastring As String = "  Backtest Cycle Time: " & String.Format("{0:hh:mm:ss.fff tt}", Now.ToLocalTime) & " - "
-        Dim csvdata As String = ""                                                                                                                                                      ' STRING TO HOLD THE DATA FROM EACH CSV FILE READ INTO MEMORY
-        Dim filedate As String = "20160104"                                                                                                                                             ' STRING TO HOLD THE FILE DATE FOR THE CSV FILE TO BE READ THIS WILL INCREMENT FROM DB
-        Dim symbol As String = ""                                                                                                                                                       ' STRING TO HOLD THE SYMBOL OF THE PRODUCT BEING TESTED
-        Dim priceint As Integer = 0
-        Dim currentprice As Double = 0
-        Dim checksum As Double = 0
-        Dim opentrigger As Double = 0
-        Dim recordsread As Integer = 0
-
-        Using db As BondiModel = New BondiModel()
-            Dim hi As List(Of HarvestIndex) = New List(Of HarvestIndex)()
-            hi = db.HarvestIndexes.AsEnumerable.Where(Function(x) x.harvestKey = cmbWillie.SelectedValue).ToList()
-            symbol = hi.FirstOrDefault().product
-            opentrigger = hi.FirstOrDefault().opentrigger
-        End Using
-        Dim path As String = "C:\Users\Troy Belden\Desktop\stockprices\allstocks_"                                                                                                      ' GENERIC PATH FOR READING THE CSV FILES - WILL NEED TO SET TO USER INPUT FOR PRODUCTION
-
-        Try
-            Using textReader As New System.IO.StreamReader(path & filedate & "\table_" & symbol & ".csv")                                                                               ' TEXT READER READS THE CSV FILE INTO MEMORY
-                csvdata = textReader.ReadToEnd                                                                                                                                          ' LOAD THE ENTIRE FILE INTO THE STRING.
-                backprices = ParseBackData(csvdata)                                                                                                                                     ' CALL THE FUNCTION TO PARSE THE DATA INTO ROWS AND RETURN OPEN MARKET HOURS.                        
-                'Stop
-
-                'lstOHLC.Items.Add("Row" & vbTab & "Time" & vbTab & "Open" & vbTab & "High" & vbTab & "Low" & vbTab & "Close")
-                For Each price As backPrice In backprices
-
-                    If price.interval = 0 Then
-
-                        priceint = Int(price.OpenPrice)                                                                                                                                 ' RETURN THE INTERVAL OF THE STOCK TICK PRICE
-                        checksum = price.OpenPrice - priceint                                                                                                                           ' RETURN THE DECIMALS IN THE STOCK TICK PRICE FOR THE CALCULATIONS
-                        currentprice = (Int(checksum / opentrigger) * opentrigger + priceint)                                                                                         ' CALCULATE THE NEAREST MARK PRICE TO SET THE LIMIT ORDER AGAINST                    
-
-                    End If
-
-                    'lstOHLC.Items.Add(price.interval & vbTab & price.MarketTime & vbTab & (String.Format("{0:C}", price.OpenPrice)) &
-                    'vbTab & (String.Format("{0:C}", price.HighPrice)) & vbTab & (String.Format("{0:C}", price.LowPrice)) &
-                    'vbTab & (String.Format("{0:C}", price.ClosePrice)))
-                    recordsread += 1
-                Next
-
-                'lblRecordsProcessed.Text = "Records Processed: " & backprices.Count                                                                                            ' LABEL INDICATOR SHOWING THAT PROCESSING IS COMPLETE
-            End Using
-        Catch Ex As Exception
-            MessageBox.Show("Cannot read file from disk. Original error: " & Ex.Message)                                                                                                ' IF THERE IS AN ERROR READING THE FILE DISPLAY THE ERROR MESSAGE
-        Finally
-
-        End Try
-
-        datastring = datastring & String.Format("{0:hh:mm:ss.fff tt}", Now.ToLocalTime)
-        lblStatus.Text = "Backtest Records Read: " & recordsread & " " & datastring
 
     End Sub
 
@@ -1720,6 +1755,882 @@ Friend Class Main
 
 
     End Sub
+
+
+
+
+
+
+
+    Private Sub btnTickPrice_Click(sender As Object, e As EventArgs)
+        Dim contract As IBApi.Contract = New IBApi.Contract()
+        contract.Symbol = "VXX"                                                                                                   ' INITIALIZE SYMBOL VALUE FOR THE CONTRACT
+        contract.SecType = "STK"                                                                                                    ' INITIALIZE THE SECURITY TYPE FOR THE CONTRACT - MOVE TO SETTINGS AT SOME POINT
+        contract.Currency = "USD"                                                                                                   ' INITIALIZE CURRENCY TYPE FOR THE CONTRACT - MOVE TO SETTINGS AT SOME POINT
+        contract.Exchange = "SMART"                                                                                                 ' INITIALIZE EXCHANGE USED FOR THE CONTRACT
+        'contract.SecType = "OPT"
+        'contract.Exchange = "SMART"
+        'contract.Currency = "USD"
+        'contract.LastTradeDateOrContractMonth = 20180518
+        'contract.Strike = 40
+        'contract.Right = "C"
+        tickTypeId = txtTickId.Text
+        Tws1.reqMarketDataType(3)                                                                                                   ' SETS DATA FEED TO (1) LIVE STREAMING  (2) FROZEN  (3) DELAYED 15 - 20 MINUTES 
+        Tws1.reqMktDataEx(1, contract, "", False, Nothing)
+    End Sub
+
+    Function getdatetime(ByVal marketdate As String, ByVal markettime As String) As String
+        Dim dateandtime As String = ""
+        Dim dte As String = ""
+        Dim tme As String = ""
+
+        If markettime.Length < 4 Then
+            'dateandtime = DateTime.Parse(marketdate & " " & Left(markettime, 1) & ":" & Right(markettime, 2))
+            dte = marketdate.Substring(4, 2) & "/" & marketdate.Substring(6, 2) & "/" & marketdate.Substring(0, 4)
+            tme = (markettime.Substring(0, 1) & ":" & markettime.Substring(1, 2))
+            dateandtime = dte & " " & tme
+        Else
+            'dateandtime = DateTime.Parse(marketdate & " " & Left(markettime, 2) & ":" & Right(markettime, 2))
+        End If
+        Return dateandtime
+    End Function
+
+
+
+    Private Sub btnGetOpenOrders_Click(sender As Object, e As EventArgs) Handles btnGetOpenOrders.Click
+
+        Call Tws1.reqAllOpenOrders()
+
+    End Sub
+
+
+
+
+
+
+    ' ***** WORK AREA - THIS AREA HOUSES ALL THE NEW CODE ADDED TO THE SOLUTION TO BE WORKED ON AND TESTED BEFORE ENTERED INTO PRODUCTION *****
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    ' CODE TO KEEP TESTING TO GET PRICE - TESTING NEEDED TO SUSPEND THE TICK LEVEL UPDATING - WANT TO MAKE IT A 5 SECOND UPDATE AND NOT EVERY TICK - WIP
+    Private Sub btnGetPrice_Click_1(sender As Object, e As EventArgs) Handles btnGetPrice.Click
+
+        Dim contract As IBApi.Contract = New IBApi.Contract()                                                                           ' ESTABLISH A NEW CONTRACT CLASS
+
+        If txtPriceSymbol.Text <> "" Then
+            contract.Symbol = txtPriceSymbol.Text                                                                                       ' INITIALIZE SYMBOL VALUE FOR THE CONTRACT
+        Else
+            MsgBox("Please enter a symbol.")
+            Exit Sub
+        End If
+
+        contract.SecType = "STK"                                                                                                        ' INITIALIZE THE SECURITY TYPE FOR THE CONTRACT - MOVE TO SETTINGS AT SOME POINT
+        contract.Currency = "USD"                                                                                                       ' INITIALIZE CURRENCY TYPE FOR THE CONTRACT - MOVE TO SETTINGS AT SOME POINT
+        contract.Exchange = "SMART"                                                                                                     ' INITIALIZE EXCHANGE USED FOR THE CONTRACT
+
+        Tws1.reqMarketDataType(1)                                                                                                       ' SETS DATA FEED TO (1) LIVE STREAMING  (2) FROZEN  (3) DELAYED 15 - 20 MINUTES 
+        Tws1.reqMktDataEx(tickId + 1, contract, "", False, Nothing)
+        'Tws1.cancelMktData(tickId + 1)
+        Tws1.tickCount = 0
+        'currentprice = Tws1_tickPrice()                                                                                                ' SET CURRENT PRICE TO STOCKTICKPRICE TO BE PASSED TO CALLING FUNCTION
+
+    End Sub
+
+
+
+
+
+
+
+
+    ' PANEL MANAGEMENT HERE
+
+    Private Sub btnBackTesting_Click(sender As Object, e As EventArgs) Handles btnBackTesting.Click
+
+        Using db As BondiModel = New BondiModel()                                                                                                                                               ' ESTABLISH CONNECTION TO THE DATABASE THROUGH THE BONDIMODEL USING ENTITY FRAMEWORK
+
+            Dim hi As List(Of HarvestIndex) = New List(Of HarvestIndex)()                                                                                                                       ' ESTABLISH THE LIST TO HOUSE THE HARVEST INDEX RECORDS
+            hi = db.HarvestIndexes.Where(Function(s) s.active = True).AsEnumerable.[Select](Function(x) New HarvestIndex With {.harvestKey = x.harvestKey, .name = x.name}).ToList()            ' PULL THE ACTIVE HARVEST INDEX RECORDS AND ADD THEM TO THE LIST 
+
+            cmbBackTestIndexes.DataSource = hi                                                                                                                                                  ' SET THE DROPDOWN DATASOURCE EQUAL TO THE INDEX LIST
+            cmbBackTestIndexes.DisplayMember = "name"                                                                                                                                           ' DROPDOWN DISPLAYS THE NAME FIELD OF THE LIST
+            cmbBackTestIndexes.ValueMember = "harvestkey"                                                                                                                                       ' DROPDOWN VALUE TIED TO NAME IS THE HARVESTKEY FIELD
+            cmbBackTestIndexes.SelectedIndex = 0                                                                                                                                                ' SET THE INDEX DISPLAYED AS THE FIRST ONE
+
+            hi = db.HarvestIndexes.AsEnumerable.Where(Function(x) x.harvestKey = cmbWillie.SelectedValue).ToList()                                                                              ' INITIALIZE THE HARVEST INDEX DATABASE RECORDS TO A LIST
+            ticksymbol = hi.FirstOrDefault().product                                                                                                                                            ' ASSIGN THE FIRST HARVEST INDEX PRODUCT SYMBOL TO TICKSYMBOL WITH THE FORM LOAD
+            'txtSymbol.Text = ticksymbol
+            harvestkey = hi.FirstOrDefault().harvestKey                                                                                                                                         ' CAPTURE THE HARVEST KEY OF THE INDEX TO BE USED TO GET THE INDEX DETAILS
+            lblHarvestKey.Text = harvestkey
+        End Using
+
+        pnlBacktest.Visible = True                                                                                                                                                              ' MAKE THE BACKTESTING PANEL AND CONTROLS VISIBLE TO THE USER BASED ON THEIR SELECTION
+    End Sub
+
+    Private Sub btnHideBackTesting_Click(sender As Object, e As EventArgs) Handles btnHideBackTesting.Click
+        pnlBacktest.Visible = False                                                                                                     ' HIDE THE BACKTESTING PANEL AND CONTROLS BASED ON THE USER SELECTING TO CLOSE THE PANEL
+    End Sub
+
+    Private Sub btnManualOrders_Click(sender As Object, e As EventArgs) Handles btnSendOrders.Click
+        'dlgManual.Show()
+        pnlMan.Visible = True
+    End Sub
+
+    Private Sub btnHideManual_Click(sender As Object, e As EventArgs) Handles btnHideManual.Click
+        pnlMan.Visible = False
+    End Sub
+
+    Private Sub btnCloseManual_Click(sender As Object, e As EventArgs) Handles btnCloseManual.Click
+        pnlManual.Visible = False
+    End Sub
+
+
+    ' BUILD THIS OUT TO GET ALL OF THE VBSAMPLE APP BUTTONS WORKING ON THIS PANEL
+
+    Private Sub btnShowManual_Click(sender As Object, e As EventArgs) Handles btnShowManual.Click
+        pnlManual.Visible = True
+    End Sub
+
+
+    ' DIALOGUE BOX MANAGEMENT HERE
+
+
+    Private Sub btnAnalysis_Click(sender As Object, e As EventArgs) Handles btnAnalysis.Click
+        dlgAnalysis.Show()
+    End Sub
+
+
+
+
+
+
+
+    ' ********************************************************
+    ' CODE FOR BACKTESTING HERE
+    ' ********************************************************
+
+    Private Sub btnAssembleDataFile_Click(sender As Object, e As EventArgs) Handles btnAssembleDataFile.Click
+
+        Dim datastring As String = "Data file assembly QQ: " & String.Format("{0:hh:mm:ss.fff tt}", Now.ToLocalTime) & " - "                                                            ' SET INITIAL DATASTRING TO BACKTEST PROCESS AND DATE / TIME
+        Dim csvdata As String = ""                                                                                                                                                      ' STRING TO HOLD THE DATA FROM EACH CSV FILE READ INTO MEMORY
+        Dim recordsread As Integer = 0                                                                                                                                                  ' VARIABLE TO HOUSE THE NUMBER OF RECORDS READ IN THE DATAFILE
+        Dim symbol As String = ""                                                                                                                                                       ' STRING TO HOLD THE SYMBOL OF THE PRODUCT BEING TESTED
+        Dim filedate As String = ""                                                                                                                                                     ' ESTABLISHES THE VARIABLE TO HOLD THE FILE DATE FROM THE DATETIME SELECTOR ON THE FORM
+        ' WILL NEED TO HANLDE TWO TYPES OF FILES HERE: 1. QUANTQUOTE FILE FORMAT AND THE DREAMBIG FILE FORMAT PULLED FROM GOOGLE FINANCE.
+
+        symbol = txtLoadSymbol.Text                                     ' ********* Change this to take the symbol from the harvest key?                                                ' GET THE SYMBOL FOR THE FILE FOR ALL THE PRICES TO BE ASSEMBLED INTO THE MAIN FILE.
+
+        Dim path As String = "C:\Users\Troy Belden\Desktop\stockprices\allstocks_"                                                                                                      ' GENERIC PATH FOR READING THE QUANTQUOTE CSV FILES - WILL NEED TO SET TO USER INPUT FOR PRODUCTION
+
+        Dim strFile As String = "C:\Users\Troy Belden\Desktop\" & symbol.ToUpper() & "_StockData" & ".txt"                                                                              ' PATH FOR THE OUTPUT ASSEMBLED DATA FILE
+        Dim sw As StreamWriter                                                                                                                                                          ' DEFINE THE STREAMWRITER FOR FILE ASSEMBLY
+
+        If (Not File.Exists(strFile)) Then                                                                                                                                              ' CHECKS TO SEE IF THE FILE ALREADY EXISTS - IF NOT IT CREATES THE FILE IF IT DOES IT APPENDS TO THE FILE
+            sw = File.CreateText(strFile)                                                                                                                                               ' CREATE THE FILE USING THE STREAMWRITER FUNCTIONALITY
+        Else
+            sw = File.AppendText(strFile)                                                                                                                                               ' APPEND THE DATA RECORDS BEING READ TO THE EXISTING DATA FILE
+        End If
+
+        Try
+
+            Cursor = Cursors.WaitCursor
+            btnAssembleDataFile.Enabled = False                                                                                                                                             ' DISABLE THE CREATE DATASET BUTTON UNTIL PROCESS COMPLETED
+            'lblDFStatus.Text = "Working..."
+            lstServerResponses.Items.Clear()
+
+            ' ADD CODE TO ALLOW THE USER TO SELECT THE START DATE AND CALCULATE THE LOOPS FROM THAT START DATE FORWARD.
+
+            For yr = 2 To 2
+                For mnth = 0 To 0
+                    For dy = 0 To 1
+
+                        filedate = (2016 + yr & String.Format("{0:00}", 1 + mnth) & String.Format("{0:00}", 1 + dy))
+
+                        If (Not File.Exists(path & filedate & "\table_" & symbol & ".csv")) Then
+
+                            'Exit Sub
+                        Else
+
+                            Using textReader As New System.IO.StreamReader(path & filedate & "\table_" & symbol & ".csv")                                                                               ' TEXT READER READS THE CSV FILE INTO MEMORY
+                                csvdata = textReader.ReadToEnd                                                                                                                                          ' LOAD THE ENTIRE FILE INTO THE STRING.
+                                backprices = ParseBackData(csvdata)                                                                                                                                     ' CALL THE FUNCTION TO PARSE THE DATA INTO ROWS AND RETURN OPEN MARKET HOURS.                        
+                                'Stop
+
+                                lstServerResponses.Items.Add("Date" & vbTab & vbTab & "Row" & vbTab & "Time" & vbTab & "Open" & vbTab & "High" & vbTab & "Low" & vbTab & "Close")
+                                For Each price As backPrice In backprices
+
+                                    ' UNCOMMENT TO ADD DATA TO THE LIST BOX - CHANGE TO WRITE TO THE SERVER RESPONSE LISTBOX.
+                                    lstServerResponses.Items.Add(filedate & vbTab & price.interval & vbTab & price.MarketTime & vbTab & (String.Format("{0:C}", price.OpenPrice)) &
+                                                      vbTab & (String.Format("{0:C}", price.HighPrice)) & vbTab & (String.Format("{0:C}", price.LowPrice)) &
+                                                      vbTab & (String.Format("{0:C}", price.ClosePrice)))
+
+
+                                    ' JUST COMMENTED OUT 6/29/18 UNCOMMENT TO WRITE DATA TO DATAFILE
+                                    sw.WriteLine(filedate & "," & String.Format("{0:hh:mm}", price.MarketTime) & "," &
+                                                 price.interval & "," & price.OpenPrice & "," & price.HighPrice & "," &
+                                                 price.LowPrice & "," & price.ClosePrice)
+
+                                    recordsread += 1
+
+                                Next
+                            End Using
+                        End If
+                        'Next
+                    Next
+                Next
+            Next
+            'lblDFStatus.Text = recordsread
+            sw.Close()
+
+        Catch Ex As Exception
+            MessageBox.Show("Cannot read file from disk. Original error: " & Ex.Message)                                                                                                ' IF THERE IS AN ERROR READING THE FILE DISPLAY THE ERROR MESSAGE
+        Finally
+            Cursor = Cursors.Default
+            btnAssembleDataFile.Enabled = True
+            'lblDFStatus.Text = "File Built"
+            datastring = datastring & String.Format("{0:hh:mm:ss.fff tt}", Now.ToLocalTime)
+            lblStatus.Text = "Backtest Records Read: " & String.Format("{0: ##,###,000}", recordsread) & " " & datastring                                                                                                  ' LABEL INDICATOR SHOWING THAT PROCESSING IS COMPLETE
+        End Try
+
+        ' ENABLE THE ASSEMBKE BUTTON AS THE PROCESS HAS FINISHED
+        'datastring = datastring & String.Format("{0:hh:mm:ss.fff tt}", Now.ToLocalTime)                                                                                                 ' ADD CLOSING TIME TO DATASTRING FOR THE BACKTEST PROCESS
+        'lblStatus.Text = "Backtest Records Read: " & recordsread & " " & datastring
+    End Sub
+
+    Private Sub btnAssembleDataFileDIrectPull_Click(sender As Object, e As EventArgs) Handles btnAssembleDataFileDIrectPull.Click
+        ' **********
+        ' THIS SUB ADDS RECORDS FROM THE DIRECT PULL OF DATA FROM THE MARKET AND ADDS IT TO THE DATAFILE
+        ' **********
+
+        Dim datastring As String = "Data File Assembly DP: " & String.Format("{0:hh:mm:ss.fff tt}", Now.ToLocalTime) & " - "                                                            ' SET INITIAL DATASTRING TO BACKTEST PROCESS AND DATE / TIME
+        Dim csvdata As String = ""                                                                                                                                                      ' STRING TO HOLD THE DATA FROM EACH CSV FILE READ INTO MEMORY
+        Dim recordsread As Integer = 0                                                                                                                                                  ' VARIABLE TO HOUSE THE NUMBER OF RECORDS READ IN THE DATAFILE
+        Dim symbol As String = ""                                                                                                                                                       ' STRING TO HOLD THE SYMBOL OF THE PRODUCT BEING TESTED
+        Dim filedate As String = String.Format("{0:0#}", Month(DPdatetime)) & "-" & String.Format("{0:0#}", DateAndTime.Day(DPdatetime)) & "-" & Year(DPdatetime) '"06/06/2018"                                                                                                                                                     ' ESTABLISHES THE VARIABLE TO HOLD THE FILE DATE FROM THE DATETIME SELECTOR ON THE FORM
+
+        ' WILL NEED TO HANLDE TWO TYPES OF FILES HERE: 1. QUANTQUOTE FILE FORMAT AND THE DREAMBIG FILE FORMAT PULLED FROM GOOGLE FINANCE.
+
+        symbol = txtLoadSymbol.Text                                     ' ********* Change this to take the symbol from the harvest key?                                                ' GET THE SYMBOL FOR THE FILE FOR ALL THE PRICES TO BE ASSEMBLED INTO THE MAIN FILE.
+
+        Dim path As String = "C:\Users\Troy Belden\Desktop\stocks\" & filedate & "\"                                                                                                    ' GENERIC PATH FOR READING THE DIRECT PULL TXT FILES - WILL NEED TO SET TO USER INPUT FOR PRODUCTION
+
+        Dim strFile As String = "C:\Users\Troy Belden\Desktop\" & symbol.ToUpper() & "_StockData" & ".txt"                                                                              ' PATH FOR THE OUTPUT ASSEMBLED DATA FILE
+        Dim sw As StreamWriter                                                                                                                                                          ' DEFINE THE STREAMWRITER FOR FILE ASSEMBLY
+
+        If (Not File.Exists(strFile)) Then                                                                                                                                              ' CHECKS TO SEE IF THE FILE ALREADY EXISTS - IF NOT IT CREATES THE FILE IF IT DOES IT APPENDS TO THE FILE
+            sw = File.CreateText(strFile)                                                                                                                                               ' CREATE THE FILE USING THE STREAMWRITER FUNCTIONALITY
+        Else
+            sw = File.AppendText(strFile)                                                                                                                                               ' APPEND THE DATA RECORDS BEING READ TO THE EXISTING DATA FILE
+        End If
+
+        Try
+
+            Cursor = Cursors.WaitCursor                                                                                                                                                 ' SET THE CURSOR TO A BUSY STATE 
+            btnAssembleDataFileDIrectPull.Enabled = False                                                                                                                               ' DISABLE THE CREATE DATASET BUTTON UNTIL PROCESS COMPLETED
+            lstServerResponses.Items.Clear()                                                                                                                                            ' CLEAR THE LISTBOX TO START A FRESH LISTING
+
+            Using textReader As New System.IO.StreamReader(path & symbol & ".txt")                                                                                                      ' TEXT READER READS THE CSV FILE INTO MEMORY
+                csvdata = textReader.ReadToEnd                                                                                                                                          ' LOAD THE ENTIRE FILE INTO THE STRING.
+                backprices = ParseBackDataDP(csvdata)                                                                                                                                   ' CALL THE FUNCTION TO PARSE THE DATA INTO ROWS AND RETURN OPEN MARKET HOURS.                        
+
+                lstServerResponses.Items.Add("Date" & vbTab & vbTab & "Row" & vbTab & "Time" & vbTab & "Open" & vbTab & "High" & vbTab & "Low" & vbTab & "Close")                       ' ADD THE HEADING TO THE LISTBOX FOR THE OUTPUT
+                For Each price As backPrice In backprices                                                                                                                               ' CYCLE THROUGH ALL OF THE INTERVALS IN THE BACKPRICE CLASS
+
+                    ' UNCOMMENT TO ADD DATA TO THE LIST BOX - CHANGE TO WRITE TO THE SERVER RESPONSE LISTBOX.
+                    lstServerResponses.Items.Add(Year(price.MarketDate) & String.Format("{0:0#}", Month(price.MarketDate)) & String.Format("{0:0#}", DateAndTime.Day(price.MarketDate)) &
+                        vbTab & price.interval & vbTab & String.Format("{0:g}", Hour(price.MarketTime)) & ":" & String.Format("{0:00}", Minute(price.MarketTime)) & vbTab &
+                                                 (String.Format("{0:C}", price.OpenPrice)) & vbTab & (String.Format("{0:C}", price.HighPrice)) &
+                                                 vbTab & (String.Format("{0:C}", price.LowPrice)) & vbTab & (String.Format("{0:C}", price.ClosePrice)))                                 ' ADD THE OUTPUT OF THE INTERVAL TO THE LISTBOX
+
+
+                    ' JUST COMMENTED OUT 6/29/18 UNCOMMENT TO WRITE DATA TO DATAFILE
+                    sw.WriteLine(Year(price.MarketDate) & String.Format("{0:0#}", Month(price.MarketDate)) & String.Format("{0:0#}", DateAndTime.Day(price.MarketDate)) &
+                                "," & String.Format("{0:g}", Hour(price.MarketTime)) & ":" & String.Format("{0:00}", Minute(price.MarketTime)) & "," &
+                                price.interval & "," & price.OpenPrice & "," & price.HighPrice & "," & price.LowPrice & "," & price.ClosePrice)                                         ' WRITE THE OUTPUT OF THE INTERVAL TO THE DATAFILE
+
+                    recordsread += 1                                                                                                                                                    ' ADD THE INTERVAL TO ALL INTERVALS PROCESSES (RECORDS READ)
+
+                Next
+            End Using
+
+            sw.Close()                                                                                                                                                                  ' CLOSE THE STREAMWRITER
+
+        Catch Ex As Exception
+            MessageBox.Show("Cannot read file from disk. Original error: " & Ex.Message)                                                                                                ' IF THERE IS AN ERROR READING THE FILE DISPLAY THE ERROR MESSAGE
+        Finally
+            Cursor = Cursors.Default                                                                                                                                                    ' RESTORE THE CURSOR TO THE DEFAULT STATE
+            btnAssembleDataFileDIrectPull.Enabled = True                                                                                                                                ' SET THE ASSEMBLEDATAFILEDIRECTPULL BUTTON ENABLED EQUAL TO TRUE
+            datastring = datastring & String.Format("{0:hh:mm:ss.fff tt}", Now.ToLocalTime)                                                                                             ' ADD CURRENT TIME TO THE DATASTRING CAPTURING THE FINISHING TIME OF THE PROCESS
+            lblStatus.Text = "Backtest Records Read: " & String.Format("{0: ##,###,000}", recordsread) & " " & datastring                                                               ' LABEL INDICATOR SHOWING THAT PROCESSING IS COMPLETE
+        End Try
+
+    End Sub
+
+    Private Sub btnBackTest_Click(sender As Object, e As EventArgs) Handles btnBackTest.Click
+        dlgHarvestBacktest.ShowDialog()
+    End Sub
+
+
+
+    Private Sub dtpStartDate_ValueChanged(sender As Object, e As EventArgs) Handles dtpStartDate.ValueChanged
+        DPdatetime = (dtpStartDate.Value.ToShortDateString)
+    End Sub
+
+
+
+
+    Private Sub btnStartBackTest_Click(sender As Object, e As EventArgs) Handles btnStartBackTest.Click
+
+        ' ******************************************************************************************************************************
+        ' CODE WILL READ THE ASSEMBLED DATAFILE AND APPLY THE HARVEST INDEX SETTINGS AS TREATMENT OF THE FILE
+        ' BUYING AND SELLING STOCK AND APPLYING THE PUT HEDGES WHERE NEEDED AS DETERMINED BY THE STOCK MOVEMENT AGAINST THE PARAMETER SETTINGS IN THE INDEX
+        ' ******************************************************************************************************************************
+
+        Dim datastring As String = "Backtest Cycle Time: " & String.Format("{0:hh:mm:ss.fff tt}", Now.ToLocalTime) & " - "                                                          ' SET INITIAL DATASTRING TO BACKTEST PROCESS AND DATE / TIME
+        Dim recordsread As Integer = 0
+        Dim csvdata As String = ""                                                                                                                                                  ' STRING TO HOLD THE DATA FROM EACH CSV FILE READ INTO MEMORY
+        Dim priceint As Integer = 0
+        Dim checksum As Double = 0
+        'Dim buytarget As Double = 0
+        Dim selltarget As Double = 0
+        Dim intervalDirection As String = ""
+        Dim levels As Integer = 0
+        'Dim buytarget As Double = 0
+        'Dim selltarget As Double = 0
+        Dim buyprice As Decimal = 0
+        Dim sellprice As Decimal = 0
+        Dim gap As Double = 0
+        Dim trans As Double = 0
+
+
+
+        'Dim path As String = "C:\Users\Troy Belden\Desktop\stockprices\allstocks_"                                                                                                      ' GENERIC PATH FOR READING THE CSV FILES - WILL NEED TO SET TO USER INPUT FOR PRODUCTION
+        'Dim harvestkey As String = ""
+        Dim setHedge As Boolean = False
+        Dim lots As Integer = 0
+        Dim strike As Double = 0
+        Dim type As String = ""
+        Dim hedgeexit As Double = 0
+        Dim targetprice As Double = 0
+        Dim width As Integer = 0
+
+
+        Dim passedprice As Decimal = 0
+
+
+        Try
+            btnStartBackTest.Enabled = False                                                                                                                                        ' SET THE STARTBACKTEST BUTTON ENABLED TO FALSE TO PREVENT DUPLICATE TESTING / CLICKING
+            Cursor = Cursors.WaitCursor                                                                                                                                             ' SET THE CURSOR TO A WAIT CURSOR STATUS WHILE THE PROCESS IS WORKING
+
+            getHedgeData(harvestkey)                                                                                                                                                ' CALLED FUNCTION TO PULL ALL THE RELEVANT HARVEST INDEX DATA AND LOAD IT TO VARIABLES
+
+            Dim readFile As String = "C:\Users\Troy Belden\Desktop\" & ticksymbol & "_StockData.txt"                                                                                ' SETS THE FILE TO BE READ CONTAINING ALL INTERVALS TO BE PROCESSED
+            'Dim strFile As String = "C:\Users\Troy Belden\Desktop\" & ticksymbol & "_Output.csv"
+
+            'Dim sw As StreamWriter                                                                                                                                                  ' DEFINES THE STREAM WRITER TO WRITE THE OUTPUT TO A FILE THAT CAN BE COPIED INTO EXCEL 
+
+            'If (Not File.Exists(strFile)) Then
+            '    sw = File.CreateText(strFile)
+            'Else
+            '    sw = File.AppendText(strFile)
+            'End If
+
+            If (Not File.Exists(readFile)) Then
+
+                ' WILL WANT TO BUILD ERROR CHECKING IN HERE TO ALERT THE USER IF THERE IS NOT A FILE MATCHING THE SYMBOL SELECTED BY THE INDEX RECORD SELECTED FOR THE BACKTEST
+
+            Else
+
+                Using textReader As New System.IO.StreamReader(readFile)                                                                                                            ' TEXT READER READS THE CSV FILE INTO MEMORY
+                    csvdata = textReader.ReadToEnd                                                                                                                                  ' LOAD THE ENTIRE FILE INTO THE STRING.
+                    backprices = ParseBackTestData(csvdata)                                                                                                                         ' CALL THE FUNCTION TO PARSE THE DATA INTO ROWS AND RETURN OPEN MARKET HOURS.                        
+                End Using                                                                                                                                                           ' CLOSE THE TEXTREADER STREAMREADER 
+
+            End If
+
+            lstServerResponses.Items.Add("Date" & vbTab & vbTab & "Time" & vbTab & "Price" & vbTab & "Action" & vbTab & "Type" & vbTab & "Strike" & vbTab &
+                                         "Exp." & vbTab & vbTab & "Price" & vbTab & "Target")                                                                                          ' ADD THE HEADER TO THE LISTBOX
+
+            For Each price As backPrice In backprices                                                                                                                               ' PROCESS LOOP FOR EACH INTERVAL IN THE DATAFILE READ INTO MEMORY (BACKPRICE CLASS)
+
+                price.MarketDate = price.MarketDate.Substring(4, 2) & "/" & price.MarketDate.Substring(6, 2) & "/" & price.MarketDate.Substring(0, 4)                               ' FORMAT THE MARKET DATE FOR EACH INTERVAL TO MM/DD/YYYY
+
+                Dim calcexpdate As Date = String.Format("{0: MM/dd/yy}", calcExpirationDate(harvestkey, price.MarketDate))                                                          ' IF A HEDGE IS NEEDED CALCULATE THE EXPIRATION DATE TARGET TO BE USED IN THE BLACK SCHOLES CALCULATION
+
+                If recordsread = 0 Then                                                                                                                                             ' IF THIS IS THE FIRST INTERVAL READ FOR THIS HARVESTKEY THEN SET THE BUY AND SELL TARGETS BASED ON THE INITIAL OPEN PRICE
+
+                    priceint = Int(price.OpenPrice)                                                                                                                                 ' RETURN THE INTERVAL OF THE STOCK TICK PRICE
+                    checksum = price.OpenPrice - priceint                                                                                                                           ' RETURN THE DECIMALS IN THE STOCK TICK PRICE FOR THE CALCULATIONS
+                    currentprice = (Int(checksum / buytrigger) * buytrigger + priceint)                                                                                             ' CALCULATE THE NEAREST MARK PRICE TO SET THE LIMIT ORDER AGAINST                    
+                    buytarget = currentprice                                                                                                                                        ' SET THE BUY TARGET TO THE CURRENT PRICE - NEED TO INVESTIGATE WHY I NEED THE CURRENT PRICE HERE AND NOT JUST SET THE BUYTARGET
+                    selltarget = buytarget + selltrigger * 2                                                                                                                        ' SET THE SELL TARGET TO THE BUY TARGET PLUS THE SELLTRIGGER TIMES 2
+
+                End If
+
+                If price.ClosePrice > price.OpenPrice Then                                                                                                                          ' DETERMINE THE DIRECTION OF THE INTERVAL UP = CLOSE HIGHER THAN OPEN | DOWN = CLOSE LOWER THAN OPEN
+                    intervalDirection = "U"                                                                                                                                         ' DEFINE AND SET DIRECTION TO UP
+                Else
+                    intervalDirection = "D"                                                                                                                                         ' DEFINE AND SET DIRECTION TO DOWN
+                End If
+
+                If intervalDirection = "U" Then                                                                                                                                     ' THE DIRECTION OF THE INTERVAL DETERMINES THE ORDER OF CHECKING BETWEEN THE HIGH AND LOW PRICES IN THE INTERVAL THIS SEGMENT IS FOR AN UP INTERVAL
+
+                    ' check the open prices for triggers
+                    If price.OpenPrice <= buytarget Then                                                                                                                             ' CHECK THE OPEN PRICE OF THIS INTERVAL AGAINST THE BUY TO OPEN TARGET
+
+                        ' Calculate the number of levels (loops) to add BTO positions here called process should only add the record to the database that is the buy 
+                        levels = Int((buytarget - price.OpenPrice) / buytrigger)                                                                                                     ' CALCULATION FOR THE NUMBER OF LEVELS BASED ON TRIGGERS, PASSED PRICE AND TARGETS
+
+                        For i = 0 To levels                                                                                                                                         ' INITIATE THE LOOP BASED ON THE NUMBER OF LEVELS FROM THE CALCULATION
+
+                            buyprice = buytarget - (buytrigger * i)                                                                                                                 ' CALCULATE THE PRICE AT WHICH THE POSITION WAS BOUGHT 
+                            BuyToOpen(buyprice, "UO", price.MarketDate, price.MarketTime)                                                                                           ' CALLED PROCESS TO CHECK IF THERE IS ALREADY A BUY TO OPEN POSITION FOR THIS PRICE LEVEL: IF NOT ADD IT TO THE DB IF THERE IS RETURN WITH NO ACTION.
+
+                            buytarget = buyprice - (buytrigger * (levels + 1))                                                                                                      ' RE-ESTABLISH THE NEW BUYTARGET TO CHECK ALL FUTURE PRICES AGAINST
+                            selltarget = buyprice + (selltrigger)                                                                                                                   ' ESTABLISH THE NEW SELLTARGET TO CHECK ALL FUTURE PRICES AGAINST
+
+                            'For this price determine if a hedge can be added and add it to the position and db
+                            addHedge(buyprice, calcexpdate)
+
+                            ' Add the short hedge for the hedge added.
+                            calcexpdate = calcexpdate.AddMonths(6)                                                                                                                  ' TO GET THE EXPIRATION DATE FOR THE SHORT HEDGE (FINANCING FOR HEDGE)
+                            'addShortHedge(buyprice, calcexpdate)                                                                                                                    ' FUNCTION TO ADD THE HEDGE TO THE DATABASE TABLES
+
+                            ' For this price determine if any hedge/stock positions can be closed for profit 
+                            closeHedge(buyprice, price.MarketDate, price.MarketTime, "UL")
+
+                            lstServerResponses.Items.Add(outputstring)                                                                                                                      ' TEMP WRITE OUTPUT TO THE LISTBOX
+
+                        Next
+
+                    ElseIf price.OpenPrice >= selltarget Then                                                                                                                        ' CHECK THE OPEN PRICE OF THIS INTERVAL AGAINST THE SELL TO CLOSE TARGET
+
+                        ' Calculate the number of levels (loops) to add BTO positions here called process should only add the record to the database that is the buy 
+                        levels = Int((selltarget - price.OpenPrice) * -1 / selltrigger)                                                                                             ' CALCULATION FOR THE NUMBER OF LEVELS BASED ON TRIGGERS, PASSED PRICE AND TARGETS
+
+                        For i = 0 To levels                                                                                                                                         ' LOOP FOR EACH LEVEL BASED ON A GAP UP
+
+                            sellprice = selltarget + (selltrigger * i)                                                                                                              ' SET THE SELLPRICE TO BE PASSED BASED ON THE SELLTARGET MULTIPLIED BY THE SELLTRIGGER TIMES EACH LEVEL
+                            SellToClose(sellprice - buytrigger, "UO", price.MarketDate, price.MarketTime)                                                                           ' CALL THE PROCESS TO SELLTOCLOSE THE POSITION
+
+                            selltarget = sellprice + (selltrigger * (levels + 1))                                                                                                   ' UPDATE THE SELLTARGET BASED ON THE MOST RECENT POSITION CLOSED
+                            buytarget = sellprice - buytrigger                                                                                                                      ' UPDATE THE BUYTARGET BASED ON THE MOST RECENT POSITION CLOSED
+
+                            ' Check whether a financed hedge position can be BoughtToClosed                            
+                            'closeShortHedge(sellprice - buytrigger)
+
+                        Next
+
+                        outputstring = String.Format("{0:MM/dd/yy}", price.MarketDate) & vbTab & String.Format("{0:hh:mm}", price.MarketTime) &
+                                        vbTab & (String.Format("{0:C}", price.HighPrice) & vbTab & "S")
+
+                        lstServerResponses.Items.Add(outputstring)                                                                                                                      ' TEMP WRITE OUTPUT TO THE LISTBOX
+
+                    End If
+
+                    If price.LowPrice <= buytarget Then                                                                                                                              ' CHECK THE LOW PRICE OF THIS INTERVAL AGAINST THE BUY TO OPEN TARGET - ORDER DETERMINED BY INTERVAL DIRECTION
+
+                        ' Calculate the number of levels (loops) to add BTO positions here called process should only add the record to the database that is the buy 
+                        levels = Int((buytarget - price.LowPrice) / buytrigger)                                                                                                     ' CALCULATION FOR THE NUMBER OF LEVELS BASED ON TRIGGERS, PASSED PRICE AND TARGETS
+
+                        For i = 0 To levels                                                                                                                                         ' INITIATE THE LOOP BASED ON THE NUMBER OF LEVELS FROM THE CALCULATION
+
+                            buyprice = buytarget - (buytrigger * i)                                                                                                                 ' CALCULATE THE PRICE AT WHICH THE POSITION WAS BOUGHT 
+                            BuyToOpen(buyprice, "UL", price.MarketDate, price.MarketTime)                                                                                           ' CALLED PROCESS TO CHECK IF THERE IS ALREADY A BUY TO OPEN POSITION FOR THIS PRICE LEVEL: IF NOT ADD IT TO THE DB IF THERE IS RETURN WITH NO ACTION.
+
+                            buytarget = buyprice - (buytrigger * (levels + 1))                                                                                                      ' RE-ESTABLISH THE NEW BUYTARGET TO CHECK ALL FUTURE PRICES AGAINST
+                            selltarget = buyprice + (selltrigger)                                                                                                                   ' ESTABLISH THE NEW SELLTARGET TO CHECK ALL FUTURE PRICES AGAINST
+
+                            'For this price determine if a hedge can be added and add it to the position and db
+                            addHedge(buyprice, calcexpdate)
+
+                            ' Add the short hedge for the hedge added.
+                            calcexpdate = calcexpdate.AddMonths(6)                                                                                                                  ' TO GET THE EXPIRATION DATE FOR THE SHORT HEDGE (FINANCING FOR HEDGE)
+                            'addShortHedge(buyprice, calcexpdate)                                                                                                                    ' FUNCTION TO ADD THE HEDGE TO THE DATABASE TABLES
+
+                            ' For this price determine if any hedge/stock positions can be closed for profit 
+                            closeHedge(buyprice, price.MarketDate, price.MarketTime, "UL")
+
+                            lstServerResponses.Items.Add(outputstring)                                                                                                                      ' TEMP WRITE OUTPUT TO THE LISTBOX
+
+                        Next
+
+                    End If
+
+                    If price.HighPrice >= selltarget Then
+
+                        ' Calculate the number of levels (loops) to add BTO positions here called process should only add the record to the database that is the buy 
+                        levels = Int((selltarget - price.HighPrice) * -1 / selltrigger)                                                                                                     ' CALCULATION FOR THE NUMBER OF LEVELS BASED ON TRIGGERS, PASSED PRICE AND TARGETS
+
+                        For i = 0 To levels                                                                                                                                         ' LOOP FOR EACH LEVEL BASED ON A GAP UP
+
+                            sellprice = selltarget + (selltrigger * i)                                                                                                              ' SET THE SELLPRICE TO BE PASSED BASED ON THE SELLTARGET MULTIPLIED BY THE SELLTRIGGER TIMES EACH LEVEL
+                            SellToClose(sellprice - buytrigger, "UH", price.MarketDate, price.MarketTime)                                                                           ' CALL THE PROCESS TO SELLTOCLOSE THE POSITION
+
+                            selltarget = sellprice + (selltrigger * (levels + 1))                                                                                                   ' UPDATE THE SELLTARGET BASED ON THE MOST RECENT POSITION CLOSED
+                            buytarget = sellprice - buytrigger                                                                                                                      ' UPDATE THE BUYTARGET BASED ON THE MOST RECENT POSITION CLOSED
+
+                            ' Check whether a financed hedge position can be BoughtToClosed                            
+                            'closeShortHedge(sellprice - buytrigger)
+
+
+                        Next
+
+                        outputstring = String.Format("{0:MM/dd/yy}", price.MarketDate) & vbTab & String.Format("{0:hh:mm}", price.MarketTime) &
+                                        vbTab & (String.Format("{0:C}", price.HighPrice) & vbTab & "S")
+
+                        lstServerResponses.Items.Add(outputstring)                                                                                                                      ' TEMP WRITE OUTPUT TO THE LISTBOX
+
+                    End If
+
+                    If price.ClosePrice <= buytarget Then
+
+                        ' Calculate the number of levels (loops) to add BTO positions here called process should only add the record to the database that is the buy 
+                        levels = Int((buytarget - price.ClosePrice) / buytrigger)                                                                                                     ' CALCULATION FOR THE NUMBER OF LEVELS BASED ON TRIGGERS, PASSED PRICE AND TARGETS
+
+                        For i = 0 To levels                                                                                                                                         ' INITIATE THE LOOP BASED ON THE NUMBER OF LEVELS FROM THE CALCULATION
+
+                            buyprice = buytarget - (buytrigger * i)                                                                                                                 ' CALCULATE THE PRICE AT WHICH THE POSITION WAS BOUGHT 
+                            BuyToOpen(buyprice, "UC", price.MarketDate, price.MarketTime)                                                                                           ' CALLED PROCESS TO CHECK IF THERE IS ALREADY A BUY TO OPEN POSITION FOR THIS PRICE LEVEL: IF NOT ADD IT TO THE DB IF THERE IS RETURN WITH NO ACTION.
+
+                            buytarget = buyprice - (buytrigger * (levels + 1))                                                                                                      ' RE-ESTABLISH THE NEW BUYTARGET TO CHECK ALL FUTURE PRICES AGAINST
+                            selltarget = buyprice + (selltrigger)                                                                                                                   ' ESTABLISH THE NEW SELLTARGET TO CHECK ALL FUTURE PRICES AGAINST
+
+                            'For this price determine if a hedge can be added and add it to the position and db
+                            addHedge(buyprice, calcexpdate)
+
+                            ' Add the short hedge for the hedge added.
+                            calcexpdate = calcexpdate.AddMonths(6)                                                                                                                  ' TO GET THE EXPIRATION DATE FOR THE SHORT HEDGE (FINANCING FOR HEDGE)
+                            'addShortHedge(buyprice, calcexpdate)                                                                                                                    ' FUNCTION TO ADD THE HEDGE TO THE DATABASE TABLES
+
+                            ' For this price determine if any hedge/stock positions can be closed for profit 
+                            closeHedge(buyprice, price.MarketDate, price.MarketTime, "UL")
+
+                            lstServerResponses.Items.Add(outputstring)                                                                                                                      ' TEMP WRITE OUTPUT TO THE LISTBOX
+
+                        Next
+
+                    End If
+
+                Else
+
+                    If price.OpenPrice <= buytarget Then
+
+                        ' Calculate the number of levels (loops) to add BTO positions here called process should only add the record to the database that is the buy 
+                        levels = Int((buytarget - price.ClosePrice) / buytrigger)                                                                                                     ' CALCULATION FOR THE NUMBER OF LEVELS BASED ON TRIGGERS, PASSED PRICE AND TARGETS
+
+                        For i = 0 To levels                                                                                                                                         ' INITIATE THE LOOP BASED ON THE NUMBER OF LEVELS FROM THE CALCULATION
+
+                            buyprice = buytarget - (buytrigger * i)                                                                                                                 ' CALCULATE THE PRICE AT WHICH THE POSITION WAS BOUGHT 
+                            BuyToOpen(buyprice, "DO", price.MarketDate, price.MarketTime)                                                                                           ' CALLED PROCESS TO CHECK IF THERE IS ALREADY A BUY TO OPEN POSITION FOR THIS PRICE LEVEL: IF NOT ADD IT TO THE DB IF THERE IS RETURN WITH NO ACTION.
+
+                            buytarget = buyprice - (buytrigger * (levels + 1))                                                                                                      ' RE-ESTABLISH THE NEW BUYTARGET TO CHECK ALL FUTURE PRICES AGAINST
+                            selltarget = buyprice + (selltrigger)                                                                                                                   ' ESTABLISH THE NEW SELLTARGET TO CHECK ALL FUTURE PRICES AGAINST
+
+                            'For this price determine if a hedge can be added and add it to the position and db
+                            addHedge(buyprice, calcexpdate)
+
+                            ' Add the short hedge for the hedge added.
+                            calcexpdate = calcexpdate.AddMonths(6)                                                                                                                  ' TO GET THE EXPIRATION DATE FOR THE SHORT HEDGE (FINANCING FOR HEDGE)
+                            'addShortHedge(buyprice, calcexpdate)                                                                                                                    ' FUNCTION TO ADD THE HEDGE TO THE DATABASE TABLES
+
+                            ' For this price determine if any hedge/stock positions can be closed for profit 
+                            closeHedge(buyprice, price.MarketDate, price.MarketTime, "UL")
+
+                            lstServerResponses.Items.Add(outputstring)                                                                                                                      ' TEMP WRITE OUTPUT TO THE LISTBOX
+
+                        Next
+
+                    ElseIf price.OpenPrice >= selltarget Then
+
+                        ' Calculate the number of levels (loops) to add BTO positions here called process should only add the record to the database that is the buy 
+                        levels = Int((selltarget - price.OpenPrice) * -1 / selltrigger)                                                                                                     ' CALCULATION FOR THE NUMBER OF LEVELS BASED ON TRIGGERS, PASSED PRICE AND TARGETS
+
+                        For i = 0 To levels                                                                                                                                         ' LOOP FOR EACH LEVEL BASED ON A GAP UP
+
+                            sellprice = selltarget + (selltrigger * i)                                                                                                              ' SET THE SELLPRICE TO BE PASSED BASED ON THE SELLTARGET MULTIPLIED BY THE SELLTRIGGER TIMES EACH LEVEL
+                            SellToClose(sellprice - buytrigger, "DO", price.MarketDate, price.MarketTime)                                                                           ' CALL THE PROCESS TO SELLTOCLOSE THE POSITION
+
+                            selltarget = sellprice + (selltrigger * (levels + 1))                                                                                                   ' UPDATE THE SELLTARGET BASED ON THE MOST RECENT POSITION CLOSED
+                            buytarget = sellprice - buytrigger                                                                                                                      ' UPDATE THE BUYTARGET BASED ON THE MOST RECENT POSITION CLOSED
+
+                            ' Check whether a financed hedge position can be BoughtToClosed                            
+                            'closeShortHedge(sellprice - buytrigger)
+
+                        Next
+
+                        outputstring = String.Format("{0:MM/dd/yy}", price.MarketDate) & vbTab & String.Format("{0:hh:mm}", price.MarketTime) &
+                                        vbTab & (String.Format("{0:C}", price.HighPrice) & vbTab & "S")
+
+                        lstServerResponses.Items.Add(outputstring)                                                                                                                      ' TEMP WRITE OUTPUT TO THE LISTBOX
+
+                    End If
+
+                    If price.HighPrice >= selltarget Then
+
+                        ' Calculate the number of levels (loops) to add BTO positions here called process should only add the record to the database that is the buy 
+                        levels = Int((selltarget - price.HighPrice) * -1 / selltrigger)                                                                                                     ' CALCULATION FOR THE NUMBER OF LEVELS BASED ON TRIGGERS, PASSED PRICE AND TARGETS
+
+                        For i = 0 To levels                                                                                                                                         ' LOOP FOR EACH LEVEL BASED ON A GAP UP
+
+                            sellprice = selltarget + (selltrigger * i)                                                                                                              ' SET THE SELLPRICE TO BE PASSED BASED ON THE SELLTARGET MULTIPLIED BY THE SELLTRIGGER TIMES EACH LEVEL
+                            SellToClose(sellprice - buytrigger, "DH", price.MarketDate, price.MarketTime)                                                                           ' CALL THE PROCESS TO SELLTOCLOSE THE POSITION
+
+                            selltarget = sellprice + (selltrigger * (levels + 1))                                                                                                   ' UPDATE THE SELLTARGET BASED ON THE MOST RECENT POSITION CLOSED
+                            buytarget = sellprice - buytrigger                                                                                                                      ' UPDATE THE BUYTARGET BASED ON THE MOST RECENT POSITION CLOSED
+
+                            ' Check whether a financed hedge position can be BoughtToClosed                            
+                            'closeShortHedge(sellprice - buytrigger)
+
+                        Next
+
+                        outputstring = String.Format("{0:MM/dd/yy}", price.MarketDate) & vbTab & String.Format("{0:hh:mm}", price.MarketTime) &
+                                        vbTab & (String.Format("{0:C}", price.HighPrice) & vbTab & "S")
+
+                        lstServerResponses.Items.Add(outputstring)                                                                                                                      ' TEMP WRITE OUTPUT TO THE LISTBOX
+
+
+                    End If
+
+                    If price.LowPrice <= buytarget Then
+
+                        ' Calculate the number of levels (loops) to add BTO positions here called process should only add the record to the database that is the buy 
+                        levels = Int((buytarget - price.LowPrice) / buytrigger)                                                                                                     ' CALCULATION FOR THE NUMBER OF LEVELS BASED ON TRIGGERS, PASSED PRICE AND TARGETS
+
+                        For i = 0 To levels                                                                                                                                         ' INITIATE THE LOOP BASED ON THE NUMBER OF LEVELS FROM THE CALCULATION
+
+                            buyprice = buytarget - (buytrigger * i)                                                                                                                 ' CALCULATE THE PRICE AT WHICH THE POSITION WAS BOUGHT 
+                            BuyToOpen(buyprice, "DL", price.MarketDate, price.MarketTime)                                                                                           ' CALLED PROCESS TO CHECK IF THERE IS ALREADY A BUY TO OPEN POSITION FOR THIS PRICE LEVEL: IF NOT ADD IT TO THE DB IF THERE IS RETURN WITH NO ACTION.
+
+                            buytarget = buyprice - (buytrigger * (levels + 1))                                                                                                      ' RE-ESTABLISH THE NEW BUYTARGET TO CHECK ALL FUTURE PRICES AGAINST
+                            selltarget = buyprice + (selltrigger)                                                                                                                   ' ESTABLISH THE NEW SELLTARGET TO CHECK ALL FUTURE PRICES AGAINST
+
+                            'For this price determine if a hedge can be added and add it to the position and db
+                            addHedge(buyprice, calcexpdate)
+
+                            ' Add the short hedge for the hedge added.
+                            calcexpdate = calcexpdate.AddMonths(6)                                                                                                                  ' TO GET THE EXPIRATION DATE FOR THE SHORT HEDGE (FINANCING FOR HEDGE)
+                            addShortHedge(buyprice, calcexpdate)                                                                                                                    ' FUNCTION TO ADD THE HEDGE TO THE DATABASE TABLES
+
+                            ' For this price determine if any hedge/stock positions can be closed for profit 
+                            'closeHedge(buyprice, price.MarketDate, price.MarketTime, "UL")
+
+                            lstServerResponses.Items.Add(outputstring)                                                                                                                      ' TEMP WRITE OUTPUT TO THE LISTBOX
+
+                        Next
+                    End If
+
+                    If price.ClosePrice >= selltarget Then
+
+                        ' Calculate the number of levels (loops) to add BTO positions here called process should only add the record to the database that is the buy 
+                        levels = Int((selltarget - price.ClosePrice) * -1 / selltrigger)                                                                                                     ' CALCULATION FOR THE NUMBER OF LEVELS BASED ON TRIGGERS, PASSED PRICE AND TARGETS
+
+                        For i = 0 To levels                                                                                                                                         ' LOOP FOR EACH LEVEL BASED ON A GAP UP
+
+                            sellprice = selltarget + (selltrigger * i)                                                                                                              ' SET THE SELLPRICE TO BE PASSED BASED ON THE SELLTARGET MULTIPLIED BY THE SELLTRIGGER TIMES EACH LEVEL
+                            SellToClose(sellprice - buytrigger, "DC", price.MarketDate, price.MarketTime)                                                                           ' CALL THE PROCESS TO SELLTOCLOSE THE POSITION
+
+                            selltarget = sellprice + (selltrigger * (levels + 1))                                                                                                   ' UPDATE THE SELLTARGET BASED ON THE MOST RECENT POSITION CLOSED
+                            buytarget = sellprice - buytrigger                                                                                                                      ' UPDATE THE BUYTARGET BASED ON THE MOST RECENT POSITION CLOSED
+
+                            ' Check whether a financed hedge position can be BoughtToClosed                            
+                            'closeShortHedge(sellprice - buytrigger)
+
+                        Next
+
+                        outputstring = String.Format("{0:MM/dd/yy}", price.MarketDate) & vbTab & String.Format("{0:hh:mm}", price.MarketTime) &
+                                        vbTab & (String.Format("{0:C}", price.HighPrice) & vbTab & "S")
+
+                        lstServerResponses.Items.Add(outputstring)                                                                                                                      ' TEMP WRITE OUTPUT TO THE LISTBOX
+
+                    End If
+
+                End If
+
+                recordsread += 1                                                                                                                                                    ' INCREMENT THE NUMBER OF RECORDS (INTERVALS) READ BY 1
+                Dim closedmarketintervaldate As Date = price.MarketDate
+
+                ' Backtest Stats Pushed to View Here
+                lblTransactions.Text = (String.Format("{0:##,##0}", trans))
+                lblopenBTOs.Text = (String.Format("{0:##,##0}", openedBTO))
+                lblclosedSTCs.Text = (String.Format("{0:##,##0}", closedSTC))
+                lblMaxCap.Text = (String.Format("{0:C}", maxCapital))
+                lblCurrentCapital.Text = (String.Format("{0:C}", rollingcapital))
+            Next                                                                                                                                                                    ' LOOP TO NEXT INTERVAL
+
+        Catch ex As Exception
+
+            ' ADD ERROR CODE LOGIC HERE TO ADD TO THE ERROR LISTBOX AND SEND A MSGBOX MESSAGE TO THE USER
+            MsgBox("Error: " & ex.ToString())
+
+        Finally
+            Cursor = Cursors.Default                                                                                                                                                ' RETURN CURSOR TO DEFAULT STATUS
+            btnStartBackTest.Enabled = True                                                                                                                                         ' SET STARTBACKTEST BUTTON ENABLED EQUALS TRUE
+            datastring = datastring & String.Format("{0:hh:mm:ss.fff tt}", Now.ToLocalTime)                                                                                         ' ADD THE CURRENT TIME TO THE DATASTRING TO CAPTURE THE END OF PROCESS TIME
+            lblStatus.Text = "Backtest Records Read: " & String.Format("{0: ##,###,000}", recordsread) & " " & datastring                                                           ' LABEL INDICATOR SHOWING THAT PROCESSING IS COMPLETE
+        End Try
+    End Sub
+
+
+
+
+
+
+
+    Private Function ParseBackDataDP(csvData As String) As List(Of backPrice)                                                                                                             ' THIS FUNCTION WILL PARSE THE INTERVAL PRICES FROM THE CSV FILE.
+        Dim rowcntr As Integer = 0                                                                                                                                                      ' INITALIZE THE ROW COUNTER.
+        Dim backprices As New List(Of backPrice)()                                                                                                                                      ' INITIALIZE THE BACKPRICES LIST
+        Dim marketdatetime As DateTime = DPdatetime & " " & #9:30:00#                                                                                                                                             ' INITIALIZE THE MARKET DATE BEING PROCESSED    
+        Dim markettime As DateTime = marketdatetime.ToShortTimeString()
+
+        Dim rows As String() = csvData.Replace(vbCr, "").Split(ControlChars.Lf)                                                                                                         ' LOADS EACH LINE INTO ROWS TO BE PARSED
+
+        For Each row As String In rows                                                                                                                                                  ' ROW LOOPS
+
+            If String.IsNullOrEmpty(row) Then                                                                                                                                           ' IF THE LINE IS NULL OR EMPTY MOVE TO NEXT ROW
+                rowcntr += 1
+                Continue For                                                                                                                                                            ' MOVE FORWARD IN THE LOOP
+            End If
+
+            If rowcntr < 8 Then                                                                                                                                                    ' CHECK FOR THE DATE ROW. USED IN YAHOO FINANCE
+                rowcntr += 1
+                Continue For
+            End If
+
+            Dim cols As String() = row.Split(","c)                                                                                                                                      ' SPLIT ROWS INTO FIELDS BASED ON , 
+
+            Dim p As New backPrice()                                                                                                                                                    ' INITIALIZE A NEW BACKPRICE 
+
+            If Len(cols(0)) > 3 Then
+                p.interval = 0
+            Else
+                p.interval = Convert.ToInt16(cols(0))
+            End If
+
+            p.MarketTime = markettime.AddMinutes(rowcntr - 8)
+            p.MarketDate = marketdatetime
+            p.OpenPrice = Convert.ToDecimal(cols(1))                                                                                                                                    ' SET COLUMN 2 TO OPEN PRICE    
+            p.HighPrice = Convert.ToDecimal(cols(2))                                                                                                                                    ' SET COLUMN 3 TO HIGH PRICE
+            p.LowPrice = Convert.ToDecimal(cols(3))                                                                                                                                     ' SET COLUMN 4 TO LOW PRICE
+            p.ClosePrice = Convert.ToDecimal(cols(4))                                                                                                                                   ' SET COLUMN 5 TO CLOSE PRICE            
+            ' SET INTERVAL FIELD IN PRICE TO CURRENT ROW
+
+            backprices.Add(p)
+
+            rowcntr = rowcntr + 1                                                                                                                                                       ' INCREMENT THE ROW COUNTER
+        Next
+
+        Return backprices                                                                                                                                                               ' RETURN TO CALLING FUNCTION WITH BACKPRICES MODEL POPULATED
+    End Function
+
+    Private Function ParseBackData(csvData As String) As List(Of backPrice)                                                                                                             ' THIS FUNCTION WILL PARSE THE INTERVAL PRICES FROM THE CSV FILE.
+        Dim rowcntr As Integer = 0                                                                                                                                                      ' INITALIZE THE ROW COUNTER.
+        Dim backprices As New List(Of backPrice)()                                                                                                                                      ' INITIALIZE THE BACKPRICES LIST
+        Dim marketdatetime As DateTime                                                                                                                                                  ' INITIALIZE THE MARKET DATE BEING PROCESSED    
+
+        Dim rows As String() = csvData.Replace(vbCr, "").Split(ControlChars.Lf)                                                                                                         ' LOADS EACH LINE INTO ROWS TO BE PARSED
+
+        For Each row As String In rows                                                                                                                                                  ' ROW LOOPS
+
+            If String.IsNullOrEmpty(row) Then                                                                                                                                           ' IF THE LINE IS NULL OR EMPTY MOVE TO NEXT ROW
+                Continue For                                                                                                                                                            ' MOVE FORWARD IN THE LOOP
+            End If
+
+            Dim cols As String() = row.Split(","c)                                                                                                                                      ' SPLIT ROWS INTO FIELDS BASED ON , 
+
+            If cols(0) = "Date" Then                                                                                                                                                    ' CHECK FOR THE DATE ROW. USED IN YAHOO FINANCE
+                Continue For
+            End If
+
+            Dim p As New backPrice()                                                                                                                                                    ' INITIALIZE A NEW BACKPRICE 
+            p.MarketDate = cols(0).Substring(4, 2) & "/" & cols(0).Substring(6, 2) & "/" & cols(0).Substring(0, 4)                                                                      ' SET COLUMN 0 TO MARKET DATE
+            If Len(cols(1)) < 4 Then
+                p.MarketTime = cols(1).Substring(0, 1) & ":" & cols(1).Substring(1, 2)                                                                                                  ' SET COLUMN 1 TO MARKET TIME
+            ElseIf Len(cols(1)) = 4 Then
+                p.MarketTime = cols(1).Substring(0, 2) & ":" & cols(1).Substring(2, 2)                                                                                                  ' SET COLUMN 1 TO MARKET TIME                
+            End If
+
+            p.OpenPrice = Convert.ToDecimal(cols(2))                                                                                                                                    ' SET COLUMN 2 TO OPEN PRICE    
+            p.HighPrice = Convert.ToDecimal(cols(3))                                                                                                                                    ' SET COLUMN 3 TO HIGH PRICE
+            p.LowPrice = Convert.ToDecimal(cols(4))                                                                                                                                     ' SET COLUMN 4 TO LOW PRICE
+            p.ClosePrice = Convert.ToDecimal(cols(5))                                                                                                                                   ' SET COLUMN 5 TO CLOSE PRICE            
+
+            marketdatetime = p.MarketDate & " " & p.MarketTime
+
+            '' ONLY ADD ROWS WHERE THE MARKET IS OPEN.
+            If marketdatetime.ToShortTimeString() > #9:29:00 AM# Then                                                                                                                   ' CHECK IF MARKET TIME IS AFTER MARKET OPENS                
+                If marketdatetime.ToShortTimeString() < #4:01:00 PM# Then                                                                                                               ' CHECK IF MARKET TIME IS BEFORE MARKET CLOSES CHANGE BACK TO 4:01:00 PM                    
+                    p.interval = rowcntr                                                                                                                                                ' SET INTERVAL FIELD IN PRICE TO CURRENT ROW
+                    backprices.Add(p)                                                                                                                                                   ' ADD P TO BACKPRICES
+                    rowcntr = rowcntr + 1                                                                                                                                               ' INCREMENT THE ROW COUNTER
+                End If
+            End If
+
+        Next
+
+        Return backprices                                                                                                                                                               ' RETURN TO CALLING FUNCTION WITH BACKPRICES MODEL POPULATED
+    End Function
+
+    Private Function ParseBackTestData(csvData As String) As List(Of backPrice)                                                                                                             ' THIS FUNCTION WILL PARSE THE INTERVAL PRICES FROM THE CSV FILE.
+        Dim rowcntr As Integer = 0                                                                                                                                                      ' INITALIZE THE ROW COUNTER.
+        Dim backprices As New List(Of backPrice)()                                                                                                                                      ' INITIALIZE THE BACKPRICES LIST
+        ' Dim marketdatetime As DateTime                                                                                                                                                  ' INITIALIZE THE MARKET DATE BEING PROCESSED    
+
+        Dim rows As String() = csvData.Replace(vbCr, "").Split(ControlChars.Lf)                                                                                                         ' LOADS EACH LINE INTO ROWS TO BE PARSED
+
+        For Each row As String In rows                                                                                                                                                  ' ROW LOOPS
+
+            If String.IsNullOrEmpty(row) Then                                                                                                                                           ' IF THE LINE IS NULL OR EMPTY MOVE TO NEXT ROW
+                Continue For                                                                                                                                                            ' MOVE FORWARD IN THE LOOP
+            End If
+
+            Dim cols As String() = row.Split(","c)                                                                                                                                      ' SPLIT ROWS INTO FIELDS BASED ON , 
+
+            If cols(0) = "Date" Then                                                                                                                                                    ' CHECK FOR THE DATE ROW. USED IN YAHOO FINANCE
+                Continue For
+            End If
+
+            Dim p As New backPrice()                                                                                                                                                    ' INITIALIZE A NEW BACKPRICE 
+            p.MarketDate = cols(0)                                                                                                                                                      ' SET COLUMN 0 TO MARKET DATE
+            p.MarketTime = cols(1)
+            p.interval = Convert.ToDecimal(cols(2))
+            p.OpenPrice = Convert.ToDecimal(cols(3))                                                                                                                                    ' SET COLUMN 2 TO OPEN PRICE    
+            p.HighPrice = Convert.ToDecimal(cols(4))                                                                                                                                    ' SET COLUMN 3 TO HIGH PRICE
+            p.LowPrice = Convert.ToDecimal(cols(5))                                                                                                                                     ' SET COLUMN 4 TO LOW PRICE
+            p.ClosePrice = Convert.ToDecimal(cols(6))                                                                                                                                   ' SET COLUMN 5 TO CLOSE PRICE            
+
+            'marketdatetime = p.MarketDate & " " & p.MarketTime
+
+            '' ONLY ADD ROWS WHERE THE MARKET IS OPEN.
+            'If marketdatetime.ToShortTimeString() > #9:29:00 AM# Then                                                                                                                   ' CHECK IF MARKET TIME IS AFTER MARKET OPENS                
+            '    If marketdatetime.ToShortTimeString() < #4:01:00 PM# Then                                                                                                               ' CHECK IF MARKET TIME IS BEFORE MARKET CLOSES CHANGE BACK TO 4:01:00 PM                    
+            '        p.interval = rowcntr                                                                                                                                                ' SET INTERVAL FIELD IN PRICE TO CURRENT ROW
+            backprices.Add(p)                                                                                                                                                   ' ADD P TO BACKPRICES
+            '        rowcntr = rowcntr + 1                                                                                                                                               ' INCREMENT THE ROW COUNTER
+            '    End If
+            'End If
+
+        Next
+
+        Return backprices                                                                                                                                                               ' RETURN TO CALLING FUNCTION WITH BACKPRICES MODEL POPULATED
+    End Function
 
     Public Class backPrice
 
@@ -1817,216 +2728,443 @@ Friend Class Main
 
     End Class
 
-    Private Function ParseBackData(csvData As String) As List(Of backPrice)                                                                                                             ' THIS FUNCTION WILL PARSE THE INTERVAL PRICES FROM THE CSV FILE.
-        Dim rowcntr As Integer = 0                                                                                                                                                      ' INITALIZE THE ROW COUNTER.
-        Dim backprices As New List(Of backPrice)()                                                                                                                                      ' INITIALIZE THE BACKPRICES LIST
-        Dim marketdatetime As DateTime                                                                                                                                                  ' INITIALIZE THE MARKET DATE BEING PROCESSED    
+    ' ******************************************************************************************************************************
+    ' CALLED FUNCTIONS USED IN PROCESSED FOR THE APPLICATION
+    ' 
+    ' ******************************************************************************************************************************
 
-        Dim rows As String() = csvData.Replace(vbCr, "").Split(ControlChars.Lf)                                                                                                         ' LOADS EACH LINE INTO ROWS TO BE PARSED
+    Private Function getHedgeData(ByVal harvestkey As String)
 
-        For Each row As String In rows                                                                                                                                                  ' ROW LOOPS
+        ' **************************************************
+        ' THIS FUNCTION GETS THE INDEX DATA FROM THE DATABASE AND SETS THE LOCAL VARIABLES BASED ON THE DB ATTRIBUTES FOR THE HERVESTKEY
+        ' **************************************************
 
-            If String.IsNullOrEmpty(row) Then                                                                                                                                           ' IF THE LINE IS NULL OR EMPTY MOVE TO NEXT ROW
-                Continue For                                                                                                                                                            ' MOVE FORWARD IN THE LOOP
+        Using db As BondiModel = New BondiModel()                                                                                           ' INITIALIZE THE MODEL TO THE DB VARIABLE FOR USE IN GETTING DATA FROM THE DATATABLES
+            Dim hi As List(Of HarvestIndex) = New List(Of HarvestIndex)()                                                                   ' ESTABLISH THE LIST TO HOUSE THE HARVEST INDEX RECORDS
+            hi = db.HarvestIndexes.AsEnumerable.Where(Function(x) x.harvestKey = harvestkey).ToList()                                       ' INITIALIZE THE HARVEST INDEX DATABASE RECORDS TO A LIST
+
+            ' SET VARIABLES EQUAL TO THE DATA IN THE DATABASE TABLE MATCHING THE HARVEST KEY
+
+            buytrigger = hi.FirstOrDefault().opentrigger                                                                                    ' SET THE BUYTRIGGER
+            selltrigger = hi.FirstOrDefault().width                                                                                         ' SET THE SELLTRIGGER
+            shares = hi.FirstOrDefault().shares                                                                                             ' SET THE SHARES FOR THE STOCK POSITIONS
+            lots = hi.FirstOrDefault().hedgelots                                                                                            ' SET THE LOTS FOR THE HEDGE POSITIONS
+            hedgewidth = hi.FirstOrDefault().hedgewidth                                                                                     ' SET THE HEDGE WIDTH FOR THE HEDGE POSITIONS
+            expdatewidth = hi.FirstOrDefault().expdatewidth                                                                                 ' SET THE EXPIRATION DATE WIDTH FOR THE HEDGE POSITIONS
+            hedge = hi.FirstOrDefault().hedge                                                                                               ' SET WHETHER THERE IS A HEDGE TO BE USED OR NOT BASED ON THE HEDGE FLAG IN THE INDEX TABLE
+
+
+            'Stop
+
+
+
+
+
+
+        End Using
+
+    End Function
+
+    Function calcExpirationDate(ByVal harvestkey As String, ByVal marketdate As Date) As Date                                                                                                      ' CALLED FUNCTION TO CALCULATE THE EXPIRATION DATE FOR THE HEDGE OPTIONS.
+
+        Dim expyear As Integer = marketdate.Year
+        Dim expmonth As Integer = marketdate.Month                                                                                                                                  ' SET THE MONTH FOR THE EXPIRATION OF THE HEDGE.
+
+        expmonth = expmonth + expdatewidth                                                                                                                                         ' ADD 2 MONTHS TO THE HEDGE EXPIRATION                              ****  NEED TO MAKE THIS DYNAMIC FOR USER TO SET  ****
+
+        If expmonth = 13 Then
+            expmonth = 1
+            expyear = expyear + 1
+        ElseIf expmonth = 14 Then
+            expmonth = 2
+            expyear = expyear + 1
+        End If
+
+        Dim exp As Date = New DateTime(expyear, expmonth, 1)                                                                                                                        ' SET THE FIRST DATE TO CHECK AS THE 1ST OF THE MONTH.              ****  THIS ONLY ALLOWS MONTHLY EXPIRATIONS AT THIS POINT NEED TO ADD WEEKLYS  ****
+        For d = 0 To 6                                                                                                                                                              ' LOOP THROUGH 7 DAYS TO FIND FRIDAY.
+            If exp.DayOfWeek = DayOfWeek.Friday Then                                                                                                                                ' CHECK TO SEE IF THE DAY OF THE WEEK FOR EXP IS FRIDAY.
+                exp = exp.AddDays(14)                                                                                                                                               ' ADD 2 WEEKS TO THE FRIDAY TO GET THE THIRD FRIDAY OF THE MONTH FOR EXPIRATION.
+                Exit For
             End If
+            exp = exp.AddDays(d)
+        Next
+        calcExpirationDate = exp
 
-            Dim cols As String() = row.Split(","c)                                                                                                                                      ' SPLIT ROWS INTO FIELDS BASED ON , 
+        Return calcExpirationDate
+    End Function
 
-            If cols(0) = "Date" Then                                                                                                                                                    ' CHECK FOR THE DATE ROW. USED IN YAHOO FINANCE
-                Continue For
-            End If
 
-            Dim p As New backPrice()                                                                                                                                                    ' INITIALIZE A NEW BACKPRICE 
-            p.MarketDate = cols(0).Substring(4, 2) & "/" & cols(0).Substring(6, 2) & "/" & cols(0).Substring(0, 4)                                                                      ' SET COLUMN 0 TO MARKET DATE
-            If Len(cols(1)) < 4 Then
-                p.MarketTime = cols(1).Substring(0, 1) & ":" & cols(1).Substring(1, 2)                                                                                                  ' SET COLUMN 1 TO MARKET TIME
-            ElseIf Len(cols(1)) = 4 Then
-                p.MarketTime = cols(1).Substring(0, 2) & ":" & cols(1).Substring(2, 2)                                                                                                  ' SET COLUMN 1 TO MARKET TIME                
-            End If
 
-            p.OpenPrice = Convert.ToDecimal(cols(2))                                                                                                                                    ' SET COLUMN 2 TO OPEN PRICE    
-            p.HighPrice = Convert.ToDecimal(cols(3))                                                                                                                                    ' SET COLUMN 3 TO HIGH PRICE
-            p.LowPrice = Convert.ToDecimal(cols(4))                                                                                                                                     ' SET COLUMN 4 TO LOW PRICE
-            p.ClosePrice = Convert.ToDecimal(cols(5))                                                                                                                                   ' SET COLUMN 5 TO CLOSE PRICE            
+    Function BuyToOpen(ByVal passedprice As Decimal, ByVal btoflag As String, ByVal marketdate As DateTime, ByVal markettime As DateTime)
 
-            marketdatetime = p.MarketDate & " " & p.MarketTime
+        ' *************************************************
+        ' WRITES THE BTO RECORD TO THE DATABASE & CALCULATES THE BTO STATISTICS AND ADDS TO THE DB
+        ' *************************************************
 
-            '' ONLY ADD ROWS WHERE THE MARKET IS OPEN.
-            If marketdatetime.ToShortTimeString() > #9:29:00 AM# Then                                                                                                                   ' CHECK IF MARKET TIME IS AFTER MARKET OPENS                
-                If marketdatetime.ToShortTimeString() < #4:01:00 PM# Then                                                                                                               ' CHECK IF MARKET TIME IS BEFORE MARKET CLOSES CHANGE BACK TO 4:01:00 PM                    
-                    p.interval = rowcntr                                                                                                                                                ' SET INTERVAL FIELD IN PRICE TO CURRENT ROW
-                    backprices.Add(p)                                                                                                                                                   ' ADD P TO BACKPRICES
-                    rowcntr = rowcntr + 1                                                                                                                                               ' INCREMENT THE ROW COUNTER
+
+
+        Using db As BondiModel = New BondiModel()                                                                                                                               ' ESTABLISH THE CONNECTION TO THE DATABASE MODEL USING ENTITY FRAMEWORK
+
+            Dim orderexists = (From q In db.backtests Where q.harvestkey = harvestkey Select q)                                                                                 ' QUERY TO SEE IF THERE IS A RECORD IN THE DATABASE TO FOR THIS HARVESTKEY
+            If orderexists.Count = 0 Then                                                                                                                                       ' IF THE ORDER DOES NOT EXIST THEN ADD THIS RECORD TO THE db - **** CHECK IF NEED TO MOVE THIS CHECK UP RIGHT AFTER THE IF LOW<BUYTARGET
+
+                currentCapital = passedprice * shares                                                                                                          ' SET THE INITIAL AMOUNT OF THE CURRENT CAPITAL EQUAL TO THE PASSEDPRICE TIMES SHARES (NO RECORDS FOR THIS INDEX EXIST)
+                rollingcapital = rollingcapital + currentCapital
+
+                ' SAVE THE RECORD TO THE DATABASE                   
+                Dim newBuyOrder As New backtest With {
+                                                        .timestamp = DateTime.Parse(Now).ToUniversalTime(),
+                                                        .btomarketdate = DateTime.Parse(marketdate & " " & markettime).ToUniversalTime(),
+                                                        .harvestkey = harvestkey,
+                                                        .symbol = ticksymbol,
+                                                        .buyprice = passedprice,
+                                                        .shares = shares,
+                                                        .currentcapital = currentCapital,
+                                                        .maxcapital = currentCapital,
+                                                        .open = True,
+                                                        .hedge = False,
+                                                        .lastaction = DateTime.Parse(Now).ToUniversalTime(),
+                                                        .btofield = btoflag
+                                                        }                                                                                                                       ' ADD THE BTO RECORD TO THE BACKTEST TABLE
+                db.backtests.Add(newBuyOrder)                                                                                                                                   ' INSERT THE NEW RECORD TO BE ADDED.
+                db.SaveChanges()                                                                                                                                                ' SAVE THE RECORD TO THE DATABASE
+
+                trans += 1
+                openedBTO += 1
+
+                outputstring = String.Format("{0:MM/dd/yy}", marketdate) & vbTab & String.Format("{0:hh:mm}", markettime) &
+                   vbTab & (String.Format("{0:C}", passedprice) & vbTab & "B")                                                                                                 ' CREATE THE OUTPUT STRING FOR THE LISTBOX UPDATING USER FOR RECORD ADDED
+
+            Else
+
+                ' 1. determine if there is an order already open at this price
+                Dim orderatprice = (From q In db.backtests Where q.harvestkey = harvestkey And q.buyprice = passedprice And q.open = True Select q)                             ' QUERY TO SEE IF THERE IS A RECORD IN THE DATABASE TO FOR THIS HARVESTKEY AT THE PASSED PRICE
+                If orderatprice.Count = 0 Then                                                                                                                                  ' IF THE ORDER DOES NOT EXIST THEN ADD THIS RECORD TO THE db - **** CHECK IF NEED TO MOVE THIS CHECK UP RIGHT AFTER THE IF LOW<BUYTARGET
+
+                    Dim maxcap = From p In db.backtests Where p.harvestkey = harvestkey Order By p.maxcapital Descending Select p                                               ' GET THE LAST RECORD ADDED/UPDATED TO GET THE MAXIMUM CAPITAL AMOUNT
+                    maxCapital = maxcap.FirstOrDefault().maxcapital                                                                                                             ' ASSIGN LAST MAX CAPITAL AMOUNT TO THE MAX CAPITAL VARIABLE TO CHECK IF WE HAVE ACHEIVED A NEW MAX CAPITAL LEVEL
+
+                    ' NEED TO TEST THIS - IF WE ARE IN A SECOND OR THIRD RUN NEED TO GET THE LAST CURRENT CAPITAL AMOUNT FROM THE DB
+                    'If currentCapital = 0 Then
+                    '    currentCapital = currentCapital + passedprice * shares                                                                                                  ' IF CAPITAL REACHED ZERO THEN SET CURRENT CAPITAL EQUAL TO THE PASSED PRICE TIMES SHARES
+                    'End If
+
+                    ' Dim curcap = From p In db.backtests Where p.harvestkey = harvestkey And p.open = True Order By p.lastaction Descending Select p                             ' GET THE LAST RECORD ADDED/UPDATED TO GET THE CURRENT CAPITAL AMOUNT
+                    ' currentCapital = curcap.FirstOrDefault().currentcapital                                                                                                     ' ASSIGN LAST CURRENT CAPITAL AMOUNT TO CURRENT CAPITAL VARIABLE TO BE ADDED TO BTOCAPITAL FOR CURRENT BTO ORDER
+                    currentCapital = passedprice * shares                                                                                                    ' ADD CALCULATED CAPITAL FOR THIS BUY ORDER TO THE CURRENT CAPITAL VALUE FROM THE DB
+                    rollingcapital = rollingcapital + currentCapital
+                    ' Stop
+
+
+                    If rollingcapital > maxCapital Then
+                        maxCapital = rollingcapital
+                    End If
+
+                    ' SAVE THE RECORD TO THE DATABASE                  
+                    Dim newBuyOrder As New backtest With {
+                                                        .timestamp = DateTime.Parse(Now).ToUniversalTime(),
+                                                        .btomarketdate = DateTime.Parse(marketdate & " " & markettime).ToUniversalTime(),
+                                                        .harvestkey = harvestkey,
+                                                        .symbol = ticksymbol,
+                                                        .buyprice = passedprice,
+                                                        .shares = shares,
+                                                        .currentcapital = rollingcapital,
+                                                        .maxcapital = maxCapital,
+                                                        .open = True,
+                                                        .hedge = False,
+                                                        .lastaction = DateTime.Parse(Now).ToUniversalTime(),
+                                                        .btofield = btoflag
+                                                        }                                                                                                                       ' ADD THE BTO RECORD TO THE BACKTEST TABLE
+                    db.backtests.Add(newBuyOrder)                                                                                                                                   ' INSERT THE NEW RECORD TO BE ADDED.
+                    db.SaveChanges()                                                                                                                                                ' SAVE THE RECORD TO THE DATABASE
+
+                    trans += 1
+                    openedBTO += 1
+
+                    outputstring = String.Format("{0:MM/dd/yy}", marketdate) & vbTab & String.Format("{0:hh:mm}", markettime) &
+                    vbTab & (String.Format("{0:C}", passedprice) & vbTab & "B")                                                                                                 ' CREATE THE OUTPUT STRING FOR THE LISTBOX UPDATING USER FOR RECORD ADDED
+                    'lstServerResponses.Items.Add(outputstring)                                                                                                                      ' TEMP WRITE OUTPUT TO THE LISTBOX
+
                 End If
             End If
 
-        Next
+        End Using
 
-        Return backprices                                                                                                                                                               ' RETURN TO CALLING FUNCTION WITH BACKPRICES MODEL POPULATED
     End Function
 
-    Private Sub btnAnalysis_Click(sender As Object, e As EventArgs) Handles btnAnalysis.Click
-        dlgAnalysis.Show()
-    End Sub
+    Function addHedge(ByVal passedprice As Decimal, ByVal calcexpdate As Date)
 
-    Private Sub btnBackTest_Click(sender As Object, e As EventArgs) Handles btnBackTest.Click
-        dlgHarvestBacktest.ShowDialog()
-    End Sub
-    Dim tickTypeId As Integer = 0
+        Dim hedgeexit As Decimal = 0
 
-    Private Sub btnTickPrice_Click(sender As Object, e As EventArgs)
-        Dim contract As IBApi.Contract = New IBApi.Contract()
-        contract.Symbol = "VXX"                                                                                                   ' INITIALIZE SYMBOL VALUE FOR THE CONTRACT
-        contract.SecType = "STK"                                                                                                    ' INITIALIZE THE SECURITY TYPE FOR THE CONTRACT - MOVE TO SETTINGS AT SOME POINT
-        contract.Currency = "USD"                                                                                                   ' INITIALIZE CURRENCY TYPE FOR THE CONTRACT - MOVE TO SETTINGS AT SOME POINT
-        contract.Exchange = "SMART"                                                                                                 ' INITIALIZE EXCHANGE USED FOR THE CONTRACT
-        'contract.SecType = "OPT"
-        'contract.Exchange = "SMART"
-        'contract.Currency = "USD"
-        'contract.LastTradeDateOrContractMonth = 20180518
-        'contract.Strike = 40
-        'contract.Right = "C"
-        tickTypeId = txtTickId.Text
-        Tws1.reqMarketDataType(3)                                                                                                   ' SETS DATA FEED TO (1) LIVE STREAMING  (2) FROZEN  (3) DELAYED 15 - 20 MINUTES 
-        Tws1.reqMktDataEx(1, contract, "", False, Nothing)
-    End Sub
+        ' Determine if there is a hedge position open for the passed price and harvestkey.
+        Using db As BondiModel = New BondiModel()                                                                                                                               ' ESTABLISH THE CONNECTION TO THE DATABASE MODEL USING ENTITY FRAMEWORK
 
-    Function getdatetime(ByVal marketdate As String, ByVal markettime As String) As String
-        Dim dateandtime As String = ""
-        Dim dte As String = ""
-        Dim tme As String = ""
+            Dim hedgeorderexists = From h In db.backtests Where h.harvestkey = harvestkey And h.buyprice = passedprice Select h                                                 ' QUERY THE DATABASE FOR A HEDGE POSITION AT THE CURRENT PASSED PRICE LEVEL
+            If hedgeorderexists.Any() Then
 
-        If markettime.Length < 4 Then
-            'dateandtime = DateTime.Parse(marketdate & " " & Left(markettime, 1) & ":" & Right(markettime, 2))
-            dte = marketdate.Substring(4, 2) & "/" & marketdate.Substring(6, 2) & "/" & marketdate.Substring(0, 4)
-            tme = (markettime.Substring(0, 1) & ":" & markettime.Substring(1, 2))
-            dateandtime = dte & " " & tme
-        Else
-            'dateandtime = DateTime.Parse(marketdate & " " & Left(markettime, 2) & ":" & Right(markettime, 2))
-        End If
-        Return dateandtime
+                ' calculate hedge details / get them from the index
+                Dim iv As Double = 0.72                                                                                                                                         ' TO CALCULATE THE PUTPRICE IN EXCEL NEED TO PASS THE IMPLIED VOLATILITY VALUE
+                Dim targetprice As Integer = Int(passedprice - hedgewidth)                                                                                                      ' USED IN CALCULATING THE TARGET MAX EXIT PRICE TO ACHEIVE PROFITABILITY IN THE HEDGE TARGET EXIT PRICE                
+
+                Dim rtu = (From q In db.backtests Where q.harvestkey = harvestkey And q.buyprice = passedprice And q.open = True And q.hedge = False Select q).FirstOrDefault()                     ' GET THE RECORD TO HAVE THE HEDGE ADDED TO IT - RTU = RECORD TO UPDATE 
+
+                ' MsgBox(rtu.buyprice & "  " & rtu.hedge.ToString() & " x")
+
+                Call BSCS(passedprice, Int(passedprice) - hedgewidth, rtu.btomarketdate, calcexpdate, iv)                                                                       ' CALL THE FUNCTION TO CALCULATE THE OPTION PRICE IN EXCEL USING THE BLACK SCHOLES MODEL - WHILE THIS IS NOT 100% ACCURATE IT WILL PROVIDE THE DATA FOR BACKTESTING HEDGES
+                hedgeexit = ((((targetprice - passedprice) / lots) - putprice) - (buytrigger / lots)) * -1                                                                      ' CALCULATE THE HEDGE TARGET EXIT PRICE 
+
+                hedgecapital = putprice * lots * shares
+                rollingcapital = rollingcapital + hedgecapital
+
+                If rtu.currentcapital + hedgecapital > rtu.maxcapital Then
+                    rtu.maxcapital = rtu.currentcapital + hedgecapital
+                End If
+
+                rtu.hedge = True
+                rtu.type = "P"
+                rtu.lots = lots
+                rtu.strike = Int(passedprice) - hedgewidth
+                rtu.exp = DateTime.Parse(calcexpdate).ToUniversalTime()
+                rtu.hedgeBTOprice = putprice
+                rtu.currentcapital = rollingcapital
+                rtu.hedgeOpenTimestamp = DateTime.Parse(rtu.btomarketdate).ToUniversalTime()
+                rtu.lastaction = DateTime.Parse(Now).ToUniversalTime()
+                rtu.targetexit = hedgeexit
+
+                db.SaveChanges()                                                                                            ' SAVE THE CHANGES TO THE DATABASE                            
+
+                outputstring = outputstring & vbTab & "Put" & vbTab & String.Format("{0:C}", (Int(passedprice - hedgewidth))) & vbTab & String.Format("{0:MM/dd/yy}", calcexpdate) & vbTab & vbTab & String.Format("{0:c}", putprice) & vbTab & String.Format("{0:c}", hedgeexit)
+
+            End If
+        End Using
+
     End Function
 
-    Private Sub Tws1_tickSize(ByVal eventSender As System.Object, ByVal eventArgs As AxTWSLib._DTwsEvents_tickSizeEvent) Handles Tws1.OnTickSize
-        Dim mktDataStr As String
-        mktDataStr = "id=" & eventArgs.id & " " & m_utils.getField(eventArgs.tickType) & "=" & eventArgs.size
-        If (tickTypeId = eventArgs.tickType) Then
-            Call m_utils.addListItem(Utils.List_Types.MKT_DATA, mktDataStr)
-        End If
+    Function closeHedge(ByVal passedprice As Decimal, ByVal marketdate As DateTime, ByVal markettime As DateTime, ByVal stcfield As String)
 
-        ' move into view
-        'lstMktData.TopIndex = lstMktData.Items.Count - 1
+        Try
+
+            ' Function that will check all open hedges with the price passed to determine if it can be closed at a profit.
+            Using db As BondiModel = New BondiModel()                                                                                                                               ' ESTABLISH THE CONNECTION TO THE DATABASE MODEL USING ENTITY FRAMEWORK
+                ' get all BTOs that have a price greater than passed price where hedges are open
+
+                Dim ch = From h In db.backtests Where h.open = True And h.buyprice > passedprice And h.hedge = True Select h                                                        ' PULL ALL RECORDS WHERE THE BUY PRICE IS GREATER THAN THE PASSED PRICE - REPOSITORY IS CH FOR CLOSE HEDGE
+
+                If ch.Count > 0 Then
+
+                    For i = 1 To ch.Count
+                        Dim checkprice As Decimal = passedprice + (selltrigger * i)
+
+                        Dim rtu = (From h In db.backtests Where h.open = True And h.buyprice = checkprice Select h Order By h.buyprice Descending).FirstOrDefault()                 ' PULL ALL RECORDS WHERE THE BUY PRICE IS GREATER THAN THE PASSED PRICE - REPOSITORY IS CH FOR CLOSE HEDGE
+
+                        Dim iv As Double = 0.72 '+ (i * 0.01)
+
+                        Call BSCS(passedprice, rtu.strike, rtu.btomarketdate, rtu.exp, iv)
+
+                        Dim stockloss As Decimal = (passedprice * rtu.shares) - (rtu.buyprice * rtu.shares)
+                        Dim hedgepl As Decimal = (putprice * rtu.lots * rtu.shares) - (rtu.hedgeBTOprice * rtu.lots * rtu.shares)
+
+                        If hedgepl + stockloss > 25 Then
+
+                            currentCapital = rtu.hedgeBTOprice * rtu.lots * rtu.shares + rtu.buyprice * rtu.shares
+                            rollingcapital = rollingcapital - currentCapital
+
+                            ' Stop
+
+                            rtu.open = False
+                            rtu.hedgeclosed = True
+                            rtu.hedgeCloseTimestamp = DateTime.Parse(marketdate & " " & markettime).ToUniversalTime()
+                            rtu.hedgeSTCprice = putprice
+                            rtu.stcmarketdate = DateTime.Parse(marketdate & " " & markettime).ToUniversalTime()
+                            rtu.sellprice = passedprice
+                            rtu.stcfield = stcfield
+                            rtu.lastaction = DateTime.Parse(Now).ToUniversalTime()
+                            'rtu.currentcapital = currentCapital - (rtu.buyprice * rtu.shares) - (rtu.hedgeBTOprice * rtu.lots * rtu.shares)
+
+                            Dim currCapital = From h In db.backtests Where h.open = True And h.buyprice = passedprice Select h
+
+                            currCapital.FirstOrDefault().currentcapital = rollingcapital
+                            currCapital.FirstOrDefault().lastaction = DateTime.Parse(Now).ToUniversalTime()
+
+                            db.SaveChanges()                                                                                            ' SAVE THE CHANGES TO THE DATABASE                            
+
+                            trans -= 1                                                                                                  ' INCREMENT THE TRANSACTION COUNTER AS A TRANSACTION OCCURRED
+                            closedBTO += 1
+                        End If
+
+                    Next
+
+                End If
+
+            End Using
+        Catch ex As Exception
+            Stop
+            MsgBox(ex)
+            Stop
+        End Try
+
+    End Function
+
+    Function SellToClose(ByVal passedprice As Decimal, ByVal stcflag As String, ByVal marketdate As DateTime, ByVal markettime As DateTime)
+        ' *************************************************
+        ' WRITES THE STC RECORD TO THE DATABASE & CALCULATES THE STC STATISTICS AND ADDS TO THE DB
+        ' *************************************************
+        'Stop
+        Using db As BondiModel = New BondiModel()                                                                                                                               ' ESTABLISH THE CONNECTION TO THE DATABASE MODEL USING ENTITY FRAMEWORK
+
+            Dim rtu = (From h In db.backtests Where h.open = True And h.buyprice = passedprice Select h).FirstOrDefault()                                                       ' PULL ALL RECORDS WHERE THE BUY PRICE IS EQUAL TO THE PASSED PRICE 
+
+            If rtu Is Nothing Then                                                                                                                                              ' BECAUSE THERE COULD BE PASSED PRICES TO SELL WHERE THERE IS NO INVENTORY THIS PREVENTS A NULL OBJECT ERROR
+                Exit Function                                                                                                                                                   ' EXIT THE FUNCTION 
+            End If
+
+            currentCapital = passedprice * shares                                                                                                                               ' CALCULATES THE CURRENT CAPITAL FOR THIS STC TRANSACTION
+            rollingcapital = rollingcapital - currentCapital                                                                                                                    ' BECAUSE THIS IS A STC SUBTRACT CURRENT CAPITAL FROM ROLLING CAPITAL
+
+
+            rtu.open = False                                                                                                                                                    ' SET THE OPEN STATUS FOR THIS RECORD TO FALSE
+            rtu.stcmarketdate = DateTime.Parse(marketdate & " " & markettime).ToUniversalTime()                                                                                 ' SET THE STC CLOSE MARKET DATE AND TIME 
+            rtu.sellprice = passedprice + selltrigger                                                                                                                           ' SET THE PRICE AT WHICH THIS POSITION WAS CLOSED 
+            rtu.stcfield = stcflag                                                                                                                                              ' CAPTURE THE INTERVAL DIRECTION AND OHLC PRICE THAT CAUSE THE EVENT TO TRIGGER
+            rtu.lastaction = DateTime.Parse(Now).ToUniversalTime()                                                                                                              ' SET THE LAST ACTION DATE AND TIME TO NOW
+
+            db.SaveChanges()                                                                                                                                                    ' SAVE THE CHANGES TO THE DATABASE          
+
+            Dim currCapital = (From h In db.backtests Order By h.id Descending Select h).FirstOrDefault()                                                                       ' GET THE LAST RECORD ID TO SET THE CURRENT CAPITAL LEVEL IN THE DATABASE
+
+            currCapital.currentcapital = rollingcapital                                                                                                                         ' SET THE CURRENT CAPITAL TO THE ROLLING CAPITAL
+            currCapital.lastaction = DateTime.Parse(Now).ToUniversalTime()                                                                                                      ' UPDATE THE LAST ACTIONDATE FOR THIS RECORD
+
+            db.SaveChanges()                                                                                                                                                    ' SAVE THE CHANGES TO THE DATABASE          
+            trans += 1
+            closedSTC += 1
+
+            'TODO:  Add code to check to close any short hedge postions when a stock position closes - makes the most logical sense to do it here.
+
+        End Using
+
+    End Function
+
+    Function addShortHedge(ByVal passedprice As Decimal, ByVal calcexpdate As Date)
+
+        ' Determine if there is a short hedge position open for the passed price and harvestkey.
+        Using db As BondiModel = New BondiModel()                                                                                                                               ' ESTABLISH THE CONNECTION TO THE DATABASE MODEL USING ENTITY FRAMEWORK
+
+
+            'TODO: cannot have more short hedges open than existing hedge positions - do not add if there is no room.
+            ' create a loop based on existing hedge positions check if there is one for that position or count not 
+            ' sure the best route to take on working through that.
+
+
+            Dim shorthedgeexists = From h In db.backtests Where h.harvestkey = harvestkey And h.buyprice = passedprice And h.shortHedge = False Select h                        ' QUERY THE DATABASE FOR A HEDGE POSITION AT THE CURRENT PASSED PRICE LEVEL
+            If shorthedgeexists.Count = 0 Then                                                                                                                                  ' IF THIS COUNT EQUALS ZERO THEN THERE IS NOT A HEDGE PRESENT FOR THIS PRICE LEVEL THAT IS OPEN
+
+                ' calculate hedge details / get them from the index
+                Dim iv As Double = 0.72                                                                                                                                         ' TO CALCULATE THE PUTPRICE IN EXCEL NEED TO PASS THE IMPLIED VOLATILITY VALUE
+                Dim targetprice As Integer = Int(passedprice - hedgewidth)                                                                                                      ' USED IN CALCULATING THE TARGET MAX EXIT PRICE TO ACHEIVE PROFITABILITY IN THE HEDGE TARGET EXIT PRICE                
+
+                Dim rtu = (From q In db.backtests Where q.harvestkey = harvestkey And q.buyprice = passedprice And q.open = True Select q).FirstOrDefault()                     ' GET THE RECORD TO HAVE THE HEDGE ADDED TO IT - RTU = RECORD TO UPDATE 
+
+                Call BSCS(passedprice, Int(passedprice) - hedgewidth, rtu.btomarketdate, calcexpdate, iv)                                                                       ' CALL THE FUNCTION TO CALCULATE THE OPTION PRICE IN EXCEL USING THE BLACK SCHOLES MODEL - WHILE THIS IS NOT 100% ACCURATE IT WILL PROVIDE THE DATA FOR BACKTESTING HEDGES
+
+                rtu.shortHedge = True
+                rtu.shortHedgeEXP = calcexpdate
+                rtu.shortHedgeSTOcredit = putprice
+                rtu.shortHedgeSTOtimestamp = DateTime.Parse(rtu.btomarketdate).ToUniversalTime()
+                rtu.shortHedgeLastaction = DateTime.Parse(Now).ToUniversalTime()
+
+                db.SaveChanges()
+
+            End If
+
+        End Using
+    End Function
+
+    Function closeShortHedge(ByVal passedprice As Decimal)
+        ' Determine if there is a shorthedge position open for the passed price and harvestkey.
+        Using db As BondiModel = New BondiModel()                                                                                                                               ' ESTABLISH THE CONNECTION TO THE DATABASE MODEL USING ENTITY FRAMEWORK
+
+            Dim shl As List(Of backtest) = New List(Of backtest)()                                                                                                              ' ESTABLISH THE LIST TO HOUSE THE BACKTEST RECORDS
+            shl = db.backtests.AsEnumerable.Where(Function(x) x.shortHedge = True).ToList()                                                                                     ' INITIALIZE THE BACKTEST RECORDS WHERE THERE IS A SHORT HEDGE TO A LIST TO PROCESS
+
+            For Each item In shl                                                                                                                                                ' LOOP THROUGH THE RECORDS WHERE THERE IS A SHORTHEDGE AND DETERMINE IF IT CAN BE CLOSED FOR A PROFIT
+
+                If item.shortHedge = True Then
+                    Dim iv As Double = 0.72                                                                                                                                     ' TO CALCULATE THE PUTPRICE IN EXCEL NEED TO PASS THE IMPLIED VOLATILITY VALUE
+
+                    Call BSCS(passedprice, Int(passedprice) - hedgewidth, item.btomarketdate, item.shortHedgeEXP, iv)                                                           ' CALL THE FUNCTION TO CALCULATE THE OPTION PRICE IN EXCEL USING THE BLACK SCHOLES MODEL - WHILE THIS IS NOT 100% ACCURATE IT WILL PROVIDE THE DATA FOR BACKTESTING HEDGES
+
+                    If putprice - item.shortHedgeSTOcredit > 25 Then
+
+                        Dim rtu = (From q In db.backtests Where q.harvestkey = harvestkey And q.id = item.id Select q).FirstOrDefault()                                         ' GET THE RECORD TO HAVE THE HEDGE ADDED TO IT - RTU = RECORD TO UPDATE
+
+                        rtu.shortHedge = False
+                        rtu.shortHedgeBTCdebit = putprice
+                        rtu.shortHedgeBTCtimestamp = DateTime.Parse(rtu.btomarketdate).ToUniversalTime()
+                        rtu.shortHedgeLastaction = DateTime.Parse(Now).ToUniversalTime()
+
+                        db.SaveChanges()
+
+
+                    End If
+
+
+                End If
+
+
+            Next
+
+        End Using
+    End Function
+
+    Private Sub btnBacktestClear_Click(sender As Object, e As EventArgs) Handles btnBacktestClear.Click
+        lstServerResponses.Items.Clear()                                                                                        ' CLEAR THE MESSAGES IN THE SERVER RESPONSE LISTBOX
     End Sub
 
-    '--------------------------------------------------------------------------------
-    ' Market data generic tick event - triggered by the reqMktDataEx() method
-    '--------------------------------------------------------------------------------
-    Private Sub Tws1_tickGeneric(ByVal eventSender As System.Object, ByVal eventArgs As AxTWSLib._DTwsEvents_tickGenericEvent) Handles Tws1.OnTickGeneric
-        Dim mktDataStr As String
-
-        mktDataStr = "id=" & eventArgs.id & " " & m_utils.getField(eventArgs.tickType) & "=" & eventArgs.value
-        If (tickTypeId = eventArgs.tickType) Then
-            Call m_utils.addListItem(Utils.List_Types.MKT_DATA, mktDataStr)
-        End If
-
-
-        ' move into view
-        'lstMktData.TopIndex = lstMktData.Items.Count - 1
+    Private Sub BtnManualClear_Click(sender As Object, e As EventArgs) Handles BtnManualClear.Click
+        lstServerResponses.Items.Clear()
     End Sub
 
-    '--------------------------------------------------------------------------------
-    ' Market data string tick event - triggered by the reqMktDataEx() method
-    '--------------------------------------------------------------------------------
-    Private Sub Tws1_tickString(ByVal eventSender As System.Object, ByVal eventArgs As AxTWSLib._DTwsEvents_tickStringEvent) Handles Tws1.OnTickString
-        Dim mktDataStr As String
+    Private Function BSCS(ByVal stockprice As Double, ByVal strike As Double, ByVal startdate As Date, ByVal enddate As Date, ByVal iv As Double) As Decimal
 
-        mktDataStr = "id=" & eventArgs.id & " " & m_utils.getField(eventArgs.tickType) & "=" & eventArgs.value
-        If (tickTypeId = eventArgs.tickType) Then
-            Call m_utils.addListItem(Utils.List_Types.MKT_DATA, mktDataStr)
-        End If
+        Dim excel As New Excel.Application
+        Dim fullpath As String = "C:\Users\Troy Belden\Desktop\BSCS.xlsx"
 
+        Dim wb As Excel.Workbook = excel.Workbooks.Open(fullpath)
+        Dim ws As Excel.Worksheet = wb.Worksheets("Pricing")
+        Dim interestrate As Double = 0
+        Dim dividend As Double = 0
 
-        ' move into view
-        'lstMktData.TopIndex = lstMktData.Items.Count - 1
-    End Sub
+        ws.Range("C4").Value = stockprice
+        ws.Range("C6").Value = strike
+        ws.Range("C8").Value = iv
+        ws.Range("C10").Value = interestrate
+        ws.Range("C12").Value = dividend
+        ws.Range("C15").Value = startdate
+        ws.Range("C17").Value = enddate
 
-    Private Sub btnManualOrders_Click(sender As Object, e As EventArgs) Handles btnSendOrders.Click
-        'dlgManual.Show()
-        pnlMan.Visible = True
-    End Sub
+        Dim callprice As Double = ws.Range("h4").Value
+        putprice = ws.Range("h6").Value
 
-    Private Sub btnHideManual_Click(sender As Object, e As EventArgs) Handles btnHideManual.Click
-        pnlMan.Visible = False
-    End Sub
+        'MsgBox("Black Scholes Call Price: " & String.Format("{0:C}", callprice))
+        'MsgBox("Black Scholes Put Price: " & String.Format("{0:C}", putprice))
 
-    Private Sub btnCloseManual_Click(sender As Object, e As EventArgs) Handles btnCloseManual.Click
-        pnlManual.Visible = False
-    End Sub
+        ws = Nothing
+        wb.Close(False)
+        wb = Nothing
 
-    Private Sub btnShowManual_Click(sender As Object, e As EventArgs) Handles btnShowManual.Click
-        pnlManual.Visible = True
-    End Sub
+        excel.Quit()
+        excel = Nothing
 
-    Private Sub btnGetOpenOrders_Click(sender As Object, e As EventArgs) Handles btnGetOpenOrders.Click
+        Return putprice
 
-        Call Tws1.reqAllOpenOrders()
+    End Function
 
-    End Sub
-
-
-
-
-
-
-
-
-
-
-
-    ' WORK AREA
-
-    Private Sub btnGetPrice_Click_1(sender As Object, e As EventArgs) Handles btnGetPrice.Click
-
-        Dim contract As IBApi.Contract = New IBApi.Contract()                                                                           ' ESTABLISH A NEW CONTRACT CLASS
-
-        If txtPriceSymbol.Text <> "" Then
-            contract.Symbol = txtPriceSymbol.Text                                                                                       ' INITIALIZE SYMBOL VALUE FOR THE CONTRACT
-        Else
-            MsgBox("Please enter a symbol.")
-            Exit Sub
-        End If
-
-        contract.SecType = "STK"                                                                                                        ' INITIALIZE THE SECURITY TYPE FOR THE CONTRACT - MOVE TO SETTINGS AT SOME POINT
-        contract.Currency = "USD"                                                                                                       ' INITIALIZE CURRENCY TYPE FOR THE CONTRACT - MOVE TO SETTINGS AT SOME POINT
-        contract.Exchange = "SMART"                                                                                                     ' INITIALIZE EXCHANGE USED FOR THE CONTRACT
-
-        Tws1.reqMarketDataType(1)                                                                                                       ' SETS DATA FEED TO (1) LIVE STREAMING  (2) FROZEN  (3) DELAYED 15 - 20 MINUTES 
-        Tws1.reqMktDataEx(tickId + 1, contract, "", False, Nothing)
-        Tws1.tickCount = 0
-        'currentprice = Tws1_tickPrice()                                                                                                ' SET CURRENT PRICE TO STOCKTICKPRICE TO BE PASSED TO CALLING FUNCTION
-
-    End Sub
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    ' MIHIR please place all new code below this line.  Thank you!
+    ' Sprint is to mirror all of the buttons on the manual panel to the code in the VB Sample from IB.
 
 
 
 
 End Class
+
