@@ -151,8 +151,6 @@ Partial Class Main
         Me.Button71 = New System.Windows.Forms.Button()
         Me.Button72 = New System.Windows.Forms.Button()
         Me.Button73 = New System.Windows.Forms.Button()
-        Me.Button62 = New System.Windows.Forms.Button()
-        Me.Button63 = New System.Windows.Forms.Button()
         Me.Button64 = New System.Windows.Forms.Button()
         Me.Button65 = New System.Windows.Forms.Button()
         Me.Button66 = New System.Windows.Forms.Button()
@@ -1457,8 +1455,6 @@ Partial Class Main
         Me.pnlManual.Controls.Add(Me.Button71)
         Me.pnlManual.Controls.Add(Me.Button72)
         Me.pnlManual.Controls.Add(Me.Button73)
-        Me.pnlManual.Controls.Add(Me.Button62)
-        Me.pnlManual.Controls.Add(Me.Button63)
         Me.pnlManual.Controls.Add(Me.Button64)
         Me.pnlManual.Controls.Add(Me.Button65)
         Me.pnlManual.Controls.Add(Me.Button66)
@@ -1512,7 +1508,6 @@ Partial Class Main
         Me.pnlManual.Controls.Add(Me.Button16)
         Me.pnlManual.Controls.Add(Me.Button14)
         Me.pnlManual.Controls.Add(Me.Button13)
-        Me.pnlManual.Controls.Add(Me.btnGetOpenOrders)
         Me.pnlManual.Controls.Add(Me.btnGetPrice)
         Me.pnlManual.Controls.Add(Me.txtPriceSymbol)
         Me.pnlManual.Controls.Add(Me.btnCloseManual)
@@ -1525,22 +1520,22 @@ Partial Class Main
         '
         'Button77
         '
-        Me.Button77.Location = New System.Drawing.Point(279, 350)
+        Me.Button77.Location = New System.Drawing.Point(687, 319)
         Me.Button77.Margin = New System.Windows.Forms.Padding(2)
         Me.Button77.Name = "Button77"
         Me.Button77.Size = New System.Drawing.Size(132, 27)
         Me.Button77.TabIndex = 227
-        Me.Button77.Text = "Cancel Tick-By-Tick"
+        Me.Button77.Text = "XX Cancel Tick-By-Tick"
         Me.Button77.UseVisualStyleBackColor = True
         '
         'Button78
         '
-        Me.Button78.Location = New System.Drawing.Point(143, 350)
+        Me.Button78.Location = New System.Drawing.Point(551, 319)
         Me.Button78.Margin = New System.Windows.Forms.Padding(2)
         Me.Button78.Name = "Button78"
         Me.Button78.Size = New System.Drawing.Size(132, 27)
         Me.Button78.TabIndex = 226
-        Me.Button78.Text = "Req Tick-By-Tick"
+        Me.Button78.Text = "XX Req Tick-By-Tick"
         Me.Button78.UseVisualStyleBackColor = True
         '
         'Button79
@@ -1550,12 +1545,12 @@ Partial Class Main
         Me.Button79.Name = "Button79"
         Me.Button79.Size = New System.Drawing.Size(132, 27)
         Me.Button79.TabIndex = 225
-        Me.Button79.Text = "Req Historical Ticks"
+        Me.Button79.Text = "XX Req Historical Ticks"
         Me.Button79.UseVisualStyleBackColor = True
         '
         'Button68
         '
-        Me.Button68.Location = New System.Drawing.Point(687, 319)
+        Me.Button68.Location = New System.Drawing.Point(687, 287)
         Me.Button68.Margin = New System.Windows.Forms.Padding(2)
         Me.Button68.Name = "Button68"
         Me.Button68.Size = New System.Drawing.Size(132, 27)
@@ -1565,7 +1560,7 @@ Partial Class Main
         '
         'Button69
         '
-        Me.Button69.Location = New System.Drawing.Point(551, 319)
+        Me.Button69.Location = New System.Drawing.Point(551, 287)
         Me.Button69.Margin = New System.Windows.Forms.Padding(2)
         Me.Button69.Name = "Button69"
         Me.Button69.Size = New System.Drawing.Size(132, 27)
@@ -1600,7 +1595,7 @@ Partial Class Main
         Me.Button72.Name = "Button72"
         Me.Button72.Size = New System.Drawing.Size(132, 27)
         Me.Button72.TabIndex = 220
-        Me.Button72.Text = "Cancel Place Order"
+        Me.Button72.Text = "XX Cancel Place Order"
         Me.Button72.UseVisualStyleBackColor = True
         '
         'Button73
@@ -1610,28 +1605,8 @@ Partial Class Main
         Me.Button73.Name = "Button73"
         Me.Button73.Size = New System.Drawing.Size(132, 27)
         Me.Button73.TabIndex = 219
-        Me.Button73.Text = "Place Order"
+        Me.Button73.Text = "XX Place Order"
         Me.Button73.UseVisualStyleBackColor = True
-        '
-        'Button62
-        '
-        Me.Button62.Location = New System.Drawing.Point(687, 287)
-        Me.Button62.Margin = New System.Windows.Forms.Padding(2)
-        Me.Button62.Name = "Button62"
-        Me.Button62.Size = New System.Drawing.Size(132, 27)
-        Me.Button62.TabIndex = 218
-        Me.Button62.Text = "Open Orders"
-        Me.Button62.UseVisualStyleBackColor = True
-        '
-        'Button63
-        '
-        Me.Button63.Location = New System.Drawing.Point(551, 287)
-        Me.Button63.Margin = New System.Windows.Forms.Padding(2)
-        Me.Button63.Name = "Button63"
-        Me.Button63.Size = New System.Drawing.Size(132, 27)
-        Me.Button63.TabIndex = 217
-        Me.Button63.Text = "Open Orders"
-        Me.Button63.UseVisualStyleBackColor = True
         '
         'Button64
         '
@@ -1640,7 +1615,7 @@ Partial Class Main
         Me.Button64.Name = "Button64"
         Me.Button64.Size = New System.Drawing.Size(132, 27)
         Me.Button64.TabIndex = 216
-        Me.Button64.Text = "Cancel Positions"
+        Me.Button64.Text = "XX Cancel Positions"
         Me.Button64.UseVisualStyleBackColor = True
         '
         'Button65
@@ -1650,7 +1625,7 @@ Partial Class Main
         Me.Button65.Name = "Button65"
         Me.Button65.Size = New System.Drawing.Size(132, 27)
         Me.Button65.TabIndex = 215
-        Me.Button65.Text = "Req Positions"
+        Me.Button65.Text = "XX Req Positions"
         Me.Button65.UseVisualStyleBackColor = True
         '
         'Button66
@@ -1710,7 +1685,7 @@ Partial Class Main
         Me.Button59.Name = "Button59"
         Me.Button59.Size = New System.Drawing.Size(132, 27)
         Me.Button59.TabIndex = 209
-        Me.Button59.Text = "Req Mkt Data Type"
+        Me.Button59.Text = "XX Req Mkt Data Type"
         Me.Button59.UseVisualStyleBackColor = True
         '
         'Button60
@@ -1720,7 +1695,7 @@ Partial Class Main
         Me.Button60.Name = "Button60"
         Me.Button60.Size = New System.Drawing.Size(132, 27)
         Me.Button60.TabIndex = 208
-        Me.Button60.Text = "Cancel Calc Opt Price"
+        Me.Button60.Text = "XX Cancel Calc Opt Price"
         Me.Button60.UseVisualStyleBackColor = True
         '
         'Button61
@@ -1730,7 +1705,7 @@ Partial Class Main
         Me.Button61.Name = "Button61"
         Me.Button61.Size = New System.Drawing.Size(132, 27)
         Me.Button61.TabIndex = 207
-        Me.Button61.Text = "Calc. Option Price"
+        Me.Button61.Text = "XX Calc. Option Price"
         Me.Button61.UseVisualStyleBackColor = True
         '
         'Button50
@@ -1760,7 +1735,7 @@ Partial Class Main
         Me.Button52.Name = "Button52"
         Me.Button52.Size = New System.Drawing.Size(132, 27)
         Me.Button52.TabIndex = 204
-        Me.Button52.Text = "Global Cancel"
+        Me.Button52.Text = "XX Global Cancel"
         Me.Button52.UseVisualStyleBackColor = True
         '
         'Button53
@@ -1780,7 +1755,7 @@ Partial Class Main
         Me.Button54.Name = "Button54"
         Me.Button54.Size = New System.Drawing.Size(132, 27)
         Me.Button54.TabIndex = 202
-        Me.Button54.Text = "Cancel Calc. Implied Vol"
+        Me.Button54.Text = "XX Cancel Calc. Implied Vol"
         Me.Button54.UseVisualStyleBackColor = True
         '
         'Button55
@@ -1790,7 +1765,7 @@ Partial Class Main
         Me.Button55.Name = "Button55"
         Me.Button55.Size = New System.Drawing.Size(132, 27)
         Me.Button55.TabIndex = 201
-        Me.Button55.Text = "Calc. Implied Vol."
+        Me.Button55.Text = "XX Calc. Implied Vol."
         Me.Button55.UseVisualStyleBackColor = True
         '
         'Button44
@@ -1850,7 +1825,7 @@ Partial Class Main
         Me.Button49.Name = "Button49"
         Me.Button49.Size = New System.Drawing.Size(132, 27)
         Me.Button49.TabIndex = 195
-        Me.Button49.Text = "Current Time"
+        Me.Button49.Text = "XX Current Time"
         Me.Button49.UseVisualStyleBackColor = True
         '
         'Button38
@@ -1890,7 +1865,7 @@ Partial Class Main
         Me.Button41.Name = "Button41"
         Me.Button41.Size = New System.Drawing.Size(132, 27)
         Me.Button41.TabIndex = 191
-        Me.Button41.Text = "Req Next Id"
+        Me.Button41.Text = "XX Req Next Id"
         Me.Button41.UseVisualStyleBackColor = True
         '
         'Button42
@@ -1950,7 +1925,7 @@ Partial Class Main
         Me.Button35.Name = "Button35"
         Me.Button35.Size = New System.Drawing.Size(132, 27)
         Me.Button35.TabIndex = 185
-        Me.Button35.Text = "Req Acct Data"
+        Me.Button35.Text = "XX Req Acct Data"
         Me.Button35.UseVisualStyleBackColor = True
         '
         'Button36
@@ -1960,7 +1935,7 @@ Partial Class Main
         Me.Button36.Name = "Button36"
         Me.Button36.Size = New System.Drawing.Size(132, 27)
         Me.Button36.TabIndex = 184
-        Me.Button36.Text = "Cancel Fund. Data..."
+        Me.Button36.Text = "XX Cancel Fund. Data..."
         Me.Button36.UseVisualStyleBackColor = True
         '
         'Button37
@@ -1970,7 +1945,7 @@ Partial Class Main
         Me.Button37.Name = "Button37"
         Me.Button37.Size = New System.Drawing.Size(132, 27)
         Me.Button37.TabIndex = 183
-        Me.Button37.Text = "Fundamental Data"
+        Me.Button37.Text = "XX Fundamental Data"
         Me.Button37.UseVisualStyleBackColor = True
         '
         'Button26
@@ -2020,7 +1995,7 @@ Partial Class Main
         Me.Button30.Name = "Button30"
         Me.Button30.Size = New System.Drawing.Size(132, 27)
         Me.Button30.TabIndex = 178
-        Me.Button30.Text = "Cancel Historical Data"
+        Me.Button30.Text = "XX Cancel Historical Data"
         Me.Button30.UseVisualStyleBackColor = True
         '
         'Button31
@@ -2030,7 +2005,7 @@ Partial Class Main
         Me.Button31.Name = "Button31"
         Me.Button31.Size = New System.Drawing.Size(132, 27)
         Me.Button31.TabIndex = 177
-        Me.Button31.Text = "Historical Data"
+        Me.Button31.Text = "XX Historical Data"
         Me.Button31.UseVisualStyleBackColor = True
         '
         'Button20
@@ -2060,7 +2035,7 @@ Partial Class Main
         Me.Button22.Name = "Button22"
         Me.Button22.Size = New System.Drawing.Size(132, 27)
         Me.Button22.TabIndex = 174
-        Me.Button22.Text = "Req Open Orders"
+        Me.Button22.Text = "XX Req Open Orders"
         Me.Button22.UseVisualStyleBackColor = True
         '
         'Button23
@@ -2070,7 +2045,7 @@ Partial Class Main
         Me.Button23.Name = "Button23"
         Me.Button23.Size = New System.Drawing.Size(132, 27)
         Me.Button23.TabIndex = 173
-        Me.Button23.Text = "Req Contract Data"
+        Me.Button23.Text = "XX Req Contract Data"
         Me.Button23.UseVisualStyleBackColor = True
         '
         'Button24
@@ -2080,7 +2055,7 @@ Partial Class Main
         Me.Button24.Name = "Button24"
         Me.Button24.Size = New System.Drawing.Size(132, 27)
         Me.Button24.TabIndex = 172
-        Me.Button24.Text = "Cancel Mkt Depth"
+        Me.Button24.Text = "XX Cancel Mkt Depth"
         Me.Button24.UseVisualStyleBackColor = True
         '
         'Button25
@@ -2090,7 +2065,7 @@ Partial Class Main
         Me.Button25.Name = "Button25"
         Me.Button25.Size = New System.Drawing.Size(132, 27)
         Me.Button25.TabIndex = 171
-        Me.Button25.Text = "Req. Mkt. Depth"
+        Me.Button25.Text = "XX Req. Mkt. Depth"
         Me.Button25.UseVisualStyleBackColor = True
         '
         'BtnManualClear
@@ -2149,7 +2124,7 @@ Partial Class Main
         Me.Button14.Name = "Button14"
         Me.Button14.Size = New System.Drawing.Size(132, 27)
         Me.Button14.TabIndex = 165
-        Me.Button14.Text = "Cancel Mkt Data..."
+        Me.Button14.Text = "XX Cancel Mkt Data..."
         Me.Button14.UseVisualStyleBackColor = True
         '
         'Button13
@@ -2159,12 +2134,12 @@ Partial Class Main
         Me.Button13.Name = "Button13"
         Me.Button13.Size = New System.Drawing.Size(132, 27)
         Me.Button13.TabIndex = 164
-        Me.Button13.Text = "Req. Mkt. Data..."
+        Me.Button13.Text = "XX Req. Mkt. Data..."
         Me.Button13.UseVisualStyleBackColor = True
         '
         'btnGetOpenOrders
         '
-        Me.btnGetOpenOrders.Location = New System.Drawing.Point(709, 7)
+        Me.btnGetOpenOrders.Location = New System.Drawing.Point(870, 57)
         Me.btnGetOpenOrders.Margin = New System.Windows.Forms.Padding(2)
         Me.btnGetOpenOrders.Name = "btnGetOpenOrders"
         Me.btnGetOpenOrders.Size = New System.Drawing.Size(86, 27)
@@ -2941,7 +2916,7 @@ Partial Class Main
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1221, 704)
+        Me.ClientSize = New System.Drawing.Size(2132, 1090)
         Me.Controls.Add(Me.Panel2)
         Me.Controls.Add(Me.pnlManual)
         Me.Controls.Add(Me.pnlBacktest)
@@ -2974,6 +2949,7 @@ Partial Class Main
         Me.Controls.Add(Me.btnWillie)
         Me.Controls.Add(Me.lbldatastring)
         Me.Controls.Add(Me.lblConStatus)
+        Me.Controls.Add(Me.btnGetOpenOrders)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.Name = "Main"
         Me.Text = "Willie"
@@ -3256,8 +3232,6 @@ Partial Class Main
     Friend WithEvents Button59 As Button
     Friend WithEvents Button60 As Button
     Friend WithEvents Button61 As Button
-    Friend WithEvents Button62 As Button
-    Friend WithEvents Button63 As Button
     Friend WithEvents Button64 As Button
     Friend WithEvents Button65 As Button
     Friend WithEvents Button66 As Button
