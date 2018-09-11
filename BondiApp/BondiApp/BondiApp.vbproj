@@ -113,6 +113,12 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BL\BondiModelView.vb" />
+    <Compile Include="BL\Willie.vb" />
+    <Compile Include="BL\bondi.vb" />
+    <Compile Include="Models\activitylog.vb">
+      <DependentUpon>BondiModelEntity.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Application.vb">
       <DependentUpon>BondiModelEntity.tt</DependentUpon>
     </Compile>
@@ -147,6 +153,9 @@
       <DependentUpon>BondiModelEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\backtest.vb">
+      <DependentUpon>BondiModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\backteststat.vb">
       <DependentUpon>BondiModelEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\BlogComment.vb">
@@ -187,6 +196,9 @@
       <DependentUpon>BondiModelEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\HarvestMark.vb">
+      <DependentUpon>BondiModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\harvestorder.vb">
       <DependentUpon>BondiModelEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\HarvestPosition.vb">
@@ -293,6 +305,9 @@
     </Compile>
     <Compile Include="TWS_BL\_DTwsEvents_securityDefinitionOptionParameterEnd.vb" />
     <Compile Include="TWS_BL\_DTWsEvents_securityDefinitionOptionParameterEvent.vb" />
+    <Compile Include="Views\dlgAddRecord.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Views\dlgAcctData.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -372,6 +387,9 @@
     <Compile Include="TWS_BL\_DTwsEvents_tickStringEvent.vb" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Views\dlgAddRecord.resX">
+      <DependentUpon>dlgAddRecord.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\dlgAcctData.resX">
       <DependentUpon>dlgAcctData.vb</DependentUpon>
     </EmbeddedResource>

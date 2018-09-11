@@ -90,8 +90,6 @@ Friend Class Tws
         msgThread.IsBackground = True                                                                                                       ' SET MESSAGE THREADING TO RUN IN THE BACKGROUND 
         If serverVersion() > 0 Then Call msgThread.Start()                                                                                  ' IF THE SERVERVERSION IS > 0 START THE MESSAGE THREADING IN THE BACKGROUND
 
-        'Utils.twsServerVersion = serverVersion()                                                                                                  ' SET THE PUBLIC SERVERVERSION VARIABLE TO BE USED IN THE CONNECTION MESSAGING
-
     End Sub
 
     Sub disconnect()
@@ -125,7 +123,7 @@ Friend Class Tws
         socket.cancelCalculateOptionPrice(p1)
     End Sub
 
-    Sub requestOpenOrders()
+    Sub reqOpenOrders()
         socket.reqOpenOrders()
     End Sub
 
@@ -147,9 +145,16 @@ Friend Class Tws
 
 
 
-    Public Sub currentTime(time As Long) Implements EWrapper.currentTime
+    Public Sub currentTime(time As Long) Implements EWrapper.currentTime            '
         Throw New NotImplementedException()
     End Sub
+
+
+
+
+
+
+
 
     Public Sub tickPrice(tickerId As Integer, field As Integer, price As Double, canAutoExecute As Integer) Implements EWrapper.tickPrice
         'Throw New NotImplementedException()
@@ -229,7 +234,17 @@ Friend Class Tws
     End Sub
 
     Public Sub tickSnapshotEnd(tickerId As Integer) Implements EWrapper.tickSnapshotEnd
-        Throw New NotImplementedException()
+
+
+        ' IN THE SAMPLE APP THIS SUB SENDS A CLOSING LINE TO THE SERVER RESPONSE LISTBOX.  ONLY USE IS TO ID THAT THE REQUEST HAS BEEN FULFILLED.
+
+        'Throw New NotImplementedException()
+        'MsgBox("snapshot end")
+
+
+
+
+
     End Sub
 
 
@@ -338,7 +353,7 @@ Friend Class Tws
                          End Sub)
     End Sub
 
-    Public Sub execDetails(reqId As Integer, contract As Contract, execution As Execution) Implements EWrapper.execDetails
+    Public Sub execDetails(reqId As Integer, contract As Contract, execution As Execution) Implements IBApi.EWrapper.execDetails
         'Throw New NotImplementedException()
 
         InvokeIfRequired(Sub()

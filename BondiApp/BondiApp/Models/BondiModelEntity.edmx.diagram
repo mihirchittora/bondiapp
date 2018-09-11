@@ -6,20 +6,20 @@
     <edmx:Diagrams>
       <Diagram DiagramId="48a0d207235549c8ad082d6c088c9687" Name="Diagram1">
         <EntityTypeShape EntityType="optionwavesdbModel.Application" Width="1.5" PointX="12.75" PointY="5.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="optionwavesdbModel.aspnet_Applications" Width="1.5" PointX="0.75" PointY="7.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="optionwavesdbModel.aspnet_Membership" Width="1.5" PointX="6" PointY="9.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="optionwavesdbModel.aspnet_Paths" Width="1.5" PointX="3" PointY="6.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="optionwavesdbModel.aspnet_Applications" Width="1.5" PointX="4.625" PointY="9.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="optionwavesdbModel.aspnet_Membership" Width="1.5" PointX="6.375" PointY="10" IsExpanded="true" />
+        <EntityTypeShape EntityType="optionwavesdbModel.aspnet_Paths" Width="1.5" PointX="7.75" PointY="7.375" IsExpanded="true" />
         <EntityTypeShape EntityType="optionwavesdbModel.aspnet_PersonalizationAllUsers" Width="1.5" PointX="5.25" PointY="6.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="optionwavesdbModel.aspnet_PersonalizationPerUser" Width="1.5" PointX="5.25" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="optionwavesdbModel.aspnet_PersonalizationPerUser" Width="1.5" PointX="15.75" PointY="0.875" IsExpanded="true" />
         <EntityTypeShape EntityType="optionwavesdbModel.aspnet_Profile" Width="1.5" PointX="10.5" PointY="11.875" IsExpanded="true" />
         <EntityTypeShape EntityType="optionwavesdbModel.aspnet_Roles" Width="1.5" PointX="3" PointY="15.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="optionwavesdbModel.aspnet_SchemaVersions" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="optionwavesdbModel.aspnet_SchemaVersions" Width="1.5" PointX="19.5" PointY="2.75" IsExpanded="true" />
         <EntityTypeShape EntityType="optionwavesdbModel.aspnet_Users" Width="1.5" PointX="8.25" PointY="11.375" IsExpanded="true" />
         <EntityTypeShape EntityType="optionwavesdbModel.aspnet_WebEvent_Events" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="optionwavesdbModel.backtest" Width="1.5" PointX="7.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="optionwavesdbModel.backtest" Width="1.5" PointX="2.25" PointY="0.625" IsExpanded="true" />
         <EntityTypeShape EntityType="optionwavesdbModel.BlogComment" Width="1.5" PointX="9.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="optionwavesdbModel.BlogEntry" Width="1.5" PointX="2.75" PointY="9.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="optionwavesdbModel.email" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="optionwavesdbModel.BlogEntry" Width="1.5" PointX="3.875" PointY="12.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="optionwavesdbModel.email" Width="1.5" PointX="19.5" PointY="0.875" IsExpanded="true" />
         <EntityTypeShape EntityType="optionwavesdbModel.HarvestHedge" Width="1.5" PointX="9.75" PointY="4.75" IsExpanded="true" />
         <EntityTypeShape EntityType="optionwavesdbModel.HarvestIndex" Width="1.5" PointX="5.75" PointY="15.75" IsExpanded="true" />
         <EntityTypeShape EntityType="optionwavesdbModel.HarvestInterval" Width="1.5" PointX="11.75" PointY="0.75" IsExpanded="true" />
@@ -31,12 +31,11 @@
         <EntityTypeShape EntityType="optionwavesdbModel.position" Width="1.5" PointX="11.75" PointY="8.75" IsExpanded="true" />
         <EntityTypeShape EntityType="optionwavesdbModel.Price" Width="1.5" PointX="17.75" PointY="18.75" IsExpanded="true" />
         <EntityTypeShape EntityType="optionwavesdbModel.Pricing" Width="1.5" PointX="0.75" PointY="19.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="optionwavesdbModel.productionhedge" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="optionwavesdbModel.productionlog" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="optionwavesdbModel.productionhedge" Width="1.5" PointX="7.625" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="optionwavesdbModel.productionlog" Width="1.5" PointX="17.75" PointY="5.625" IsExpanded="true" />
         <EntityTypeShape EntityType="optionwavesdbModel.productionstock" Width="1.5" PointX="13.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="optionwavesdbModel.Profile" Width="1.5" PointX="19.5" PointY="7.125" IsExpanded="true" />
         <EntityTypeShape EntityType="optionwavesdbModel.Role" Width="1.5" PointX="15" PointY="11.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="optionwavesdbModel.stockorder" Width="1.5" PointX="19.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="optionwavesdbModel.Task" Width="1.5" PointX="2.75" PointY="19.75" IsExpanded="true" />
         <EntityTypeShape EntityType="optionwavesdbModel.TicketComment" Width="1.5" PointX="15" PointY="16.125" IsExpanded="true" />
         <EntityTypeShape EntityType="optionwavesdbModel.Ticket" Width="1.5" PointX="12.75" PointY="15" IsExpanded="true" />
@@ -76,6 +75,10 @@
         <AssociationConnector Association="optionwavesdbModel.TicketCommentsRelationship" ManuallyRouted="false" />
         <AssociationConnector Association="optionwavesdbModel.aspnet_UsersInRoles" ManuallyRouted="false" />
         <AssociationConnector Association="optionwavesdbModel.UsersInRoles" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="optionwavesdbModel.activitylog" Width="1.5" PointX="22.75" PointY="23.75" />
+        <EntityTypeShape EntityType="optionwavesdbModel.backteststat" Width="1.5" PointX="24.75" PointY="5.75" />
+        <EntityTypeShape EntityType="optionwavesdbModel.harvestorder" Width="1.5" PointX="0.5" PointY="0.625" />
+        <EntityTypeShape EntityType="optionwavesdbModel.stockorder" Width="1.5" PointX="4.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -86,10 +86,11 @@ Friend Class Utils
     Public Shared ReadOnly LFSTR As String = Chr(10)
     Public Shared ReadOnly CRLFSTR As String = CRSTR & LFSTR
 
+    Public Shared recordsread As Integer = 0                                                                                                                                                  ' VARIABLE TO HOUSE THE NUMBER OF RECORDS READ IN THE DATAFILE
     Public Shared serverversion As Integer = 0
     Public Shared username As String = ""
     Public Shared userid As Guid
-    Public Shared orderExists As Boolean = False
+
     Public Shared openBTOs As Integer = 0
     Public Shared openSTCs As Integer = 0
 
@@ -163,8 +164,8 @@ Friend Class Utils
     Public Sub addListItem(ByRef listType As List_Types, ByRef data As String, Optional ByVal scrollList As Boolean = True)
         Dim listBox As System.Windows.Forms.ListBox
         Select Case listType
-            Case List_Types.CONNECTION_RESPONSES
-                listBox = m_form1.lstConnectionResponses
+            'Case List_Types.CONNECTION_RESPONSES
+            '    listBox = m_form1.lstConnectionResponses
             Case List_Types.MKT_DATA
                 listBox = m_form1.lstServerResponses
             Case List_Types.SERVER_RESPONSES

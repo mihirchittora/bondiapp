@@ -53,7 +53,6 @@ Partial Public Class optionwavesdbEntities
     Public Overridable Property productionstocks() As DbSet(Of productionstock)
     Public Overridable Property Profiles() As DbSet(Of Profile)
     Public Overridable Property Roles() As DbSet(Of Role)
-    Public Overridable Property stockorders() As DbSet(Of stockorder)
     Public Overridable Property Tasks() As DbSet(Of Task)
     Public Overridable Property TicketComments() As DbSet(Of TicketComment)
     Public Overridable Property Tickets() As DbSet(Of Ticket)
@@ -76,5 +75,9 @@ Partial Public Class optionwavesdbEntities
     Public Overridable Property vw_avg_ranges() As DbSet(Of vw_avg_ranges)
     Public Overridable Property vw_full_view_w_calc() As DbSet(Of vw_full_view_w_calc)
     Public Overridable Property vw_Pricings_DESC() As DbSet(Of vw_Pricings_DESC)
+    Public Overridable Property activitylogs() As DbSet(Of activitylog)
+    Public Overridable Property backteststats() As DbSet(Of backteststat)
+    Public Overridable Property harvestorders() As DbSet(Of harvestorder)
+    Public Overridable Property stockorders() As DbSet(Of stockorder)
 
 End Class

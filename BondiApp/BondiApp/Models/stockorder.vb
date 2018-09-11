@@ -13,19 +13,22 @@ Imports System.Collections.Generic
 Partial Public Class stockorder
     Public Property id As Integer
     Public Property timestamp As Nullable(Of Date)
-    Public Property OrderId As Nullable(Of Integer)
-    Public Property PermID As Nullable(Of Integer)
-    Public Property Symbol As String
-    Public Property Action As String
-    Public Property Status As String
-    Public Property TickPrice As Nullable(Of Decimal)
-    Public Property LimitPrice As Nullable(Of Decimal)
-    Public Property Quantity As Nullable(Of Integer)
-    Public Property OrderStatus As String
-    Public Property OrderTimestamp As Nullable(Of Date)
-    Public Property roboIndex As String
-    Public Property matchID As String
-    Public Property userid As Nullable(Of System.Guid)
-    Public Property ordertype As String
+    Public Property harvestkey As String
+    Public Property symbol As String
+    Public Property btoOrderId As Nullable(Of Integer)
+    Public Property btoPermId As Nullable(Of Long)
+    Public Property shares As Nullable(Of Integer)
+    Public Property StockCapital As Nullable(Of Decimal)
+    Public Property btoFilled As Nullable(Of Boolean)
+    Public Property btofilltimestamp As Nullable(Of Date)
+    Public Property btostockorderstatus As String
+    Public Property btoStockLimitPrice As Nullable(Of Decimal)
+    Public Property btoStockFillPrice As Nullable(Of Decimal)
+    Public Property btohedgeorderid As Nullable(Of Integer)
+    Public Property btohedgepermid As Nullable(Of Integer)
+    Public Property hedgelots As Nullable(Of Integer)
+    Public Property hedgestrike As Nullable(Of Decimal)
+    Public Property hedgeExpiration As Nullable(Of Date)
+    Public Property hedgeopen As Nullable(Of Boolean)
 
 End Class

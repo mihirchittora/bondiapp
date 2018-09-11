@@ -31,7 +31,6 @@ Partial Class Main
         Me.OptionwavesdbDataSet1 = New BondiApp.optionwavesdbDataSet()
         Me.lstServerResponses = New System.Windows.Forms.ListBox()
         Me.btnWillie = New System.Windows.Forms.Button()
-        Me.btnClose = New System.Windows.Forms.Button()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.bntlistclear = New System.Windows.Forms.Button()
         Me.Timer60Sec = New System.Windows.Forms.Timer(Me.components)
@@ -39,7 +38,8 @@ Partial Class Main
         Me.ckRobotOn = New System.Windows.Forms.CheckBox()
         Me.btnBackTest = New System.Windows.Forms.Button()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.Button1 = New System.Windows.Forms.Button()
+        Me.btnSettings = New System.Windows.Forms.Button()
+        Me.btnProfile = New System.Windows.Forms.Button()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.Panel3 = New System.Windows.Forms.Panel()
         Me.btnConnect = New System.Windows.Forms.Button()
@@ -53,42 +53,13 @@ Partial Class Main
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Panel5 = New System.Windows.Forms.Panel()
         Me.lblBuild = New System.Windows.Forms.Label()
-        Me.Label32 = New System.Windows.Forms.Label()
-        Me.lstConnectionResponses = New System.Windows.Forms.ListBox()
         Me.lblStatus = New System.Windows.Forms.Label()
         Me.cmbWillie = New System.Windows.Forms.ComboBox()
         Me.Label26 = New System.Windows.Forms.Label()
         Me.lstErrorResponses = New System.Windows.Forms.ListBox()
         Me.btnAnalysis = New System.Windows.Forms.Button()
-        Me.btnSendOrders = New System.Windows.Forms.Button()
         Me.Button3 = New System.Windows.Forms.Button()
         Me.Button4 = New System.Windows.Forms.Button()
-        Me.Label38 = New System.Windows.Forms.Label()
-        Me.Label39 = New System.Windows.Forms.Label()
-        Me.lblopenBTOs = New System.Windows.Forms.Label()
-        Me.lblopenSTCs = New System.Windows.Forms.Label()
-        Me.Label41 = New System.Windows.Forms.Label()
-        Me.lblMaxCap = New System.Windows.Forms.Label()
-        Me.Label43 = New System.Windows.Forms.Label()
-        Me.lblCurrentCapital = New System.Windows.Forms.Label()
-        Me.Label45 = New System.Windows.Forms.Label()
-        Me.Label46 = New System.Windows.Forms.Label()
-        Me.Label47 = New System.Windows.Forms.Label()
-        Me.Label48 = New System.Windows.Forms.Label()
-        Me.Label49 = New System.Windows.Forms.Label()
-        Me.Label50 = New System.Windows.Forms.Label()
-        Me.Label51 = New System.Windows.Forms.Label()
-        Me.Label52 = New System.Windows.Forms.Label()
-        Me.Label53 = New System.Windows.Forms.Label()
-        Me.Panel2 = New System.Windows.Forms.Panel()
-        Me.Label42 = New System.Windows.Forms.Label()
-        Me.lblTransactions = New System.Windows.Forms.Label()
-        Me.lblclosedSTCs = New System.Windows.Forms.Label()
-        Me.Label66 = New System.Windows.Forms.Label()
-        Me.Label67 = New System.Windows.Forms.Label()
-        Me.Label64 = New System.Windows.Forms.Label()
-        Me.lblclosedBTOs = New System.Windows.Forms.Label()
-        Me.Label40 = New System.Windows.Forms.Label()
         Me.pnlMan = New System.Windows.Forms.Panel()
         Me.Label29 = New System.Windows.Forms.Label()
         Me.grdContracts = New System.Windows.Forms.DataGridView()
@@ -111,11 +82,8 @@ Partial Class Main
         Me.Label37 = New System.Windows.Forms.Label()
         Me.txtTickId = New System.Windows.Forms.TextBox()
         Me.Label33 = New System.Windows.Forms.Label()
-        Me.btnGetPrice2 = New System.Windows.Forms.Button()
         Me.btnckprice = New System.Windows.Forms.Button()
         Me.txtGetPriceSymbol = New System.Windows.Forms.TextBox()
-        Me.btnTickPrice = New System.Windows.Forms.Button()
-        Me.btnReqNextValidId = New System.Windows.Forms.Button()
         Me.Label30 = New System.Windows.Forms.Label()
         Me.txtOptionExpirationDate = New System.Windows.Forms.TextBox()
         Me.Label28 = New System.Windows.Forms.Label()
@@ -126,7 +94,6 @@ Partial Class Main
         Me.txtOptionStrike = New System.Windows.Forms.TextBox()
         Me.Label16 = New System.Windows.Forms.Label()
         Me.txtOptionSymbol = New System.Windows.Forms.TextBox()
-        Me.btnOpPrice = New System.Windows.Forms.Button()
         Me.Label17 = New System.Windows.Forms.Label()
         Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.Label20 = New System.Windows.Forms.Label()
@@ -141,74 +108,26 @@ Partial Class Main
         Me.TextBox6 = New System.Windows.Forms.TextBox()
         Me.btnSendOption = New System.Windows.Forms.Button()
         Me.btnHideManual = New System.Windows.Forms.Button()
-        Me.pnlManual = New System.Windows.Forms.Panel()
-        Me.Button77 = New System.Windows.Forms.Button()
+        Me.btnGetPrice2 = New System.Windows.Forms.Button()
+        Me.btnTickPrice = New System.Windows.Forms.Button()
+        Me.btnOpPrice = New System.Windows.Forms.Button()
         Me.Button78 = New System.Windows.Forms.Button()
-        Me.Button79 = New System.Windows.Forms.Button()
-        Me.Button68 = New System.Windows.Forms.Button()
-        Me.Button69 = New System.Windows.Forms.Button()
-        Me.Button70 = New System.Windows.Forms.Button()
-        Me.Button71 = New System.Windows.Forms.Button()
-        Me.Button72 = New System.Windows.Forms.Button()
-        Me.Button73 = New System.Windows.Forms.Button()
-        Me.Button64 = New System.Windows.Forms.Button()
-        Me.Button65 = New System.Windows.Forms.Button()
-        Me.Button66 = New System.Windows.Forms.Button()
-        Me.Button67 = New System.Windows.Forms.Button()
-        Me.Button56 = New System.Windows.Forms.Button()
-        Me.Button57 = New System.Windows.Forms.Button()
-        Me.Button58 = New System.Windows.Forms.Button()
-        Me.Button59 = New System.Windows.Forms.Button()
-        Me.Button60 = New System.Windows.Forms.Button()
-        Me.Button61 = New System.Windows.Forms.Button()
-        Me.Button50 = New System.Windows.Forms.Button()
-        Me.Button51 = New System.Windows.Forms.Button()
-        Me.Button52 = New System.Windows.Forms.Button()
-        Me.Button53 = New System.Windows.Forms.Button()
-        Me.Button54 = New System.Windows.Forms.Button()
-        Me.Button55 = New System.Windows.Forms.Button()
-        Me.Button44 = New System.Windows.Forms.Button()
-        Me.Button45 = New System.Windows.Forms.Button()
         Me.Button46 = New System.Windows.Forms.Button()
-        Me.Button47 = New System.Windows.Forms.Button()
-        Me.Button48 = New System.Windows.Forms.Button()
-        Me.Button49 = New System.Windows.Forms.Button()
-        Me.Button38 = New System.Windows.Forms.Button()
-        Me.Button39 = New System.Windows.Forms.Button()
-        Me.Button40 = New System.Windows.Forms.Button()
-        Me.Button41 = New System.Windows.Forms.Button()
-        Me.Button42 = New System.Windows.Forms.Button()
-        Me.Button43 = New System.Windows.Forms.Button()
-        Me.Button32 = New System.Windows.Forms.Button()
-        Me.Button33 = New System.Windows.Forms.Button()
-        Me.Button34 = New System.Windows.Forms.Button()
+        Me.Button71 = New System.Windows.Forms.Button()
+        Me.Button73 = New System.Windows.Forms.Button()
+        Me.btnGetPositions = New System.Windows.Forms.Button()
+        Me.btnReqNextId = New System.Windows.Forms.Button()
+        Me.btnReqExecutions = New System.Windows.Forms.Button()
         Me.Button35 = New System.Windows.Forms.Button()
-        Me.Button36 = New System.Windows.Forms.Button()
-        Me.Button37 = New System.Windows.Forms.Button()
-        Me.Button26 = New System.Windows.Forms.Button()
-        Me.Button27 = New System.Windows.Forms.Button()
-        Me.Button28 = New System.Windows.Forms.Button()
-        Me.Button29 = New System.Windows.Forms.Button()
-        Me.Button30 = New System.Windows.Forms.Button()
+        Me.btnReqAllOpenOrders = New System.Windows.Forms.Button()
         Me.Button31 = New System.Windows.Forms.Button()
-        Me.Button20 = New System.Windows.Forms.Button()
-        Me.Button21 = New System.Windows.Forms.Button()
-        Me.Button22 = New System.Windows.Forms.Button()
-        Me.Button23 = New System.Windows.Forms.Button()
-        Me.Button24 = New System.Windows.Forms.Button()
-        Me.Button25 = New System.Windows.Forms.Button()
-        Me.BtnManualClear = New System.Windows.Forms.Button()
-        Me.Button17 = New System.Windows.Forms.Button()
-        Me.Button18 = New System.Windows.Forms.Button()
-        Me.Button15 = New System.Windows.Forms.Button()
-        Me.Button16 = New System.Windows.Forms.Button()
-        Me.Button14 = New System.Windows.Forms.Button()
-        Me.Button13 = New System.Windows.Forms.Button()
-        Me.btnGetOpenOrders = New System.Windows.Forms.Button()
+        Me.btnReqOpenOrders = New System.Windows.Forms.Button()
+        Me.btnReqContractDetails = New System.Windows.Forms.Button()
+        Me.btnCancelMarketData = New System.Windows.Forms.Button()
+        Me.btnReqMktData = New System.Windows.Forms.Button()
         Me.btnGetPrice = New System.Windows.Forms.Button()
         Me.txtPriceSymbol = New System.Windows.Forms.TextBox()
-        Me.btnCloseManual = New System.Windows.Forms.Button()
-        Me.Label63 = New System.Windows.Forms.Label()
+        Me.btnGetOpenOrders = New System.Windows.Forms.Button()
         Me.Panel4 = New System.Windows.Forms.Panel()
         Me.Label54 = New System.Windows.Forms.Label()
         Me.btnSendOrder = New System.Windows.Forms.Button()
@@ -239,15 +158,7 @@ Partial Class Main
         Me.txtModifySymbol = New System.Windows.Forms.TextBox()
         Me.Label15 = New System.Windows.Forms.Label()
         Me.txtModifyOrderId = New System.Windows.Forms.TextBox()
-        Me.Button2 = New System.Windows.Forms.Button()
         Me.Label9 = New System.Windows.Forms.Label()
-        Me.Button5 = New System.Windows.Forms.Button()
-        Me.Button6 = New System.Windows.Forms.Button()
-        Me.Button7 = New System.Windows.Forms.Button()
-        Me.Button8 = New System.Windows.Forms.Button()
-        Me.Button9 = New System.Windows.Forms.Button()
-        Me.Button10 = New System.Windows.Forms.Button()
-        Me.Button11 = New System.Windows.Forms.Button()
         Me.Panel7 = New System.Windows.Forms.Panel()
         Me.Label55 = New System.Windows.Forms.Label()
         Me.Button12 = New System.Windows.Forms.Button()
@@ -264,12 +175,21 @@ Partial Class Main
         Me.Label61 = New System.Windows.Forms.Label()
         Me.TextBox12 = New System.Windows.Forms.TextBox()
         Me.Panel8 = New System.Windows.Forms.Panel()
+        Me.btnHarvesting = New System.Windows.Forms.Button()
         Me.btnCloseApp = New System.Windows.Forms.Button()
         Me.btnBackTesting = New System.Windows.Forms.Button()
         Me.Label62 = New System.Windows.Forms.Label()
         Me.btnShowManual = New System.Windows.Forms.Button()
-        Me.BindingSource1 = New System.Windows.Forms.BindingSource(Me.components)
         Me.pnlBacktest = New System.Windows.Forms.Panel()
+        Me.Label73 = New System.Windows.Forms.Label()
+        Me.txtStartYear = New System.Windows.Forms.TextBox()
+        Me.Label72 = New System.Windows.Forms.Label()
+        Me.txtDays = New System.Windows.Forms.TextBox()
+        Me.Label71 = New System.Windows.Forms.Label()
+        Me.txtMonths = New System.Windows.Forms.TextBox()
+        Me.Label44 = New System.Windows.Forms.Label()
+        Me.txtYears = New System.Windows.Forms.TextBox()
+        Me.Button19 = New System.Windows.Forms.Button()
         Me.btnBacktestClear = New System.Windows.Forms.Button()
         Me.lblHarvestKey = New System.Windows.Forms.Label()
         Me.btnStartBackTest = New System.Windows.Forms.Button()
@@ -284,28 +204,77 @@ Partial Class Main
         Me.btnHideBackTesting = New System.Windows.Forms.Button()
         Me.Label68 = New System.Windows.Forms.Label()
         Me.Label65 = New System.Windows.Forms.Label()
+        Me.pnlHarvesting = New System.Windows.Forms.Panel()
+        Me.Label79 = New System.Windows.Forms.Label()
+        Me.Label80 = New System.Windows.Forms.Label()
+        Me.Label66 = New System.Windows.Forms.Label()
+        Me.Label67 = New System.Windows.Forms.Label()
+        Me.Label63 = New System.Windows.Forms.Label()
+        Me.Label64 = New System.Windows.Forms.Label()
+        Me.Label52 = New System.Windows.Forms.Label()
+        Me.Label53 = New System.Windows.Forms.Label()
+        Me.Label50 = New System.Windows.Forms.Label()
+        Me.lblbtoMove = New System.Windows.Forms.Label()
+        Me.Label32 = New System.Windows.Forms.Label()
+        Me.Label49 = New System.Windows.Forms.Label()
+        Me.lblNextBTO = New System.Windows.Forms.Label()
+        Me.Label48 = New System.Windows.Forms.Label()
+        Me.Label46 = New System.Windows.Forms.Label()
+        Me.lblCurrentMark = New System.Windows.Forms.Label()
+        Me.Label43 = New System.Windows.Forms.Label()
+        Me.Label47 = New System.Windows.Forms.Label()
+        Me.lblLastPrice = New System.Windows.Forms.Label()
+        Me.Label45 = New System.Windows.Forms.Label()
+        Me.lblTodaysLow = New System.Windows.Forms.Label()
+        Me.Label42 = New System.Windows.Forms.Label()
+        Me.lblTodaysHigh = New System.Windows.Forms.Label()
+        Me.Label41 = New System.Windows.Forms.Label()
+        Me.lblTodaysOpen = New System.Windows.Forms.Label()
+        Me.Label40 = New System.Windows.Forms.Label()
+        Me.lblPClose = New System.Windows.Forms.Label()
+        Me.lblPriorClose = New System.Windows.Forms.Label()
+        Me.Label38 = New System.Windows.Forms.Label()
+        Me.lblAskPrice = New System.Windows.Forms.Label()
+        Me.Label39 = New System.Windows.Forms.Label()
+        Me.lblBidPrice = New System.Windows.Forms.Label()
+        Me.ckSnapshot = New System.Windows.Forms.CheckBox()
+        Me.Label78 = New System.Windows.Forms.Label()
+        Me.cmbHarvestIndex = New System.Windows.Forms.ComboBox()
+        Me.btnHarvestingStartWillie = New System.Windows.Forms.Button()
+        Me.txtHarvestingIP = New System.Windows.Forms.TextBox()
+        Me.Label77 = New System.Windows.Forms.Label()
+        Me.Label76 = New System.Windows.Forms.Label()
+        Me.txtHarvestingPort = New System.Windows.Forms.TextBox()
+        Me.btnHarvestDisconnectFromTWS = New System.Windows.Forms.Button()
+        Me.Label75 = New System.Windows.Forms.Label()
+        Me.txtHarvestingClientId = New System.Windows.Forms.TextBox()
+        Me.btnHarvestConnectToTWS = New System.Windows.Forms.Button()
+        Me.lblBuyOrderExists = New System.Windows.Forms.Label()
+        Me.btnClearHarvestListbox = New System.Windows.Forms.Button()
+        Me.btnCloseHarvest = New System.Windows.Forms.Button()
+        Me.Label74 = New System.Windows.Forms.Label()
+        Me.BindingSource1 = New System.Windows.Forms.BindingSource(Me.components)
         CType(Me.HarvestIndexBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.OptionwavesdbDataSet, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.OptionwavesdbDataSet1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         Me.Panel3.SuspendLayout()
         Me.Panel5.SuspendLayout()
-        Me.Panel2.SuspendLayout()
         Me.pnlMan.SuspendLayout()
         CType(Me.grdContracts, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.pnlManual.SuspendLayout()
         Me.Panel4.SuspendLayout()
         Me.Panel6.SuspendLayout()
         Me.Panel7.SuspendLayout()
         Me.Panel8.SuspendLayout()
-        CType(Me.BindingSource1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pnlBacktest.SuspendLayout()
+        Me.pnlHarvesting.SuspendLayout()
+        CType(Me.BindingSource1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'lblConStatus
         '
         Me.lblConStatus.AutoSize = True
-        Me.lblConStatus.Location = New System.Drawing.Point(165, 496)
+        Me.lblConStatus.Location = New System.Drawing.Point(155, 677)
         Me.lblConStatus.Name = "lblConStatus"
         Me.lblConStatus.Size = New System.Drawing.Size(44, 13)
         Me.lblConStatus.TabIndex = 7
@@ -328,7 +297,7 @@ Partial Class Main
         'lbldatastring
         '
         Me.lbldatastring.AutoSize = True
-        Me.lbldatastring.Location = New System.Drawing.Point(707, 496)
+        Me.lbldatastring.Location = New System.Drawing.Point(697, 677)
         Me.lbldatastring.Name = "lbldatastring"
         Me.lbldatastring.Size = New System.Drawing.Size(122, 13)
         Me.lbldatastring.TabIndex = 12
@@ -342,29 +311,20 @@ Partial Class Main
         'lstServerResponses
         '
         Me.lstServerResponses.FormattingEnabled = True
-        Me.lstServerResponses.Location = New System.Drawing.Point(165, 511)
+        Me.lstServerResponses.Location = New System.Drawing.Point(151, 695)
         Me.lstServerResponses.Margin = New System.Windows.Forms.Padding(2)
         Me.lstServerResponses.Name = "lstServerResponses"
-        Me.lstServerResponses.Size = New System.Drawing.Size(804, 69)
+        Me.lstServerResponses.Size = New System.Drawing.Size(804, 95)
         Me.lstServerResponses.TabIndex = 48
         '
         'btnWillie
         '
-        Me.btnWillie.Location = New System.Drawing.Point(1573, 800)
+        Me.btnWillie.Location = New System.Drawing.Point(465, 452)
         Me.btnWillie.Name = "btnWillie"
-        Me.btnWillie.Size = New System.Drawing.Size(151, 32)
+        Me.btnWillie.Size = New System.Drawing.Size(70, 25)
         Me.btnWillie.TabIndex = 49
         Me.btnWillie.Text = "Start Willie"
         Me.btnWillie.UseVisualStyleBackColor = True
-        '
-        'btnClose
-        '
-        Me.btnClose.Location = New System.Drawing.Point(1573, 740)
-        Me.btnClose.Name = "btnClose"
-        Me.btnClose.Size = New System.Drawing.Size(81, 23)
-        Me.btnClose.TabIndex = 50
-        Me.btnClose.Text = "Close"
-        Me.btnClose.UseVisualStyleBackColor = True
         '
         'OpenFileDialog1
         '
@@ -372,12 +332,13 @@ Partial Class Main
         '
         'bntlistclear
         '
-        Me.bntlistclear.Location = New System.Drawing.Point(1571, 769)
+        Me.bntlistclear.Location = New System.Drawing.Point(1384, 40)
         Me.bntlistclear.Name = "bntlistclear"
         Me.bntlistclear.Size = New System.Drawing.Size(81, 23)
         Me.bntlistclear.TabIndex = 68
         Me.bntlistclear.Text = "Clear "
         Me.bntlistclear.UseVisualStyleBackColor = True
+        Me.bntlistclear.Visible = False
         '
         'Timer60Sec
         '
@@ -390,16 +351,17 @@ Partial Class Main
         'ckRobotOn
         '
         Me.ckRobotOn.AutoSize = True
-        Me.ckRobotOn.Location = New System.Drawing.Point(1674, 715)
+        Me.ckRobotOn.Location = New System.Drawing.Point(1239, 44)
         Me.ckRobotOn.Name = "ckRobotOn"
         Me.ckRobotOn.Size = New System.Drawing.Size(52, 17)
         Me.ckRobotOn.TabIndex = 69
         Me.ckRobotOn.Text = "Timer"
         Me.ckRobotOn.UseVisualStyleBackColor = True
+        Me.ckRobotOn.Visible = False
         '
         'btnBackTest
         '
-        Me.btnBackTest.Location = New System.Drawing.Point(14, 429)
+        Me.btnBackTest.Location = New System.Drawing.Point(12, 712)
         Me.btnBackTest.Name = "btnBackTest"
         Me.btnBackTest.Size = New System.Drawing.Size(67, 23)
         Me.btnBackTest.TabIndex = 71
@@ -409,25 +371,38 @@ Partial Class Main
         'Panel1
         '
         Me.Panel1.BackColor = System.Drawing.Color.SlateGray
-        Me.Panel1.Controls.Add(Me.Button1)
+        Me.Panel1.Controls.Add(Me.btnSettings)
+        Me.Panel1.Controls.Add(Me.btnProfile)
         Me.Panel1.Controls.Add(Me.Label3)
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(2)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(1219, 52)
+        Me.Panel1.Size = New System.Drawing.Size(969, 52)
         Me.Panel1.TabIndex = 85
         '
-        'Button1
+        'btnSettings
         '
-        Me.Button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.Button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.Button1.ForeColor = System.Drawing.SystemColors.ButtonHighlight
-        Me.Button1.Location = New System.Drawing.Point(1135, 14)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(71, 23)
-        Me.Button1.TabIndex = 73
-        Me.Button1.Text = "SETTINGS"
-        Me.Button1.UseVisualStyleBackColor = True
+        Me.btnSettings.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.btnSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.btnSettings.ForeColor = System.Drawing.SystemColors.ButtonHighlight
+        Me.btnSettings.Location = New System.Drawing.Point(813, 14)
+        Me.btnSettings.Name = "btnSettings"
+        Me.btnSettings.Size = New System.Drawing.Size(71, 23)
+        Me.btnSettings.TabIndex = 74
+        Me.btnSettings.Text = "SETTINGS"
+        Me.btnSettings.UseVisualStyleBackColor = True
+        '
+        'btnProfile
+        '
+        Me.btnProfile.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.btnProfile.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.btnProfile.ForeColor = System.Drawing.SystemColors.ButtonHighlight
+        Me.btnProfile.Location = New System.Drawing.Point(892, 14)
+        Me.btnProfile.Name = "btnProfile"
+        Me.btnProfile.Size = New System.Drawing.Size(71, 23)
+        Me.btnProfile.TabIndex = 73
+        Me.btnProfile.Text = "PROFILE"
+        Me.btnProfile.UseVisualStyleBackColor = True
         '
         'Label3
         '
@@ -451,11 +426,12 @@ Partial Class Main
         Me.Panel3.Controls.Add(Me.label2)
         Me.Panel3.Controls.Add(Me.txtHost)
         Me.Panel3.Controls.Add(Me.Label1)
-        Me.Panel3.Location = New System.Drawing.Point(150, 56)
+        Me.Panel3.Location = New System.Drawing.Point(1088, 4)
         Me.Panel3.Margin = New System.Windows.Forms.Padding(2)
         Me.Panel3.Name = "Panel3"
         Me.Panel3.Size = New System.Drawing.Size(688, 31)
         Me.Panel3.TabIndex = 87
+        Me.Panel3.Visible = False
         '
         'btnConnect
         '
@@ -492,6 +468,7 @@ Partial Class Main
         Me.txtClientId.Size = New System.Drawing.Size(38, 20)
         Me.txtClientId.TabIndex = 64
         Me.txtClientId.Text = "0"
+        Me.txtClientId.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'Label18
         '
@@ -539,9 +516,8 @@ Partial Class Main
         'Panel5
         '
         Me.Panel5.Controls.Add(Me.lblBuild)
-        Me.Panel5.Controls.Add(Me.Label32)
-        Me.Panel5.Controls.Add(Me.lstConnectionResponses)
-        Me.Panel5.Location = New System.Drawing.Point(159, 670)
+        Me.Panel5.Controls.Add(Me.lblStatus)
+        Me.Panel5.Location = New System.Drawing.Point(152, 840)
         Me.Panel5.Margin = New System.Windows.Forms.Padding(2)
         Me.Panel5.Name = "Panel5"
         Me.Panel5.Size = New System.Drawing.Size(810, 31)
@@ -556,30 +532,10 @@ Partial Class Main
         Me.lblBuild.TabIndex = 94
         Me.lblBuild.Text = "build version"
         '
-        'Label32
-        '
-        Me.Label32.AutoSize = True
-        Me.Label32.Location = New System.Drawing.Point(9, 10)
-        Me.Label32.Name = "Label32"
-        Me.Label32.Size = New System.Drawing.Size(97, 13)
-        Me.Label32.TabIndex = 123
-        Me.Label32.Text = "Connection Status:"
-        '
-        'lstConnectionResponses
-        '
-        Me.lstConnectionResponses.BackColor = System.Drawing.SystemColors.MenuBar
-        Me.lstConnectionResponses.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.lstConnectionResponses.FormattingEnabled = True
-        Me.lstConnectionResponses.Location = New System.Drawing.Point(111, 10)
-        Me.lstConnectionResponses.Margin = New System.Windows.Forms.Padding(2)
-        Me.lstConnectionResponses.Name = "lstConnectionResponses"
-        Me.lstConnectionResponses.Size = New System.Drawing.Size(324, 13)
-        Me.lstConnectionResponses.TabIndex = 122
-        '
         'lblStatus
         '
         Me.lblStatus.AutoSize = True
-        Me.lblStatus.Location = New System.Drawing.Point(162, 655)
+        Me.lblStatus.Location = New System.Drawing.Point(10, 10)
         Me.lblStatus.Name = "lblStatus"
         Me.lblStatus.Size = New System.Drawing.Size(165, 13)
         Me.lblStatus.TabIndex = 68
@@ -588,50 +544,43 @@ Partial Class Main
         'cmbWillie
         '
         Me.cmbWillie.FormattingEnabled = True
-        Me.cmbWillie.Location = New System.Drawing.Point(1430, 711)
+        Me.cmbWillie.Location = New System.Drawing.Point(1105, 42)
         Me.cmbWillie.Name = "cmbWillie"
-        Me.cmbWillie.Size = New System.Drawing.Size(206, 21)
+        Me.cmbWillie.Size = New System.Drawing.Size(129, 21)
         Me.cmbWillie.TabIndex = 91
+        Me.cmbWillie.Visible = False
         '
         'Label26
         '
         Me.Label26.AutoSize = True
-        Me.Label26.Location = New System.Drawing.Point(1304, 714)
+        Me.Label26.Location = New System.Drawing.Point(979, 48)
         Me.Label26.Name = "Label26"
         Me.Label26.Size = New System.Drawing.Size(120, 13)
         Me.Label26.TabIndex = 92
         Me.Label26.Text = "Select Harvest Product:"
+        Me.Label26.Visible = False
         '
         'lstErrorResponses
         '
         Me.lstErrorResponses.FormattingEnabled = True
-        Me.lstErrorResponses.Location = New System.Drawing.Point(165, 584)
+        Me.lstErrorResponses.Location = New System.Drawing.Point(151, 794)
         Me.lstErrorResponses.Margin = New System.Windows.Forms.Padding(2)
         Me.lstErrorResponses.Name = "lstErrorResponses"
-        Me.lstErrorResponses.Size = New System.Drawing.Size(804, 69)
+        Me.lstErrorResponses.Size = New System.Drawing.Size(804, 43)
         Me.lstErrorResponses.TabIndex = 124
         '
         'btnAnalysis
         '
-        Me.btnAnalysis.Location = New System.Drawing.Point(14, 400)
+        Me.btnAnalysis.Location = New System.Drawing.Point(12, 683)
         Me.btnAnalysis.Name = "btnAnalysis"
         Me.btnAnalysis.Size = New System.Drawing.Size(67, 23)
         Me.btnAnalysis.TabIndex = 125
         Me.btnAnalysis.Text = "Analysis"
         Me.btnAnalysis.UseVisualStyleBackColor = True
         '
-        'btnSendOrders
-        '
-        Me.btnSendOrders.Location = New System.Drawing.Point(1300, 741)
-        Me.btnSendOrders.Name = "btnSendOrders"
-        Me.btnSendOrders.Size = New System.Drawing.Size(83, 25)
-        Me.btnSendOrders.TabIndex = 132
-        Me.btnSendOrders.Text = "Send Order"
-        Me.btnSendOrders.UseVisualStyleBackColor = True
-        '
         'Button3
         '
-        Me.Button3.Location = New System.Drawing.Point(14, 501)
+        Me.Button3.Location = New System.Drawing.Point(12, 784)
         Me.Button3.Name = "Button3"
         Me.Button3.Size = New System.Drawing.Size(117, 33)
         Me.Button3.TabIndex = 134
@@ -640,322 +589,12 @@ Partial Class Main
         '
         'Button4
         '
-        Me.Button4.Location = New System.Drawing.Point(14, 458)
+        Me.Button4.Location = New System.Drawing.Point(12, 741)
         Me.Button4.Name = "Button4"
         Me.Button4.Size = New System.Drawing.Size(117, 33)
         Me.Button4.TabIndex = 135
         Me.Button4.Text = "Back Testing"
         Me.Button4.UseVisualStyleBackColor = True
-        '
-        'Label38
-        '
-        Me.Label38.AutoSize = True
-        Me.Label38.BackColor = System.Drawing.SystemColors.ButtonHighlight
-        Me.Label38.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label38.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.Label38.Location = New System.Drawing.Point(14, 9)
-        Me.Label38.Name = "Label38"
-        Me.Label38.Size = New System.Drawing.Size(166, 17)
-        Me.Label38.TabIndex = 136
-        Me.Label38.Text = "Real-Time Dashboard"
-        '
-        'Label39
-        '
-        Me.Label39.AutoSize = True
-        Me.Label39.BackColor = System.Drawing.SystemColors.ButtonHighlight
-        Me.Label39.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.125!, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label39.Location = New System.Drawing.Point(51, 60)
-        Me.Label39.Name = "Label39"
-        Me.Label39.Size = New System.Drawing.Size(43, 17)
-        Me.Label39.TabIndex = 137
-        Me.Label39.Text = "Open"
-        '
-        'lblopenBTOs
-        '
-        Me.lblopenBTOs.AutoSize = True
-        Me.lblopenBTOs.BackColor = System.Drawing.SystemColors.ButtonHighlight
-        Me.lblopenBTOs.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblopenBTOs.Location = New System.Drawing.Point(63, 92)
-        Me.lblopenBTOs.Name = "lblopenBTOs"
-        Me.lblopenBTOs.Size = New System.Drawing.Size(18, 20)
-        Me.lblopenBTOs.TabIndex = 138
-        Me.lblopenBTOs.Text = "0"
-        '
-        'lblopenSTCs
-        '
-        Me.lblopenSTCs.AutoSize = True
-        Me.lblopenSTCs.BackColor = System.Drawing.SystemColors.ButtonHighlight
-        Me.lblopenSTCs.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblopenSTCs.Location = New System.Drawing.Point(63, 182)
-        Me.lblopenSTCs.Name = "lblopenSTCs"
-        Me.lblopenSTCs.Size = New System.Drawing.Size(18, 20)
-        Me.lblopenSTCs.TabIndex = 140
-        Me.lblopenSTCs.Text = "0"
-        '
-        'Label41
-        '
-        Me.Label41.AutoSize = True
-        Me.Label41.BackColor = System.Drawing.SystemColors.ButtonHighlight
-        Me.Label41.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.125!, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label41.Location = New System.Drawing.Point(98, 126)
-        Me.Label41.Name = "Label41"
-        Me.Label41.Size = New System.Drawing.Size(35, 17)
-        Me.Label41.TabIndex = 139
-        Me.Label41.Text = "STC"
-        '
-        'lblMaxCap
-        '
-        Me.lblMaxCap.AutoSize = True
-        Me.lblMaxCap.BackColor = System.Drawing.SystemColors.ButtonHighlight
-        Me.lblMaxCap.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblMaxCap.Location = New System.Drawing.Point(161, 452)
-        Me.lblMaxCap.Name = "lblMaxCap"
-        Me.lblMaxCap.Size = New System.Drawing.Size(80, 17)
-        Me.lblMaxCap.TabIndex = 142
-        Me.lblMaxCap.Text = "000,000.00"
-        '
-        'Label43
-        '
-        Me.Label43.AutoSize = True
-        Me.Label43.BackColor = System.Drawing.SystemColors.ButtonHighlight
-        Me.Label43.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label43.Location = New System.Drawing.Point(22, 452)
-        Me.Label43.Name = "Label43"
-        Me.Label43.Size = New System.Drawing.Size(84, 17)
-        Me.Label43.TabIndex = 141
-        Me.Label43.Text = "Max Capital:"
-        '
-        'lblCurrentCapital
-        '
-        Me.lblCurrentCapital.AutoSize = True
-        Me.lblCurrentCapital.BackColor = System.Drawing.SystemColors.ButtonHighlight
-        Me.lblCurrentCapital.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblCurrentCapital.Location = New System.Drawing.Point(161, 480)
-        Me.lblCurrentCapital.Name = "lblCurrentCapital"
-        Me.lblCurrentCapital.Size = New System.Drawing.Size(80, 17)
-        Me.lblCurrentCapital.TabIndex = 144
-        Me.lblCurrentCapital.Text = "000,000.00"
-        '
-        'Label45
-        '
-        Me.Label45.AutoSize = True
-        Me.Label45.BackColor = System.Drawing.SystemColors.ButtonHighlight
-        Me.Label45.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label45.Location = New System.Drawing.Point(22, 480)
-        Me.Label45.Name = "Label45"
-        Me.Label45.Size = New System.Drawing.Size(106, 17)
-        Me.Label45.TabIndex = 143
-        Me.Label45.Text = "Current Capital:"
-        '
-        'Label46
-        '
-        Me.Label46.AutoSize = True
-        Me.Label46.BackColor = System.Drawing.SystemColors.ButtonHighlight
-        Me.Label46.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label46.Location = New System.Drawing.Point(204, 508)
-        Me.Label46.Name = "Label46"
-        Me.Label46.Size = New System.Drawing.Size(16, 17)
-        Me.Label46.TabIndex = 146
-        Me.Label46.Text = "0"
-        '
-        'Label47
-        '
-        Me.Label47.AutoSize = True
-        Me.Label47.BackColor = System.Drawing.SystemColors.ButtonHighlight
-        Me.Label47.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label47.Location = New System.Drawing.Point(22, 508)
-        Me.Label47.Name = "Label47"
-        Me.Label47.Size = New System.Drawing.Size(162, 17)
-        Me.Label47.TabIndex = 145
-        Me.Label47.Text = "Hedge Positions Closed:"
-        '
-        'Label48
-        '
-        Me.Label48.AutoSize = True
-        Me.Label48.BackColor = System.Drawing.SystemColors.ButtonHighlight
-        Me.Label48.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label48.Location = New System.Drawing.Point(204, 537)
-        Me.Label48.Name = "Label48"
-        Me.Label48.Size = New System.Drawing.Size(16, 17)
-        Me.Label48.TabIndex = 148
-        Me.Label48.Text = "0"
-        '
-        'Label49
-        '
-        Me.Label49.AutoSize = True
-        Me.Label49.BackColor = System.Drawing.SystemColors.ButtonHighlight
-        Me.Label49.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label49.Location = New System.Drawing.Point(22, 537)
-        Me.Label49.Name = "Label49"
-        Me.Label49.Size = New System.Drawing.Size(119, 17)
-        Me.Label49.TabIndex = 147
-        Me.Label49.Text = "Daily Stock Profit:"
-        '
-        'Label50
-        '
-        Me.Label50.AutoSize = True
-        Me.Label50.BackColor = System.Drawing.SystemColors.ButtonHighlight
-        Me.Label50.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label50.Location = New System.Drawing.Point(204, 564)
-        Me.Label50.Name = "Label50"
-        Me.Label50.Size = New System.Drawing.Size(16, 17)
-        Me.Label50.TabIndex = 150
-        Me.Label50.Text = "0"
-        '
-        'Label51
-        '
-        Me.Label51.AutoSize = True
-        Me.Label51.BackColor = System.Drawing.SystemColors.ButtonHighlight
-        Me.Label51.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label51.Location = New System.Drawing.Point(22, 564)
-        Me.Label51.Name = "Label51"
-        Me.Label51.Size = New System.Drawing.Size(126, 17)
-        Me.Label51.TabIndex = 149
-        Me.Label51.Text = "Daily Hedge Profit:"
-        '
-        'Label52
-        '
-        Me.Label52.AutoSize = True
-        Me.Label52.BackColor = System.Drawing.SystemColors.ButtonHighlight
-        Me.Label52.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label52.Location = New System.Drawing.Point(204, 590)
-        Me.Label52.Name = "Label52"
-        Me.Label52.Size = New System.Drawing.Size(16, 17)
-        Me.Label52.TabIndex = 152
-        Me.Label52.Text = "0"
-        '
-        'Label53
-        '
-        Me.Label53.AutoSize = True
-        Me.Label53.BackColor = System.Drawing.SystemColors.ButtonHighlight
-        Me.Label53.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label53.Location = New System.Drawing.Point(22, 590)
-        Me.Label53.Name = "Label53"
-        Me.Label53.Size = New System.Drawing.Size(116, 17)
-        Me.Label53.TabIndex = 151
-        Me.Label53.Text = "Daily Total Profit:"
-        '
-        'Panel2
-        '
-        Me.Panel2.BackColor = System.Drawing.SystemColors.ButtonHighlight
-        Me.Panel2.Controls.Add(Me.Label42)
-        Me.Panel2.Controls.Add(Me.lblTransactions)
-        Me.Panel2.Controls.Add(Me.lblclosedSTCs)
-        Me.Panel2.Controls.Add(Me.Label66)
-        Me.Panel2.Controls.Add(Me.Label67)
-        Me.Panel2.Controls.Add(Me.Label64)
-        Me.Panel2.Controls.Add(Me.lblclosedBTOs)
-        Me.Panel2.Controls.Add(Me.Label40)
-        Me.Panel2.Controls.Add(Me.Label38)
-        Me.Panel2.Controls.Add(Me.Label39)
-        Me.Panel2.Controls.Add(Me.lblopenBTOs)
-        Me.Panel2.Controls.Add(Me.Label41)
-        Me.Panel2.Controls.Add(Me.lblopenSTCs)
-        Me.Panel2.Controls.Add(Me.Label43)
-        Me.Panel2.Controls.Add(Me.lblMaxCap)
-        Me.Panel2.Controls.Add(Me.Label45)
-        Me.Panel2.Controls.Add(Me.Label52)
-        Me.Panel2.Controls.Add(Me.lblCurrentCapital)
-        Me.Panel2.Controls.Add(Me.Label53)
-        Me.Panel2.Controls.Add(Me.Label47)
-        Me.Panel2.Controls.Add(Me.Label50)
-        Me.Panel2.Controls.Add(Me.Label46)
-        Me.Panel2.Controls.Add(Me.Label51)
-        Me.Panel2.Controls.Add(Me.Label49)
-        Me.Panel2.Controls.Add(Me.Label48)
-        Me.Panel2.Location = New System.Drawing.Point(974, 53)
-        Me.Panel2.Margin = New System.Windows.Forms.Padding(2)
-        Me.Panel2.Name = "Panel2"
-        Me.Panel2.Size = New System.Drawing.Size(245, 648)
-        Me.Panel2.TabIndex = 153
-        '
-        'Label42
-        '
-        Me.Label42.AutoSize = True
-        Me.Label42.BackColor = System.Drawing.SystemColors.ButtonHighlight
-        Me.Label42.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label42.Location = New System.Drawing.Point(3, 425)
-        Me.Label42.Name = "Label42"
-        Me.Label42.Size = New System.Drawing.Size(130, 17)
-        Me.Label42.TabIndex = 159
-        Me.Label42.Text = "Total Transactions:"
-        '
-        'lblTransactions
-        '
-        Me.lblTransactions.AutoSize = True
-        Me.lblTransactions.BackColor = System.Drawing.SystemColors.ButtonHighlight
-        Me.lblTransactions.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTransactions.Location = New System.Drawing.Point(136, 425)
-        Me.lblTransactions.Name = "lblTransactions"
-        Me.lblTransactions.Size = New System.Drawing.Size(88, 17)
-        Me.lblTransactions.TabIndex = 160
-        Me.lblTransactions.Text = "000,000,000"
-        '
-        'lblclosedSTCs
-        '
-        Me.lblclosedSTCs.AutoSize = True
-        Me.lblclosedSTCs.BackColor = System.Drawing.SystemColors.ButtonHighlight
-        Me.lblclosedSTCs.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblclosedSTCs.Location = New System.Drawing.Point(157, 182)
-        Me.lblclosedSTCs.Name = "lblclosedSTCs"
-        Me.lblclosedSTCs.Size = New System.Drawing.Size(18, 20)
-        Me.lblclosedSTCs.TabIndex = 158
-        Me.lblclosedSTCs.Text = "0"
-        '
-        'Label66
-        '
-        Me.Label66.AutoSize = True
-        Me.Label66.BackColor = System.Drawing.SystemColors.ButtonHighlight
-        Me.Label66.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.125!, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label66.Location = New System.Drawing.Point(132, 150)
-        Me.Label66.Name = "Label66"
-        Me.Label66.Size = New System.Drawing.Size(51, 17)
-        Me.Label66.TabIndex = 157
-        Me.Label66.Text = "Closed"
-        '
-        'Label67
-        '
-        Me.Label67.AutoSize = True
-        Me.Label67.BackColor = System.Drawing.SystemColors.ButtonHighlight
-        Me.Label67.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.125!, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label67.Location = New System.Drawing.Point(51, 150)
-        Me.Label67.Name = "Label67"
-        Me.Label67.Size = New System.Drawing.Size(43, 17)
-        Me.Label67.TabIndex = 156
-        Me.Label67.Text = "Open"
-        '
-        'Label64
-        '
-        Me.Label64.AutoSize = True
-        Me.Label64.BackColor = System.Drawing.SystemColors.ButtonHighlight
-        Me.Label64.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.125!, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label64.Location = New System.Drawing.Point(132, 60)
-        Me.Label64.Name = "Label64"
-        Me.Label64.Size = New System.Drawing.Size(51, 17)
-        Me.Label64.TabIndex = 154
-        Me.Label64.Text = "Closed"
-        '
-        'lblclosedBTOs
-        '
-        Me.lblclosedBTOs.AutoSize = True
-        Me.lblclosedBTOs.BackColor = System.Drawing.SystemColors.ButtonHighlight
-        Me.lblclosedBTOs.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblclosedBTOs.Location = New System.Drawing.Point(157, 92)
-        Me.lblclosedBTOs.Name = "lblclosedBTOs"
-        Me.lblclosedBTOs.Size = New System.Drawing.Size(18, 20)
-        Me.lblclosedBTOs.TabIndex = 155
-        Me.lblclosedBTOs.Text = "0"
-        '
-        'Label40
-        '
-        Me.Label40.AutoSize = True
-        Me.Label40.BackColor = System.Drawing.SystemColors.ButtonHighlight
-        Me.Label40.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.125!, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label40.Location = New System.Drawing.Point(95, 38)
-        Me.Label40.Name = "Label40"
-        Me.Label40.Size = New System.Drawing.Size(37, 17)
-        Me.Label40.TabIndex = 153
-        Me.Label40.Text = "BTO"
         '
         'pnlMan
         '
@@ -976,11 +615,8 @@ Partial Class Main
         Me.pnlMan.Controls.Add(Me.Label37)
         Me.pnlMan.Controls.Add(Me.txtTickId)
         Me.pnlMan.Controls.Add(Me.Label33)
-        Me.pnlMan.Controls.Add(Me.btnGetPrice2)
         Me.pnlMan.Controls.Add(Me.btnckprice)
         Me.pnlMan.Controls.Add(Me.txtGetPriceSymbol)
-        Me.pnlMan.Controls.Add(Me.btnTickPrice)
-        Me.pnlMan.Controls.Add(Me.btnReqNextValidId)
         Me.pnlMan.Controls.Add(Me.Label30)
         Me.pnlMan.Controls.Add(Me.txtOptionExpirationDate)
         Me.pnlMan.Controls.Add(Me.Label28)
@@ -991,7 +627,6 @@ Partial Class Main
         Me.pnlMan.Controls.Add(Me.txtOptionStrike)
         Me.pnlMan.Controls.Add(Me.Label16)
         Me.pnlMan.Controls.Add(Me.txtOptionSymbol)
-        Me.pnlMan.Controls.Add(Me.btnOpPrice)
         Me.pnlMan.Controls.Add(Me.Label17)
         Me.pnlMan.Controls.Add(Me.TextBox1)
         Me.pnlMan.Controls.Add(Me.Label20)
@@ -1006,16 +641,16 @@ Partial Class Main
         Me.pnlMan.Controls.Add(Me.TextBox6)
         Me.pnlMan.Controls.Add(Me.btnSendOption)
         Me.pnlMan.Controls.Add(Me.btnHideManual)
-        Me.pnlMan.Location = New System.Drawing.Point(158, 714)
+        Me.pnlMan.Location = New System.Drawing.Point(978, 462)
         Me.pnlMan.Name = "pnlMan"
-        Me.pnlMan.Size = New System.Drawing.Size(696, 294)
+        Me.pnlMan.Size = New System.Drawing.Size(664, 228)
         Me.pnlMan.TabIndex = 154
         Me.pnlMan.Visible = False
         '
         'Label29
         '
         Me.Label29.AutoSize = True
-        Me.Label29.Location = New System.Drawing.Point(124, 103)
+        Me.Label29.Location = New System.Drawing.Point(19, 64)
         Me.Label29.Name = "Label29"
         Me.Label29.Size = New System.Drawing.Size(170, 13)
         Me.Label29.TabIndex = 204
@@ -1027,7 +662,7 @@ Partial Class Main
         Me.grdContracts.AllowUserToDeleteRows = False
         Me.grdContracts.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.grdContracts.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.colSymbol, Me.colExpDate, Me.colStrike, Me.colRight, Me.colConId})
-        Me.grdContracts.Location = New System.Drawing.Point(25, 184)
+        Me.grdContracts.Location = New System.Drawing.Point(10, 119)
         Me.grdContracts.Name = "grdContracts"
         Me.grdContracts.ReadOnly = True
         Me.grdContracts.Size = New System.Drawing.Size(393, 96)
@@ -1065,9 +700,9 @@ Partial Class Main
         '
         'btnSpreadOrder
         '
-        Me.btnSpreadOrder.Location = New System.Drawing.Point(309, 153)
+        Me.btnSpreadOrder.Location = New System.Drawing.Point(473, 123)
         Me.btnSpreadOrder.Name = "btnSpreadOrder"
-        Me.btnSpreadOrder.Size = New System.Drawing.Size(100, 23)
+        Me.btnSpreadOrder.Size = New System.Drawing.Size(92, 23)
         Me.btnSpreadOrder.TabIndex = 202
         Me.btnSpreadOrder.Text = "Send Spread "
         Me.btnSpreadOrder.UseVisualStyleBackColor = True
@@ -1075,7 +710,7 @@ Partial Class Main
         'Label31
         '
         Me.Label31.AutoSize = True
-        Me.Label31.Location = New System.Drawing.Point(116, 132)
+        Me.Label31.Location = New System.Drawing.Point(102, 96)
         Me.Label31.Name = "Label31"
         Me.Label31.Size = New System.Drawing.Size(79, 13)
         Me.Label31.TabIndex = 201
@@ -1083,7 +718,7 @@ Partial Class Main
         '
         'txtSpreadExp
         '
-        Me.txtSpreadExp.Location = New System.Drawing.Point(201, 129)
+        Me.txtSpreadExp.Location = New System.Drawing.Point(187, 93)
         Me.txtSpreadExp.Name = "txtSpreadExp"
         Me.txtSpreadExp.Size = New System.Drawing.Size(98, 20)
         Me.txtSpreadExp.TabIndex = 200
@@ -1092,7 +727,7 @@ Partial Class Main
         'Label34
         '
         Me.Label34.AutoSize = True
-        Me.Label34.Location = New System.Drawing.Point(118, 158)
+        Me.Label34.Location = New System.Drawing.Point(389, 96)
         Me.Label34.Name = "Label34"
         Me.Label34.Size = New System.Drawing.Size(36, 13)
         Me.Label34.TabIndex = 199
@@ -1100,7 +735,7 @@ Partial Class Main
         '
         'txtSpreadRight
         '
-        Me.txtSpreadRight.Location = New System.Drawing.Point(154, 155)
+        Me.txtSpreadRight.Location = New System.Drawing.Point(425, 93)
         Me.txtSpreadRight.Name = "txtSpreadRight"
         Me.txtSpreadRight.Size = New System.Drawing.Size(41, 20)
         Me.txtSpreadRight.TabIndex = 198
@@ -1109,7 +744,7 @@ Partial Class Main
         'Label35
         '
         Me.Label35.AutoSize = True
-        Me.Label35.Location = New System.Drawing.Point(22, 158)
+        Me.Label35.Location = New System.Drawing.Point(293, 96)
         Me.Label35.Name = "Label35"
         Me.Label35.Size = New System.Drawing.Size(34, 13)
         Me.Label35.TabIndex = 197
@@ -1117,7 +752,7 @@ Partial Class Main
         '
         'txtSpreadStrike
         '
-        Me.txtSpreadStrike.Location = New System.Drawing.Point(69, 155)
+        Me.txtSpreadStrike.Location = New System.Drawing.Point(340, 93)
         Me.txtSpreadStrike.Name = "txtSpreadStrike"
         Me.txtSpreadStrike.Size = New System.Drawing.Size(41, 20)
         Me.txtSpreadStrike.TabIndex = 196
@@ -1126,7 +761,7 @@ Partial Class Main
         'Label36
         '
         Me.Label36.AutoSize = True
-        Me.Label36.Location = New System.Drawing.Point(22, 132)
+        Me.Label36.Location = New System.Drawing.Point(8, 96)
         Me.Label36.Name = "Label36"
         Me.Label36.Size = New System.Drawing.Size(41, 13)
         Me.Label36.TabIndex = 195
@@ -1134,7 +769,7 @@ Partial Class Main
         '
         'txtSpreadSymbol
         '
-        Me.txtSpreadSymbol.Location = New System.Drawing.Point(69, 129)
+        Me.txtSpreadSymbol.Location = New System.Drawing.Point(55, 93)
         Me.txtSpreadSymbol.Name = "txtSpreadSymbol"
         Me.txtSpreadSymbol.Size = New System.Drawing.Size(41, 20)
         Me.txtSpreadSymbol.TabIndex = 194
@@ -1142,7 +777,7 @@ Partial Class Main
         '
         'btnAddLeg
         '
-        Me.btnAddLeg.Location = New System.Drawing.Point(202, 155)
+        Me.btnAddLeg.Location = New System.Drawing.Point(473, 93)
         Me.btnAddLeg.Name = "btnAddLeg"
         Me.btnAddLeg.Size = New System.Drawing.Size(92, 23)
         Me.btnAddLeg.TabIndex = 193
@@ -1151,7 +786,7 @@ Partial Class Main
         '
         'btnOpenFile
         '
-        Me.btnOpenFile.Location = New System.Drawing.Point(309, 103)
+        Me.btnOpenFile.Location = New System.Drawing.Point(204, 64)
         Me.btnOpenFile.Name = "btnOpenFile"
         Me.btnOpenFile.Size = New System.Drawing.Size(100, 23)
         Me.btnOpenFile.TabIndex = 192
@@ -1162,7 +797,7 @@ Partial Class Main
         'Label37
         '
         Me.Label37.AutoSize = True
-        Me.Label37.Location = New System.Drawing.Point(531, 118)
+        Me.Label37.Location = New System.Drawing.Point(312, 41)
         Me.Label37.Name = "Label37"
         Me.Label37.Size = New System.Drawing.Size(67, 13)
         Me.Label37.TabIndex = 190
@@ -1170,7 +805,7 @@ Partial Class Main
         '
         'txtTickId
         '
-        Me.txtTickId.Location = New System.Drawing.Point(606, 115)
+        Me.txtTickId.Location = New System.Drawing.Point(387, 38)
         Me.txtTickId.Name = "txtTickId"
         Me.txtTickId.Size = New System.Drawing.Size(41, 20)
         Me.txtTickId.TabIndex = 189
@@ -1179,24 +814,15 @@ Partial Class Main
         'Label33
         '
         Me.Label33.AutoSize = True
-        Me.Label33.Location = New System.Drawing.Point(534, 151)
+        Me.Label33.Location = New System.Drawing.Point(469, 40)
         Me.Label33.Name = "Label33"
         Me.Label33.Size = New System.Drawing.Size(67, 13)
         Me.Label33.TabIndex = 188
         Me.Label33.Text = "App Controls"
         '
-        'btnGetPrice2
-        '
-        Me.btnGetPrice2.Location = New System.Drawing.Point(614, 146)
-        Me.btnGetPrice2.Name = "btnGetPrice2"
-        Me.btnGetPrice2.Size = New System.Drawing.Size(67, 23)
-        Me.btnGetPrice2.TabIndex = 185
-        Me.btnGetPrice2.Text = "Get Price"
-        Me.btnGetPrice2.UseVisualStyleBackColor = True
-        '
         'btnckprice
         '
-        Me.btnckprice.Location = New System.Drawing.Point(614, 175)
+        Me.btnckprice.Location = New System.Drawing.Point(473, 64)
         Me.btnckprice.Name = "btnckprice"
         Me.btnckprice.Size = New System.Drawing.Size(67, 23)
         Me.btnckprice.TabIndex = 187
@@ -1205,51 +831,33 @@ Partial Class Main
         '
         'txtGetPriceSymbol
         '
-        Me.txtGetPriceSymbol.Location = New System.Drawing.Point(491, 177)
+        Me.txtGetPriceSymbol.Location = New System.Drawing.Point(426, 66)
         Me.txtGetPriceSymbol.Name = "txtGetPriceSymbol"
         Me.txtGetPriceSymbol.Size = New System.Drawing.Size(42, 20)
         Me.txtGetPriceSymbol.TabIndex = 186
         Me.txtGetPriceSymbol.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
-        'btnTickPrice
-        '
-        Me.btnTickPrice.Location = New System.Drawing.Point(538, 86)
-        Me.btnTickPrice.Name = "btnTickPrice"
-        Me.btnTickPrice.Size = New System.Drawing.Size(100, 23)
-        Me.btnTickPrice.TabIndex = 191
-        Me.btnTickPrice.Text = "Get Tick"
-        Me.btnTickPrice.UseVisualStyleBackColor = True
-        '
-        'btnReqNextValidId
-        '
-        Me.btnReqNextValidId.Location = New System.Drawing.Point(540, 174)
-        Me.btnReqNextValidId.Name = "btnReqNextValidId"
-        Me.btnReqNextValidId.Size = New System.Drawing.Size(67, 23)
-        Me.btnReqNextValidId.TabIndex = 184
-        Me.btnReqNextValidId.Text = "OrderId"
-        Me.btnReqNextValidId.UseVisualStyleBackColor = True
-        '
         'Label30
         '
         Me.Label30.AutoSize = True
-        Me.Label30.Location = New System.Drawing.Point(111, 57)
+        Me.Label30.Location = New System.Drawing.Point(549, 17)
         Me.Label30.Name = "Label30"
-        Me.Label30.Size = New System.Drawing.Size(79, 13)
+        Me.Label30.Size = New System.Drawing.Size(25, 13)
         Me.Label30.TabIndex = 182
-        Me.Label30.Text = "Expiration Date"
+        Me.Label30.Text = "Exp"
         '
         'txtOptionExpirationDate
         '
-        Me.txtOptionExpirationDate.Location = New System.Drawing.Point(194, 54)
+        Me.txtOptionExpirationDate.Location = New System.Drawing.Point(574, 14)
         Me.txtOptionExpirationDate.Name = "txtOptionExpirationDate"
-        Me.txtOptionExpirationDate.Size = New System.Drawing.Size(98, 20)
+        Me.txtOptionExpirationDate.Size = New System.Drawing.Size(70, 20)
         Me.txtOptionExpirationDate.TabIndex = 181
         Me.txtOptionExpirationDate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'Label28
         '
         Me.Label28.AutoSize = True
-        Me.Label28.Location = New System.Drawing.Point(468, 57)
+        Me.Label28.Location = New System.Drawing.Point(114, 38)
         Me.Label28.Name = "Label28"
         Me.Label28.Size = New System.Drawing.Size(17, 13)
         Me.Label28.TabIndex = 180
@@ -1257,7 +865,7 @@ Partial Class Main
         '
         'txtOptionIV
         '
-        Me.txtOptionIV.Location = New System.Drawing.Point(522, 54)
+        Me.txtOptionIV.Location = New System.Drawing.Point(137, 36)
         Me.txtOptionIV.Name = "txtOptionIV"
         Me.txtOptionIV.Size = New System.Drawing.Size(41, 20)
         Me.txtOptionIV.TabIndex = 179
@@ -1266,24 +874,24 @@ Partial Class Main
         'Label27
         '
         Me.Label27.AutoSize = True
-        Me.Label27.Location = New System.Drawing.Point(382, 57)
+        Me.Label27.Location = New System.Drawing.Point(500, 16)
         Me.Label27.Name = "Label27"
-        Me.Label27.Size = New System.Drawing.Size(36, 13)
+        Me.Label27.Size = New System.Drawing.Size(26, 13)
         Me.Label27.TabIndex = 178
-        Me.Label27.Text = "P or C"
+        Me.Label27.Text = "P/C"
         '
         'txtOptionRight
         '
-        Me.txtOptionRight.Location = New System.Drawing.Point(418, 54)
+        Me.txtOptionRight.Location = New System.Drawing.Point(527, 13)
         Me.txtOptionRight.Name = "txtOptionRight"
-        Me.txtOptionRight.Size = New System.Drawing.Size(41, 20)
+        Me.txtOptionRight.Size = New System.Drawing.Size(21, 20)
         Me.txtOptionRight.TabIndex = 177
         Me.txtOptionRight.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'lblOptionStrike
         '
         Me.lblOptionStrike.AutoSize = True
-        Me.lblOptionStrike.Location = New System.Drawing.Point(298, 57)
+        Me.lblOptionStrike.Location = New System.Drawing.Point(186, 45)
         Me.lblOptionStrike.Name = "lblOptionStrike"
         Me.lblOptionStrike.Size = New System.Drawing.Size(34, 13)
         Me.lblOptionStrike.TabIndex = 176
@@ -1291,7 +899,7 @@ Partial Class Main
         '
         'txtOptionStrike
         '
-        Me.txtOptionStrike.Location = New System.Drawing.Point(334, 54)
+        Me.txtOptionStrike.Location = New System.Drawing.Point(226, 41)
         Me.txtOptionStrike.Name = "txtOptionStrike"
         Me.txtOptionStrike.Size = New System.Drawing.Size(41, 20)
         Me.txtOptionStrike.TabIndex = 175
@@ -1300,7 +908,7 @@ Partial Class Main
         'Label16
         '
         Me.Label16.AutoSize = True
-        Me.Label16.Location = New System.Drawing.Point(4, 57)
+        Me.Label16.Location = New System.Drawing.Point(7, 35)
         Me.Label16.Name = "Label16"
         Me.Label16.Size = New System.Drawing.Size(41, 13)
         Me.Label16.TabIndex = 174
@@ -1308,33 +916,24 @@ Partial Class Main
         '
         'txtOptionSymbol
         '
-        Me.txtOptionSymbol.Location = New System.Drawing.Point(59, 54)
+        Me.txtOptionSymbol.Location = New System.Drawing.Point(48, 32)
         Me.txtOptionSymbol.Name = "txtOptionSymbol"
         Me.txtOptionSymbol.Size = New System.Drawing.Size(41, 20)
         Me.txtOptionSymbol.TabIndex = 173
         Me.txtOptionSymbol.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
-        'btnOpPrice
-        '
-        Me.btnOpPrice.Location = New System.Drawing.Point(570, 52)
-        Me.btnOpPrice.Name = "btnOpPrice"
-        Me.btnOpPrice.Size = New System.Drawing.Size(101, 23)
-        Me.btnOpPrice.TabIndex = 172
-        Me.btnOpPrice.Text = "Opt Price"
-        Me.btnOpPrice.UseVisualStyleBackColor = True
-        '
         'Label17
         '
         Me.Label17.AutoSize = True
-        Me.Label17.Location = New System.Drawing.Point(468, 16)
+        Me.Label17.Location = New System.Drawing.Point(425, 16)
         Me.Label17.Name = "Label17"
-        Me.Label17.Size = New System.Drawing.Size(46, 13)
+        Me.Label17.Size = New System.Drawing.Size(23, 13)
         Me.Label17.TabIndex = 171
-        Me.Label17.Text = "Quantity"
+        Me.Label17.Text = "Qty"
         '
         'TextBox1
         '
-        Me.TextBox1.Location = New System.Drawing.Point(522, 13)
+        Me.TextBox1.Location = New System.Drawing.Point(454, 12)
         Me.TextBox1.Name = "TextBox1"
         Me.TextBox1.Size = New System.Drawing.Size(41, 20)
         Me.TextBox1.TabIndex = 170
@@ -1343,7 +942,7 @@ Partial Class Main
         'Label20
         '
         Me.Label20.AutoSize = True
-        Me.Label20.Location = New System.Drawing.Point(382, 16)
+        Me.Label20.Location = New System.Drawing.Point(346, 15)
         Me.Label20.Name = "Label20"
         Me.Label20.Size = New System.Drawing.Size(31, 13)
         Me.Label20.TabIndex = 169
@@ -1351,7 +950,7 @@ Partial Class Main
         '
         'TextBox2
         '
-        Me.TextBox2.Location = New System.Drawing.Point(418, 9)
+        Me.TextBox2.Location = New System.Drawing.Point(378, 12)
         Me.TextBox2.Name = "TextBox2"
         Me.TextBox2.Size = New System.Drawing.Size(41, 20)
         Me.TextBox2.TabIndex = 168
@@ -1360,7 +959,7 @@ Partial Class Main
         'Label21
         '
         Me.Label21.AutoSize = True
-        Me.Label21.Location = New System.Drawing.Point(297, 16)
+        Me.Label21.Location = New System.Drawing.Point(266, 15)
         Me.Label21.Name = "Label21"
         Me.Label21.Size = New System.Drawing.Size(31, 13)
         Me.Label21.TabIndex = 167
@@ -1368,7 +967,7 @@ Partial Class Main
         '
         'TextBox3
         '
-        Me.TextBox3.Location = New System.Drawing.Point(335, 9)
+        Me.TextBox3.Location = New System.Drawing.Point(298, 12)
         Me.TextBox3.Name = "TextBox3"
         Me.TextBox3.Size = New System.Drawing.Size(41, 20)
         Me.TextBox3.TabIndex = 166
@@ -1377,7 +976,7 @@ Partial Class Main
         'Label22
         '
         Me.Label22.AutoSize = True
-        Me.Label22.Location = New System.Drawing.Point(207, 16)
+        Me.Label22.Location = New System.Drawing.Point(182, 16)
         Me.Label22.Name = "Label22"
         Me.Label22.Size = New System.Drawing.Size(37, 13)
         Me.Label22.TabIndex = 165
@@ -1385,7 +984,7 @@ Partial Class Main
         '
         'TextBox4
         '
-        Me.TextBox4.Location = New System.Drawing.Point(250, 13)
+        Me.TextBox4.Location = New System.Drawing.Point(219, 12)
         Me.TextBox4.Name = "TextBox4"
         Me.TextBox4.Size = New System.Drawing.Size(41, 20)
         Me.TextBox4.TabIndex = 164
@@ -1394,7 +993,7 @@ Partial Class Main
         'Label23
         '
         Me.Label23.AutoSize = True
-        Me.Label23.Location = New System.Drawing.Point(111, 12)
+        Me.Label23.Location = New System.Drawing.Point(94, 16)
         Me.Label23.Name = "Label23"
         Me.Label23.Size = New System.Drawing.Size(41, 13)
         Me.Label23.TabIndex = 163
@@ -1402,7 +1001,7 @@ Partial Class Main
         '
         'TextBox5
         '
-        Me.TextBox5.Location = New System.Drawing.Point(158, 13)
+        Me.TextBox5.Location = New System.Drawing.Point(135, 13)
         Me.TextBox5.Name = "TextBox5"
         Me.TextBox5.Size = New System.Drawing.Size(41, 20)
         Me.TextBox5.TabIndex = 162
@@ -1419,7 +1018,7 @@ Partial Class Main
         '
         'TextBox6
         '
-        Me.TextBox6.Location = New System.Drawing.Point(59, 9)
+        Me.TextBox6.Location = New System.Drawing.Point(48, 12)
         Me.TextBox6.Name = "TextBox6"
         Me.TextBox6.Size = New System.Drawing.Size(41, 20)
         Me.TextBox6.TabIndex = 160
@@ -1428,7 +1027,7 @@ Partial Class Main
         '
         'btnSendOption
         '
-        Me.btnSendOption.Location = New System.Drawing.Point(570, 12)
+        Me.btnSendOption.Location = New System.Drawing.Point(317, 64)
         Me.btnSendOption.Name = "btnSendOption"
         Me.btnSendOption.Size = New System.Drawing.Size(102, 23)
         Me.btnSendOption.TabIndex = 159
@@ -1437,752 +1036,222 @@ Partial Class Main
         '
         'btnHideManual
         '
-        Me.btnHideManual.Location = New System.Drawing.Point(540, 234)
+        Me.btnHideManual.Location = New System.Drawing.Point(411, 169)
         Me.btnHideManual.Name = "btnHideManual"
         Me.btnHideManual.Size = New System.Drawing.Size(141, 46)
         Me.btnHideManual.TabIndex = 132
         Me.btnHideManual.Text = "Close Manual"
         Me.btnHideManual.UseVisualStyleBackColor = True
         '
-        'pnlManual
+        'btnGetPrice2
         '
-        Me.pnlManual.Controls.Add(Me.Button77)
-        Me.pnlManual.Controls.Add(Me.Button78)
-        Me.pnlManual.Controls.Add(Me.Button79)
-        Me.pnlManual.Controls.Add(Me.Button68)
-        Me.pnlManual.Controls.Add(Me.Button69)
-        Me.pnlManual.Controls.Add(Me.Button70)
-        Me.pnlManual.Controls.Add(Me.Button71)
-        Me.pnlManual.Controls.Add(Me.Button72)
-        Me.pnlManual.Controls.Add(Me.Button73)
-        Me.pnlManual.Controls.Add(Me.Button64)
-        Me.pnlManual.Controls.Add(Me.Button65)
-        Me.pnlManual.Controls.Add(Me.Button66)
-        Me.pnlManual.Controls.Add(Me.Button67)
-        Me.pnlManual.Controls.Add(Me.Button56)
-        Me.pnlManual.Controls.Add(Me.Button57)
-        Me.pnlManual.Controls.Add(Me.Button58)
-        Me.pnlManual.Controls.Add(Me.Button59)
-        Me.pnlManual.Controls.Add(Me.Button60)
-        Me.pnlManual.Controls.Add(Me.Button61)
-        Me.pnlManual.Controls.Add(Me.Button50)
-        Me.pnlManual.Controls.Add(Me.Button51)
-        Me.pnlManual.Controls.Add(Me.Button52)
-        Me.pnlManual.Controls.Add(Me.Button53)
-        Me.pnlManual.Controls.Add(Me.Button54)
-        Me.pnlManual.Controls.Add(Me.Button55)
-        Me.pnlManual.Controls.Add(Me.Button44)
-        Me.pnlManual.Controls.Add(Me.Button45)
-        Me.pnlManual.Controls.Add(Me.Button46)
-        Me.pnlManual.Controls.Add(Me.Button47)
-        Me.pnlManual.Controls.Add(Me.Button48)
-        Me.pnlManual.Controls.Add(Me.Button49)
-        Me.pnlManual.Controls.Add(Me.Button38)
-        Me.pnlManual.Controls.Add(Me.Button39)
-        Me.pnlManual.Controls.Add(Me.Button40)
-        Me.pnlManual.Controls.Add(Me.Button41)
-        Me.pnlManual.Controls.Add(Me.Button42)
-        Me.pnlManual.Controls.Add(Me.Button43)
-        Me.pnlManual.Controls.Add(Me.Button32)
-        Me.pnlManual.Controls.Add(Me.Button33)
-        Me.pnlManual.Controls.Add(Me.Button34)
-        Me.pnlManual.Controls.Add(Me.Button35)
-        Me.pnlManual.Controls.Add(Me.Button36)
-        Me.pnlManual.Controls.Add(Me.Button37)
-        Me.pnlManual.Controls.Add(Me.Button26)
-        Me.pnlManual.Controls.Add(Me.Button27)
-        Me.pnlManual.Controls.Add(Me.Button28)
-        Me.pnlManual.Controls.Add(Me.Button29)
-        Me.pnlManual.Controls.Add(Me.Button30)
-        Me.pnlManual.Controls.Add(Me.Button31)
-        Me.pnlManual.Controls.Add(Me.Button20)
-        Me.pnlManual.Controls.Add(Me.Button21)
-        Me.pnlManual.Controls.Add(Me.Button22)
-        Me.pnlManual.Controls.Add(Me.Button23)
-        Me.pnlManual.Controls.Add(Me.Button24)
-        Me.pnlManual.Controls.Add(Me.Button25)
-        Me.pnlManual.Controls.Add(Me.BtnManualClear)
-        Me.pnlManual.Controls.Add(Me.Button17)
-        Me.pnlManual.Controls.Add(Me.Button18)
-        Me.pnlManual.Controls.Add(Me.Button15)
-        Me.pnlManual.Controls.Add(Me.Button16)
-        Me.pnlManual.Controls.Add(Me.Button14)
-        Me.pnlManual.Controls.Add(Me.Button13)
-        Me.pnlManual.Controls.Add(Me.btnGetPrice)
-        Me.pnlManual.Controls.Add(Me.txtPriceSymbol)
-        Me.pnlManual.Controls.Add(Me.btnCloseManual)
-        Me.pnlManual.Controls.Add(Me.Label63)
-        Me.pnlManual.Location = New System.Drawing.Point(150, 89)
-        Me.pnlManual.Margin = New System.Windows.Forms.Padding(2)
-        Me.pnlManual.Name = "pnlManual"
-        Me.pnlManual.Size = New System.Drawing.Size(831, 381)
-        Me.pnlManual.TabIndex = 168
+        Me.btnGetPrice2.Location = New System.Drawing.Point(195, 10)
+        Me.btnGetPrice2.Name = "btnGetPrice2"
+        Me.btnGetPrice2.Size = New System.Drawing.Size(67, 23)
+        Me.btnGetPrice2.TabIndex = 185
+        Me.btnGetPrice2.Text = "Get Price"
+        Me.btnGetPrice2.UseVisualStyleBackColor = True
         '
-        'Button77
+        'btnTickPrice
         '
-        Me.Button77.Location = New System.Drawing.Point(687, 319)
-        Me.Button77.Margin = New System.Windows.Forms.Padding(2)
-        Me.Button77.Name = "Button77"
-        Me.Button77.Size = New System.Drawing.Size(132, 27)
-        Me.Button77.TabIndex = 227
-        Me.Button77.Text = "XX Cancel Tick-By-Tick"
-        Me.Button77.UseVisualStyleBackColor = True
+        Me.btnTickPrice.Location = New System.Drawing.Point(114, 454)
+        Me.btnTickPrice.Name = "btnTickPrice"
+        Me.btnTickPrice.Size = New System.Drawing.Size(100, 23)
+        Me.btnTickPrice.TabIndex = 191
+        Me.btnTickPrice.Text = "Get Tick"
+        Me.btnTickPrice.UseVisualStyleBackColor = True
+        '
+        'btnOpPrice
+        '
+        Me.btnOpPrice.Location = New System.Drawing.Point(7, 454)
+        Me.btnOpPrice.Name = "btnOpPrice"
+        Me.btnOpPrice.Size = New System.Drawing.Size(101, 23)
+        Me.btnOpPrice.TabIndex = 172
+        Me.btnOpPrice.Text = "Opt Price"
+        Me.btnOpPrice.UseVisualStyleBackColor = True
         '
         'Button78
         '
-        Me.Button78.Location = New System.Drawing.Point(551, 319)
+        Me.Button78.BackColor = System.Drawing.Color.LawnGreen
+        Me.Button78.Location = New System.Drawing.Point(294, 549)
         Me.Button78.Margin = New System.Windows.Forms.Padding(2)
         Me.Button78.Name = "Button78"
         Me.Button78.Size = New System.Drawing.Size(132, 27)
         Me.Button78.TabIndex = 226
         Me.Button78.Text = "XX Req Tick-By-Tick"
-        Me.Button78.UseVisualStyleBackColor = True
-        '
-        'Button79
-        '
-        Me.Button79.Location = New System.Drawing.Point(7, 350)
-        Me.Button79.Margin = New System.Windows.Forms.Padding(2)
-        Me.Button79.Name = "Button79"
-        Me.Button79.Size = New System.Drawing.Size(132, 27)
-        Me.Button79.TabIndex = 225
-        Me.Button79.Text = "XX Req Historical Ticks"
-        Me.Button79.UseVisualStyleBackColor = True
-        '
-        'Button68
-        '
-        Me.Button68.Location = New System.Drawing.Point(687, 287)
-        Me.Button68.Margin = New System.Windows.Forms.Padding(2)
-        Me.Button68.Name = "Button68"
-        Me.Button68.Size = New System.Drawing.Size(132, 27)
-        Me.Button68.TabIndex = 224
-        Me.Button68.Text = "Cancel PnL Single"
-        Me.Button68.UseVisualStyleBackColor = True
-        '
-        'Button69
-        '
-        Me.Button69.Location = New System.Drawing.Point(551, 287)
-        Me.Button69.Margin = New System.Windows.Forms.Padding(2)
-        Me.Button69.Name = "Button69"
-        Me.Button69.Size = New System.Drawing.Size(132, 27)
-        Me.Button69.TabIndex = 223
-        Me.Button69.Text = "Req PnL Single"
-        Me.Button69.UseVisualStyleBackColor = True
-        '
-        'Button70
-        '
-        Me.Button70.Location = New System.Drawing.Point(415, 319)
-        Me.Button70.Margin = New System.Windows.Forms.Padding(2)
-        Me.Button70.Name = "Button70"
-        Me.Button70.Size = New System.Drawing.Size(132, 27)
-        Me.Button70.TabIndex = 222
-        Me.Button70.Text = "Cancel Acct Summary"
-        Me.Button70.UseVisualStyleBackColor = True
-        '
-        'Button71
-        '
-        Me.Button71.Location = New System.Drawing.Point(279, 319)
-        Me.Button71.Margin = New System.Windows.Forms.Padding(2)
-        Me.Button71.Name = "Button71"
-        Me.Button71.Size = New System.Drawing.Size(132, 27)
-        Me.Button71.TabIndex = 221
-        Me.Button71.Text = "Req Account Summary"
-        Me.Button71.UseVisualStyleBackColor = True
-        '
-        'Button72
-        '
-        Me.Button72.Location = New System.Drawing.Point(143, 319)
-        Me.Button72.Margin = New System.Windows.Forms.Padding(2)
-        Me.Button72.Name = "Button72"
-        Me.Button72.Size = New System.Drawing.Size(132, 27)
-        Me.Button72.TabIndex = 220
-        Me.Button72.Text = "XX Cancel Place Order"
-        Me.Button72.UseVisualStyleBackColor = True
-        '
-        'Button73
-        '
-        Me.Button73.Location = New System.Drawing.Point(7, 319)
-        Me.Button73.Margin = New System.Windows.Forms.Padding(2)
-        Me.Button73.Name = "Button73"
-        Me.Button73.Size = New System.Drawing.Size(132, 27)
-        Me.Button73.TabIndex = 219
-        Me.Button73.Text = "XX Place Order"
-        Me.Button73.UseVisualStyleBackColor = True
-        '
-        'Button64
-        '
-        Me.Button64.Location = New System.Drawing.Point(415, 287)
-        Me.Button64.Margin = New System.Windows.Forms.Padding(2)
-        Me.Button64.Name = "Button64"
-        Me.Button64.Size = New System.Drawing.Size(132, 27)
-        Me.Button64.TabIndex = 216
-        Me.Button64.Text = "XX Cancel Positions"
-        Me.Button64.UseVisualStyleBackColor = True
-        '
-        'Button65
-        '
-        Me.Button65.Location = New System.Drawing.Point(279, 287)
-        Me.Button65.Margin = New System.Windows.Forms.Padding(2)
-        Me.Button65.Name = "Button65"
-        Me.Button65.Size = New System.Drawing.Size(132, 27)
-        Me.Button65.TabIndex = 215
-        Me.Button65.Text = "XX Req Positions"
-        Me.Button65.UseVisualStyleBackColor = True
-        '
-        'Button66
-        '
-        Me.Button66.Location = New System.Drawing.Point(143, 287)
-        Me.Button66.Margin = New System.Windows.Forms.Padding(2)
-        Me.Button66.Name = "Button66"
-        Me.Button66.Size = New System.Drawing.Size(132, 27)
-        Me.Button66.TabIndex = 214
-        Me.Button66.Text = "Req Family Codes"
-        Me.Button66.UseVisualStyleBackColor = True
-        '
-        'Button67
-        '
-        Me.Button67.Location = New System.Drawing.Point(7, 287)
-        Me.Button67.Margin = New System.Windows.Forms.Padding(2)
-        Me.Button67.Name = "Button67"
-        Me.Button67.Size = New System.Drawing.Size(132, 27)
-        Me.Button67.TabIndex = 213
-        Me.Button67.Text = "What If..."
-        Me.Button67.UseVisualStyleBackColor = True
-        '
-        'Button56
-        '
-        Me.Button56.Location = New System.Drawing.Point(687, 256)
-        Me.Button56.Margin = New System.Windows.Forms.Padding(2)
-        Me.Button56.Name = "Button56"
-        Me.Button56.Size = New System.Drawing.Size(132, 27)
-        Me.Button56.TabIndex = 212
-        Me.Button56.Text = "Cancel PnL"
-        Me.Button56.UseVisualStyleBackColor = True
-        '
-        'Button57
-        '
-        Me.Button57.Location = New System.Drawing.Point(551, 256)
-        Me.Button57.Margin = New System.Windows.Forms.Padding(2)
-        Me.Button57.Name = "Button57"
-        Me.Button57.Size = New System.Drawing.Size(132, 27)
-        Me.Button57.TabIndex = 211
-        Me.Button57.Text = "Req PnL"
-        Me.Button57.UseVisualStyleBackColor = True
-        '
-        'Button58
-        '
-        Me.Button58.Location = New System.Drawing.Point(415, 256)
-        Me.Button58.Margin = New System.Windows.Forms.Padding(2)
-        Me.Button58.Name = "Button58"
-        Me.Button58.Size = New System.Drawing.Size(132, 27)
-        Me.Button58.TabIndex = 210
-        Me.Button58.Text = "Req Sec DepOptParam"
-        Me.Button58.UseVisualStyleBackColor = True
-        '
-        'Button59
-        '
-        Me.Button59.Location = New System.Drawing.Point(279, 256)
-        Me.Button59.Margin = New System.Windows.Forms.Padding(2)
-        Me.Button59.Name = "Button59"
-        Me.Button59.Size = New System.Drawing.Size(132, 27)
-        Me.Button59.TabIndex = 209
-        Me.Button59.Text = "XX Req Mkt Data Type"
-        Me.Button59.UseVisualStyleBackColor = True
-        '
-        'Button60
-        '
-        Me.Button60.Location = New System.Drawing.Point(143, 256)
-        Me.Button60.Margin = New System.Windows.Forms.Padding(2)
-        Me.Button60.Name = "Button60"
-        Me.Button60.Size = New System.Drawing.Size(132, 27)
-        Me.Button60.TabIndex = 208
-        Me.Button60.Text = "XX Cancel Calc Opt Price"
-        Me.Button60.UseVisualStyleBackColor = True
-        '
-        'Button61
-        '
-        Me.Button61.Location = New System.Drawing.Point(7, 256)
-        Me.Button61.Margin = New System.Windows.Forms.Padding(2)
-        Me.Button61.Name = "Button61"
-        Me.Button61.Size = New System.Drawing.Size(132, 27)
-        Me.Button61.TabIndex = 207
-        Me.Button61.Text = "XX Calc. Option Price"
-        Me.Button61.UseVisualStyleBackColor = True
-        '
-        'Button50
-        '
-        Me.Button50.Location = New System.Drawing.Point(687, 225)
-        Me.Button50.Margin = New System.Windows.Forms.Padding(2)
-        Me.Button50.Name = "Button50"
-        Me.Button50.Size = New System.Drawing.Size(132, 27)
-        Me.Button50.TabIndex = 206
-        Me.Button50.Text = "Req Market Rule"
-        Me.Button50.UseVisualStyleBackColor = True
-        '
-        'Button51
-        '
-        Me.Button51.Location = New System.Drawing.Point(551, 225)
-        Me.Button51.Margin = New System.Windows.Forms.Padding(2)
-        Me.Button51.Name = "Button51"
-        Me.Button51.Size = New System.Drawing.Size(132, 27)
-        Me.Button51.TabIndex = 205
-        Me.Button51.Text = "Req Historgram Data"
-        Me.Button51.UseVisualStyleBackColor = True
-        '
-        'Button52
-        '
-        Me.Button52.Location = New System.Drawing.Point(415, 225)
-        Me.Button52.Margin = New System.Windows.Forms.Padding(2)
-        Me.Button52.Name = "Button52"
-        Me.Button52.Size = New System.Drawing.Size(132, 27)
-        Me.Button52.TabIndex = 204
-        Me.Button52.Text = "XX Global Cancel"
-        Me.Button52.UseVisualStyleBackColor = True
-        '
-        'Button53
-        '
-        Me.Button53.Location = New System.Drawing.Point(279, 225)
-        Me.Button53.Margin = New System.Windows.Forms.Padding(2)
-        Me.Button53.Name = "Button53"
-        Me.Button53.Size = New System.Drawing.Size(132, 27)
-        Me.Button53.TabIndex = 203
-        Me.Button53.Text = "Financial Advisor"
-        Me.Button53.UseVisualStyleBackColor = True
-        '
-        'Button54
-        '
-        Me.Button54.Location = New System.Drawing.Point(143, 225)
-        Me.Button54.Margin = New System.Windows.Forms.Padding(2)
-        Me.Button54.Name = "Button54"
-        Me.Button54.Size = New System.Drawing.Size(132, 27)
-        Me.Button54.TabIndex = 202
-        Me.Button54.Text = "XX Cancel Calc. Implied Vol"
-        Me.Button54.UseVisualStyleBackColor = True
-        '
-        'Button55
-        '
-        Me.Button55.Location = New System.Drawing.Point(7, 225)
-        Me.Button55.Margin = New System.Windows.Forms.Padding(2)
-        Me.Button55.Name = "Button55"
-        Me.Button55.Size = New System.Drawing.Size(132, 27)
-        Me.Button55.TabIndex = 201
-        Me.Button55.Text = "XX Calc. Implied Vol."
-        Me.Button55.UseVisualStyleBackColor = True
-        '
-        'Button44
-        '
-        Me.Button44.Location = New System.Drawing.Point(687, 194)
-        Me.Button44.Margin = New System.Windows.Forms.Padding(2)
-        Me.Button44.Name = "Button44"
-        Me.Button44.Size = New System.Drawing.Size(132, 27)
-        Me.Button44.TabIndex = 200
-        Me.Button44.Text = "Req Head Time Stamp"
-        Me.Button44.UseVisualStyleBackColor = True
-        '
-        'Button45
-        '
-        Me.Button45.Location = New System.Drawing.Point(551, 194)
-        Me.Button45.Margin = New System.Windows.Forms.Padding(2)
-        Me.Button45.Name = "Button45"
-        Me.Button45.Size = New System.Drawing.Size(132, 27)
-        Me.Button45.TabIndex = 199
-        Me.Button45.Text = "Req Historical News"
-        Me.Button45.UseVisualStyleBackColor = True
+        Me.Button78.UseVisualStyleBackColor = False
         '
         'Button46
         '
-        Me.Button46.Location = New System.Drawing.Point(415, 194)
+        Me.Button46.BackColor = System.Drawing.Color.LawnGreen
+        Me.Button46.Location = New System.Drawing.Point(158, 549)
         Me.Button46.Margin = New System.Windows.Forms.Padding(2)
         Me.Button46.Name = "Button46"
         Me.Button46.Size = New System.Drawing.Size(132, 27)
         Me.Button46.TabIndex = 198
         Me.Button46.Text = "Req Accounts"
-        Me.Button46.UseVisualStyleBackColor = True
+        Me.Button46.UseVisualStyleBackColor = False
         '
-        'Button47
+        'Button71
         '
-        Me.Button47.Location = New System.Drawing.Point(279, 194)
-        Me.Button47.Margin = New System.Windows.Forms.Padding(2)
-        Me.Button47.Name = "Button47"
-        Me.Button47.Size = New System.Drawing.Size(132, 27)
-        Me.Button47.TabIndex = 197
-        Me.Button47.Text = "Log Configuration"
-        Me.Button47.UseVisualStyleBackColor = True
+        Me.Button71.BackColor = System.Drawing.Color.LawnGreen
+        Me.Button71.Location = New System.Drawing.Point(837, 618)
+        Me.Button71.Margin = New System.Windows.Forms.Padding(2)
+        Me.Button71.Name = "Button71"
+        Me.Button71.Size = New System.Drawing.Size(132, 27)
+        Me.Button71.TabIndex = 221
+        Me.Button71.Text = "Req Account Summary"
+        Me.Button71.UseVisualStyleBackColor = False
         '
-        'Button48
+        'Button73
         '
-        Me.Button48.Location = New System.Drawing.Point(143, 194)
-        Me.Button48.Margin = New System.Windows.Forms.Padding(2)
-        Me.Button48.Name = "Button48"
-        Me.Button48.Size = New System.Drawing.Size(132, 27)
-        Me.Button48.TabIndex = 196
-        Me.Button48.Text = "Market Scanner"
-        Me.Button48.UseVisualStyleBackColor = True
+        Me.Button73.BackColor = System.Drawing.Color.LawnGreen
+        Me.Button73.Location = New System.Drawing.Point(702, 618)
+        Me.Button73.Margin = New System.Windows.Forms.Padding(2)
+        Me.Button73.Name = "Button73"
+        Me.Button73.Size = New System.Drawing.Size(132, 27)
+        Me.Button73.TabIndex = 219
+        Me.Button73.Text = "XX Place Order"
+        Me.Button73.UseVisualStyleBackColor = False
         '
-        'Button49
+        'btnGetPositions
         '
-        Me.Button49.Location = New System.Drawing.Point(7, 194)
-        Me.Button49.Margin = New System.Windows.Forms.Padding(2)
-        Me.Button49.Name = "Button49"
-        Me.Button49.Size = New System.Drawing.Size(132, 27)
-        Me.Button49.TabIndex = 195
-        Me.Button49.Text = "XX Current Time"
-        Me.Button49.UseVisualStyleBackColor = True
+        Me.btnGetPositions.BackColor = System.Drawing.Color.LawnGreen
+        Me.btnGetPositions.Location = New System.Drawing.Point(566, 618)
+        Me.btnGetPositions.Margin = New System.Windows.Forms.Padding(2)
+        Me.btnGetPositions.Name = "btnGetPositions"
+        Me.btnGetPositions.Size = New System.Drawing.Size(132, 27)
+        Me.btnGetPositions.TabIndex = 215
+        Me.btnGetPositions.Text = "XX Req Positions"
+        Me.btnGetPositions.UseVisualStyleBackColor = False
         '
-        'Button38
+        'btnReqNextId
         '
-        Me.Button38.Location = New System.Drawing.Point(687, 163)
-        Me.Button38.Margin = New System.Windows.Forms.Padding(2)
-        Me.Button38.Name = "Button38"
-        Me.Button38.Size = New System.Drawing.Size(132, 27)
-        Me.Button38.TabIndex = 194
-        Me.Button38.Text = "Req News Article"
-        Me.Button38.UseVisualStyleBackColor = True
+        Me.btnReqNextId.BackColor = System.Drawing.Color.Ivory
+        Me.btnReqNextId.Location = New System.Drawing.Point(430, 618)
+        Me.btnReqNextId.Margin = New System.Windows.Forms.Padding(2)
+        Me.btnReqNextId.Name = "btnReqNextId"
+        Me.btnReqNextId.Size = New System.Drawing.Size(132, 27)
+        Me.btnReqNextId.TabIndex = 191
+        Me.btnReqNextId.Text = "Req Next Id"
+        Me.btnReqNextId.UseVisualStyleBackColor = False
         '
-        'Button39
+        'btnReqExecutions
         '
-        Me.Button39.Location = New System.Drawing.Point(551, 163)
-        Me.Button39.Margin = New System.Windows.Forms.Padding(2)
-        Me.Button39.Name = "Button39"
-        Me.Button39.Size = New System.Drawing.Size(132, 27)
-        Me.Button39.TabIndex = 193
-        Me.Button39.Text = "Req Smart Components"
-        Me.Button39.UseVisualStyleBackColor = True
-        '
-        'Button40
-        '
-        Me.Button40.Location = New System.Drawing.Point(415, 163)
-        Me.Button40.Margin = New System.Windows.Forms.Padding(2)
-        Me.Button40.Name = "Button40"
-        Me.Button40.Size = New System.Drawing.Size(132, 27)
-        Me.Button40.TabIndex = 192
-        Me.Button40.Text = "Req News Bulletins"
-        Me.Button40.UseVisualStyleBackColor = True
-        '
-        'Button41
-        '
-        Me.Button41.Location = New System.Drawing.Point(279, 163)
-        Me.Button41.Margin = New System.Windows.Forms.Padding(2)
-        Me.Button41.Name = "Button41"
-        Me.Button41.Size = New System.Drawing.Size(132, 27)
-        Me.Button41.TabIndex = 191
-        Me.Button41.Text = "XX Req Next Id"
-        Me.Button41.UseVisualStyleBackColor = True
-        '
-        'Button42
-        '
-        Me.Button42.Location = New System.Drawing.Point(143, 163)
-        Me.Button42.Margin = New System.Windows.Forms.Padding(2)
-        Me.Button42.Name = "Button42"
-        Me.Button42.Size = New System.Drawing.Size(132, 27)
-        Me.Button42.TabIndex = 190
-        Me.Button42.Text = "Cancel Real Time Bars"
-        Me.Button42.UseVisualStyleBackColor = True
-        '
-        'Button43
-        '
-        Me.Button43.Location = New System.Drawing.Point(7, 163)
-        Me.Button43.Margin = New System.Windows.Forms.Padding(2)
-        Me.Button43.Name = "Button43"
-        Me.Button43.Size = New System.Drawing.Size(132, 27)
-        Me.Button43.TabIndex = 189
-        Me.Button43.Text = "Real Time Bars"
-        Me.Button43.UseVisualStyleBackColor = True
-        '
-        'Button32
-        '
-        Me.Button32.Location = New System.Drawing.Point(687, 132)
-        Me.Button32.Margin = New System.Windows.Forms.Padding(2)
-        Me.Button32.Name = "Button32"
-        Me.Button32.Size = New System.Drawing.Size(132, 27)
-        Me.Button32.TabIndex = 188
-        Me.Button32.Text = "Req News Providers"
-        Me.Button32.UseVisualStyleBackColor = True
-        '
-        'Button33
-        '
-        Me.Button33.Location = New System.Drawing.Point(551, 132)
-        Me.Button33.Margin = New System.Windows.Forms.Padding(2)
-        Me.Button33.Name = "Button33"
-        Me.Button33.Size = New System.Drawing.Size(132, 27)
-        Me.Button33.TabIndex = 187
-        Me.Button33.Text = "Req Mkt Depth Exch"
-        Me.Button33.UseVisualStyleBackColor = True
-        '
-        'Button34
-        '
-        Me.Button34.Location = New System.Drawing.Point(415, 132)
-        Me.Button34.Margin = New System.Windows.Forms.Padding(2)
-        Me.Button34.Name = "Button34"
-        Me.Button34.Size = New System.Drawing.Size(132, 27)
-        Me.Button34.TabIndex = 186
-        Me.Button34.Text = "Req Executions"
-        Me.Button34.UseVisualStyleBackColor = True
+        Me.btnReqExecutions.BackColor = System.Drawing.Color.LawnGreen
+        Me.btnReqExecutions.Location = New System.Drawing.Point(158, 618)
+        Me.btnReqExecutions.Margin = New System.Windows.Forms.Padding(2)
+        Me.btnReqExecutions.Name = "btnReqExecutions"
+        Me.btnReqExecutions.Size = New System.Drawing.Size(132, 27)
+        Me.btnReqExecutions.TabIndex = 186
+        Me.btnReqExecutions.Text = "Req Executions"
+        Me.btnReqExecutions.UseVisualStyleBackColor = False
         '
         'Button35
         '
-        Me.Button35.Location = New System.Drawing.Point(279, 132)
+        Me.Button35.BackColor = System.Drawing.Color.LawnGreen
+        Me.Button35.Location = New System.Drawing.Point(837, 582)
         Me.Button35.Margin = New System.Windows.Forms.Padding(2)
         Me.Button35.Name = "Button35"
         Me.Button35.Size = New System.Drawing.Size(132, 27)
         Me.Button35.TabIndex = 185
         Me.Button35.Text = "XX Req Acct Data"
-        Me.Button35.UseVisualStyleBackColor = True
+        Me.Button35.UseVisualStyleBackColor = False
         '
-        'Button36
+        'btnReqAllOpenOrders
         '
-        Me.Button36.Location = New System.Drawing.Point(143, 132)
-        Me.Button36.Margin = New System.Windows.Forms.Padding(2)
-        Me.Button36.Name = "Button36"
-        Me.Button36.Size = New System.Drawing.Size(132, 27)
-        Me.Button36.TabIndex = 184
-        Me.Button36.Text = "XX Cancel Fund. Data..."
-        Me.Button36.UseVisualStyleBackColor = True
-        '
-        'Button37
-        '
-        Me.Button37.Location = New System.Drawing.Point(7, 132)
-        Me.Button37.Margin = New System.Windows.Forms.Padding(2)
-        Me.Button37.Name = "Button37"
-        Me.Button37.Size = New System.Drawing.Size(132, 27)
-        Me.Button37.TabIndex = 183
-        Me.Button37.Text = "XX Fundamental Data"
-        Me.Button37.UseVisualStyleBackColor = True
-        '
-        'Button26
-        '
-        Me.Button26.Location = New System.Drawing.Point(687, 101)
-        Me.Button26.Margin = New System.Windows.Forms.Padding(2)
-        Me.Button26.Name = "Button26"
-        Me.Button26.Size = New System.Drawing.Size(132, 27)
-        Me.Button26.TabIndex = 182
-        Me.Button26.Text = "Cancel Acct Updt Multi"
-        Me.Button26.UseVisualStyleBackColor = True
-        '
-        'Button27
-        '
-        Me.Button27.Location = New System.Drawing.Point(551, 101)
-        Me.Button27.Margin = New System.Windows.Forms.Padding(2)
-        Me.Button27.Name = "Button27"
-        Me.Button27.Size = New System.Drawing.Size(132, 27)
-        Me.Button27.TabIndex = 181
-        Me.Button27.Text = "Req Acct Updt Multi"
-        Me.Button27.UseVisualStyleBackColor = True
-        '
-        'Button28
-        '
-        Me.Button28.Location = New System.Drawing.Point(415, 101)
-        Me.Button28.Margin = New System.Windows.Forms.Padding(2)
-        Me.Button28.Name = "Button28"
-        Me.Button28.Size = New System.Drawing.Size(132, 27)
-        Me.Button28.TabIndex = 180
-        Me.Button28.Text = "Req Auto Open Orders"
-        Me.Button28.UseVisualStyleBackColor = True
-        '
-        'Button29
-        '
-        Me.Button29.Location = New System.Drawing.Point(279, 101)
-        Me.Button29.Margin = New System.Windows.Forms.Padding(2)
-        Me.Button29.Name = "Button29"
-        Me.Button29.Size = New System.Drawing.Size(132, 27)
-        Me.Button29.TabIndex = 179
-        Me.Button29.Text = "Req All Open Orders"
-        Me.Button29.UseVisualStyleBackColor = True
-        '
-        'Button30
-        '
-        Me.Button30.Location = New System.Drawing.Point(143, 101)
-        Me.Button30.Margin = New System.Windows.Forms.Padding(2)
-        Me.Button30.Name = "Button30"
-        Me.Button30.Size = New System.Drawing.Size(132, 27)
-        Me.Button30.TabIndex = 178
-        Me.Button30.Text = "XX Cancel Historical Data"
-        Me.Button30.UseVisualStyleBackColor = True
+        Me.btnReqAllOpenOrders.BackColor = System.Drawing.Color.Ivory
+        Me.btnReqAllOpenOrders.Location = New System.Drawing.Point(702, 582)
+        Me.btnReqAllOpenOrders.Margin = New System.Windows.Forms.Padding(2)
+        Me.btnReqAllOpenOrders.Name = "btnReqAllOpenOrders"
+        Me.btnReqAllOpenOrders.Size = New System.Drawing.Size(132, 27)
+        Me.btnReqAllOpenOrders.TabIndex = 179
+        Me.btnReqAllOpenOrders.Text = "Req All Open Orders"
+        Me.btnReqAllOpenOrders.UseVisualStyleBackColor = False
         '
         'Button31
         '
-        Me.Button31.Location = New System.Drawing.Point(7, 101)
+        Me.Button31.BackColor = System.Drawing.Color.LawnGreen
+        Me.Button31.Location = New System.Drawing.Point(294, 618)
         Me.Button31.Margin = New System.Windows.Forms.Padding(2)
         Me.Button31.Name = "Button31"
         Me.Button31.Size = New System.Drawing.Size(132, 27)
         Me.Button31.TabIndex = 177
         Me.Button31.Text = "XX Historical Data"
-        Me.Button31.UseVisualStyleBackColor = True
+        Me.Button31.UseVisualStyleBackColor = False
         '
-        'Button20
+        'btnReqOpenOrders
         '
-        Me.Button20.Location = New System.Drawing.Point(687, 70)
-        Me.Button20.Margin = New System.Windows.Forms.Padding(2)
-        Me.Button20.Name = "Button20"
-        Me.Button20.Size = New System.Drawing.Size(132, 27)
-        Me.Button20.TabIndex = 176
-        Me.Button20.Text = "Cancel Positions Multi"
-        Me.Button20.UseVisualStyleBackColor = True
+        Me.btnReqOpenOrders.BackColor = System.Drawing.Color.Ivory
+        Me.btnReqOpenOrders.Location = New System.Drawing.Point(430, 582)
+        Me.btnReqOpenOrders.Margin = New System.Windows.Forms.Padding(2)
+        Me.btnReqOpenOrders.Name = "btnReqOpenOrders"
+        Me.btnReqOpenOrders.Size = New System.Drawing.Size(132, 27)
+        Me.btnReqOpenOrders.TabIndex = 174
+        Me.btnReqOpenOrders.Text = "Req Open Orders"
+        Me.btnReqOpenOrders.UseVisualStyleBackColor = False
         '
-        'Button21
+        'btnReqContractDetails
         '
-        Me.Button21.Location = New System.Drawing.Point(551, 70)
-        Me.Button21.Margin = New System.Windows.Forms.Padding(2)
-        Me.Button21.Name = "Button21"
-        Me.Button21.Size = New System.Drawing.Size(132, 27)
-        Me.Button21.TabIndex = 175
-        Me.Button21.Text = "Req Positions Multi"
-        Me.Button21.UseVisualStyleBackColor = True
+        Me.btnReqContractDetails.BackColor = System.Drawing.Color.Ivory
+        Me.btnReqContractDetails.Location = New System.Drawing.Point(294, 582)
+        Me.btnReqContractDetails.Margin = New System.Windows.Forms.Padding(2)
+        Me.btnReqContractDetails.Name = "btnReqContractDetails"
+        Me.btnReqContractDetails.Size = New System.Drawing.Size(132, 27)
+        Me.btnReqContractDetails.TabIndex = 173
+        Me.btnReqContractDetails.Text = "Req Contract Data"
+        Me.btnReqContractDetails.UseVisualStyleBackColor = False
         '
-        'Button22
+        'btnCancelMarketData
         '
-        Me.Button22.Location = New System.Drawing.Point(415, 70)
-        Me.Button22.Margin = New System.Windows.Forms.Padding(2)
-        Me.Button22.Name = "Button22"
-        Me.Button22.Size = New System.Drawing.Size(132, 27)
-        Me.Button22.TabIndex = 174
-        Me.Button22.Text = "XX Req Open Orders"
-        Me.Button22.UseVisualStyleBackColor = True
+        Me.btnCancelMarketData.BackColor = System.Drawing.Color.Ivory
+        Me.btnCancelMarketData.Location = New System.Drawing.Point(566, 582)
+        Me.btnCancelMarketData.Margin = New System.Windows.Forms.Padding(2)
+        Me.btnCancelMarketData.Name = "btnCancelMarketData"
+        Me.btnCancelMarketData.Size = New System.Drawing.Size(132, 27)
+        Me.btnCancelMarketData.TabIndex = 165
+        Me.btnCancelMarketData.Text = "Cancel Mkt Data..."
+        Me.btnCancelMarketData.UseVisualStyleBackColor = False
         '
-        'Button23
+        'btnReqMktData
         '
-        Me.Button23.Location = New System.Drawing.Point(279, 70)
-        Me.Button23.Margin = New System.Windows.Forms.Padding(2)
-        Me.Button23.Name = "Button23"
-        Me.Button23.Size = New System.Drawing.Size(132, 27)
-        Me.Button23.TabIndex = 173
-        Me.Button23.Text = "XX Req Contract Data"
-        Me.Button23.UseVisualStyleBackColor = True
-        '
-        'Button24
-        '
-        Me.Button24.Location = New System.Drawing.Point(143, 70)
-        Me.Button24.Margin = New System.Windows.Forms.Padding(2)
-        Me.Button24.Name = "Button24"
-        Me.Button24.Size = New System.Drawing.Size(132, 27)
-        Me.Button24.TabIndex = 172
-        Me.Button24.Text = "XX Cancel Mkt Depth"
-        Me.Button24.UseVisualStyleBackColor = True
-        '
-        'Button25
-        '
-        Me.Button25.Location = New System.Drawing.Point(7, 70)
-        Me.Button25.Margin = New System.Windows.Forms.Padding(2)
-        Me.Button25.Name = "Button25"
-        Me.Button25.Size = New System.Drawing.Size(132, 27)
-        Me.Button25.TabIndex = 171
-        Me.Button25.Text = "XX Req. Mkt. Depth"
-        Me.Button25.UseVisualStyleBackColor = True
-        '
-        'BtnManualClear
-        '
-        Me.BtnManualClear.Location = New System.Drawing.Point(551, 350)
-        Me.BtnManualClear.Name = "BtnManualClear"
-        Me.BtnManualClear.Size = New System.Drawing.Size(132, 27)
-        Me.BtnManualClear.TabIndex = 170
-        Me.BtnManualClear.Text = "Clear"
-        Me.BtnManualClear.UseVisualStyleBackColor = True
-        '
-        'Button17
-        '
-        Me.Button17.Location = New System.Drawing.Point(687, 39)
-        Me.Button17.Margin = New System.Windows.Forms.Padding(2)
-        Me.Button17.Name = "Button17"
-        Me.Button17.Size = New System.Drawing.Size(132, 27)
-        Me.Button17.TabIndex = 169
-        Me.Button17.Text = "Req Matching Symbols"
-        Me.Button17.UseVisualStyleBackColor = True
-        '
-        'Button18
-        '
-        Me.Button18.Location = New System.Drawing.Point(551, 39)
-        Me.Button18.Margin = New System.Windows.Forms.Padding(2)
-        Me.Button18.Name = "Button18"
-        Me.Button18.Size = New System.Drawing.Size(132, 27)
-        Me.Button18.TabIndex = 168
-        Me.Button18.Text = "Groups"
-        Me.Button18.UseVisualStyleBackColor = True
-        '
-        'Button15
-        '
-        Me.Button15.Location = New System.Drawing.Point(415, 39)
-        Me.Button15.Margin = New System.Windows.Forms.Padding(2)
-        Me.Button15.Name = "Button15"
-        Me.Button15.Size = New System.Drawing.Size(132, 27)
-        Me.Button15.TabIndex = 167
-        Me.Button15.Text = "Extended..."
-        Me.Button15.UseVisualStyleBackColor = True
-        '
-        'Button16
-        '
-        Me.Button16.Location = New System.Drawing.Point(279, 39)
-        Me.Button16.Margin = New System.Windows.Forms.Padding(2)
-        Me.Button16.Name = "Button16"
-        Me.Button16.Size = New System.Drawing.Size(132, 27)
-        Me.Button16.TabIndex = 166
-        Me.Button16.Text = "Exercise Options"
-        Me.Button16.UseVisualStyleBackColor = True
-        '
-        'Button14
-        '
-        Me.Button14.Location = New System.Drawing.Point(143, 39)
-        Me.Button14.Margin = New System.Windows.Forms.Padding(2)
-        Me.Button14.Name = "Button14"
-        Me.Button14.Size = New System.Drawing.Size(132, 27)
-        Me.Button14.TabIndex = 165
-        Me.Button14.Text = "XX Cancel Mkt Data..."
-        Me.Button14.UseVisualStyleBackColor = True
-        '
-        'Button13
-        '
-        Me.Button13.Location = New System.Drawing.Point(7, 39)
-        Me.Button13.Margin = New System.Windows.Forms.Padding(2)
-        Me.Button13.Name = "Button13"
-        Me.Button13.Size = New System.Drawing.Size(132, 27)
-        Me.Button13.TabIndex = 164
-        Me.Button13.Text = "XX Req. Mkt. Data..."
-        Me.Button13.UseVisualStyleBackColor = True
-        '
-        'btnGetOpenOrders
-        '
-        Me.btnGetOpenOrders.Location = New System.Drawing.Point(870, 57)
-        Me.btnGetOpenOrders.Margin = New System.Windows.Forms.Padding(2)
-        Me.btnGetOpenOrders.Name = "btnGetOpenOrders"
-        Me.btnGetOpenOrders.Size = New System.Drawing.Size(86, 27)
-        Me.btnGetOpenOrders.TabIndex = 163
-        Me.btnGetOpenOrders.Text = "Open Orders"
-        Me.btnGetOpenOrders.UseVisualStyleBackColor = True
+        Me.btnReqMktData.BackColor = System.Drawing.Color.Ivory
+        Me.btnReqMktData.Location = New System.Drawing.Point(158, 582)
+        Me.btnReqMktData.Margin = New System.Windows.Forms.Padding(2)
+        Me.btnReqMktData.Name = "btnReqMktData"
+        Me.btnReqMktData.Size = New System.Drawing.Size(132, 27)
+        Me.btnReqMktData.TabIndex = 164
+        Me.btnReqMktData.Text = "Req. Mkt. Data..."
+        Me.btnReqMktData.UseVisualStyleBackColor = False
         '
         'btnGetPrice
         '
-        Me.btnGetPrice.Location = New System.Drawing.Point(214, 7)
+        Me.btnGetPrice.Location = New System.Drawing.Point(327, 45)
         Me.btnGetPrice.Margin = New System.Windows.Forms.Padding(2)
         Me.btnGetPrice.Name = "btnGetPrice"
-        Me.btnGetPrice.Size = New System.Drawing.Size(86, 27)
+        Me.btnGetPrice.Size = New System.Drawing.Size(68, 27)
         Me.btnGetPrice.TabIndex = 162
         Me.btnGetPrice.Text = "Get Price"
         Me.btnGetPrice.UseVisualStyleBackColor = True
         '
         'txtPriceSymbol
         '
-        Me.txtPriceSymbol.Location = New System.Drawing.Point(152, 12)
+        Me.txtPriceSymbol.Location = New System.Drawing.Point(271, 49)
         Me.txtPriceSymbol.Margin = New System.Windows.Forms.Padding(2)
         Me.txtPriceSymbol.Name = "txtPriceSymbol"
         Me.txtPriceSymbol.Size = New System.Drawing.Size(52, 20)
         Me.txtPriceSymbol.TabIndex = 161
         '
-        'btnCloseManual
+        'btnGetOpenOrders
         '
-        Me.btnCloseManual.Location = New System.Drawing.Point(687, 350)
-        Me.btnCloseManual.Name = "btnCloseManual"
-        Me.btnCloseManual.Size = New System.Drawing.Size(132, 27)
-        Me.btnCloseManual.TabIndex = 160
-        Me.btnCloseManual.Text = "Close"
-        Me.btnCloseManual.UseVisualStyleBackColor = True
-        '
-        'Label63
-        '
-        Me.Label63.AutoSize = True
-        Me.Label63.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label63.Location = New System.Drawing.Point(16, 9)
-        Me.Label63.Name = "Label63"
-        Me.Label63.Size = New System.Drawing.Size(118, 20)
-        Me.Label63.TabIndex = 159
-        Me.Label63.Text = "Manual Actions"
+        Me.btnGetOpenOrders.Location = New System.Drawing.Point(1470, 39)
+        Me.btnGetOpenOrders.Margin = New System.Windows.Forms.Padding(2)
+        Me.btnGetOpenOrders.Name = "btnGetOpenOrders"
+        Me.btnGetOpenOrders.Size = New System.Drawing.Size(86, 24)
+        Me.btnGetOpenOrders.TabIndex = 163
+        Me.btnGetOpenOrders.Text = "Open Orders"
+        Me.btnGetOpenOrders.UseVisualStyleBackColor = True
+        Me.btnGetOpenOrders.Visible = False
         '
         'Panel4
         '
@@ -2200,11 +1269,10 @@ Partial Class Main
         Me.Panel4.Controls.Add(Me.txtSymbol)
         Me.Panel4.Controls.Add(Me.Label4)
         Me.Panel4.Controls.Add(Me.txtOrderId)
-        Me.Panel4.Location = New System.Drawing.Point(870, 808)
+        Me.Panel4.Location = New System.Drawing.Point(6, 361)
         Me.Panel4.Name = "Panel4"
-        Me.Panel4.Size = New System.Drawing.Size(412, 85)
+        Me.Panel4.Size = New System.Drawing.Size(351, 85)
         Me.Panel4.TabIndex = 155
-        Me.Panel4.Visible = False
         '
         'Label54
         '
@@ -2218,7 +1286,7 @@ Partial Class Main
         '
         'btnSendOrder
         '
-        Me.btnSendOrder.Location = New System.Drawing.Point(328, 55)
+        Me.btnSendOrder.Location = New System.Drawing.Point(152, 4)
         Me.btnSendOrder.Name = "btnSendOrder"
         Me.btnSendOrder.Size = New System.Drawing.Size(81, 23)
         Me.btnSendOrder.TabIndex = 153
@@ -2344,9 +1412,9 @@ Partial Class Main
         Me.Panel6.Controls.Add(Me.txtModifySymbol)
         Me.Panel6.Controls.Add(Me.Label15)
         Me.Panel6.Controls.Add(Me.txtModifyOrderId)
-        Me.Panel6.Location = New System.Drawing.Point(870, 910)
+        Me.Panel6.Location = New System.Drawing.Point(978, 371)
         Me.Panel6.Name = "Panel6"
-        Me.Panel6.Size = New System.Drawing.Size(412, 85)
+        Me.Panel6.Size = New System.Drawing.Size(313, 85)
         Me.Panel6.TabIndex = 156
         Me.Panel6.Visible = False
         '
@@ -2413,7 +1481,7 @@ Partial Class Main
         '
         'btnModOrder
         '
-        Me.btnModOrder.Location = New System.Drawing.Point(329, 54)
+        Me.btnModOrder.Location = New System.Drawing.Point(140, 5)
         Me.btnModOrder.Name = "btnModOrder"
         Me.btnModOrder.Size = New System.Drawing.Size(81, 23)
         Me.btnModOrder.TabIndex = 159
@@ -2472,87 +1540,15 @@ Partial Class Main
         Me.txtModifyOrderId.Text = "4"
         Me.txtModifyOrderId.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
-        'Button2
-        '
-        Me.Button2.Location = New System.Drawing.Point(1300, 771)
-        Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(83, 25)
-        Me.Button2.TabIndex = 157
-        Me.Button2.Text = "Modify Order"
-        Me.Button2.UseVisualStyleBackColor = True
-        '
         'Label9
         '
         Me.Label9.AutoSize = True
         Me.Label9.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label9.Location = New System.Drawing.Point(164, 472)
+        Me.Label9.Location = New System.Drawing.Point(154, 653)
         Me.Label9.Name = "Label9"
         Me.Label9.Size = New System.Drawing.Size(139, 20)
         Me.Label9.TabIndex = 158
         Me.Label9.Text = "System Messages"
-        '
-        'Button5
-        '
-        Me.Button5.Location = New System.Drawing.Point(1300, 802)
-        Me.Button5.Name = "Button5"
-        Me.Button5.Size = New System.Drawing.Size(83, 25)
-        Me.Button5.TabIndex = 159
-        Me.Button5.Text = "Get Info."
-        Me.Button5.UseVisualStyleBackColor = True
-        '
-        'Button6
-        '
-        Me.Button6.Location = New System.Drawing.Point(1389, 802)
-        Me.Button6.Name = "Button6"
-        Me.Button6.Size = New System.Drawing.Size(83, 25)
-        Me.Button6.TabIndex = 162
-        Me.Button6.Text = "Modify Order"
-        Me.Button6.UseVisualStyleBackColor = True
-        '
-        'Button7
-        '
-        Me.Button7.Location = New System.Drawing.Point(1389, 771)
-        Me.Button7.Name = "Button7"
-        Me.Button7.Size = New System.Drawing.Size(83, 25)
-        Me.Button7.TabIndex = 161
-        Me.Button7.Text = "Modify Order"
-        Me.Button7.UseVisualStyleBackColor = True
-        '
-        'Button8
-        '
-        Me.Button8.Location = New System.Drawing.Point(1389, 741)
-        Me.Button8.Name = "Button8"
-        Me.Button8.Size = New System.Drawing.Size(83, 25)
-        Me.Button8.TabIndex = 160
-        Me.Button8.Text = "Send Order"
-        Me.Button8.UseVisualStyleBackColor = True
-        '
-        'Button9
-        '
-        Me.Button9.Location = New System.Drawing.Point(1478, 802)
-        Me.Button9.Name = "Button9"
-        Me.Button9.Size = New System.Drawing.Size(83, 25)
-        Me.Button9.TabIndex = 165
-        Me.Button9.Text = "Modify Order"
-        Me.Button9.UseVisualStyleBackColor = True
-        '
-        'Button10
-        '
-        Me.Button10.Location = New System.Drawing.Point(1478, 771)
-        Me.Button10.Name = "Button10"
-        Me.Button10.Size = New System.Drawing.Size(83, 25)
-        Me.Button10.TabIndex = 164
-        Me.Button10.Text = "Modify Order"
-        Me.Button10.UseVisualStyleBackColor = True
-        '
-        'Button11
-        '
-        Me.Button11.Location = New System.Drawing.Point(1478, 741)
-        Me.Button11.Name = "Button11"
-        Me.Button11.Size = New System.Drawing.Size(83, 25)
-        Me.Button11.TabIndex = 163
-        Me.Button11.Text = "Send Order"
-        Me.Button11.UseVisualStyleBackColor = True
         '
         'Panel7
         '
@@ -2570,9 +1566,9 @@ Partial Class Main
         Me.Panel7.Controls.Add(Me.TextBox11)
         Me.Panel7.Controls.Add(Me.Label61)
         Me.Panel7.Controls.Add(Me.TextBox12)
-        Me.Panel7.Location = New System.Drawing.Point(870, 714)
+        Me.Panel7.Location = New System.Drawing.Point(1296, 371)
         Me.Panel7.Name = "Panel7"
-        Me.Panel7.Size = New System.Drawing.Size(412, 85)
+        Me.Panel7.Size = New System.Drawing.Size(312, 85)
         Me.Panel7.TabIndex = 166
         Me.Panel7.Visible = False
         '
@@ -2588,7 +1584,7 @@ Partial Class Main
         '
         'Button12
         '
-        Me.Button12.Location = New System.Drawing.Point(327, 55)
+        Me.Button12.Location = New System.Drawing.Point(154, 1)
         Me.Button12.Name = "Button12"
         Me.Button12.Size = New System.Drawing.Size(81, 23)
         Me.Button12.TabIndex = 153
@@ -2700,7 +1696,8 @@ Partial Class Main
         '
         'Panel8
         '
-        Me.Panel8.BackColor = System.Drawing.Color.SteelBlue
+        Me.Panel8.BackColor = System.Drawing.Color.Black
+        Me.Panel8.Controls.Add(Me.btnHarvesting)
         Me.Panel8.Controls.Add(Me.btnCloseApp)
         Me.Panel8.Controls.Add(Me.btnBackTesting)
         Me.Panel8.Controls.Add(Me.Button4)
@@ -2712,8 +1709,21 @@ Partial Class Main
         Me.Panel8.Location = New System.Drawing.Point(0, 53)
         Me.Panel8.Margin = New System.Windows.Forms.Padding(2)
         Me.Panel8.Name = "Panel8"
-        Me.Panel8.Size = New System.Drawing.Size(147, 648)
+        Me.Panel8.Size = New System.Drawing.Size(147, 831)
         Me.Panel8.TabIndex = 167
+        '
+        'btnHarvesting
+        '
+        Me.btnHarvesting.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.btnHarvesting.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.btnHarvesting.ForeColor = System.Drawing.SystemColors.ButtonHighlight
+        Me.btnHarvesting.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.btnHarvesting.Location = New System.Drawing.Point(3, 38)
+        Me.btnHarvesting.Name = "btnHarvesting"
+        Me.btnHarvesting.Size = New System.Drawing.Size(141, 42)
+        Me.btnHarvesting.TabIndex = 138
+        Me.btnHarvesting.Text = "HARVESTING"
+        Me.btnHarvesting.UseVisualStyleBackColor = True
         '
         'btnCloseApp
         '
@@ -2734,7 +1744,7 @@ Partial Class Main
         Me.btnBackTesting.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnBackTesting.ForeColor = System.Drawing.SystemColors.ButtonHighlight
         Me.btnBackTesting.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnBackTesting.Location = New System.Drawing.Point(3, 340)
+        Me.btnBackTesting.Location = New System.Drawing.Point(3, 287)
         Me.btnBackTesting.Name = "btnBackTesting"
         Me.btnBackTesting.Size = New System.Drawing.Size(141, 42)
         Me.btnBackTesting.TabIndex = 136
@@ -2758,7 +1768,7 @@ Partial Class Main
         Me.btnShowManual.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnShowManual.ForeColor = System.Drawing.SystemColors.ButtonHighlight
         Me.btnShowManual.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnShowManual.Location = New System.Drawing.Point(3, 45)
+        Me.btnShowManual.Location = New System.Drawing.Point(3, 240)
         Me.btnShowManual.Name = "btnShowManual"
         Me.btnShowManual.Size = New System.Drawing.Size(141, 42)
         Me.btnShowManual.TabIndex = 74
@@ -2767,6 +1777,15 @@ Partial Class Main
         '
         'pnlBacktest
         '
+        Me.pnlBacktest.Controls.Add(Me.Label73)
+        Me.pnlBacktest.Controls.Add(Me.txtStartYear)
+        Me.pnlBacktest.Controls.Add(Me.Label72)
+        Me.pnlBacktest.Controls.Add(Me.txtDays)
+        Me.pnlBacktest.Controls.Add(Me.Label71)
+        Me.pnlBacktest.Controls.Add(Me.txtMonths)
+        Me.pnlBacktest.Controls.Add(Me.Label44)
+        Me.pnlBacktest.Controls.Add(Me.txtYears)
+        Me.pnlBacktest.Controls.Add(Me.Button19)
         Me.pnlBacktest.Controls.Add(Me.btnBacktestClear)
         Me.pnlBacktest.Controls.Add(Me.lblHarvestKey)
         Me.pnlBacktest.Controls.Add(Me.btnStartBackTest)
@@ -2781,15 +1800,88 @@ Partial Class Main
         Me.pnlBacktest.Controls.Add(Me.btnHideBackTesting)
         Me.pnlBacktest.Controls.Add(Me.Label68)
         Me.pnlBacktest.Controls.Add(Me.Label65)
-        Me.pnlBacktest.Location = New System.Drawing.Point(1402, 205)
+        Me.pnlBacktest.Location = New System.Drawing.Point(970, 64)
         Me.pnlBacktest.Name = "pnlBacktest"
-        Me.pnlBacktest.Size = New System.Drawing.Size(685, 346)
+        Me.pnlBacktest.Size = New System.Drawing.Size(819, 99)
         Me.pnlBacktest.TabIndex = 168
         Me.pnlBacktest.Visible = False
         '
+        'Label73
+        '
+        Me.Label73.AutoSize = True
+        Me.Label73.Location = New System.Drawing.Point(305, 34)
+        Me.Label73.Name = "Label73"
+        Me.Label73.Size = New System.Drawing.Size(57, 13)
+        Me.Label73.TabIndex = 184
+        Me.Label73.Text = "Start Year:"
+        '
+        'txtStartYear
+        '
+        Me.txtStartYear.Location = New System.Drawing.Point(374, 31)
+        Me.txtStartYear.Name = "txtStartYear"
+        Me.txtStartYear.Size = New System.Drawing.Size(59, 20)
+        Me.txtStartYear.TabIndex = 1
+        '
+        'Label72
+        '
+        Me.Label72.AutoSize = True
+        Me.Label72.Location = New System.Drawing.Point(624, 34)
+        Me.Label72.Name = "Label72"
+        Me.Label72.Size = New System.Drawing.Size(34, 13)
+        Me.Label72.TabIndex = 182
+        Me.Label72.Text = "Days:"
+        '
+        'txtDays
+        '
+        Me.txtDays.Location = New System.Drawing.Point(659, 30)
+        Me.txtDays.Name = "txtDays"
+        Me.txtDays.Size = New System.Drawing.Size(43, 20)
+        Me.txtDays.TabIndex = 4
+        '
+        'Label71
+        '
+        Me.Label71.AutoSize = True
+        Me.Label71.Location = New System.Drawing.Point(532, 35)
+        Me.Label71.Name = "Label71"
+        Me.Label71.Size = New System.Drawing.Size(45, 13)
+        Me.Label71.TabIndex = 180
+        Me.Label71.Text = "Months:"
+        '
+        'txtMonths
+        '
+        Me.txtMonths.Location = New System.Drawing.Point(577, 32)
+        Me.txtMonths.Name = "txtMonths"
+        Me.txtMonths.Size = New System.Drawing.Size(42, 20)
+        Me.txtMonths.TabIndex = 3
+        '
+        'Label44
+        '
+        Me.Label44.AutoSize = True
+        Me.Label44.Location = New System.Drawing.Point(441, 34)
+        Me.Label44.Name = "Label44"
+        Me.Label44.Size = New System.Drawing.Size(37, 13)
+        Me.Label44.TabIndex = 178
+        Me.Label44.Text = "Years:"
+        '
+        'txtYears
+        '
+        Me.txtYears.Location = New System.Drawing.Point(484, 30)
+        Me.txtYears.Name = "txtYears"
+        Me.txtYears.Size = New System.Drawing.Size(42, 20)
+        Me.txtYears.TabIndex = 2
+        '
+        'Button19
+        '
+        Me.Button19.Location = New System.Drawing.Point(451, 71)
+        Me.Button19.Name = "Button19"
+        Me.Button19.Size = New System.Drawing.Size(75, 23)
+        Me.Button19.TabIndex = 176
+        Me.Button19.Text = "test"
+        Me.Button19.UseVisualStyleBackColor = True
+        '
         'btnBacktestClear
         '
-        Me.btnBacktestClear.Location = New System.Drawing.Point(504, 318)
+        Me.btnBacktestClear.Location = New System.Drawing.Point(568, 3)
         Me.btnBacktestClear.Name = "btnBacktestClear"
         Me.btnBacktestClear.Size = New System.Drawing.Size(89, 23)
         Me.btnBacktestClear.TabIndex = 175
@@ -2799,7 +1891,7 @@ Partial Class Main
         'lblHarvestKey
         '
         Me.lblHarvestKey.AutoSize = True
-        Me.lblHarvestKey.Location = New System.Drawing.Point(351, 96)
+        Me.lblHarvestKey.Location = New System.Drawing.Point(351, 76)
         Me.lblHarvestKey.Name = "lblHarvestKey"
         Me.lblHarvestKey.Size = New System.Drawing.Size(59, 13)
         Me.lblHarvestKey.TabIndex = 174
@@ -2807,7 +1899,7 @@ Partial Class Main
         '
         'btnStartBackTest
         '
-        Me.btnStartBackTest.Location = New System.Drawing.Point(225, 91)
+        Me.btnStartBackTest.Location = New System.Drawing.Point(225, 71)
         Me.btnStartBackTest.Name = "btnStartBackTest"
         Me.btnStartBackTest.Size = New System.Drawing.Size(89, 23)
         Me.btnStartBackTest.TabIndex = 173
@@ -2818,7 +1910,7 @@ Partial Class Main
         '
         Me.Label70.AutoSize = True
         Me.Label70.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label70.Location = New System.Drawing.Point(12, 72)
+        Me.Label70.Location = New System.Drawing.Point(12, 52)
         Me.Label70.Name = "Label70"
         Me.Label70.Size = New System.Drawing.Size(152, 16)
         Me.Label70.TabIndex = 172
@@ -2827,14 +1919,14 @@ Partial Class Main
         'cmbBackTestIndexes
         '
         Me.cmbBackTestIndexes.FormattingEnabled = True
-        Me.cmbBackTestIndexes.Location = New System.Drawing.Point(12, 93)
+        Me.cmbBackTestIndexes.Location = New System.Drawing.Point(12, 73)
         Me.cmbBackTestIndexes.Name = "cmbBackTestIndexes"
         Me.cmbBackTestIndexes.Size = New System.Drawing.Size(149, 21)
         Me.cmbBackTestIndexes.TabIndex = 171
         '
         'btnAssembleDataFileDIrectPull
         '
-        Me.btnAssembleDataFileDIrectPull.Location = New System.Drawing.Point(602, 25)
+        Me.btnAssembleDataFileDIrectPull.Location = New System.Drawing.Point(720, 63)
         Me.btnAssembleDataFileDIrectPull.Name = "btnAssembleDataFileDIrectPull"
         Me.btnAssembleDataFileDIrectPull.Size = New System.Drawing.Size(72, 25)
         Me.btnAssembleDataFileDIrectPull.TabIndex = 170
@@ -2844,7 +1936,7 @@ Partial Class Main
         'Label69
         '
         Me.Label69.AutoSize = True
-        Me.Label69.Location = New System.Drawing.Point(351, 32)
+        Me.Label69.Location = New System.Drawing.Point(544, 65)
         Me.Label69.Name = "Label69"
         Me.Label69.Size = New System.Drawing.Size(58, 13)
         Me.Label69.TabIndex = 169
@@ -2853,7 +1945,7 @@ Partial Class Main
         'dtpStartDate
         '
         Me.dtpStartDate.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
-        Me.dtpStartDate.Location = New System.Drawing.Point(418, 30)
+        Me.dtpStartDate.Location = New System.Drawing.Point(611, 63)
         Me.dtpStartDate.Margin = New System.Windows.Forms.Padding(2)
         Me.dtpStartDate.Name = "dtpStartDate"
         Me.dtpStartDate.Size = New System.Drawing.Size(88, 20)
@@ -2862,7 +1954,7 @@ Partial Class Main
         'lblDatafileSymbol
         '
         Me.lblDatafileSymbol.AutoSize = True
-        Me.lblDatafileSymbol.Location = New System.Drawing.Point(222, 32)
+        Me.lblDatafileSymbol.Location = New System.Drawing.Point(182, 34)
         Me.lblDatafileSymbol.Name = "lblDatafileSymbol"
         Me.lblDatafileSymbol.Size = New System.Drawing.Size(44, 13)
         Me.lblDatafileSymbol.TabIndex = 165
@@ -2870,23 +1962,23 @@ Partial Class Main
         '
         'txtLoadSymbol
         '
-        Me.txtLoadSymbol.Location = New System.Drawing.Point(271, 30)
+        Me.txtLoadSymbol.Location = New System.Drawing.Point(231, 32)
         Me.txtLoadSymbol.Name = "txtLoadSymbol"
         Me.txtLoadSymbol.Size = New System.Drawing.Size(59, 20)
-        Me.txtLoadSymbol.TabIndex = 164
+        Me.txtLoadSymbol.TabIndex = 0
         '
         'btnAssembleDataFile
         '
-        Me.btnAssembleDataFile.Location = New System.Drawing.Point(524, 25)
+        Me.btnAssembleDataFile.Location = New System.Drawing.Point(720, 27)
         Me.btnAssembleDataFile.Name = "btnAssembleDataFile"
         Me.btnAssembleDataFile.Size = New System.Drawing.Size(72, 25)
-        Me.btnAssembleDataFile.TabIndex = 163
+        Me.btnAssembleDataFile.TabIndex = 5
         Me.btnAssembleDataFile.Text = "Build QQ"
         Me.btnAssembleDataFile.UseVisualStyleBackColor = True
         '
         'btnHideBackTesting
         '
-        Me.btnHideBackTesting.Location = New System.Drawing.Point(599, 318)
+        Me.btnHideBackTesting.Location = New System.Drawing.Point(660, 3)
         Me.btnHideBackTesting.Name = "btnHideBackTesting"
         Me.btnHideBackTesting.Size = New System.Drawing.Size(75, 23)
         Me.btnHideBackTesting.TabIndex = 162
@@ -2898,9 +1990,9 @@ Partial Class Main
         Me.Label68.AutoSize = True
         Me.Label68.Location = New System.Drawing.Point(9, 35)
         Me.Label68.Name = "Label68"
-        Me.Label68.Size = New System.Drawing.Size(140, 13)
+        Me.Label68.Size = New System.Drawing.Size(146, 13)
         Me.Label68.TabIndex = 161
-        Me.Label68.Text = "Assemble data file (If neeed)"
+        Me.Label68.Text = "Assemble data file (If needed)"
         '
         'Label65
         '
@@ -2912,47 +2004,583 @@ Partial Class Main
         Me.Label65.TabIndex = 160
         Me.Label65.Text = "Harvest Backtest"
         '
+        'pnlHarvesting
+        '
+        Me.pnlHarvesting.BackColor = System.Drawing.SystemColors.Control
+        Me.pnlHarvesting.Controls.Add(Me.Label79)
+        Me.pnlHarvesting.Controls.Add(Me.Label80)
+        Me.pnlHarvesting.Controls.Add(Me.Label66)
+        Me.pnlHarvesting.Controls.Add(Me.Label67)
+        Me.pnlHarvesting.Controls.Add(Me.Label63)
+        Me.pnlHarvesting.Controls.Add(Me.Label64)
+        Me.pnlHarvesting.Controls.Add(Me.Label52)
+        Me.pnlHarvesting.Controls.Add(Me.Label53)
+        Me.pnlHarvesting.Controls.Add(Me.Label50)
+        Me.pnlHarvesting.Controls.Add(Me.lblbtoMove)
+        Me.pnlHarvesting.Controls.Add(Me.Label32)
+        Me.pnlHarvesting.Controls.Add(Me.Label49)
+        Me.pnlHarvesting.Controls.Add(Me.Panel4)
+        Me.pnlHarvesting.Controls.Add(Me.lblNextBTO)
+        Me.pnlHarvesting.Controls.Add(Me.Label48)
+        Me.pnlHarvesting.Controls.Add(Me.Label46)
+        Me.pnlHarvesting.Controls.Add(Me.lblCurrentMark)
+        Me.pnlHarvesting.Controls.Add(Me.Label43)
+        Me.pnlHarvesting.Controls.Add(Me.Label47)
+        Me.pnlHarvesting.Controls.Add(Me.lblLastPrice)
+        Me.pnlHarvesting.Controls.Add(Me.Label45)
+        Me.pnlHarvesting.Controls.Add(Me.lblTodaysLow)
+        Me.pnlHarvesting.Controls.Add(Me.Label42)
+        Me.pnlHarvesting.Controls.Add(Me.lblTodaysHigh)
+        Me.pnlHarvesting.Controls.Add(Me.Label41)
+        Me.pnlHarvesting.Controls.Add(Me.btnWillie)
+        Me.pnlHarvesting.Controls.Add(Me.lblTodaysOpen)
+        Me.pnlHarvesting.Controls.Add(Me.Label40)
+        Me.pnlHarvesting.Controls.Add(Me.lblPClose)
+        Me.pnlHarvesting.Controls.Add(Me.lblPriorClose)
+        Me.pnlHarvesting.Controls.Add(Me.Label38)
+        Me.pnlHarvesting.Controls.Add(Me.btnGetPrice2)
+        Me.pnlHarvesting.Controls.Add(Me.lblAskPrice)
+        Me.pnlHarvesting.Controls.Add(Me.Label39)
+        Me.pnlHarvesting.Controls.Add(Me.lblBidPrice)
+        Me.pnlHarvesting.Controls.Add(Me.btnTickPrice)
+        Me.pnlHarvesting.Controls.Add(Me.ckSnapshot)
+        Me.pnlHarvesting.Controls.Add(Me.Label78)
+        Me.pnlHarvesting.Controls.Add(Me.cmbHarvestIndex)
+        Me.pnlHarvesting.Controls.Add(Me.btnHarvestingStartWillie)
+        Me.pnlHarvesting.Controls.Add(Me.txtHarvestingIP)
+        Me.pnlHarvesting.Controls.Add(Me.Label77)
+        Me.pnlHarvesting.Controls.Add(Me.Label76)
+        Me.pnlHarvesting.Controls.Add(Me.txtHarvestingPort)
+        Me.pnlHarvesting.Controls.Add(Me.btnHarvestDisconnectFromTWS)
+        Me.pnlHarvesting.Controls.Add(Me.btnGetPrice)
+        Me.pnlHarvesting.Controls.Add(Me.Label75)
+        Me.pnlHarvesting.Controls.Add(Me.txtPriceSymbol)
+        Me.pnlHarvesting.Controls.Add(Me.txtHarvestingClientId)
+        Me.pnlHarvesting.Controls.Add(Me.btnHarvestConnectToTWS)
+        Me.pnlHarvesting.Controls.Add(Me.btnOpPrice)
+        Me.pnlHarvesting.Controls.Add(Me.lblBuyOrderExists)
+        Me.pnlHarvesting.Controls.Add(Me.btnClearHarvestListbox)
+        Me.pnlHarvesting.Controls.Add(Me.btnCloseHarvest)
+        Me.pnlHarvesting.Controls.Add(Me.Label74)
+        Me.pnlHarvesting.Location = New System.Drawing.Point(152, 59)
+        Me.pnlHarvesting.Margin = New System.Windows.Forms.Padding(1)
+        Me.pnlHarvesting.Name = "pnlHarvesting"
+        Me.pnlHarvesting.Size = New System.Drawing.Size(814, 481)
+        Me.pnlHarvesting.TabIndex = 170
+        '
+        'Label79
+        '
+        Me.Label79.AutoSize = True
+        Me.Label79.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.Label79.Location = New System.Drawing.Point(139, 139)
+        Me.Label79.Name = "Label79"
+        Me.Label79.Size = New System.Drawing.Size(57, 13)
+        Me.Label79.TabIndex = 273
+        Me.Label79.Text = "Next BTO:"
+        '
+        'Label80
+        '
+        Me.Label80.AutoSize = True
+        Me.Label80.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.Label80.Location = New System.Drawing.Point(214, 162)
+        Me.Label80.Name = "Label80"
+        Me.Label80.Size = New System.Drawing.Size(32, 13)
+        Me.Label80.TabIndex = 272
+        Me.Label80.Text = "False"
+        '
+        'Label66
+        '
+        Me.Label66.AutoSize = True
+        Me.Label66.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.Label66.Location = New System.Drawing.Point(139, 256)
+        Me.Label66.Name = "Label66"
+        Me.Label66.Size = New System.Drawing.Size(57, 13)
+        Me.Label66.TabIndex = 271
+        Me.Label66.Text = "Next BTO:"
+        '
+        'Label67
+        '
+        Me.Label67.AutoSize = True
+        Me.Label67.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.Label67.Location = New System.Drawing.Point(214, 256)
+        Me.Label67.Name = "Label67"
+        Me.Label67.Size = New System.Drawing.Size(32, 13)
+        Me.Label67.TabIndex = 270
+        Me.Label67.Text = "False"
+        '
+        'Label63
+        '
+        Me.Label63.AutoSize = True
+        Me.Label63.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.Label63.Location = New System.Drawing.Point(139, 234)
+        Me.Label63.Name = "Label63"
+        Me.Label63.Size = New System.Drawing.Size(57, 13)
+        Me.Label63.TabIndex = 269
+        Me.Label63.Text = "Next BTO:"
+        '
+        'Label64
+        '
+        Me.Label64.AutoSize = True
+        Me.Label64.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.Label64.Location = New System.Drawing.Point(214, 234)
+        Me.Label64.Name = "Label64"
+        Me.Label64.Size = New System.Drawing.Size(32, 13)
+        Me.Label64.TabIndex = 268
+        Me.Label64.Text = "False"
+        '
+        'Label52
+        '
+        Me.Label52.AutoSize = True
+        Me.Label52.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.Label52.Location = New System.Drawing.Point(139, 210)
+        Me.Label52.Name = "Label52"
+        Me.Label52.Size = New System.Drawing.Size(57, 13)
+        Me.Label52.TabIndex = 267
+        Me.Label52.Text = "Next BTO:"
+        '
+        'Label53
+        '
+        Me.Label53.AutoSize = True
+        Me.Label53.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.Label53.Location = New System.Drawing.Point(214, 210)
+        Me.Label53.Name = "Label53"
+        Me.Label53.Size = New System.Drawing.Size(32, 13)
+        Me.Label53.TabIndex = 266
+        Me.Label53.Text = "False"
+        '
+        'Label50
+        '
+        Me.Label50.AutoSize = True
+        Me.Label50.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.Label50.Location = New System.Drawing.Point(139, 185)
+        Me.Label50.Name = "Label50"
+        Me.Label50.Size = New System.Drawing.Size(62, 13)
+        Me.Label50.TabIndex = 265
+        Me.Label50.Text = "BTO Move:"
+        '
+        'lblbtoMove
+        '
+        Me.lblbtoMove.AutoSize = True
+        Me.lblbtoMove.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.lblbtoMove.Location = New System.Drawing.Point(214, 185)
+        Me.lblbtoMove.Name = "lblbtoMove"
+        Me.lblbtoMove.Size = New System.Drawing.Size(32, 13)
+        Me.lblbtoMove.TabIndex = 264
+        Me.lblbtoMove.Text = "False"
+        '
+        'Label32
+        '
+        Me.Label32.AutoSize = True
+        Me.Label32.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label32.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.Label32.Location = New System.Drawing.Point(274, 84)
+        Me.Label32.Name = "Label32"
+        Me.Label32.Size = New System.Drawing.Size(118, 20)
+        Me.Label32.TabIndex = 263
+        Me.Label32.Text = "Order Statistics"
+        '
+        'Label49
+        '
+        Me.Label49.AutoSize = True
+        Me.Label49.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.Label49.Location = New System.Drawing.Point(139, 162)
+        Me.Label49.Name = "Label49"
+        Me.Label49.Size = New System.Drawing.Size(58, 13)
+        Me.Label49.TabIndex = 262
+        Me.Label49.Text = "STC Price:"
+        '
+        'lblNextBTO
+        '
+        Me.lblNextBTO.AutoSize = True
+        Me.lblNextBTO.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.lblNextBTO.Location = New System.Drawing.Point(214, 139)
+        Me.lblNextBTO.Name = "lblNextBTO"
+        Me.lblNextBTO.Size = New System.Drawing.Size(32, 13)
+        Me.lblNextBTO.TabIndex = 261
+        Me.lblNextBTO.Text = "False"
+        '
+        'Label48
+        '
+        Me.Label48.AutoSize = True
+        Me.Label48.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.Label48.Location = New System.Drawing.Point(7, 281)
+        Me.Label48.Name = "Label48"
+        Me.Label48.Size = New System.Drawing.Size(60, 13)
+        Me.Label48.TabIndex = 260
+        Me.Label48.Text = "Buy Order?"
+        '
+        'Label46
+        '
+        Me.Label46.AutoSize = True
+        Me.Label46.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.Label46.Location = New System.Drawing.Point(139, 116)
+        Me.Label46.Name = "Label46"
+        Me.Label46.Size = New System.Drawing.Size(69, 13)
+        Me.Label46.TabIndex = 259
+        Me.Label46.Text = "Current BTO:"
+        '
+        'lblCurrentMark
+        '
+        Me.lblCurrentMark.AutoSize = True
+        Me.lblCurrentMark.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.lblCurrentMark.Location = New System.Drawing.Point(214, 116)
+        Me.lblCurrentMark.Name = "lblCurrentMark"
+        Me.lblCurrentMark.Size = New System.Drawing.Size(34, 13)
+        Me.lblCurrentMark.TabIndex = 258
+        Me.lblCurrentMark.Text = "$0.00"
+        '
+        'Label43
+        '
+        Me.Label43.AutoSize = True
+        Me.Label43.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label43.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.Label43.Location = New System.Drawing.Point(138, 84)
+        Me.Label43.Name = "Label43"
+        Me.Label43.Size = New System.Drawing.Size(122, 20)
+        Me.Label43.TabIndex = 257
+        Me.Label43.Text = "Robot Statistics"
+        '
+        'Label47
+        '
+        Me.Label47.AutoSize = True
+        Me.Label47.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.Label47.Location = New System.Drawing.Point(10, 210)
+        Me.Label47.Name = "Label47"
+        Me.Label47.Size = New System.Drawing.Size(57, 13)
+        Me.Label47.TabIndex = 256
+        Me.Label47.Text = "Last Price:"
+        '
+        'lblLastPrice
+        '
+        Me.lblLastPrice.AutoSize = True
+        Me.lblLastPrice.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.lblLastPrice.Location = New System.Drawing.Point(85, 210)
+        Me.lblLastPrice.Name = "lblLastPrice"
+        Me.lblLastPrice.Size = New System.Drawing.Size(34, 13)
+        Me.lblLastPrice.TabIndex = 255
+        Me.lblLastPrice.Text = "$0.00"
+        '
+        'Label45
+        '
+        Me.Label45.AutoSize = True
+        Me.Label45.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.Label45.Location = New System.Drawing.Point(10, 186)
+        Me.Label45.Name = "Label45"
+        Me.Label45.Size = New System.Drawing.Size(70, 13)
+        Me.Label45.TabIndex = 254
+        Me.Label45.Text = "Today's Low:"
+        '
+        'lblTodaysLow
+        '
+        Me.lblTodaysLow.AutoSize = True
+        Me.lblTodaysLow.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.lblTodaysLow.Location = New System.Drawing.Point(85, 185)
+        Me.lblTodaysLow.Name = "lblTodaysLow"
+        Me.lblTodaysLow.Size = New System.Drawing.Size(34, 13)
+        Me.lblTodaysLow.TabIndex = 253
+        Me.lblTodaysLow.Text = "$0.00"
+        '
+        'Label42
+        '
+        Me.Label42.AutoSize = True
+        Me.Label42.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.Label42.Location = New System.Drawing.Point(10, 162)
+        Me.Label42.Name = "Label42"
+        Me.Label42.Size = New System.Drawing.Size(72, 13)
+        Me.Label42.TabIndex = 252
+        Me.Label42.Text = "Today's High:"
+        '
+        'lblTodaysHigh
+        '
+        Me.lblTodaysHigh.AutoSize = True
+        Me.lblTodaysHigh.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.lblTodaysHigh.Location = New System.Drawing.Point(85, 162)
+        Me.lblTodaysHigh.Name = "lblTodaysHigh"
+        Me.lblTodaysHigh.Size = New System.Drawing.Size(34, 13)
+        Me.lblTodaysHigh.TabIndex = 251
+        Me.lblTodaysHigh.Text = "$0.00"
+        '
+        'Label41
+        '
+        Me.Label41.AutoSize = True
+        Me.Label41.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.Label41.Location = New System.Drawing.Point(10, 139)
+        Me.Label41.Name = "Label41"
+        Me.Label41.Size = New System.Drawing.Size(76, 13)
+        Me.Label41.TabIndex = 250
+        Me.Label41.Text = "Today's Open:"
+        '
+        'lblTodaysOpen
+        '
+        Me.lblTodaysOpen.AutoSize = True
+        Me.lblTodaysOpen.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.lblTodaysOpen.Location = New System.Drawing.Point(85, 139)
+        Me.lblTodaysOpen.Name = "lblTodaysOpen"
+        Me.lblTodaysOpen.Size = New System.Drawing.Size(34, 13)
+        Me.lblTodaysOpen.TabIndex = 249
+        Me.lblTodaysOpen.Text = "$0.00"
+        '
+        'Label40
+        '
+        Me.Label40.AutoSize = True
+        Me.Label40.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label40.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.Label40.Location = New System.Drawing.Point(9, 84)
+        Me.Label40.Name = "Label40"
+        Me.Label40.Size = New System.Drawing.Size(119, 20)
+        Me.Label40.TabIndex = 248
+        Me.Label40.Text = "Stock Statistics"
+        '
+        'lblPClose
+        '
+        Me.lblPClose.AutoSize = True
+        Me.lblPClose.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.lblPClose.Location = New System.Drawing.Point(10, 116)
+        Me.lblPClose.Name = "lblPClose"
+        Me.lblPClose.Size = New System.Drawing.Size(60, 13)
+        Me.lblPClose.TabIndex = 247
+        Me.lblPClose.Text = "Prior Close:"
+        '
+        'lblPriorClose
+        '
+        Me.lblPriorClose.AutoSize = True
+        Me.lblPriorClose.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.lblPriorClose.Location = New System.Drawing.Point(85, 116)
+        Me.lblPriorClose.Name = "lblPriorClose"
+        Me.lblPriorClose.Size = New System.Drawing.Size(34, 13)
+        Me.lblPriorClose.TabIndex = 246
+        Me.lblPriorClose.Text = "$0.00"
+        '
+        'Label38
+        '
+        Me.Label38.AutoSize = True
+        Me.Label38.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.Label38.Location = New System.Drawing.Point(10, 256)
+        Me.Label38.Name = "Label38"
+        Me.Label38.Size = New System.Drawing.Size(55, 13)
+        Me.Label38.TabIndex = 245
+        Me.Label38.Text = "Ask Price:"
+        '
+        'lblAskPrice
+        '
+        Me.lblAskPrice.AutoSize = True
+        Me.lblAskPrice.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.lblAskPrice.Location = New System.Drawing.Point(85, 256)
+        Me.lblAskPrice.Name = "lblAskPrice"
+        Me.lblAskPrice.Size = New System.Drawing.Size(34, 13)
+        Me.lblAskPrice.TabIndex = 244
+        Me.lblAskPrice.Text = "$0.00"
+        '
+        'Label39
+        '
+        Me.Label39.AutoSize = True
+        Me.Label39.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.Label39.Location = New System.Drawing.Point(10, 234)
+        Me.Label39.Name = "Label39"
+        Me.Label39.Size = New System.Drawing.Size(52, 13)
+        Me.Label39.TabIndex = 243
+        Me.Label39.Text = "Bid Price:"
+        '
+        'lblBidPrice
+        '
+        Me.lblBidPrice.AutoSize = True
+        Me.lblBidPrice.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.lblBidPrice.Location = New System.Drawing.Point(85, 234)
+        Me.lblBidPrice.Name = "lblBidPrice"
+        Me.lblBidPrice.Size = New System.Drawing.Size(34, 13)
+        Me.lblBidPrice.TabIndex = 242
+        Me.lblBidPrice.Text = "$0.00"
+        '
+        'ckSnapshot
+        '
+        Me.ckSnapshot.AutoSize = True
+        Me.ckSnapshot.Location = New System.Drawing.Point(220, 460)
+        Me.ckSnapshot.Name = "ckSnapshot"
+        Me.ckSnapshot.Size = New System.Drawing.Size(97, 17)
+        Me.ckSnapshot.TabIndex = 241
+        Me.ckSnapshot.Text = "Snapshot Data"
+        Me.ckSnapshot.UseVisualStyleBackColor = True
+        '
+        'Label78
+        '
+        Me.Label78.AutoSize = True
+        Me.Label78.Location = New System.Drawing.Point(10, 52)
+        Me.Label78.Name = "Label78"
+        Me.Label78.Size = New System.Drawing.Size(109, 13)
+        Me.Label78.TabIndex = 240
+        Me.Label78.Text = "Select Harvest Index:"
+        '
+        'cmbHarvestIndex
+        '
+        Me.cmbHarvestIndex.FormattingEnabled = True
+        Me.cmbHarvestIndex.Location = New System.Drawing.Point(125, 49)
+        Me.cmbHarvestIndex.Name = "cmbHarvestIndex"
+        Me.cmbHarvestIndex.Size = New System.Drawing.Size(138, 21)
+        Me.cmbHarvestIndex.TabIndex = 239
+        '
+        'btnHarvestingStartWillie
+        '
+        Me.btnHarvestingStartWillie.Location = New System.Drawing.Point(323, 452)
+        Me.btnHarvestingStartWillie.Name = "btnHarvestingStartWillie"
+        Me.btnHarvestingStartWillie.Size = New System.Drawing.Size(132, 27)
+        Me.btnHarvestingStartWillie.TabIndex = 238
+        Me.btnHarvestingStartWillie.Text = "Start Willie"
+        Me.btnHarvestingStartWillie.UseVisualStyleBackColor = True
+        '
+        'txtHarvestingIP
+        '
+        Me.txtHarvestingIP.Location = New System.Drawing.Point(304, 10)
+        Me.txtHarvestingIP.Name = "txtHarvestingIP"
+        Me.txtHarvestingIP.Size = New System.Drawing.Size(59, 20)
+        Me.txtHarvestingIP.TabIndex = 237
+        Me.txtHarvestingIP.Text = "127.0.0.1"
+        Me.txtHarvestingIP.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'Label77
+        '
+        Me.Label77.AutoSize = True
+        Me.Label77.Location = New System.Drawing.Point(268, 13)
+        Me.Label77.Name = "Label77"
+        Me.Label77.Size = New System.Drawing.Size(29, 13)
+        Me.Label77.TabIndex = 236
+        Me.Label77.Text = "Host"
+        '
+        'Label76
+        '
+        Me.Label76.AutoSize = True
+        Me.Label76.Location = New System.Drawing.Point(369, 12)
+        Me.Label76.Name = "Label76"
+        Me.Label76.Size = New System.Drawing.Size(26, 13)
+        Me.Label76.TabIndex = 235
+        Me.Label76.Text = "Port"
+        '
+        'txtHarvestingPort
+        '
+        Me.txtHarvestingPort.Location = New System.Drawing.Point(401, 9)
+        Me.txtHarvestingPort.Name = "txtHarvestingPort"
+        Me.txtHarvestingPort.Size = New System.Drawing.Size(41, 20)
+        Me.txtHarvestingPort.TabIndex = 234
+        Me.txtHarvestingPort.Text = "7497"
+        Me.txtHarvestingPort.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'btnHarvestDisconnectFromTWS
+        '
+        Me.btnHarvestDisconnectFromTWS.Location = New System.Drawing.Point(679, 6)
+        Me.btnHarvestDisconnectFromTWS.Name = "btnHarvestDisconnectFromTWS"
+        Me.btnHarvestDisconnectFromTWS.Size = New System.Drawing.Size(132, 27)
+        Me.btnHarvestDisconnectFromTWS.TabIndex = 233
+        Me.btnHarvestDisconnectFromTWS.Text = "Disconnect from TWS"
+        Me.btnHarvestDisconnectFromTWS.UseVisualStyleBackColor = True
+        '
+        'Label75
+        '
+        Me.Label75.AutoSize = True
+        Me.Label75.Location = New System.Drawing.Point(452, 13)
+        Me.Label75.Name = "Label75"
+        Me.Label75.Size = New System.Drawing.Size(45, 13)
+        Me.Label75.TabIndex = 232
+        Me.Label75.Text = "Client Id"
+        '
+        'txtHarvestingClientId
+        '
+        Me.txtHarvestingClientId.Location = New System.Drawing.Point(503, 9)
+        Me.txtHarvestingClientId.Name = "txtHarvestingClientId"
+        Me.txtHarvestingClientId.Size = New System.Drawing.Size(32, 20)
+        Me.txtHarvestingClientId.TabIndex = 231
+        Me.txtHarvestingClientId.Text = "0"
+        Me.txtHarvestingClientId.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'btnHarvestConnectToTWS
+        '
+        Me.btnHarvestConnectToTWS.Location = New System.Drawing.Point(542, 6)
+        Me.btnHarvestConnectToTWS.Name = "btnHarvestConnectToTWS"
+        Me.btnHarvestConnectToTWS.Size = New System.Drawing.Size(132, 27)
+        Me.btnHarvestConnectToTWS.TabIndex = 230
+        Me.btnHarvestConnectToTWS.Text = "Connect to TWS"
+        Me.btnHarvestConnectToTWS.UseVisualStyleBackColor = True
+        '
+        'lblBuyOrderExists
+        '
+        Me.lblBuyOrderExists.AutoSize = True
+        Me.lblBuyOrderExists.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.lblBuyOrderExists.Location = New System.Drawing.Point(82, 281)
+        Me.lblBuyOrderExists.Name = "lblBuyOrderExists"
+        Me.lblBuyOrderExists.Size = New System.Drawing.Size(32, 13)
+        Me.lblBuyOrderExists.TabIndex = 229
+        Me.lblBuyOrderExists.Text = "False"
+        '
+        'btnClearHarvestListbox
+        '
+        Me.btnClearHarvestListbox.Location = New System.Drawing.Point(541, 452)
+        Me.btnClearHarvestListbox.Name = "btnClearHarvestListbox"
+        Me.btnClearHarvestListbox.Size = New System.Drawing.Size(132, 27)
+        Me.btnClearHarvestListbox.TabIndex = 172
+        Me.btnClearHarvestListbox.Text = "Clear"
+        Me.btnClearHarvestListbox.UseVisualStyleBackColor = True
+        '
+        'btnCloseHarvest
+        '
+        Me.btnCloseHarvest.Location = New System.Drawing.Point(678, 452)
+        Me.btnCloseHarvest.Name = "btnCloseHarvest"
+        Me.btnCloseHarvest.Size = New System.Drawing.Size(132, 27)
+        Me.btnCloseHarvest.TabIndex = 171
+        Me.btnCloseHarvest.Text = "Close"
+        Me.btnCloseHarvest.UseVisualStyleBackColor = True
+        '
+        'Label74
+        '
+        Me.Label74.AutoSize = True
+        Me.Label74.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label74.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.Label74.Location = New System.Drawing.Point(9, 7)
+        Me.Label74.Name = "Label74"
+        Me.Label74.Size = New System.Drawing.Size(99, 24)
+        Me.Label74.TabIndex = 161
+        Me.Label74.Text = "Harvesting"
+        '
         'Main
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(2132, 1090)
-        Me.Controls.Add(Me.Panel2)
-        Me.Controls.Add(Me.pnlManual)
-        Me.Controls.Add(Me.pnlBacktest)
+        Me.BackColor = System.Drawing.SystemColors.Control
+        Me.ClientSize = New System.Drawing.Size(970, 882)
+        Me.Controls.Add(Me.pnlHarvesting)
+        Me.Controls.Add(Me.Button78)
         Me.Controls.Add(Me.Panel8)
         Me.Controls.Add(Me.Panel7)
-        Me.Controls.Add(Me.Button9)
-        Me.Controls.Add(Me.Button10)
-        Me.Controls.Add(Me.Button11)
-        Me.Controls.Add(Me.Button6)
-        Me.Controls.Add(Me.Button7)
-        Me.Controls.Add(Me.Button8)
-        Me.Controls.Add(Me.Button5)
+        Me.Controls.Add(Me.pnlBacktest)
         Me.Controls.Add(Me.Label9)
+        Me.Controls.Add(Me.Button71)
         Me.Controls.Add(Me.pnlMan)
-        Me.Controls.Add(Me.Button2)
         Me.Controls.Add(Me.Panel6)
-        Me.Controls.Add(Me.Panel4)
-        Me.Controls.Add(Me.lblStatus)
-        Me.Controls.Add(Me.btnSendOrders)
+        Me.Controls.Add(Me.Button73)
         Me.Controls.Add(Me.lstErrorResponses)
+        Me.Controls.Add(Me.btnGetPositions)
         Me.Controls.Add(Me.Label26)
         Me.Controls.Add(Me.cmbWillie)
         Me.Controls.Add(Me.lstServerResponses)
         Me.Controls.Add(Me.Panel5)
+        Me.Controls.Add(Me.Button46)
         Me.Controls.Add(Me.Panel3)
         Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.ckRobotOn)
         Me.Controls.Add(Me.bntlistclear)
-        Me.Controls.Add(Me.btnClose)
-        Me.Controls.Add(Me.btnWillie)
         Me.Controls.Add(Me.lbldatastring)
         Me.Controls.Add(Me.lblConStatus)
+        Me.Controls.Add(Me.btnReqNextId)
+        Me.Controls.Add(Me.btnReqExecutions)
+        Me.Controls.Add(Me.Button35)
         Me.Controls.Add(Me.btnGetOpenOrders)
-        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
+        Me.Controls.Add(Me.Button31)
+        Me.Controls.Add(Me.btnReqMktData)
+        Me.Controls.Add(Me.btnReqAllOpenOrders)
+        Me.Controls.Add(Me.btnReqContractDetails)
+        Me.Controls.Add(Me.btnReqOpenOrders)
+        Me.Controls.Add(Me.btnCancelMarketData)
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.Name = "Main"
         Me.Text = "Willie"
+        Me.TopMost = True
         CType(Me.HarvestIndexBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.OptionwavesdbDataSet, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.OptionwavesdbDataSet1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2962,13 +2590,9 @@ Partial Class Main
         Me.Panel3.PerformLayout()
         Me.Panel5.ResumeLayout(False)
         Me.Panel5.PerformLayout()
-        Me.Panel2.ResumeLayout(False)
-        Me.Panel2.PerformLayout()
         Me.pnlMan.ResumeLayout(False)
         Me.pnlMan.PerformLayout()
         CType(Me.grdContracts, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.pnlManual.ResumeLayout(False)
-        Me.pnlManual.PerformLayout()
         Me.Panel4.ResumeLayout(False)
         Me.Panel4.PerformLayout()
         Me.Panel6.ResumeLayout(False)
@@ -2977,9 +2601,11 @@ Partial Class Main
         Me.Panel7.PerformLayout()
         Me.Panel8.ResumeLayout(False)
         Me.Panel8.PerformLayout()
-        CType(Me.BindingSource1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pnlBacktest.ResumeLayout(False)
         Me.pnlBacktest.PerformLayout()
+        Me.pnlHarvesting.ResumeLayout(False)
+        Me.pnlHarvesting.PerformLayout()
+        CType(Me.BindingSource1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -2993,7 +2619,6 @@ Partial Class Main
     Friend WithEvents OptionwavesdbDataSet1 As optionwavesdbDataSet
     Friend WithEvents lstServerResponses As ListBox
     Friend WithEvents btnWillie As Button
-    Friend WithEvents btnClose As Button
     Friend WithEvents OpenFileDialog1 As OpenFileDialog
     Friend WithEvents bntlistclear As Button
     Friend WithEvents Timer60Sec As Timer
@@ -3017,32 +2642,11 @@ Partial Class Main
     Friend WithEvents Label25 As Label
     Friend WithEvents Label26 As Label
     Friend WithEvents lblBuild As Label
-    Friend WithEvents lstConnectionResponses As ListBox
-    Friend WithEvents Label32 As Label
     Friend WithEvents lstErrorResponses As ListBox
     Friend WithEvents btnAnalysis As Button
-    Friend WithEvents btnSendOrders As Button
-    Friend WithEvents Button1 As Button
+    Friend WithEvents btnProfile As Button
     Friend WithEvents Button3 As Button
     Friend WithEvents Button4 As Button
-    Friend WithEvents Label38 As Label
-    Friend WithEvents Label39 As Label
-    Friend WithEvents lblopenBTOs As Label
-    Friend WithEvents lblopenSTCs As Label
-    Friend WithEvents Label41 As Label
-    Friend WithEvents lblMaxCap As Label
-    Friend WithEvents Label43 As Label
-    Friend WithEvents lblCurrentCapital As Label
-    Friend WithEvents Label45 As Label
-    Friend WithEvents Label46 As Label
-    Friend WithEvents Label47 As Label
-    Friend WithEvents Label48 As Label
-    Friend WithEvents Label49 As Label
-    Friend WithEvents Label50 As Label
-    Friend WithEvents Label51 As Label
-    Friend WithEvents Label52 As Label
-    Friend WithEvents Label53 As Label
-    Friend WithEvents Panel2 As Panel
     Friend WithEvents pnlMan As Panel
     Friend WithEvents btnHideManual As Button
     Friend WithEvents Label30 As Label
@@ -3094,7 +2698,6 @@ Partial Class Main
     Friend WithEvents btnckprice As Button
     Friend WithEvents txtGetPriceSymbol As TextBox
     Friend WithEvents btnTickPrice As Button
-    Friend WithEvents btnReqNextValidId As Button
     Friend WithEvents Panel4 As Panel
     Friend WithEvents btnSendOrder As Button
     Friend WithEvents Label7 As Label
@@ -3123,17 +2726,9 @@ Partial Class Main
     Friend WithEvents txtModifySymbol As TextBox
     Friend WithEvents Label15 As Label
     Friend WithEvents txtModifyOrderId As TextBox
-    Friend WithEvents Button2 As Button
     Friend WithEvents Label9 As Label
     Friend WithEvents Label19 As Label
-    Friend WithEvents Button5 As Button
     Friend WithEvents Label54 As Label
-    Friend WithEvents Button6 As Button
-    Friend WithEvents Button7 As Button
-    Friend WithEvents Button8 As Button
-    Friend WithEvents Button9 As Button
-    Friend WithEvents Button10 As Button
-    Friend WithEvents Button11 As Button
     Friend WithEvents Panel7 As Panel
     Friend WithEvents Label55 As Label
     Friend WithEvents Button12 As Button
@@ -3152,18 +2747,9 @@ Partial Class Main
     Friend WithEvents Panel8 As Panel
     Friend WithEvents Label62 As Label
     Friend WithEvents btnShowManual As Button
-    Friend WithEvents pnlManual As Panel
-    Friend WithEvents btnCloseManual As Button
-    Friend WithEvents Label63 As Label
     Friend WithEvents btnGetPrice As Button
     Friend WithEvents txtPriceSymbol As TextBox
     Friend WithEvents btnGetOpenOrders As Button
-    Friend WithEvents Label64 As Label
-    Friend WithEvents lblclosedBTOs As Label
-    Friend WithEvents Label40 As Label
-    Friend WithEvents Label66 As Label
-    Friend WithEvents Label67 As Label
-    Friend WithEvents lblclosedSTCs As Label
     Friend WithEvents pnlBacktest As Panel
     Friend WithEvents Label65 As Label
     Friend WithEvents Label68 As Label
@@ -3180,69 +2766,79 @@ Partial Class Main
     Friend WithEvents Label70 As Label
     Friend WithEvents btnStartBackTest As Button
     Friend WithEvents lblHarvestKey As Label
-    Friend WithEvents Label42 As Label
-    Friend WithEvents lblTransactions As Label
     Friend WithEvents btnBacktestClear As Button
-    Friend WithEvents Button17 As Button
-    Friend WithEvents Button18 As Button
-    Friend WithEvents Button15 As Button
-    Friend WithEvents Button16 As Button
-    Friend WithEvents Button14 As Button
-    Friend WithEvents Button13 As Button
-    Friend WithEvents BtnManualClear As Button
-    Friend WithEvents Button20 As Button
-    Friend WithEvents Button21 As Button
-    Friend WithEvents Button22 As Button
-    Friend WithEvents Button23 As Button
-    Friend WithEvents Button24 As Button
-    Friend WithEvents Button25 As Button
-    Friend WithEvents Button38 As Button
-    Friend WithEvents Button39 As Button
-    Friend WithEvents Button40 As Button
-    Friend WithEvents Button41 As Button
-    Friend WithEvents Button42 As Button
-    Friend WithEvents Button43 As Button
-    Friend WithEvents Button32 As Button
-    Friend WithEvents Button33 As Button
-    Friend WithEvents Button34 As Button
+    Friend WithEvents btnCancelMarketData As Button
+    Friend WithEvents btnReqMktData As Button
+    Friend WithEvents btnReqOpenOrders As Button
+    Friend WithEvents btnReqContractDetails As Button
+    Friend WithEvents btnReqNextId As Button
+    Friend WithEvents btnReqExecutions As Button
     Friend WithEvents Button35 As Button
-    Friend WithEvents Button36 As Button
-    Friend WithEvents Button37 As Button
-    Friend WithEvents Button26 As Button
-    Friend WithEvents Button27 As Button
-    Friend WithEvents Button28 As Button
-    Friend WithEvents Button29 As Button
-    Friend WithEvents Button30 As Button
+    Friend WithEvents btnReqAllOpenOrders As Button
     Friend WithEvents Button31 As Button
-    Friend WithEvents Button50 As Button
-    Friend WithEvents Button51 As Button
-    Friend WithEvents Button52 As Button
-    Friend WithEvents Button53 As Button
-    Friend WithEvents Button54 As Button
-    Friend WithEvents Button55 As Button
-    Friend WithEvents Button44 As Button
-    Friend WithEvents Button45 As Button
     Friend WithEvents Button46 As Button
-    Friend WithEvents Button47 As Button
-    Friend WithEvents Button48 As Button
-    Friend WithEvents Button49 As Button
-    Friend WithEvents Button56 As Button
-    Friend WithEvents Button57 As Button
-    Friend WithEvents Button58 As Button
-    Friend WithEvents Button59 As Button
-    Friend WithEvents Button60 As Button
-    Friend WithEvents Button61 As Button
-    Friend WithEvents Button64 As Button
-    Friend WithEvents Button65 As Button
-    Friend WithEvents Button66 As Button
-    Friend WithEvents Button67 As Button
-    Friend WithEvents Button68 As Button
-    Friend WithEvents Button69 As Button
-    Friend WithEvents Button70 As Button
+    Friend WithEvents btnGetPositions As Button
     Friend WithEvents Button71 As Button
-    Friend WithEvents Button72 As Button
     Friend WithEvents Button73 As Button
-    Friend WithEvents Button77 As Button
     Friend WithEvents Button78 As Button
-    Friend WithEvents Button79 As Button
+    Friend WithEvents Button19 As Button
+    Friend WithEvents Label72 As Label
+    Friend WithEvents txtDays As TextBox
+    Friend WithEvents Label71 As Label
+    Friend WithEvents txtMonths As TextBox
+    Friend WithEvents Label44 As Label
+    Friend WithEvents txtYears As TextBox
+    Friend WithEvents Label73 As Label
+    Friend WithEvents txtStartYear As TextBox
+    Friend WithEvents btnHarvesting As Button
+    Friend WithEvents pnlHarvesting As Panel
+    Friend WithEvents lblBuyOrderExists As Label
+    Friend WithEvents btnClearHarvestListbox As Button
+    Friend WithEvents btnCloseHarvest As Button
+    Friend WithEvents Label74 As Label
+    Friend WithEvents btnSettings As Button
+    Friend WithEvents txtHarvestingIP As TextBox
+    Friend WithEvents Label77 As Label
+    Friend WithEvents Label76 As Label
+    Friend WithEvents txtHarvestingPort As TextBox
+    Friend WithEvents btnHarvestDisconnectFromTWS As Button
+    Friend WithEvents Label75 As Label
+    Friend WithEvents txtHarvestingClientId As TextBox
+    Friend WithEvents btnHarvestConnectToTWS As Button
+    Friend WithEvents btnHarvestingStartWillie As Button
+    Friend WithEvents Label78 As Label
+    Friend WithEvents cmbHarvestIndex As ComboBox
+    Friend WithEvents ckSnapshot As CheckBox
+    Friend WithEvents Label39 As Label
+    Friend WithEvents lblBidPrice As Label
+    Friend WithEvents Label38 As Label
+    Friend WithEvents lblAskPrice As Label
+    Friend WithEvents Label40 As Label
+    Friend WithEvents lblPClose As Label
+    Friend WithEvents lblPriorClose As Label
+    Friend WithEvents Label41 As Label
+    Friend WithEvents lblTodaysOpen As Label
+    Friend WithEvents Label47 As Label
+    Friend WithEvents lblLastPrice As Label
+    Friend WithEvents Label45 As Label
+    Friend WithEvents lblTodaysLow As Label
+    Friend WithEvents Label42 As Label
+    Friend WithEvents lblTodaysHigh As Label
+    Friend WithEvents Label46 As Label
+    Friend WithEvents lblCurrentMark As Label
+    Friend WithEvents Label43 As Label
+    Friend WithEvents Label48 As Label
+    Friend WithEvents Label49 As Label
+    Friend WithEvents lblNextBTO As Label
+    Friend WithEvents Label66 As Label
+    Friend WithEvents Label67 As Label
+    Friend WithEvents Label63 As Label
+    Friend WithEvents Label64 As Label
+    Friend WithEvents Label52 As Label
+    Friend WithEvents Label53 As Label
+    Friend WithEvents Label50 As Label
+    Friend WithEvents lblbtoMove As Label
+    Friend WithEvents Label32 As Label
+    Friend WithEvents Label79 As Label
+    Friend WithEvents Label80 As Label
 End Class
