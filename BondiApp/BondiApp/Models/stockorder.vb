@@ -15,20 +15,15 @@ Partial Public Class stockorder
     Public Property timestamp As Nullable(Of Date)
     Public Property harvestkey As String
     Public Property symbol As String
-    Public Property btoOrderId As Nullable(Of Integer)
-    Public Property btoPermId As Nullable(Of Long)
     Public Property shares As Nullable(Of Integer)
-    Public Property StockCapital As Nullable(Of Decimal)
-    Public Property btoFilled As Nullable(Of Boolean)
-    Public Property btofilltimestamp As Nullable(Of Date)
-    Public Property btostockorderstatus As String
-    Public Property btoStockLimitPrice As Nullable(Of Decimal)
-    Public Property btoStockFillPrice As Nullable(Of Decimal)
-    Public Property btohedgeorderid As Nullable(Of Integer)
-    Public Property btohedgepermid As Nullable(Of Integer)
-    Public Property hedgelots As Nullable(Of Integer)
-    Public Property hedgestrike As Nullable(Of Decimal)
-    Public Property hedgeExpiration As Nullable(Of Date)
-    Public Property hedgeopen As Nullable(Of Boolean)
+    Public Property StockOpenOrderId As Nullable(Of Integer)
+    Public Property StockOpenPermId As Nullable(Of Long)
+    Public Property StockOpenLimitPrice As Nullable(Of Decimal)
+    Public Property StockOpenFillPrice As Nullable(Of Decimal)
+    Public Property StockOpenCapital As Nullable(Of Decimal)
+    Public Property StockOpenFilled As Nullable(Of Boolean)
+    Public Property StockOpenOrderStatus As String
+    Public Property StockOpenFillTimeStamp As Nullable(Of Date)
+    Public Property HedgePosition As Nullable(Of Boolean)
 
 End Class

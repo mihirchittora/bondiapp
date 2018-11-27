@@ -32,30 +32,19 @@ Partial Class Main
         Me.lstServerResponses = New System.Windows.Forms.ListBox()
         Me.btnWillie = New System.Windows.Forms.Button()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
-        Me.bntlistclear = New System.Windows.Forms.Button()
         Me.Timer60Sec = New System.Windows.Forms.Timer(Me.components)
         Me.TimerAtTime = New System.Windows.Forms.Timer(Me.components)
         Me.ckRobotOn = New System.Windows.Forms.CheckBox()
         Me.btnBackTest = New System.Windows.Forms.Button()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.btnClear = New System.Windows.Forms.Button()
+        Me.btnCloseMe = New System.Windows.Forms.Button()
         Me.btnSettings = New System.Windows.Forms.Button()
         Me.btnProfile = New System.Windows.Forms.Button()
         Me.Label3 = New System.Windows.Forms.Label()
-        Me.Panel3 = New System.Windows.Forms.Panel()
-        Me.btnConnect = New System.Windows.Forms.Button()
-        Me.btnDisconnect = New System.Windows.Forms.Button()
-        Me.Label25 = New System.Windows.Forms.Label()
-        Me.txtClientId = New System.Windows.Forms.TextBox()
-        Me.Label18 = New System.Windows.Forms.Label()
-        Me.txtPort = New System.Windows.Forms.TextBox()
-        Me.label2 = New System.Windows.Forms.Label()
-        Me.txtHost = New System.Windows.Forms.TextBox()
-        Me.Label1 = New System.Windows.Forms.Label()
         Me.Panel5 = New System.Windows.Forms.Panel()
         Me.lblBuild = New System.Windows.Forms.Label()
         Me.lblStatus = New System.Windows.Forms.Label()
-        Me.cmbWillie = New System.Windows.Forms.ComboBox()
-        Me.Label26 = New System.Windows.Forms.Label()
         Me.lstErrorResponses = New System.Windows.Forms.ListBox()
         Me.btnAnalysis = New System.Windows.Forms.Button()
         Me.Button3 = New System.Windows.Forms.Button()
@@ -114,7 +103,7 @@ Partial Class Main
         Me.Button78 = New System.Windows.Forms.Button()
         Me.Button46 = New System.Windows.Forms.Button()
         Me.Button71 = New System.Windows.Forms.Button()
-        Me.Button73 = New System.Windows.Forms.Button()
+        Me.btnPlaceOrder = New System.Windows.Forms.Button()
         Me.btnGetPositions = New System.Windows.Forms.Button()
         Me.btnReqNextId = New System.Windows.Forms.Button()
         Me.btnReqExecutions = New System.Windows.Forms.Button()
@@ -127,7 +116,6 @@ Partial Class Main
         Me.btnReqMktData = New System.Windows.Forms.Button()
         Me.btnGetPrice = New System.Windows.Forms.Button()
         Me.txtPriceSymbol = New System.Windows.Forms.TextBox()
-        Me.btnGetOpenOrders = New System.Windows.Forms.Button()
         Me.Panel4 = New System.Windows.Forms.Panel()
         Me.Label54 = New System.Windows.Forms.Label()
         Me.btnSendOrder = New System.Windows.Forms.Button()
@@ -176,7 +164,6 @@ Partial Class Main
         Me.TextBox12 = New System.Windows.Forms.TextBox()
         Me.Panel8 = New System.Windows.Forms.Panel()
         Me.btnHarvesting = New System.Windows.Forms.Button()
-        Me.btnCloseApp = New System.Windows.Forms.Button()
         Me.btnBackTesting = New System.Windows.Forms.Button()
         Me.Label62 = New System.Windows.Forms.Label()
         Me.btnShowManual = New System.Windows.Forms.Button()
@@ -205,6 +192,26 @@ Partial Class Main
         Me.Label68 = New System.Windows.Forms.Label()
         Me.Label65 = New System.Windows.Forms.Label()
         Me.pnlHarvesting = New System.Windows.Forms.Panel()
+        Me.btnDisconnectTWS = New System.Windows.Forms.Button()
+        Me.btnConnectTWS = New System.Windows.Forms.Button()
+        Me.Label83 = New System.Windows.Forms.Label()
+        Me.BTOExists = New System.Windows.Forms.Label()
+        Me.Label81 = New System.Windows.Forms.Label()
+        Me.lblSellOrderExists = New System.Windows.Forms.Label()
+        Me.Label51 = New System.Windows.Forms.Label()
+        Me.lbloLast = New System.Windows.Forms.Label()
+        Me.Label82 = New System.Windows.Forms.Label()
+        Me.lbloLowToday = New System.Windows.Forms.Label()
+        Me.Label84 = New System.Windows.Forms.Label()
+        Me.lbloHighToday = New System.Windows.Forms.Label()
+        Me.Label86 = New System.Windows.Forms.Label()
+        Me.lbloOpenToday = New System.Windows.Forms.Label()
+        Me.Label88 = New System.Windows.Forms.Label()
+        Me.lblOprior = New System.Windows.Forms.Label()
+        Me.Label90 = New System.Windows.Forms.Label()
+        Me.lbloAskPrice = New System.Windows.Forms.Label()
+        Me.Label92 = New System.Windows.Forms.Label()
+        Me.lbloBidPrice = New System.Windows.Forms.Label()
         Me.Label79 = New System.Windows.Forms.Label()
         Me.Label80 = New System.Windows.Forms.Label()
         Me.Label66 = New System.Windows.Forms.Label()
@@ -245,20 +252,17 @@ Partial Class Main
         Me.Label77 = New System.Windows.Forms.Label()
         Me.Label76 = New System.Windows.Forms.Label()
         Me.txtHarvestingPort = New System.Windows.Forms.TextBox()
-        Me.btnHarvestDisconnectFromTWS = New System.Windows.Forms.Button()
         Me.Label75 = New System.Windows.Forms.Label()
         Me.txtHarvestingClientId = New System.Windows.Forms.TextBox()
-        Me.btnHarvestConnectToTWS = New System.Windows.Forms.Button()
         Me.lblBuyOrderExists = New System.Windows.Forms.Label()
-        Me.btnClearHarvestListbox = New System.Windows.Forms.Button()
-        Me.btnCloseHarvest = New System.Windows.Forms.Button()
         Me.Label74 = New System.Windows.Forms.Label()
         Me.BindingSource1 = New System.Windows.Forms.BindingSource(Me.components)
+        Me.btnPlaceOptionOrder = New System.Windows.Forms.Button()
+        Me.btnGetOptionPrice = New System.Windows.Forms.Button()
         CType(Me.HarvestIndexBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.OptionwavesdbDataSet, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.OptionwavesdbDataSet1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
-        Me.Panel3.SuspendLayout()
         Me.Panel5.SuspendLayout()
         Me.pnlMan.SuspendLayout()
         CType(Me.grdContracts, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -274,7 +278,7 @@ Partial Class Main
         'lblConStatus
         '
         Me.lblConStatus.AutoSize = True
-        Me.lblConStatus.Location = New System.Drawing.Point(155, 677)
+        Me.lblConStatus.Location = New System.Drawing.Point(153, 497)
         Me.lblConStatus.Name = "lblConStatus"
         Me.lblConStatus.Size = New System.Drawing.Size(44, 13)
         Me.lblConStatus.TabIndex = 7
@@ -297,7 +301,7 @@ Partial Class Main
         'lbldatastring
         '
         Me.lbldatastring.AutoSize = True
-        Me.lbldatastring.Location = New System.Drawing.Point(697, 677)
+        Me.lbldatastring.Location = New System.Drawing.Point(695, 497)
         Me.lbldatastring.Name = "lbldatastring"
         Me.lbldatastring.Size = New System.Drawing.Size(122, 13)
         Me.lbldatastring.TabIndex = 12
@@ -311,7 +315,7 @@ Partial Class Main
         'lstServerResponses
         '
         Me.lstServerResponses.FormattingEnabled = True
-        Me.lstServerResponses.Location = New System.Drawing.Point(151, 695)
+        Me.lstServerResponses.Location = New System.Drawing.Point(149, 515)
         Me.lstServerResponses.Margin = New System.Windows.Forms.Padding(2)
         Me.lstServerResponses.Name = "lstServerResponses"
         Me.lstServerResponses.Size = New System.Drawing.Size(804, 95)
@@ -319,7 +323,7 @@ Partial Class Main
         '
         'btnWillie
         '
-        Me.btnWillie.Location = New System.Drawing.Point(465, 452)
+        Me.btnWillie.Location = New System.Drawing.Point(463, 298)
         Me.btnWillie.Name = "btnWillie"
         Me.btnWillie.Size = New System.Drawing.Size(70, 25)
         Me.btnWillie.TabIndex = 49
@@ -329,16 +333,6 @@ Partial Class Main
         'OpenFileDialog1
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
-        '
-        'bntlistclear
-        '
-        Me.bntlistclear.Location = New System.Drawing.Point(1384, 40)
-        Me.bntlistclear.Name = "bntlistclear"
-        Me.bntlistclear.Size = New System.Drawing.Size(81, 23)
-        Me.bntlistclear.TabIndex = 68
-        Me.bntlistclear.Text = "Clear "
-        Me.bntlistclear.UseVisualStyleBackColor = True
-        Me.bntlistclear.Visible = False
         '
         'Timer60Sec
         '
@@ -351,26 +345,28 @@ Partial Class Main
         'ckRobotOn
         '
         Me.ckRobotOn.AutoSize = True
-        Me.ckRobotOn.Location = New System.Drawing.Point(1239, 44)
+        Me.ckRobotOn.Location = New System.Drawing.Point(748, 275)
         Me.ckRobotOn.Name = "ckRobotOn"
         Me.ckRobotOn.Size = New System.Drawing.Size(52, 17)
         Me.ckRobotOn.TabIndex = 69
         Me.ckRobotOn.Text = "Timer"
         Me.ckRobotOn.UseVisualStyleBackColor = True
-        Me.ckRobotOn.Visible = False
         '
         'btnBackTest
         '
-        Me.btnBackTest.Location = New System.Drawing.Point(12, 712)
+        Me.btnBackTest.Location = New System.Drawing.Point(1339, 239)
         Me.btnBackTest.Name = "btnBackTest"
         Me.btnBackTest.Size = New System.Drawing.Size(67, 23)
         Me.btnBackTest.TabIndex = 71
         Me.btnBackTest.Text = "BackTest"
         Me.btnBackTest.UseVisualStyleBackColor = True
+        Me.btnBackTest.Visible = False
         '
         'Panel1
         '
         Me.Panel1.BackColor = System.Drawing.Color.SlateGray
+        Me.Panel1.Controls.Add(Me.btnClear)
+        Me.Panel1.Controls.Add(Me.btnCloseMe)
         Me.Panel1.Controls.Add(Me.btnSettings)
         Me.Panel1.Controls.Add(Me.btnProfile)
         Me.Panel1.Controls.Add(Me.Label3)
@@ -380,29 +376,56 @@ Partial Class Main
         Me.Panel1.Size = New System.Drawing.Size(969, 52)
         Me.Panel1.TabIndex = 85
         '
+        'btnClear
+        '
+        Me.btnClear.BackColor = System.Drawing.Color.SlateGray
+        Me.btnClear.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.btnClear.ForeColor = System.Drawing.SystemColors.ButtonHighlight
+        Me.btnClear.Location = New System.Drawing.Point(773, 13)
+        Me.btnClear.Name = "btnClear"
+        Me.btnClear.Size = New System.Drawing.Size(71, 23)
+        Me.btnClear.TabIndex = 294
+        Me.btnClear.Text = "CLEAR"
+        Me.btnClear.UseVisualStyleBackColor = False
+        '
+        'btnCloseMe
+        '
+        Me.btnCloseMe.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.btnCloseMe.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.btnCloseMe.ForeColor = System.Drawing.SystemColors.ButtonHighlight
+        Me.btnCloseMe.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.btnCloseMe.Location = New System.Drawing.Point(848, 13)
+        Me.btnCloseMe.Name = "btnCloseMe"
+        Me.btnCloseMe.Size = New System.Drawing.Size(71, 24)
+        Me.btnCloseMe.TabIndex = 141
+        Me.btnCloseMe.Text = "CLOSE"
+        Me.btnCloseMe.UseVisualStyleBackColor = True
+        '
         'btnSettings
         '
         Me.btnSettings.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
         Me.btnSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnSettings.ForeColor = System.Drawing.SystemColors.ButtonHighlight
-        Me.btnSettings.Location = New System.Drawing.Point(813, 14)
+        Me.btnSettings.Location = New System.Drawing.Point(623, 13)
         Me.btnSettings.Name = "btnSettings"
         Me.btnSettings.Size = New System.Drawing.Size(71, 23)
         Me.btnSettings.TabIndex = 74
         Me.btnSettings.Text = "SETTINGS"
         Me.btnSettings.UseVisualStyleBackColor = True
+        Me.btnSettings.Visible = False
         '
         'btnProfile
         '
         Me.btnProfile.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
         Me.btnProfile.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnProfile.ForeColor = System.Drawing.SystemColors.ButtonHighlight
-        Me.btnProfile.Location = New System.Drawing.Point(892, 14)
+        Me.btnProfile.Location = New System.Drawing.Point(698, 13)
         Me.btnProfile.Name = "btnProfile"
         Me.btnProfile.Size = New System.Drawing.Size(71, 23)
         Me.btnProfile.TabIndex = 73
         Me.btnProfile.Text = "PROFILE"
         Me.btnProfile.UseVisualStyleBackColor = True
+        Me.btnProfile.Visible = False
         '
         'Label3
         '
@@ -415,109 +438,11 @@ Partial Class Main
         Me.Label3.TabIndex = 72
         Me.Label3.Text = "Resignation Trading - Willie Gene"
         '
-        'Panel3
-        '
-        Me.Panel3.Controls.Add(Me.btnConnect)
-        Me.Panel3.Controls.Add(Me.btnDisconnect)
-        Me.Panel3.Controls.Add(Me.Label25)
-        Me.Panel3.Controls.Add(Me.txtClientId)
-        Me.Panel3.Controls.Add(Me.Label18)
-        Me.Panel3.Controls.Add(Me.txtPort)
-        Me.Panel3.Controls.Add(Me.label2)
-        Me.Panel3.Controls.Add(Me.txtHost)
-        Me.Panel3.Controls.Add(Me.Label1)
-        Me.Panel3.Location = New System.Drawing.Point(1088, 4)
-        Me.Panel3.Margin = New System.Windows.Forms.Padding(2)
-        Me.Panel3.Name = "Panel3"
-        Me.Panel3.Size = New System.Drawing.Size(688, 31)
-        Me.Panel3.TabIndex = 87
-        Me.Panel3.Visible = False
-        '
-        'btnConnect
-        '
-        Me.btnConnect.Location = New System.Drawing.Point(526, 5)
-        Me.btnConnect.Name = "btnConnect"
-        Me.btnConnect.Size = New System.Drawing.Size(72, 23)
-        Me.btnConnect.TabIndex = 66
-        Me.btnConnect.Text = "Connect"
-        Me.btnConnect.UseVisualStyleBackColor = True
-        '
-        'btnDisconnect
-        '
-        Me.btnDisconnect.Location = New System.Drawing.Point(604, 5)
-        Me.btnDisconnect.Name = "btnDisconnect"
-        Me.btnDisconnect.Size = New System.Drawing.Size(72, 23)
-        Me.btnDisconnect.TabIndex = 65
-        Me.btnDisconnect.Text = "Disconnect"
-        Me.btnDisconnect.UseVisualStyleBackColor = True
-        '
-        'Label25
-        '
-        Me.Label25.AutoSize = True
-        Me.Label25.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.875!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label25.Location = New System.Drawing.Point(4, 4)
-        Me.Label25.Name = "Label25"
-        Me.Label25.Size = New System.Drawing.Size(186, 24)
-        Me.Label25.TabIndex = 90
-        Me.Label25.Text = "Robot Control Center"
-        '
-        'txtClientId
-        '
-        Me.txtClientId.Location = New System.Drawing.Point(470, 7)
-        Me.txtClientId.Name = "txtClientId"
-        Me.txtClientId.Size = New System.Drawing.Size(38, 20)
-        Me.txtClientId.TabIndex = 64
-        Me.txtClientId.Text = "0"
-        Me.txtClientId.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        '
-        'Label18
-        '
-        Me.Label18.AutoSize = True
-        Me.Label18.Location = New System.Drawing.Point(418, 8)
-        Me.Label18.Name = "Label18"
-        Me.Label18.Size = New System.Drawing.Size(45, 13)
-        Me.Label18.TabIndex = 63
-        Me.Label18.Text = "Client Id"
-        '
-        'txtPort
-        '
-        Me.txtPort.Location = New System.Drawing.Point(374, 6)
-        Me.txtPort.Name = "txtPort"
-        Me.txtPort.Size = New System.Drawing.Size(38, 20)
-        Me.txtPort.TabIndex = 62
-        Me.txtPort.Text = "7497"
-        '
-        'label2
-        '
-        Me.label2.AutoSize = True
-        Me.label2.Location = New System.Drawing.Point(338, 8)
-        Me.label2.Name = "label2"
-        Me.label2.Size = New System.Drawing.Size(26, 13)
-        Me.label2.TabIndex = 61
-        Me.label2.Text = "Port"
-        '
-        'txtHost
-        '
-        Me.txtHost.Location = New System.Drawing.Point(273, 6)
-        Me.txtHost.Name = "txtHost"
-        Me.txtHost.Size = New System.Drawing.Size(59, 20)
-        Me.txtHost.TabIndex = 3
-        Me.txtHost.Text = "127.0.0.1"
-        '
-        'Label1
-        '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(240, 8)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(29, 13)
-        Me.Label1.TabIndex = 2
-        Me.Label1.Text = "Host"
-        '
         'Panel5
         '
         Me.Panel5.Controls.Add(Me.lblBuild)
         Me.Panel5.Controls.Add(Me.lblStatus)
-        Me.Panel5.Location = New System.Drawing.Point(152, 840)
+        Me.Panel5.Location = New System.Drawing.Point(150, 660)
         Me.Panel5.Margin = New System.Windows.Forms.Padding(2)
         Me.Panel5.Name = "Panel5"
         Me.Panel5.Size = New System.Drawing.Size(810, 31)
@@ -541,29 +466,10 @@ Partial Class Main
         Me.lblStatus.TabIndex = 68
         Me.lblStatus.Text = "Welcome to Resignation Trading!"
         '
-        'cmbWillie
-        '
-        Me.cmbWillie.FormattingEnabled = True
-        Me.cmbWillie.Location = New System.Drawing.Point(1105, 42)
-        Me.cmbWillie.Name = "cmbWillie"
-        Me.cmbWillie.Size = New System.Drawing.Size(129, 21)
-        Me.cmbWillie.TabIndex = 91
-        Me.cmbWillie.Visible = False
-        '
-        'Label26
-        '
-        Me.Label26.AutoSize = True
-        Me.Label26.Location = New System.Drawing.Point(979, 48)
-        Me.Label26.Name = "Label26"
-        Me.Label26.Size = New System.Drawing.Size(120, 13)
-        Me.Label26.TabIndex = 92
-        Me.Label26.Text = "Select Harvest Product:"
-        Me.Label26.Visible = False
-        '
         'lstErrorResponses
         '
         Me.lstErrorResponses.FormattingEnabled = True
-        Me.lstErrorResponses.Location = New System.Drawing.Point(151, 794)
+        Me.lstErrorResponses.Location = New System.Drawing.Point(149, 614)
         Me.lstErrorResponses.Margin = New System.Windows.Forms.Padding(2)
         Me.lstErrorResponses.Name = "lstErrorResponses"
         Me.lstErrorResponses.Size = New System.Drawing.Size(804, 43)
@@ -571,30 +477,33 @@ Partial Class Main
         '
         'btnAnalysis
         '
-        Me.btnAnalysis.Location = New System.Drawing.Point(12, 683)
+        Me.btnAnalysis.Location = New System.Drawing.Point(1339, 266)
         Me.btnAnalysis.Name = "btnAnalysis"
         Me.btnAnalysis.Size = New System.Drawing.Size(67, 23)
         Me.btnAnalysis.TabIndex = 125
         Me.btnAnalysis.Text = "Analysis"
         Me.btnAnalysis.UseVisualStyleBackColor = True
+        Me.btnAnalysis.Visible = False
         '
         'Button3
         '
-        Me.Button3.Location = New System.Drawing.Point(12, 784)
+        Me.Button3.Location = New System.Drawing.Point(1289, 163)
         Me.Button3.Name = "Button3"
         Me.Button3.Size = New System.Drawing.Size(117, 33)
         Me.Button3.TabIndex = 134
         Me.Button3.Text = "Analysis"
         Me.Button3.UseVisualStyleBackColor = True
+        Me.Button3.Visible = False
         '
         'Button4
         '
-        Me.Button4.Location = New System.Drawing.Point(12, 741)
+        Me.Button4.Location = New System.Drawing.Point(1288, 200)
         Me.Button4.Name = "Button4"
         Me.Button4.Size = New System.Drawing.Size(117, 33)
         Me.Button4.TabIndex = 135
         Me.Button4.Text = "Back Testing"
         Me.Button4.UseVisualStyleBackColor = True
+        Me.Button4.Visible = False
         '
         'pnlMan
         '
@@ -641,7 +550,7 @@ Partial Class Main
         Me.pnlMan.Controls.Add(Me.TextBox6)
         Me.pnlMan.Controls.Add(Me.btnSendOption)
         Me.pnlMan.Controls.Add(Me.btnHideManual)
-        Me.pnlMan.Location = New System.Drawing.Point(978, 462)
+        Me.pnlMan.Location = New System.Drawing.Point(1546, 382)
         Me.pnlMan.Name = "pnlMan"
         Me.pnlMan.Size = New System.Drawing.Size(664, 228)
         Me.pnlMan.TabIndex = 154
@@ -1054,7 +963,7 @@ Partial Class Main
         '
         'btnTickPrice
         '
-        Me.btnTickPrice.Location = New System.Drawing.Point(114, 454)
+        Me.btnTickPrice.Location = New System.Drawing.Point(112, 301)
         Me.btnTickPrice.Name = "btnTickPrice"
         Me.btnTickPrice.Size = New System.Drawing.Size(100, 23)
         Me.btnTickPrice.TabIndex = 191
@@ -1063,7 +972,7 @@ Partial Class Main
         '
         'btnOpPrice
         '
-        Me.btnOpPrice.Location = New System.Drawing.Point(7, 454)
+        Me.btnOpPrice.Location = New System.Drawing.Point(5, 301)
         Me.btnOpPrice.Name = "btnOpPrice"
         Me.btnOpPrice.Size = New System.Drawing.Size(101, 23)
         Me.btnOpPrice.TabIndex = 172
@@ -1073,7 +982,7 @@ Partial Class Main
         'Button78
         '
         Me.Button78.BackColor = System.Drawing.Color.LawnGreen
-        Me.Button78.Location = New System.Drawing.Point(294, 549)
+        Me.Button78.Location = New System.Drawing.Point(564, 453)
         Me.Button78.Margin = New System.Windows.Forms.Padding(2)
         Me.Button78.Name = "Button78"
         Me.Button78.Size = New System.Drawing.Size(132, 27)
@@ -1084,7 +993,7 @@ Partial Class Main
         'Button46
         '
         Me.Button46.BackColor = System.Drawing.Color.LawnGreen
-        Me.Button46.Location = New System.Drawing.Point(158, 549)
+        Me.Button46.Location = New System.Drawing.Point(428, 453)
         Me.Button46.Margin = New System.Windows.Forms.Padding(2)
         Me.Button46.Name = "Button46"
         Me.Button46.Size = New System.Drawing.Size(132, 27)
@@ -1095,7 +1004,7 @@ Partial Class Main
         'Button71
         '
         Me.Button71.BackColor = System.Drawing.Color.LawnGreen
-        Me.Button71.Location = New System.Drawing.Point(837, 618)
+        Me.Button71.Location = New System.Drawing.Point(700, 453)
         Me.Button71.Margin = New System.Windows.Forms.Padding(2)
         Me.Button71.Name = "Button71"
         Me.Button71.Size = New System.Drawing.Size(132, 27)
@@ -1103,21 +1012,21 @@ Partial Class Main
         Me.Button71.Text = "Req Account Summary"
         Me.Button71.UseVisualStyleBackColor = False
         '
-        'Button73
+        'btnPlaceOrder
         '
-        Me.Button73.BackColor = System.Drawing.Color.LawnGreen
-        Me.Button73.Location = New System.Drawing.Point(702, 618)
-        Me.Button73.Margin = New System.Windows.Forms.Padding(2)
-        Me.Button73.Name = "Button73"
-        Me.Button73.Size = New System.Drawing.Size(132, 27)
-        Me.Button73.TabIndex = 219
-        Me.Button73.Text = "XX Place Order"
-        Me.Button73.UseVisualStyleBackColor = False
+        Me.btnPlaceOrder.BackColor = System.Drawing.Color.Ivory
+        Me.btnPlaceOrder.Location = New System.Drawing.Point(700, 423)
+        Me.btnPlaceOrder.Margin = New System.Windows.Forms.Padding(2)
+        Me.btnPlaceOrder.Name = "btnPlaceOrder"
+        Me.btnPlaceOrder.Size = New System.Drawing.Size(132, 27)
+        Me.btnPlaceOrder.TabIndex = 219
+        Me.btnPlaceOrder.Text = "Place Stock Order"
+        Me.btnPlaceOrder.UseVisualStyleBackColor = False
         '
         'btnGetPositions
         '
         Me.btnGetPositions.BackColor = System.Drawing.Color.LawnGreen
-        Me.btnGetPositions.Location = New System.Drawing.Point(566, 618)
+        Me.btnGetPositions.Location = New System.Drawing.Point(564, 423)
         Me.btnGetPositions.Margin = New System.Windows.Forms.Padding(2)
         Me.btnGetPositions.Name = "btnGetPositions"
         Me.btnGetPositions.Size = New System.Drawing.Size(132, 27)
@@ -1128,7 +1037,7 @@ Partial Class Main
         'btnReqNextId
         '
         Me.btnReqNextId.BackColor = System.Drawing.Color.Ivory
-        Me.btnReqNextId.Location = New System.Drawing.Point(430, 618)
+        Me.btnReqNextId.Location = New System.Drawing.Point(428, 423)
         Me.btnReqNextId.Margin = New System.Windows.Forms.Padding(2)
         Me.btnReqNextId.Name = "btnReqNextId"
         Me.btnReqNextId.Size = New System.Drawing.Size(132, 27)
@@ -1139,7 +1048,7 @@ Partial Class Main
         'btnReqExecutions
         '
         Me.btnReqExecutions.BackColor = System.Drawing.Color.LawnGreen
-        Me.btnReqExecutions.Location = New System.Drawing.Point(158, 618)
+        Me.btnReqExecutions.Location = New System.Drawing.Point(156, 423)
         Me.btnReqExecutions.Margin = New System.Windows.Forms.Padding(2)
         Me.btnReqExecutions.Name = "btnReqExecutions"
         Me.btnReqExecutions.Size = New System.Drawing.Size(132, 27)
@@ -1150,7 +1059,7 @@ Partial Class Main
         'Button35
         '
         Me.Button35.BackColor = System.Drawing.Color.LawnGreen
-        Me.Button35.Location = New System.Drawing.Point(837, 582)
+        Me.Button35.Location = New System.Drawing.Point(835, 394)
         Me.Button35.Margin = New System.Windows.Forms.Padding(2)
         Me.Button35.Name = "Button35"
         Me.Button35.Size = New System.Drawing.Size(132, 27)
@@ -1161,7 +1070,7 @@ Partial Class Main
         'btnReqAllOpenOrders
         '
         Me.btnReqAllOpenOrders.BackColor = System.Drawing.Color.Ivory
-        Me.btnReqAllOpenOrders.Location = New System.Drawing.Point(702, 582)
+        Me.btnReqAllOpenOrders.Location = New System.Drawing.Point(700, 394)
         Me.btnReqAllOpenOrders.Margin = New System.Windows.Forms.Padding(2)
         Me.btnReqAllOpenOrders.Name = "btnReqAllOpenOrders"
         Me.btnReqAllOpenOrders.Size = New System.Drawing.Size(132, 27)
@@ -1172,7 +1081,7 @@ Partial Class Main
         'Button31
         '
         Me.Button31.BackColor = System.Drawing.Color.LawnGreen
-        Me.Button31.Location = New System.Drawing.Point(294, 618)
+        Me.Button31.Location = New System.Drawing.Point(292, 423)
         Me.Button31.Margin = New System.Windows.Forms.Padding(2)
         Me.Button31.Name = "Button31"
         Me.Button31.Size = New System.Drawing.Size(132, 27)
@@ -1183,7 +1092,7 @@ Partial Class Main
         'btnReqOpenOrders
         '
         Me.btnReqOpenOrders.BackColor = System.Drawing.Color.Ivory
-        Me.btnReqOpenOrders.Location = New System.Drawing.Point(430, 582)
+        Me.btnReqOpenOrders.Location = New System.Drawing.Point(428, 394)
         Me.btnReqOpenOrders.Margin = New System.Windows.Forms.Padding(2)
         Me.btnReqOpenOrders.Name = "btnReqOpenOrders"
         Me.btnReqOpenOrders.Size = New System.Drawing.Size(132, 27)
@@ -1194,7 +1103,7 @@ Partial Class Main
         'btnReqContractDetails
         '
         Me.btnReqContractDetails.BackColor = System.Drawing.Color.Ivory
-        Me.btnReqContractDetails.Location = New System.Drawing.Point(294, 582)
+        Me.btnReqContractDetails.Location = New System.Drawing.Point(292, 394)
         Me.btnReqContractDetails.Margin = New System.Windows.Forms.Padding(2)
         Me.btnReqContractDetails.Name = "btnReqContractDetails"
         Me.btnReqContractDetails.Size = New System.Drawing.Size(132, 27)
@@ -1205,7 +1114,7 @@ Partial Class Main
         'btnCancelMarketData
         '
         Me.btnCancelMarketData.BackColor = System.Drawing.Color.Ivory
-        Me.btnCancelMarketData.Location = New System.Drawing.Point(566, 582)
+        Me.btnCancelMarketData.Location = New System.Drawing.Point(564, 394)
         Me.btnCancelMarketData.Margin = New System.Windows.Forms.Padding(2)
         Me.btnCancelMarketData.Name = "btnCancelMarketData"
         Me.btnCancelMarketData.Size = New System.Drawing.Size(132, 27)
@@ -1216,7 +1125,7 @@ Partial Class Main
         'btnReqMktData
         '
         Me.btnReqMktData.BackColor = System.Drawing.Color.Ivory
-        Me.btnReqMktData.Location = New System.Drawing.Point(158, 582)
+        Me.btnReqMktData.Location = New System.Drawing.Point(156, 394)
         Me.btnReqMktData.Margin = New System.Windows.Forms.Padding(2)
         Me.btnReqMktData.Name = "btnReqMktData"
         Me.btnReqMktData.Size = New System.Drawing.Size(132, 27)
@@ -1242,17 +1151,6 @@ Partial Class Main
         Me.txtPriceSymbol.Size = New System.Drawing.Size(52, 20)
         Me.txtPriceSymbol.TabIndex = 161
         '
-        'btnGetOpenOrders
-        '
-        Me.btnGetOpenOrders.Location = New System.Drawing.Point(1470, 39)
-        Me.btnGetOpenOrders.Margin = New System.Windows.Forms.Padding(2)
-        Me.btnGetOpenOrders.Name = "btnGetOpenOrders"
-        Me.btnGetOpenOrders.Size = New System.Drawing.Size(86, 24)
-        Me.btnGetOpenOrders.TabIndex = 163
-        Me.btnGetOpenOrders.Text = "Open Orders"
-        Me.btnGetOpenOrders.UseVisualStyleBackColor = True
-        Me.btnGetOpenOrders.Visible = False
-        '
         'Panel4
         '
         Me.Panel4.Controls.Add(Me.Label54)
@@ -1269,10 +1167,11 @@ Partial Class Main
         Me.Panel4.Controls.Add(Me.txtSymbol)
         Me.Panel4.Controls.Add(Me.Label4)
         Me.Panel4.Controls.Add(Me.txtOrderId)
-        Me.Panel4.Location = New System.Drawing.Point(6, 361)
+        Me.Panel4.Location = New System.Drawing.Point(972, 341)
         Me.Panel4.Name = "Panel4"
         Me.Panel4.Size = New System.Drawing.Size(351, 85)
         Me.Panel4.TabIndex = 155
+        Me.Panel4.Visible = False
         '
         'Label54
         '
@@ -1412,7 +1311,7 @@ Partial Class Main
         Me.Panel6.Controls.Add(Me.txtModifySymbol)
         Me.Panel6.Controls.Add(Me.Label15)
         Me.Panel6.Controls.Add(Me.txtModifyOrderId)
-        Me.Panel6.Location = New System.Drawing.Point(978, 371)
+        Me.Panel6.Location = New System.Drawing.Point(970, 163)
         Me.Panel6.Name = "Panel6"
         Me.Panel6.Size = New System.Drawing.Size(313, 85)
         Me.Panel6.TabIndex = 156
@@ -1544,7 +1443,7 @@ Partial Class Main
         '
         Me.Label9.AutoSize = True
         Me.Label9.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label9.Location = New System.Drawing.Point(154, 653)
+        Me.Label9.Location = New System.Drawing.Point(152, 473)
         Me.Label9.Name = "Label9"
         Me.Label9.Size = New System.Drawing.Size(139, 20)
         Me.Label9.TabIndex = 158
@@ -1566,7 +1465,7 @@ Partial Class Main
         Me.Panel7.Controls.Add(Me.TextBox11)
         Me.Panel7.Controls.Add(Me.Label61)
         Me.Panel7.Controls.Add(Me.TextBox12)
-        Me.Panel7.Location = New System.Drawing.Point(1296, 371)
+        Me.Panel7.Location = New System.Drawing.Point(970, 250)
         Me.Panel7.Name = "Panel7"
         Me.Panel7.Size = New System.Drawing.Size(312, 85)
         Me.Panel7.TabIndex = 166
@@ -1696,20 +1595,15 @@ Partial Class Main
         '
         'Panel8
         '
-        Me.Panel8.BackColor = System.Drawing.Color.Black
+        Me.Panel8.BackColor = System.Drawing.Color.SlateGray
         Me.Panel8.Controls.Add(Me.btnHarvesting)
-        Me.Panel8.Controls.Add(Me.btnCloseApp)
         Me.Panel8.Controls.Add(Me.btnBackTesting)
-        Me.Panel8.Controls.Add(Me.Button4)
-        Me.Panel8.Controls.Add(Me.Button3)
         Me.Panel8.Controls.Add(Me.Label62)
-        Me.Panel8.Controls.Add(Me.btnAnalysis)
         Me.Panel8.Controls.Add(Me.btnShowManual)
-        Me.Panel8.Controls.Add(Me.btnBackTest)
         Me.Panel8.Location = New System.Drawing.Point(0, 53)
         Me.Panel8.Margin = New System.Windows.Forms.Padding(2)
         Me.Panel8.Name = "Panel8"
-        Me.Panel8.Size = New System.Drawing.Size(147, 831)
+        Me.Panel8.Size = New System.Drawing.Size(147, 638)
         Me.Panel8.TabIndex = 167
         '
         'btnHarvesting
@@ -1724,19 +1618,7 @@ Partial Class Main
         Me.btnHarvesting.TabIndex = 138
         Me.btnHarvesting.Text = "HARVESTING"
         Me.btnHarvesting.UseVisualStyleBackColor = True
-        '
-        'btnCloseApp
-        '
-        Me.btnCloseApp.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.btnCloseApp.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.btnCloseApp.ForeColor = System.Drawing.SystemColors.ButtonHighlight
-        Me.btnCloseApp.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnCloseApp.Location = New System.Drawing.Point(3, 557)
-        Me.btnCloseApp.Name = "btnCloseApp"
-        Me.btnCloseApp.Size = New System.Drawing.Size(141, 42)
-        Me.btnCloseApp.TabIndex = 137
-        Me.btnCloseApp.Text = "Close"
-        Me.btnCloseApp.UseVisualStyleBackColor = True
+        Me.btnHarvesting.Visible = False
         '
         'btnBackTesting
         '
@@ -1750,6 +1632,7 @@ Partial Class Main
         Me.btnBackTesting.TabIndex = 136
         Me.btnBackTesting.Text = "BACKTEST"
         Me.btnBackTesting.UseVisualStyleBackColor = True
+        Me.btnBackTesting.Visible = False
         '
         'Label62
         '
@@ -1761,6 +1644,7 @@ Partial Class Main
         Me.Label62.Size = New System.Drawing.Size(126, 24)
         Me.Label62.TabIndex = 91
         Me.Label62.Text = "NAVIGATION"
+        Me.Label62.Visible = False
         '
         'btnShowManual
         '
@@ -1774,6 +1658,7 @@ Partial Class Main
         Me.btnShowManual.TabIndex = 74
         Me.btnShowManual.Text = " MANUAL ACTIONS"
         Me.btnShowManual.UseVisualStyleBackColor = True
+        Me.btnShowManual.Visible = False
         '
         'pnlBacktest
         '
@@ -1800,16 +1685,16 @@ Partial Class Main
         Me.pnlBacktest.Controls.Add(Me.btnHideBackTesting)
         Me.pnlBacktest.Controls.Add(Me.Label68)
         Me.pnlBacktest.Controls.Add(Me.Label65)
-        Me.pnlBacktest.Location = New System.Drawing.Point(970, 64)
+        Me.pnlBacktest.Location = New System.Drawing.Point(970, 0)
         Me.pnlBacktest.Name = "pnlBacktest"
-        Me.pnlBacktest.Size = New System.Drawing.Size(819, 99)
+        Me.pnlBacktest.Size = New System.Drawing.Size(402, 159)
         Me.pnlBacktest.TabIndex = 168
         Me.pnlBacktest.Visible = False
         '
         'Label73
         '
         Me.Label73.AutoSize = True
-        Me.Label73.Location = New System.Drawing.Point(305, 34)
+        Me.Label73.Location = New System.Drawing.Point(268, 34)
         Me.Label73.Name = "Label73"
         Me.Label73.Size = New System.Drawing.Size(57, 13)
         Me.Label73.TabIndex = 184
@@ -1817,7 +1702,7 @@ Partial Class Main
         '
         'txtStartYear
         '
-        Me.txtStartYear.Location = New System.Drawing.Point(374, 31)
+        Me.txtStartYear.Location = New System.Drawing.Point(329, 31)
         Me.txtStartYear.Name = "txtStartYear"
         Me.txtStartYear.Size = New System.Drawing.Size(59, 20)
         Me.txtStartYear.TabIndex = 1
@@ -1825,7 +1710,7 @@ Partial Class Main
         'Label72
         '
         Me.Label72.AutoSize = True
-        Me.Label72.Location = New System.Drawing.Point(624, 34)
+        Me.Label72.Location = New System.Drawing.Point(282, 116)
         Me.Label72.Name = "Label72"
         Me.Label72.Size = New System.Drawing.Size(34, 13)
         Me.Label72.TabIndex = 182
@@ -1833,7 +1718,7 @@ Partial Class Main
         '
         'txtDays
         '
-        Me.txtDays.Location = New System.Drawing.Point(659, 30)
+        Me.txtDays.Location = New System.Drawing.Point(317, 112)
         Me.txtDays.Name = "txtDays"
         Me.txtDays.Size = New System.Drawing.Size(43, 20)
         Me.txtDays.TabIndex = 4
@@ -1841,7 +1726,7 @@ Partial Class Main
         'Label71
         '
         Me.Label71.AutoSize = True
-        Me.Label71.Location = New System.Drawing.Point(532, 35)
+        Me.Label71.Location = New System.Drawing.Point(273, 89)
         Me.Label71.Name = "Label71"
         Me.Label71.Size = New System.Drawing.Size(45, 13)
         Me.Label71.TabIndex = 180
@@ -1849,7 +1734,7 @@ Partial Class Main
         '
         'txtMonths
         '
-        Me.txtMonths.Location = New System.Drawing.Point(577, 32)
+        Me.txtMonths.Location = New System.Drawing.Point(318, 86)
         Me.txtMonths.Name = "txtMonths"
         Me.txtMonths.Size = New System.Drawing.Size(42, 20)
         Me.txtMonths.TabIndex = 3
@@ -1857,7 +1742,7 @@ Partial Class Main
         'Label44
         '
         Me.Label44.AutoSize = True
-        Me.Label44.Location = New System.Drawing.Point(441, 34)
+        Me.Label44.Location = New System.Drawing.Point(275, 64)
         Me.Label44.Name = "Label44"
         Me.Label44.Size = New System.Drawing.Size(37, 13)
         Me.Label44.TabIndex = 178
@@ -1865,14 +1750,14 @@ Partial Class Main
         '
         'txtYears
         '
-        Me.txtYears.Location = New System.Drawing.Point(484, 30)
+        Me.txtYears.Location = New System.Drawing.Point(318, 60)
         Me.txtYears.Name = "txtYears"
         Me.txtYears.Size = New System.Drawing.Size(42, 20)
         Me.txtYears.TabIndex = 2
         '
         'Button19
         '
-        Me.Button19.Location = New System.Drawing.Point(451, 71)
+        Me.Button19.Location = New System.Drawing.Point(80, 97)
         Me.Button19.Name = "Button19"
         Me.Button19.Size = New System.Drawing.Size(75, 23)
         Me.Button19.TabIndex = 176
@@ -1881,7 +1766,7 @@ Partial Class Main
         '
         'btnBacktestClear
         '
-        Me.btnBacktestClear.Location = New System.Drawing.Point(568, 3)
+        Me.btnBacktestClear.Location = New System.Drawing.Point(145, 5)
         Me.btnBacktestClear.Name = "btnBacktestClear"
         Me.btnBacktestClear.Size = New System.Drawing.Size(89, 23)
         Me.btnBacktestClear.TabIndex = 175
@@ -1891,7 +1776,7 @@ Partial Class Main
         'lblHarvestKey
         '
         Me.lblHarvestKey.AutoSize = True
-        Me.lblHarvestKey.Location = New System.Drawing.Point(351, 76)
+        Me.lblHarvestKey.Location = New System.Drawing.Point(15, 104)
         Me.lblHarvestKey.Name = "lblHarvestKey"
         Me.lblHarvestKey.Size = New System.Drawing.Size(59, 13)
         Me.lblHarvestKey.TabIndex = 174
@@ -1899,7 +1784,7 @@ Partial Class Main
         '
         'btnStartBackTest
         '
-        Me.btnStartBackTest.Location = New System.Drawing.Point(225, 71)
+        Me.btnStartBackTest.Location = New System.Drawing.Point(167, 71)
         Me.btnStartBackTest.Name = "btnStartBackTest"
         Me.btnStartBackTest.Size = New System.Drawing.Size(89, 23)
         Me.btnStartBackTest.TabIndex = 173
@@ -1926,7 +1811,7 @@ Partial Class Main
         '
         'btnAssembleDataFileDIrectPull
         '
-        Me.btnAssembleDataFileDIrectPull.Location = New System.Drawing.Point(720, 63)
+        Me.btnAssembleDataFileDIrectPull.Location = New System.Drawing.Point(193, 123)
         Me.btnAssembleDataFileDIrectPull.Name = "btnAssembleDataFileDIrectPull"
         Me.btnAssembleDataFileDIrectPull.Size = New System.Drawing.Size(72, 25)
         Me.btnAssembleDataFileDIrectPull.TabIndex = 170
@@ -1936,7 +1821,7 @@ Partial Class Main
         'Label69
         '
         Me.Label69.AutoSize = True
-        Me.Label69.Location = New System.Drawing.Point(544, 65)
+        Me.Label69.Location = New System.Drawing.Point(17, 125)
         Me.Label69.Name = "Label69"
         Me.Label69.Size = New System.Drawing.Size(58, 13)
         Me.Label69.TabIndex = 169
@@ -1945,7 +1830,7 @@ Partial Class Main
         'dtpStartDate
         '
         Me.dtpStartDate.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
-        Me.dtpStartDate.Location = New System.Drawing.Point(611, 63)
+        Me.dtpStartDate.Location = New System.Drawing.Point(84, 123)
         Me.dtpStartDate.Margin = New System.Windows.Forms.Padding(2)
         Me.dtpStartDate.Name = "dtpStartDate"
         Me.dtpStartDate.Size = New System.Drawing.Size(88, 20)
@@ -1954,7 +1839,7 @@ Partial Class Main
         'lblDatafileSymbol
         '
         Me.lblDatafileSymbol.AutoSize = True
-        Me.lblDatafileSymbol.Location = New System.Drawing.Point(182, 34)
+        Me.lblDatafileSymbol.Location = New System.Drawing.Point(157, 34)
         Me.lblDatafileSymbol.Name = "lblDatafileSymbol"
         Me.lblDatafileSymbol.Size = New System.Drawing.Size(44, 13)
         Me.lblDatafileSymbol.TabIndex = 165
@@ -1962,14 +1847,14 @@ Partial Class Main
         '
         'txtLoadSymbol
         '
-        Me.txtLoadSymbol.Location = New System.Drawing.Point(231, 32)
+        Me.txtLoadSymbol.Location = New System.Drawing.Point(206, 32)
         Me.txtLoadSymbol.Name = "txtLoadSymbol"
         Me.txtLoadSymbol.Size = New System.Drawing.Size(59, 20)
         Me.txtLoadSymbol.TabIndex = 0
         '
         'btnAssembleDataFile
         '
-        Me.btnAssembleDataFile.Location = New System.Drawing.Point(720, 27)
+        Me.btnAssembleDataFile.Location = New System.Drawing.Point(278, 132)
         Me.btnAssembleDataFile.Name = "btnAssembleDataFile"
         Me.btnAssembleDataFile.Size = New System.Drawing.Size(72, 25)
         Me.btnAssembleDataFile.TabIndex = 5
@@ -1978,7 +1863,7 @@ Partial Class Main
         '
         'btnHideBackTesting
         '
-        Me.btnHideBackTesting.Location = New System.Drawing.Point(660, 3)
+        Me.btnHideBackTesting.Location = New System.Drawing.Point(237, 5)
         Me.btnHideBackTesting.Name = "btnHideBackTesting"
         Me.btnHideBackTesting.Size = New System.Drawing.Size(75, 23)
         Me.btnHideBackTesting.TabIndex = 162
@@ -2007,7 +1892,28 @@ Partial Class Main
         'pnlHarvesting
         '
         Me.pnlHarvesting.BackColor = System.Drawing.SystemColors.Control
+        Me.pnlHarvesting.Controls.Add(Me.btnDisconnectTWS)
+        Me.pnlHarvesting.Controls.Add(Me.btnConnectTWS)
+        Me.pnlHarvesting.Controls.Add(Me.Label83)
+        Me.pnlHarvesting.Controls.Add(Me.BTOExists)
+        Me.pnlHarvesting.Controls.Add(Me.Label81)
+        Me.pnlHarvesting.Controls.Add(Me.lblSellOrderExists)
+        Me.pnlHarvesting.Controls.Add(Me.Label51)
+        Me.pnlHarvesting.Controls.Add(Me.lbloLast)
+        Me.pnlHarvesting.Controls.Add(Me.Label82)
+        Me.pnlHarvesting.Controls.Add(Me.lbloLowToday)
+        Me.pnlHarvesting.Controls.Add(Me.Label84)
+        Me.pnlHarvesting.Controls.Add(Me.lbloHighToday)
+        Me.pnlHarvesting.Controls.Add(Me.Label86)
+        Me.pnlHarvesting.Controls.Add(Me.lbloOpenToday)
+        Me.pnlHarvesting.Controls.Add(Me.Label88)
+        Me.pnlHarvesting.Controls.Add(Me.lblOprior)
+        Me.pnlHarvesting.Controls.Add(Me.Label90)
+        Me.pnlHarvesting.Controls.Add(Me.lbloAskPrice)
+        Me.pnlHarvesting.Controls.Add(Me.Label92)
+        Me.pnlHarvesting.Controls.Add(Me.lbloBidPrice)
         Me.pnlHarvesting.Controls.Add(Me.Label79)
+        Me.pnlHarvesting.Controls.Add(Me.ckRobotOn)
         Me.pnlHarvesting.Controls.Add(Me.Label80)
         Me.pnlHarvesting.Controls.Add(Me.Label66)
         Me.pnlHarvesting.Controls.Add(Me.Label67)
@@ -2019,7 +1925,6 @@ Partial Class Main
         Me.pnlHarvesting.Controls.Add(Me.lblbtoMove)
         Me.pnlHarvesting.Controls.Add(Me.Label32)
         Me.pnlHarvesting.Controls.Add(Me.Label49)
-        Me.pnlHarvesting.Controls.Add(Me.Panel4)
         Me.pnlHarvesting.Controls.Add(Me.lblNextBTO)
         Me.pnlHarvesting.Controls.Add(Me.Label48)
         Me.pnlHarvesting.Controls.Add(Me.Label46)
@@ -2051,22 +1956,214 @@ Partial Class Main
         Me.pnlHarvesting.Controls.Add(Me.Label77)
         Me.pnlHarvesting.Controls.Add(Me.Label76)
         Me.pnlHarvesting.Controls.Add(Me.txtHarvestingPort)
-        Me.pnlHarvesting.Controls.Add(Me.btnHarvestDisconnectFromTWS)
         Me.pnlHarvesting.Controls.Add(Me.btnGetPrice)
         Me.pnlHarvesting.Controls.Add(Me.Label75)
         Me.pnlHarvesting.Controls.Add(Me.txtPriceSymbol)
         Me.pnlHarvesting.Controls.Add(Me.txtHarvestingClientId)
-        Me.pnlHarvesting.Controls.Add(Me.btnHarvestConnectToTWS)
         Me.pnlHarvesting.Controls.Add(Me.btnOpPrice)
         Me.pnlHarvesting.Controls.Add(Me.lblBuyOrderExists)
-        Me.pnlHarvesting.Controls.Add(Me.btnClearHarvestListbox)
-        Me.pnlHarvesting.Controls.Add(Me.btnCloseHarvest)
-        Me.pnlHarvesting.Controls.Add(Me.Label74)
-        Me.pnlHarvesting.Location = New System.Drawing.Point(152, 59)
+        Me.pnlHarvesting.Location = New System.Drawing.Point(1533, 31)
         Me.pnlHarvesting.Margin = New System.Windows.Forms.Padding(1)
         Me.pnlHarvesting.Name = "pnlHarvesting"
-        Me.pnlHarvesting.Size = New System.Drawing.Size(814, 481)
+        Me.pnlHarvesting.Size = New System.Drawing.Size(814, 336)
         Me.pnlHarvesting.TabIndex = 170
+        '
+        'btnDisconnectTWS
+        '
+        Me.btnDisconnectTWS.Location = New System.Drawing.Point(655, 6)
+        Me.btnDisconnectTWS.Name = "btnDisconnectTWS"
+        Me.btnDisconnectTWS.Size = New System.Drawing.Size(108, 27)
+        Me.btnDisconnectTWS.TabIndex = 293
+        Me.btnDisconnectTWS.Text = "Disconnect TWS"
+        Me.btnDisconnectTWS.UseVisualStyleBackColor = True
+        '
+        'btnConnectTWS
+        '
+        Me.btnConnectTWS.Location = New System.Drawing.Point(541, 6)
+        Me.btnConnectTWS.Name = "btnConnectTWS"
+        Me.btnConnectTWS.Size = New System.Drawing.Size(108, 27)
+        Me.btnConnectTWS.TabIndex = 292
+        Me.btnConnectTWS.Text = "Connect TWS"
+        Me.btnConnectTWS.UseVisualStyleBackColor = True
+        '
+        'Label83
+        '
+        Me.Label83.AutoSize = True
+        Me.Label83.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.Label83.Location = New System.Drawing.Point(400, 52)
+        Me.Label83.Name = "Label83"
+        Me.Label83.Size = New System.Drawing.Size(94, 13)
+        Me.Label83.TabIndex = 291
+        Me.Label83.Text = "BTO Order Exists?"
+        '
+        'BTOExists
+        '
+        Me.BTOExists.AutoSize = True
+        Me.BTOExists.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.BTOExists.Location = New System.Drawing.Point(544, 52)
+        Me.BTOExists.Name = "BTOExists"
+        Me.BTOExists.Size = New System.Drawing.Size(0, 13)
+        Me.BTOExists.TabIndex = 290
+        '
+        'Label81
+        '
+        Me.Label81.AutoSize = True
+        Me.Label81.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.Label81.Location = New System.Drawing.Point(139, 281)
+        Me.Label81.Name = "Label81"
+        Me.Label81.Size = New System.Drawing.Size(59, 13)
+        Me.Label81.TabIndex = 289
+        Me.Label81.Text = "Sell Order?"
+        '
+        'lblSellOrderExists
+        '
+        Me.lblSellOrderExists.AutoSize = True
+        Me.lblSellOrderExists.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.lblSellOrderExists.Location = New System.Drawing.Point(214, 281)
+        Me.lblSellOrderExists.Name = "lblSellOrderExists"
+        Me.lblSellOrderExists.Size = New System.Drawing.Size(32, 13)
+        Me.lblSellOrderExists.TabIndex = 288
+        Me.lblSellOrderExists.Text = "False"
+        '
+        'Label51
+        '
+        Me.Label51.AutoSize = True
+        Me.Label51.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.Label51.Location = New System.Drawing.Point(275, 210)
+        Me.Label51.Name = "Label51"
+        Me.Label51.Size = New System.Drawing.Size(57, 13)
+        Me.Label51.TabIndex = 287
+        Me.Label51.Text = "Last Price:"
+        '
+        'lbloLast
+        '
+        Me.lbloLast.AutoSize = True
+        Me.lbloLast.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.lbloLast.Location = New System.Drawing.Point(350, 210)
+        Me.lbloLast.Name = "lbloLast"
+        Me.lbloLast.Size = New System.Drawing.Size(34, 13)
+        Me.lbloLast.TabIndex = 286
+        Me.lbloLast.Text = "$0.00"
+        '
+        'Label82
+        '
+        Me.Label82.AutoSize = True
+        Me.Label82.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.Label82.Location = New System.Drawing.Point(275, 186)
+        Me.Label82.Name = "Label82"
+        Me.Label82.Size = New System.Drawing.Size(70, 13)
+        Me.Label82.TabIndex = 285
+        Me.Label82.Text = "Today's Low:"
+        '
+        'lbloLowToday
+        '
+        Me.lbloLowToday.AutoSize = True
+        Me.lbloLowToday.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.lbloLowToday.Location = New System.Drawing.Point(350, 185)
+        Me.lbloLowToday.Name = "lbloLowToday"
+        Me.lbloLowToday.Size = New System.Drawing.Size(34, 13)
+        Me.lbloLowToday.TabIndex = 284
+        Me.lbloLowToday.Text = "$0.00"
+        '
+        'Label84
+        '
+        Me.Label84.AutoSize = True
+        Me.Label84.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.Label84.Location = New System.Drawing.Point(275, 162)
+        Me.Label84.Name = "Label84"
+        Me.Label84.Size = New System.Drawing.Size(72, 13)
+        Me.Label84.TabIndex = 283
+        Me.Label84.Text = "Today's High:"
+        '
+        'lbloHighToday
+        '
+        Me.lbloHighToday.AutoSize = True
+        Me.lbloHighToday.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.lbloHighToday.Location = New System.Drawing.Point(350, 162)
+        Me.lbloHighToday.Name = "lbloHighToday"
+        Me.lbloHighToday.Size = New System.Drawing.Size(34, 13)
+        Me.lbloHighToday.TabIndex = 282
+        Me.lbloHighToday.Text = "$0.00"
+        '
+        'Label86
+        '
+        Me.Label86.AutoSize = True
+        Me.Label86.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.Label86.Location = New System.Drawing.Point(275, 139)
+        Me.Label86.Name = "Label86"
+        Me.Label86.Size = New System.Drawing.Size(76, 13)
+        Me.Label86.TabIndex = 281
+        Me.Label86.Text = "Today's Open:"
+        '
+        'lbloOpenToday
+        '
+        Me.lbloOpenToday.AutoSize = True
+        Me.lbloOpenToday.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.lbloOpenToday.Location = New System.Drawing.Point(350, 139)
+        Me.lbloOpenToday.Name = "lbloOpenToday"
+        Me.lbloOpenToday.Size = New System.Drawing.Size(34, 13)
+        Me.lbloOpenToday.TabIndex = 280
+        Me.lbloOpenToday.Text = "$0.00"
+        '
+        'Label88
+        '
+        Me.Label88.AutoSize = True
+        Me.Label88.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.Label88.Location = New System.Drawing.Point(275, 116)
+        Me.Label88.Name = "Label88"
+        Me.Label88.Size = New System.Drawing.Size(60, 13)
+        Me.Label88.TabIndex = 279
+        Me.Label88.Text = "Prior Close:"
+        '
+        'lblOprior
+        '
+        Me.lblOprior.AutoSize = True
+        Me.lblOprior.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.lblOprior.Location = New System.Drawing.Point(350, 116)
+        Me.lblOprior.Name = "lblOprior"
+        Me.lblOprior.Size = New System.Drawing.Size(34, 13)
+        Me.lblOprior.TabIndex = 278
+        Me.lblOprior.Text = "$0.00"
+        '
+        'Label90
+        '
+        Me.Label90.AutoSize = True
+        Me.Label90.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.Label90.Location = New System.Drawing.Point(275, 256)
+        Me.Label90.Name = "Label90"
+        Me.Label90.Size = New System.Drawing.Size(55, 13)
+        Me.Label90.TabIndex = 277
+        Me.Label90.Text = "Ask Price:"
+        '
+        'lbloAskPrice
+        '
+        Me.lbloAskPrice.AutoSize = True
+        Me.lbloAskPrice.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.lbloAskPrice.Location = New System.Drawing.Point(350, 256)
+        Me.lbloAskPrice.Name = "lbloAskPrice"
+        Me.lbloAskPrice.Size = New System.Drawing.Size(34, 13)
+        Me.lbloAskPrice.TabIndex = 276
+        Me.lbloAskPrice.Text = "$0.00"
+        '
+        'Label92
+        '
+        Me.Label92.AutoSize = True
+        Me.Label92.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.Label92.Location = New System.Drawing.Point(275, 234)
+        Me.Label92.Name = "Label92"
+        Me.Label92.Size = New System.Drawing.Size(52, 13)
+        Me.Label92.TabIndex = 275
+        Me.Label92.Text = "Bid Price:"
+        '
+        'lbloBidPrice
+        '
+        Me.lbloBidPrice.AutoSize = True
+        Me.lbloBidPrice.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.lbloBidPrice.Location = New System.Drawing.Point(350, 234)
+        Me.lbloBidPrice.Name = "lbloBidPrice"
+        Me.lbloBidPrice.Size = New System.Drawing.Size(34, 13)
+        Me.lbloBidPrice.TabIndex = 274
+        Me.lbloBidPrice.Text = "$0.00"
         '
         'Label79
         '
@@ -2175,9 +2272,9 @@ Partial Class Main
         Me.Label32.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.Label32.Location = New System.Drawing.Point(274, 84)
         Me.Label32.Name = "Label32"
-        Me.Label32.Size = New System.Drawing.Size(118, 20)
+        Me.Label32.Size = New System.Drawing.Size(125, 20)
         Me.Label32.TabIndex = 263
-        Me.Label32.Text = "Order Statistics"
+        Me.Label32.Text = "Option Statistics"
         '
         'Label49
         '
@@ -2394,7 +2491,7 @@ Partial Class Main
         'ckSnapshot
         '
         Me.ckSnapshot.AutoSize = True
-        Me.ckSnapshot.Location = New System.Drawing.Point(220, 460)
+        Me.ckSnapshot.Location = New System.Drawing.Point(218, 307)
         Me.ckSnapshot.Name = "ckSnapshot"
         Me.ckSnapshot.Size = New System.Drawing.Size(97, 17)
         Me.ckSnapshot.TabIndex = 241
@@ -2420,7 +2517,7 @@ Partial Class Main
         '
         'btnHarvestingStartWillie
         '
-        Me.btnHarvestingStartWillie.Location = New System.Drawing.Point(323, 452)
+        Me.btnHarvestingStartWillie.Location = New System.Drawing.Point(321, 298)
         Me.btnHarvestingStartWillie.Name = "btnHarvestingStartWillie"
         Me.btnHarvestingStartWillie.Size = New System.Drawing.Size(132, 27)
         Me.btnHarvestingStartWillie.TabIndex = 238
@@ -2463,15 +2560,6 @@ Partial Class Main
         Me.txtHarvestingPort.Text = "7497"
         Me.txtHarvestingPort.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
-        'btnHarvestDisconnectFromTWS
-        '
-        Me.btnHarvestDisconnectFromTWS.Location = New System.Drawing.Point(679, 6)
-        Me.btnHarvestDisconnectFromTWS.Name = "btnHarvestDisconnectFromTWS"
-        Me.btnHarvestDisconnectFromTWS.Size = New System.Drawing.Size(132, 27)
-        Me.btnHarvestDisconnectFromTWS.TabIndex = 233
-        Me.btnHarvestDisconnectFromTWS.Text = "Disconnect from TWS"
-        Me.btnHarvestDisconnectFromTWS.UseVisualStyleBackColor = True
-        '
         'Label75
         '
         Me.Label75.AutoSize = True
@@ -2490,15 +2578,6 @@ Partial Class Main
         Me.txtHarvestingClientId.Text = "0"
         Me.txtHarvestingClientId.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
-        'btnHarvestConnectToTWS
-        '
-        Me.btnHarvestConnectToTWS.Location = New System.Drawing.Point(542, 6)
-        Me.btnHarvestConnectToTWS.Name = "btnHarvestConnectToTWS"
-        Me.btnHarvestConnectToTWS.Size = New System.Drawing.Size(132, 27)
-        Me.btnHarvestConnectToTWS.TabIndex = 230
-        Me.btnHarvestConnectToTWS.Text = "Connect to TWS"
-        Me.btnHarvestConnectToTWS.UseVisualStyleBackColor = True
-        '
         'lblBuyOrderExists
         '
         Me.lblBuyOrderExists.AutoSize = True
@@ -2509,85 +2588,88 @@ Partial Class Main
         Me.lblBuyOrderExists.TabIndex = 229
         Me.lblBuyOrderExists.Text = "False"
         '
-        'btnClearHarvestListbox
-        '
-        Me.btnClearHarvestListbox.Location = New System.Drawing.Point(541, 452)
-        Me.btnClearHarvestListbox.Name = "btnClearHarvestListbox"
-        Me.btnClearHarvestListbox.Size = New System.Drawing.Size(132, 27)
-        Me.btnClearHarvestListbox.TabIndex = 172
-        Me.btnClearHarvestListbox.Text = "Clear"
-        Me.btnClearHarvestListbox.UseVisualStyleBackColor = True
-        '
-        'btnCloseHarvest
-        '
-        Me.btnCloseHarvest.Location = New System.Drawing.Point(678, 452)
-        Me.btnCloseHarvest.Name = "btnCloseHarvest"
-        Me.btnCloseHarvest.Size = New System.Drawing.Size(132, 27)
-        Me.btnCloseHarvest.TabIndex = 171
-        Me.btnCloseHarvest.Text = "Close"
-        Me.btnCloseHarvest.UseVisualStyleBackColor = True
-        '
         'Label74
         '
         Me.Label74.AutoSize = True
         Me.Label74.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label74.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
-        Me.Label74.Location = New System.Drawing.Point(9, 7)
+        Me.Label74.Location = New System.Drawing.Point(159, 63)
         Me.Label74.Name = "Label74"
         Me.Label74.Size = New System.Drawing.Size(99, 24)
         Me.Label74.TabIndex = 161
         Me.Label74.Text = "Harvesting"
         '
+        'btnPlaceOptionOrder
+        '
+        Me.btnPlaceOptionOrder.BackColor = System.Drawing.SystemColors.Control
+        Me.btnPlaceOptionOrder.Location = New System.Drawing.Point(835, 423)
+        Me.btnPlaceOptionOrder.Margin = New System.Windows.Forms.Padding(2)
+        Me.btnPlaceOptionOrder.Name = "btnPlaceOptionOrder"
+        Me.btnPlaceOptionOrder.Size = New System.Drawing.Size(132, 27)
+        Me.btnPlaceOptionOrder.TabIndex = 227
+        Me.btnPlaceOptionOrder.Text = "Place Option Order"
+        Me.btnPlaceOptionOrder.UseVisualStyleBackColor = False
+        '
+        'btnGetOptionPrice
+        '
+        Me.btnGetOptionPrice.BackColor = System.Drawing.Color.Ivory
+        Me.btnGetOptionPrice.Location = New System.Drawing.Point(292, 453)
+        Me.btnGetOptionPrice.Margin = New System.Windows.Forms.Padding(2)
+        Me.btnGetOptionPrice.Name = "btnGetOptionPrice"
+        Me.btnGetOptionPrice.Size = New System.Drawing.Size(132, 27)
+        Me.btnGetOptionPrice.TabIndex = 228
+        Me.btnGetOptionPrice.Text = "Get Option Price"
+        Me.btnGetOptionPrice.UseVisualStyleBackColor = False
+        '
         'Main
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.AutoSize = True
         Me.BackColor = System.Drawing.SystemColors.Control
-        Me.ClientSize = New System.Drawing.Size(970, 882)
+        Me.ClientSize = New System.Drawing.Size(2375, 699)
+        Me.Controls.Add(Me.btnGetOptionPrice)
+        Me.Controls.Add(Me.btnPlaceOptionOrder)
         Me.Controls.Add(Me.pnlHarvesting)
+        Me.Controls.Add(Me.Button3)
+        Me.Controls.Add(Me.Button4)
         Me.Controls.Add(Me.Button78)
         Me.Controls.Add(Me.Panel8)
         Me.Controls.Add(Me.Panel7)
         Me.Controls.Add(Me.pnlBacktest)
+        Me.Controls.Add(Me.btnAnalysis)
         Me.Controls.Add(Me.Label9)
+        Me.Controls.Add(Me.btnBackTest)
         Me.Controls.Add(Me.Button71)
         Me.Controls.Add(Me.pnlMan)
         Me.Controls.Add(Me.Panel6)
-        Me.Controls.Add(Me.Button73)
+        Me.Controls.Add(Me.btnPlaceOrder)
         Me.Controls.Add(Me.lstErrorResponses)
         Me.Controls.Add(Me.btnGetPositions)
-        Me.Controls.Add(Me.Label26)
-        Me.Controls.Add(Me.cmbWillie)
+        Me.Controls.Add(Me.Panel4)
         Me.Controls.Add(Me.lstServerResponses)
         Me.Controls.Add(Me.Panel5)
         Me.Controls.Add(Me.Button46)
-        Me.Controls.Add(Me.Panel3)
         Me.Controls.Add(Me.Panel1)
-        Me.Controls.Add(Me.ckRobotOn)
-        Me.Controls.Add(Me.bntlistclear)
         Me.Controls.Add(Me.lbldatastring)
         Me.Controls.Add(Me.lblConStatus)
         Me.Controls.Add(Me.btnReqNextId)
         Me.Controls.Add(Me.btnReqExecutions)
         Me.Controls.Add(Me.Button35)
-        Me.Controls.Add(Me.btnGetOpenOrders)
         Me.Controls.Add(Me.Button31)
         Me.Controls.Add(Me.btnReqMktData)
         Me.Controls.Add(Me.btnReqAllOpenOrders)
         Me.Controls.Add(Me.btnReqContractDetails)
         Me.Controls.Add(Me.btnReqOpenOrders)
         Me.Controls.Add(Me.btnCancelMarketData)
-        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
+        Me.Controls.Add(Me.Label74)
         Me.Name = "Main"
         Me.Text = "Willie"
-        Me.TopMost = True
         CType(Me.HarvestIndexBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.OptionwavesdbDataSet, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.OptionwavesdbDataSet1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
-        Me.Panel3.ResumeLayout(False)
-        Me.Panel3.PerformLayout()
         Me.Panel5.ResumeLayout(False)
         Me.Panel5.PerformLayout()
         Me.pnlMan.ResumeLayout(False)
@@ -2620,27 +2702,14 @@ Partial Class Main
     Friend WithEvents lstServerResponses As ListBox
     Friend WithEvents btnWillie As Button
     Friend WithEvents OpenFileDialog1 As OpenFileDialog
-    Friend WithEvents bntlistclear As Button
     Friend WithEvents Timer60Sec As Timer
     Friend WithEvents TimerAtTime As Timer
     Friend WithEvents ckRobotOn As CheckBox
     Friend WithEvents btnBackTest As Button
     Friend WithEvents Panel1 As Panel
     Friend WithEvents Label3 As Label
-    Friend WithEvents Panel3 As Panel
-    Friend WithEvents btnDisconnect As Button
-    Friend WithEvents txtClientId As TextBox
-    Friend WithEvents Label18 As Label
-    Friend WithEvents txtPort As TextBox
-    Friend WithEvents label2 As Label
-    Friend WithEvents txtHost As TextBox
-    Friend WithEvents Label1 As Label
-    Friend WithEvents btnConnect As Button
     Friend WithEvents Panel5 As Panel
     Friend WithEvents lblStatus As Label
-    Friend WithEvents cmbWillie As ComboBox
-    Friend WithEvents Label25 As Label
-    Friend WithEvents Label26 As Label
     Friend WithEvents lblBuild As Label
     Friend WithEvents lstErrorResponses As ListBox
     Friend WithEvents btnAnalysis As Button
@@ -2749,7 +2818,6 @@ Partial Class Main
     Friend WithEvents btnShowManual As Button
     Friend WithEvents btnGetPrice As Button
     Friend WithEvents txtPriceSymbol As TextBox
-    Friend WithEvents btnGetOpenOrders As Button
     Friend WithEvents pnlBacktest As Panel
     Friend WithEvents Label65 As Label
     Friend WithEvents Label68 As Label
@@ -2758,7 +2826,6 @@ Partial Class Main
     Friend WithEvents lblDatafileSymbol As Label
     Friend WithEvents txtLoadSymbol As TextBox
     Friend WithEvents btnAssembleDataFile As Button
-    Friend WithEvents btnCloseApp As Button
     Friend WithEvents Label69 As Label
     Friend WithEvents dtpStartDate As DateTimePicker
     Friend WithEvents btnAssembleDataFileDIrectPull As Button
@@ -2779,7 +2846,7 @@ Partial Class Main
     Friend WithEvents Button46 As Button
     Friend WithEvents btnGetPositions As Button
     Friend WithEvents Button71 As Button
-    Friend WithEvents Button73 As Button
+    Friend WithEvents btnPlaceOrder As Button
     Friend WithEvents Button78 As Button
     Friend WithEvents Button19 As Button
     Friend WithEvents Label72 As Label
@@ -2793,18 +2860,14 @@ Partial Class Main
     Friend WithEvents btnHarvesting As Button
     Friend WithEvents pnlHarvesting As Panel
     Friend WithEvents lblBuyOrderExists As Label
-    Friend WithEvents btnClearHarvestListbox As Button
-    Friend WithEvents btnCloseHarvest As Button
     Friend WithEvents Label74 As Label
     Friend WithEvents btnSettings As Button
     Friend WithEvents txtHarvestingIP As TextBox
     Friend WithEvents Label77 As Label
     Friend WithEvents Label76 As Label
     Friend WithEvents txtHarvestingPort As TextBox
-    Friend WithEvents btnHarvestDisconnectFromTWS As Button
     Friend WithEvents Label75 As Label
     Friend WithEvents txtHarvestingClientId As TextBox
-    Friend WithEvents btnHarvestConnectToTWS As Button
     Friend WithEvents btnHarvestingStartWillie As Button
     Friend WithEvents Label78 As Label
     Friend WithEvents cmbHarvestIndex As ComboBox
@@ -2841,4 +2904,28 @@ Partial Class Main
     Friend WithEvents Label32 As Label
     Friend WithEvents Label79 As Label
     Friend WithEvents Label80 As Label
+    Friend WithEvents Label51 As Label
+    Friend WithEvents lbloLast As Label
+    Friend WithEvents Label82 As Label
+    Friend WithEvents lbloLowToday As Label
+    Friend WithEvents Label84 As Label
+    Friend WithEvents lbloHighToday As Label
+    Friend WithEvents Label86 As Label
+    Friend WithEvents lbloOpenToday As Label
+    Friend WithEvents Label88 As Label
+    Friend WithEvents lblOprior As Label
+    Friend WithEvents Label90 As Label
+    Friend WithEvents lbloAskPrice As Label
+    Friend WithEvents Label92 As Label
+    Friend WithEvents lbloBidPrice As Label
+    Friend WithEvents Label81 As Label
+    Friend WithEvents lblSellOrderExists As Label
+    Friend WithEvents btnPlaceOptionOrder As Button
+    Friend WithEvents btnGetOptionPrice As Button
+    Friend WithEvents Label83 As Label
+    Friend WithEvents BTOExists As Label
+    Friend WithEvents btnConnectTWS As Button
+    Friend WithEvents btnDisconnectTWS As Button
+    Friend WithEvents btnClear As Button
+    Friend WithEvents btnCloseMe As Button
 End Class

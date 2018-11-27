@@ -135,6 +135,7 @@ Friend Class Tws
     ' USE THIS TO LOG ERRORS OR DISPLAY ERRORS TO THE USER
     Public Sub [error](id As Integer, errorCode As Integer, errorMsg As String) Implements EWrapper.error
         'Throw New NotImplementedException()
+        ' MsgBox(id & " " & errorCode & " " & errorMsg)
     End Sub
 
 
@@ -327,13 +328,25 @@ Friend Class Tws
                                                                   .orderState = orderState
                                                                  })
                          End Sub)
-
+        Utils.openTWSorder = True
+        If Utils.openTWSorder = True Then
+            Main.BTOExists.Text = "Yes"
+        Else
+            Main.BTOExists.Text = "No"
+        End If
     End Sub
 
     Public Sub openOrderEnd() Implements IBApi.EWrapper.openOrderEnd
         InvokeIfRequired(Sub()
                              RaiseEvent OnopenOrderEnd(Me, EventArgs.Empty)
                          End Sub)
+        Utils.openTWSorder = False
+        If Utils.openTWSorder = True Then
+            Main.BTOExists.Text = "Yes"
+        Else
+            Main.BTOExists.Text = "No"
+        End If
+
     End Sub
 
     Public Sub contractDetails(reqId As Integer, contractDetails As IBApi.ContractDetails) Implements IBApi.EWrapper.contractDetails

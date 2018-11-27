@@ -77,7 +77,6 @@ Partial Public Class optionwavesdbEntities
     Public Overridable Property vw_Pricings_DESC() As DbSet(Of vw_Pricings_DESC)
     Public Overridable Property activitylogs() As DbSet(Of activitylog)
     Public Overridable Property backteststats() As DbSet(Of backteststat)
-    Public Overridable Property harvestorders() As DbSet(Of harvestorder)
     Public Overridable Property stockorders() As DbSet(Of stockorder)
 
 End Class

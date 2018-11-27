@@ -42,7 +42,7 @@ Partial Public Class BondiModel
     Public Overridable Property Profiles As DbSet(Of Profile)
     Public Overridable Property Roles As DbSet(Of Role)
     Public Overridable Property stockorders As DbSet(Of stockorder)
-    Public Overridable Property harvestorders As DbSet(Of harvestorder)
+
     Public Overridable Property Tasks As DbSet(Of Task)
     Public Overridable Property TicketComments As DbSet(Of TicketComment)
     Public Overridable Property Tickets As DbSet(Of Ticket)

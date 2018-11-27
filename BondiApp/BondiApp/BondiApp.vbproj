@@ -198,9 +198,6 @@
     <Compile Include="Models\HarvestMark.vb">
       <DependentUpon>BondiModelEntity.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\harvestorder.vb">
-      <DependentUpon>BondiModelEntity.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\HarvestPosition.vb">
       <DependentUpon>BondiModelEntity.tt</DependentUpon>
     </Compile>

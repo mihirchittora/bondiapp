@@ -16,7 +16,7 @@
         <EntityTypeShape EntityType="optionwavesdbModel.aspnet_SchemaVersions" Width="1.5" PointX="19.5" PointY="2.75" IsExpanded="true" />
         <EntityTypeShape EntityType="optionwavesdbModel.aspnet_Users" Width="1.5" PointX="8.25" PointY="11.375" IsExpanded="true" />
         <EntityTypeShape EntityType="optionwavesdbModel.aspnet_WebEvent_Events" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="optionwavesdbModel.backtest" Width="1.5" PointX="2.25" PointY="0.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="optionwavesdbModel.backtest" Width="1.5" PointX="2.25" PointY="0.625" IsExpanded="false" />
         <EntityTypeShape EntityType="optionwavesdbModel.BlogComment" Width="1.5" PointX="9.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="optionwavesdbModel.BlogEntry" Width="1.5" PointX="3.875" PointY="12.125" IsExpanded="true" />
         <EntityTypeShape EntityType="optionwavesdbModel.email" Width="1.5" PointX="19.5" PointY="0.875" IsExpanded="true" />
@@ -77,8 +77,7 @@
         <AssociationConnector Association="optionwavesdbModel.UsersInRoles" ManuallyRouted="false" />
         <EntityTypeShape EntityType="optionwavesdbModel.activitylog" Width="1.5" PointX="22.75" PointY="23.75" />
         <EntityTypeShape EntityType="optionwavesdbModel.backteststat" Width="1.5" PointX="24.75" PointY="5.75" />
-        <EntityTypeShape EntityType="optionwavesdbModel.harvestorder" Width="1.5" PointX="0.5" PointY="0.625" />
-        <EntityTypeShape EntityType="optionwavesdbModel.stockorder" Width="1.5" PointX="4.375" PointY="0.75" />
+        <EntityTypeShape EntityType="optionwavesdbModel.stockorder" Width="1.5" PointX="0.5" PointY="0.625" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
