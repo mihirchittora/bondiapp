@@ -344,6 +344,29 @@
           <Property Name="open" Type="bit" />
           <Property Name="harvestkey" Type="nvarchar" MaxLength="12" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'optionwavesdb.dbo.harvestorders' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="harvestorders">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="timestamp" Type="datetime" />
+          <Property Name="harvestkey" Type="nvarchar" MaxLength="12" />
+          <Property Name="userid" Type="uniqueidentifier" />
+          <Property Name="symbol" Type="nvarchar" MaxLength="4" />
+          <Property Name="btoorderdate" Type="datetime" />
+          <Property Name="btoprice" Type="money" />
+          <Property Name="btoopen" Type="bit" />
+          <Property Name="shares" Type="int" />
+          <Property Name="capital" Type="money" />
+          <Property Name="btopermid" Type="int" />
+          <Property Name="btoorderid" Type="int" />
+          <Property Name="btoordertype" Type="nvarchar" MaxLength="10" />
+          <Property Name="btolimitprice" Type="money" />
+          <Property Name="btoorderstatus" Type="nvarchar" MaxLength="50" />
+          <Property Name="quantity" Type="int" />
+        </EntityType>
         <EntityType Name="HarvestPositions">
           <Key>
             <PropertyRef Name="id" />
@@ -389,6 +412,33 @@
           <Property Name="FailedPasswordAnswerAttemptCount" Type="int" Nullable="false" />
           <Property Name="FailedPasswordAnswerAttemptWindowsStart" Type="datetime" Nullable="false" />
           <Property Name="Comment" Type="nvarchar" MaxLength="256" />
+        </EntityType>
+        <EntityType Name="myorders">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="timestamp" Type="datetime" />
+          <Property Name="harvestkey" Type="nchar" MaxLength="12" />
+          <Property Name="symbol" Type="nvarchar" MaxLength="4" />
+          <Property Name="btoSpermid" Type="bigint" />
+          <Property Name="btoStimestamp" Type="datetime" />
+          <Property Name="shares" Type="int" />
+          <Property Name="btoSlimitprice" Type="money" />
+          <Property Name="btoSorderstatus" Type="nvarchar" MaxLength="50" />
+          <Property Name="btoSfillprice" Type="money" />
+          <Property Name="btoSCapital" Type="money" />
+          <Property Name="lastactiontimestamp" Type="datetime" />
+          <Property Name="btoSorderid" Type="bigint" />
+          <Property Name="btoSfilledtimestamp" Type="datetime" />
+          <Property Name="stcStimestamp" Type="datetime" />
+          <Property Name="stcSpermid" Type="bigint" />
+          <Property Name="stcSorderid" Type="bigint" />
+          <Property Name="stcSlimitprice" Type="money" />
+          <Property Name="stcSorderstatus" Type="nvarchar" MaxLength="50" />
+          <Property Name="stcSfillprice" Type="money" />
+          <Property Name="stcSfilledtimestamp" Type="datetime" />
+          <Property Name="LPbtoOpen" Type="bit" />
         </EntityType>
         <EntityType Name="onesigmawide">
           <Key>
@@ -648,6 +698,13 @@
           <Property Name="status" Type="bit" />
           <Property Name="dit" Type="int" />
           <Property Name="uniqueID" Type="nvarchar" MaxLength="12" />
+        </EntityType>
+        <EntityType Name="Trades">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="timestamp" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -1206,6 +1263,7 @@ warning 6002: The table/view 'optionwavesdb.dbo.vw_Pricings_DESC' does not have 
           <EntitySet Name="HarvestMarks" EntityType="Self.HarvestMarks" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HarvestPositions" EntityType="Self.HarvestPositions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Memberships" EntityType="Self.Memberships" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="myorders" EntityType="Self.myorders" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="onesigmawide" EntityType="Self.onesigmawide" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="positions" EntityType="Self.positions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Prices" EntityType="Self.Prices" Schema="dbo" store:Type="Tables" />
@@ -1221,11 +1279,32 @@ warning 6002: The table/view 'optionwavesdb.dbo.vw_Pricings_DESC' does not have 
           <EntitySet Name="Tickets" EntityType="Self.Tickets" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TradeDetails" EntityType="Self.TradeDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TradeLogs" EntityType="Self.TradeLogs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Trades" EntityType="Self.Trades" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UsersInRoles" EntityType="Self.UsersInRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="visitors" EntityType="Self.visitors" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Weeklys" EntityType="Self.Weeklys" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="wStockOrders" EntityType="Self.wStockOrders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="harvestorders" EntityType="Self.harvestorders" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [harvestorders].[ID] AS [ID], 
+    [harvestorders].[timestamp] AS [timestamp], 
+    [harvestorders].[harvestkey] AS [harvestkey], 
+    [harvestorders].[userid] AS [userid], 
+    [harvestorders].[symbol] AS [symbol], 
+    [harvestorders].[btoorderdate] AS [btoorderdate], 
+    [harvestorders].[btoprice] AS [btoprice], 
+    [harvestorders].[btoopen] AS [btoopen], 
+    [harvestorders].[shares] AS [shares], 
+    [harvestorders].[capital] AS [capital], 
+    [harvestorders].[btopermid] AS [btopermid], 
+    [harvestorders].[btoorderid] AS [btoorderid], 
+    [harvestorders].[btoordertype] AS [btoordertype], 
+    [harvestorders].[btolimitprice] AS [btolimitprice], 
+    [harvestorders].[btoorderstatus] AS [btoorderstatus], 
+    [harvestorders].[quantity] AS [quantity]
+    FROM [dbo].[harvestorders] AS [harvestorders]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="vw_aspnet_Applications" EntityType="Self.vw_aspnet_Applications" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [vw_aspnet_Applications].[ApplicationName] AS [ApplicationName], 
@@ -2670,6 +2749,9 @@ warning 6002: The table/view 'optionwavesdb.dbo.vw_Pricings_DESC' does not have 
           <EntitySet Name="activitylogs" EntityType="optionwavesdbModel.activitylog" />
           <EntitySet Name="backteststats" EntityType="optionwavesdbModel.backteststat" />
           <EntitySet Name="stockorders" EntityType="optionwavesdbModel.stockorder" />
+          <EntitySet Name="Trades" EntityType="optionwavesdbModel.Trade" />
+          <EntitySet Name="harvestorders" EntityType="optionwavesdbModel.harvestorder" />
+          <EntitySet Name="myorders" EntityType="optionwavesdbModel.myorder" />
         </EntityContainer>
         <EntityType Name="activitylog">
           <Key>
@@ -2709,6 +2791,61 @@ warning 6002: The table/view 'optionwavesdb.dbo.vw_Pricings_DESC' does not have 
           <Property Name="StockOpenOrderStatus" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
           <Property Name="StockOpenFillTimeStamp" Type="DateTime" Precision="3" />
           <Property Name="HedgePosition" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="Trade">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="timestamp" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="harvestorder">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="timestamp" Type="DateTime" Precision="3" />
+          <Property Name="harvestkey" Type="String" MaxLength="12" FixedLength="false" Unicode="true" />
+          <Property Name="userid" Type="Guid" />
+          <Property Name="symbol" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="btoorderdate" Type="DateTime" Precision="3" />
+          <Property Name="btoprice" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="btoopen" Type="Boolean" />
+          <Property Name="shares" Type="Int32" />
+          <Property Name="capital" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="btopermid" Type="Int32" />
+          <Property Name="btoorderid" Type="Int32" />
+          <Property Name="btoordertype" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="btolimitprice" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="btoorderstatus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="quantity" Type="Int32" />
+        </EntityType>
+        <EntityType Name="myorder">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="timestamp" Type="DateTime" Precision="3" />
+          <Property Name="harvestkey" Type="String" MaxLength="12" FixedLength="true" Unicode="true" />
+          <Property Name="btoStimestamp" Type="DateTime" Precision="3" />
+          <Property Name="btoSpermid" Type="Int64" />
+          <Property Name="symbol" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="shares" Type="Int32" />
+          <Property Name="btoSlimitprice" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="btoSorderstatus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="btoSfillprice" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="btoSCapital" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="lastactiontimestamp" Type="DateTime" Precision="3" />
+          <Property Name="btoSorderid" Type="Int64" />
+          <Property Name="btoSfilledtimestamp" Type="DateTime" Precision="3" />
+          <Property Name="stcStimestamp" Type="DateTime" Precision="3" />
+          <Property Name="stcSpermid" Type="Int64" />
+          <Property Name="stcSorderid" Type="Int64" />
+          <Property Name="stcSlimitprice" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="stcSorderstatus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="stcSfillprice" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="stcSfilledtimestamp" Type="DateTime" Precision="3" />
+          <Property Name="LPbtoOpen" Type="Boolean" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -3625,6 +3762,64 @@ warning 6002: The table/view 'optionwavesdb.dbo.vw_Pricings_DESC' does not have 
                 <ScalarProperty Name="StockOpenOrderId" ColumnName="StockOpenOrderId" />
                 <ScalarProperty Name="shares" ColumnName="shares" />
                 <ScalarProperty Name="symbol" ColumnName="symbol" />
+                <ScalarProperty Name="harvestkey" ColumnName="harvestkey" />
+                <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Trades">
+            <EntityTypeMapping TypeName="optionwavesdbModel.Trade">
+              <MappingFragment StoreEntitySet="Trades">
+                <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="harvestorders">
+            <EntityTypeMapping TypeName="optionwavesdbModel.harvestorder">
+              <MappingFragment StoreEntitySet="harvestorders">
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+                <ScalarProperty Name="btoorderstatus" ColumnName="btoorderstatus" />
+                <ScalarProperty Name="btolimitprice" ColumnName="btolimitprice" />
+                <ScalarProperty Name="btoordertype" ColumnName="btoordertype" />
+                <ScalarProperty Name="btoorderid" ColumnName="btoorderid" />
+                <ScalarProperty Name="btopermid" ColumnName="btopermid" />
+                <ScalarProperty Name="capital" ColumnName="capital" />
+                <ScalarProperty Name="shares" ColumnName="shares" />
+                <ScalarProperty Name="btoopen" ColumnName="btoopen" />
+                <ScalarProperty Name="btoprice" ColumnName="btoprice" />
+                <ScalarProperty Name="btoorderdate" ColumnName="btoorderdate" />
+                <ScalarProperty Name="symbol" ColumnName="symbol" />
+                <ScalarProperty Name="userid" ColumnName="userid" />
+                <ScalarProperty Name="harvestkey" ColumnName="harvestkey" />
+                <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="myorders">
+            <EntityTypeMapping TypeName="optionwavesdbModel.myorder">
+              <MappingFragment StoreEntitySet="myorders">
+                <ScalarProperty Name="LPbtoOpen" ColumnName="LPbtoOpen" />
+                <ScalarProperty Name="stcSfilledtimestamp" ColumnName="stcSfilledtimestamp" />
+                <ScalarProperty Name="stcSfillprice" ColumnName="stcSfillprice" />
+                <ScalarProperty Name="stcSorderstatus" ColumnName="stcSorderstatus" />
+                <ScalarProperty Name="stcSlimitprice" ColumnName="stcSlimitprice" />
+                <ScalarProperty Name="stcSorderid" ColumnName="stcSorderid" />
+                <ScalarProperty Name="stcSpermid" ColumnName="stcSpermid" />
+                <ScalarProperty Name="stcStimestamp" ColumnName="stcStimestamp" />
+                <ScalarProperty Name="btoSfilledtimestamp" ColumnName="btoSfilledtimestamp" />
+                <ScalarProperty Name="btoSorderid" ColumnName="btoSorderid" />
+                <ScalarProperty Name="lastactiontimestamp" ColumnName="lastactiontimestamp" />
+                <ScalarProperty Name="btoSCapital" ColumnName="btoSCapital" />
+                <ScalarProperty Name="btoSfillprice" ColumnName="btoSfillprice" />
+                <ScalarProperty Name="btoSorderstatus" ColumnName="btoSorderstatus" />
+                <ScalarProperty Name="btoSlimitprice" ColumnName="btoSlimitprice" />
+                <ScalarProperty Name="shares" ColumnName="shares" />
+                <ScalarProperty Name="symbol" ColumnName="symbol" />
+                <ScalarProperty Name="btoSpermid" ColumnName="btoSpermid" />
+                <ScalarProperty Name="btoStimestamp" ColumnName="btoStimestamp" />
                 <ScalarProperty Name="harvestkey" ColumnName="harvestkey" />
                 <ScalarProperty Name="timestamp" ColumnName="timestamp" />
                 <ScalarProperty Name="id" ColumnName="id" />

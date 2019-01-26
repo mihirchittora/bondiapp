@@ -290,8 +290,7 @@ Friend Class Main
 
     End Sub
 
-    Private Sub btnConnectTWS_Click(sender As Object, e As EventArgs)
-
+    Private Sub btnConnect_Click(sender As Object, e As EventArgs) Handles btnConnect.Click
         ' *************************************************
         ' DESCRIPTION:          CONNECTS THE APPLICAITON TO THE TRADER WORKSTATION PLATFORM FOR INTERACTIVE BROKERS.
         ' METHODS OR PROCESSES: USING THE CONNECTION PARAMETERS SUPPLIED BY THE USER THE APP CONNECTS TO THE TWS PLATFORM 
@@ -320,12 +319,12 @@ Friend Class Main
             lblBuyOrderExists.Text = buyorderexists                                                                                                                 ' SET THE LABEL ON THE FORM TO THE VARIABLE ----> REMOVE THIS IN PRODUCTION
             lblSellOrderExists.Text = sellorderexists
 
-            getMarketDataTick(ticksymbol)                                                                                                                           ' GET THE TICK PRICE OF THE CURRENT TICKSYMBOL IN THE SYSTE
+            'getMarketDataTick(ticksymbol)                                                                                                                           ' GET THE TICK PRICE OF THE CURRENT TICKSYMBOL IN THE SYSTE
             Tws1.reqAllOpenOrders()                                                                                                                                 ' GET ALL OPEN ORDERS FROM TWS
 
             datastring = datastring & String.Format("{0:hh:mm:ss.fff tt}", Now.ToLocalTime)                                                                         ' SET THE DATASTRING TO THE EXIT TIME OF THE SUB TO DISPLAY FULL CYCLE TIME OF THE CONNECTION
             lblStatus.Text = datastring                                                                                                                             ' SEND THE DATASTRING TO THE FORM VIEW 
-            btnConnectTWS.Enabled = False                                                                                                                           ' SET THE CONNECT BUTTON ENABLED TO FALSE TO REDUCE THE ERROR OF DOUBLE CLICKING AND CAUSING AN ERROR
+            btnConnect.Enabled = False                                                                                                                           ' SET THE CONNECT BUTTON ENABLED TO FALSE TO REDUCE THE ERROR OF DOUBLE CLICKING AND CAUSING AN ERROR
 
         Catch ex As Exception
             ' TODO: ADD CODE HERE TO LOG THIS IN A TABLE IN THE DB.            
@@ -335,7 +334,7 @@ Friend Class Main
         'Stop
     End Sub
 
-    Private Sub btnDisconnectTWS_Click(sender As Object, e As EventArgs)
+    Private Sub btnDisconnect_Click(sender As Object, e As EventArgs) Handles btnDisconnect.Click
 
         ' *************************************************
         ' DESCRIPTION:          DISCONNECTS THE APPLICAITON TO THE TRADER WORKSTATION PLATFORM FOR INTERACTIVE BROKERS.
@@ -351,12 +350,13 @@ Friend Class Main
             datastring = datastring & String.Format("{0:hh:mm:ss.fff tt}", Now.ToLocalTime)                                                                         ' INITIALIZE THE DATASTRING WITH THE CURRENT TIME CLOSING THE TIME SPAN LOOP
             Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, datastring)                                                                                 ' CALL THE ADD LIST ITEM FUNCTION TO ADD THE MESSAGE TO THE LISTBOX 
 
-            btnConnectTWS.Enabled = True                                                                                                                            ' RE-ENABLE THE CONNECT BUTTON BECAUSE THE DISCONNECT HAS OCCURRED
+            btnConnect.Enabled = True                                                                                                                            ' RE-ENABLE THE CONNECT BUTTON BECAUSE THE DISCONNECT HAS OCCURRED
 
             lblStatus.Text = datastring                                                                                                                             ' PROVIDE THE USER WITH THE STATUS MESSAGE OF THIS SUBROUTINE
         Catch ex As Exception
             MsgBox("Disconnection Error " & ex.ToString())                                                                                                          ' MESSAGE WHERE THE ERROR OCCURRED - IN WHICH SUB - THIS CODE MAY BE COMMENTED OUT LATER  
         End Try
+
     End Sub
 
     Private Sub btnClear_Click(sender As Object, e As EventArgs)
@@ -380,6 +380,116 @@ Friend Class Main
 
         Me.Close()                                                                                                                              ' CLOSE THE APPLICATION
     End Sub
+
+
+
+
+
+
+
+
+
+
+
+
+    Private Sub btnGetStockPrice_Click(sender As Object, e As EventArgs) Handles btnGetStockPrice.Click
+
+        Dim contract As IBApi.Contract = New IBApi.Contract()                                                                               ' ESTABLISH A NEW CONTRACT CLASS
+
+        'If txtGetPriceSymbol.Text <> "" Then                                                                                                ' CHECK IF THE USER HAS ENTERED A SYMBOL
+        contract.Symbol = "VXX" '       txtGetPriceSymbol.Text                                                                                        ' INITIALIZE SYMBOL VALUE FOR THE CONTRACT
+        'Else
+        '    MsgBox("Please enter a symbol.")                                                                                                ' PROMPT THE USER TO CORRECT THE ERROR AND ENTER A SYMBOL
+        '    Exit Sub
+        'End If
+
+        contract.SecType = "STK"                                                                                                            ' INITIALIZE THE SECURITY TYPE FOR THE CONTRACT - MOVE TO SETTINGS AT SOME POINT
+        contract.Currency = "USD"                                                                                                           ' INITIALIZE CURRENCY TYPE FOR THE CONTRACT - MOVE TO SETTINGS AT SOME POINT
+        contract.Exchange = "SMART"                                                                                                         ' INITIALIZE EXCHANGE USED FOR THE CONTRACT
+
+        Tws1.reqMarketDataType(1)                                                                                                           ' SETS DATA FEED TO (1) LIVE STREAMING  (2) FROZEN  (3) DELAYED 15 - 20 MINUTES 
+        Tws1.reqMktDataEx(tickId + 1, contract, "", True, Nothing)                                                                         ' CALL FUNCTION TO REQUEST MARKET DATA
+        Tws1.tickCount = 0                                                                                                                  ' SET THE TICKCOUNTER EQUAL TO ZERO
+        'currentprice = Tws1_tickPrice()                                                                                                    ' SET CURRENT PRICE TO STOCKTICKPRICE TO BE PASSED TO CALLING FUNCTION
+
+
+    End Sub
+
+
+    Private Sub btnGetOptionPrice_Click(sender As Object, e As EventArgs) Handles btnGetOptionPrice.Click
+
+        'Using db As BondiModel = New BondiModel()                                                                                   ' DATABASE MODEL USING ENTITY FRAMEWORK
+
+        'Dim hi = (From q In db.HarvestIndexes Where q.harvestKey = harvestkey Select q).FirstOrDefault()            ' GET INDEX RECORD FROM THE DATABASE TO DETERMINE WHETHER WE ARE ADDING A HEDGE 
+
+        'If hi.hedge = True Then                                                                                     ' IF THE INDEX HAS A HEDGE COMPONENT TO IT THEN CHECK FOR HEDGING ON THIS PRICEPOINT
+
+        '    Dim hedgeexists = (From h In db.stockorders Where
+        '                                               h.StockOpenFillPrice = 26.5 And h.HedgePosition = True)            ' DETERMINE WHETHER THERE IS AN OPEN HEDGE FOR THIS PRICEPOINT OR NOT
+
+        '    If hedgeexists.Count = 0 Then                                                                           ' IF THE COUNT EQUALS 0 THEN THERE IS NOT A HEDGE AT THIS PRICEPOINT ADD A HEDGE TO THIS RECORD AND SEND TO TWS
+
+        ' getHedgeData(harvestkey)
+        ' Dim calcexpdate As Date = String.Format("{0: MM/dd/yy}", calcExpirationDate(harvestkey, Now()))                         ' IF A HEDGE IS NEEDED CALCULATE THE EXPIRATION DATE TARGET TO BE USED IN THE BLACK SCHOLES CALCULATION
+
+        'getOptionPrice(harvestkey, calcexpdate, 46)
+
+        'MsgBox(String.Format("{0:C}", lastoptionprice))
+
+        '    End If
+        'End If
+
+        'End Using
+
+
+
+        Dim contract As IBApi.Contract = New IBApi.Contract()                                                                       ' INTIIATE THE CONTRACT VARIABLE CLASS TO HANDLE CONTRACT DATA
+        Dim order As IBApi.Order = New IBApi.Order()                                                                                ' INITIATE THE ORDER VARIABLE CLASS TO HANDLE ORDER DATA
+        Dim expdate As Date = #01/18/2019#
+        Dim stockprice As Decimal = 47.0
+
+        Using db As BondiModel = New BondiModel()                                                                                   ' DATABASE MODEL USING ENTITY FRAMEWORK
+
+            Dim hi = (From q In db.HarvestIndexes Where q.harvestKey = harvestkey Select q).FirstOrDefault()                        ' GET INDEX RECORD FROM THE DATABASE TO DETERMINE WHETHER WE ARE ADDING A HEDGE 
+
+            ' CONTRACT DATA FOR EITHER STOCK OR OPTION PRICE REQUESTS
+            contract.Symbol = hi.product.ToUpper()                                                                                  ' INITIALIZE SYMBOL VALUE FOR THE CONTRACT
+            contract.Exchange = hi.exchange.ToUpper()                                                                               ' INITIALIZE THE EXCHANGE FOR THE CONTRACT
+            contract.Currency = hi.currencytype.ToUpper()                                                                           ' INITIALIZE CURRENCY TYPE FOR THE CONTRACT - MOVE TO SETTINGS AT SOME POINT        
+            contract.SecType = "OPT"
+            contract.LastTradeDateOrContractMonth = String.Format("{0: yyyyMMdd}", expdate)
+            contract.Strike = Int(stockprice - hi.hedgewidth)
+            contract.Right = "P"
+
+            'Stop
+            'Tws1.cancelMktData(1)
+
+            sectype = "OPT"
+
+            tickId += 1                                                                                                                     ' INCREMENT THE TICKID 
+
+            Tws1.reqMarketDataType(1)                                                                                                       ' SETS DATA FEED TO (1) LIVE STREAMING  (2) FROZEN  (3) DELAYED 15 - 20 MINUTES 
+            Tws1.reqMktDataEx(tickId, contract, "", True, Nothing)                                                                      ' CALL THE FUNCTION TO GET THE MARKET DATA FROM TWS VIA THE API CALL
+            Tws1.tickCount = 0
+
+            'getMarketDataTick(hi.product.ToUpper())
+
+            'Tws1.reqMarketDataType(1)                                                                                                   ' SETS DATA FEED TO (1) LIVE STREAMING  (2) FROZEN  (3) DELAYED 15 - 20 MINUTES 
+            'Tws1.reqMktDataEx(1, contract, "", False, Nothing)
+
+
+        End Using
+
+
+
+
+
+
+    End Sub
+
+
+
+
 
 
 
@@ -426,20 +536,6 @@ Friend Class Main
 
 
     ' BLOCK 2: CODE INITIATED BY THE VIEW THE INTERACTS WITH TWS VIA THE API CONTROLS AND CODE USED TO CONNECT TO THE TWS API   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     Private Sub btnHarvestingStartWillie_Click(sender As Object, e As EventArgs)
 
@@ -513,20 +609,9 @@ Friend Class Main
             lblStatus.Text = datastring                                                                                                                             ' DISPLAY THE DATASTRING TO THE USER
 
         Catch ex As Exception
-            Stop
+            'Stop
         End Try
     End Sub
-
-
-
-
-
-
-
-
-
-
-
 
     Private Sub btnSendOrder_Click(sender As Object, e As EventArgs)
 
@@ -637,12 +722,6 @@ Friend Class Main
         lblStatus.Text = datastring                                                                                             ' DISPLAY THE DATASTRING VALUE TO THE USER USING THE STATUS LABEL
 
     End Sub
-
-
-
-
-
-
 
     Private Sub btnSendOption_Click(sender As Object, e As EventArgs)
 
@@ -1374,6 +1453,19 @@ Friend Class Main
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
     ' ORDER STATUS AND OPEN ORDER HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     Private Sub Tws1_openOrderEx(ByVal eventSender As System.Object, ByVal eventArgs As _DTwsEvents_openOrderExEvent) Handles Tws1.OnopenOrderEx
@@ -2046,7 +2138,7 @@ Friend Class Main
 
                         '    order.OrderId = nextValidOrderId                                                                        ' SET THE ORDER ID OF THE ORDER TO THE NEXT VALID ORDER ID
                         '    order.Action = "BUY"                                                                                    ' SET THE ORDER ACTION 
-                        '    order.LmtPrice = filledlimitprice - hi.FirstOrDefault().opentrigger                                           ' SET TO REDUCE THE PRICE BY  $.50 FOR TESTING REMOVE WHEN DONE.                                                    ' SET THE ORDER LIMIT PRICE TO THE CALCULATED BUY TO OPEN LIMIT PRICE
+                        'order.LmtPrice = filledlimitprice - hi.FirstOrDefault().opentrigger                                           ' SET TO REDUCE THE PRICE BY  $.50 FOR TESTING REMOVE WHEN DONE.                                                    ' SET THE ORDER LIMIT PRICE TO THE CALCULATED BUY TO OPEN LIMIT PRICE
                         '    '                   matchid = nextValidOrderId                                                                              ' SET THE MATCHID FOR THE ADDITIONAL BUY TO OPEN TO THE SAME AS THE ORDERID 
 
                         '    Call Tws1.placeOrderEx(order.OrderId, contract, order)                                                  ' CALL FUNCTION TO ADD MESSAGE TO THE LISTBOX AND PROCESS THE ORDER 
@@ -2204,32 +2296,7 @@ Friend Class Main
 
 
 
-    Private Sub btnGetOptionPrice_Click(sender As Object, e As EventArgs) Handles btnGetOptionPrice.Click
 
-        Using db As BondiModel = New BondiModel()                                                                                   ' DATABASE MODEL USING ENTITY FRAMEWORK
-
-            Dim hi = (From q In db.HarvestIndexes Where q.harvestKey = harvestkey Select q).FirstOrDefault()            ' GET INDEX RECORD FROM THE DATABASE TO DETERMINE WHETHER WE ARE ADDING A HEDGE 
-
-            If hi.hedge = True Then                                                                                     ' IF THE INDEX HAS A HEDGE COMPONENT TO IT THEN CHECK FOR HEDGING ON THIS PRICEPOINT
-
-                Dim hedgeexists = (From h In db.stockorders Where
-                                                           h.StockOpenFillPrice = 26.5 And h.HedgePosition = True)            ' DETERMINE WHETHER THERE IS AN OPEN HEDGE FOR THIS PRICEPOINT OR NOT
-
-                If hedgeexists.Count = 0 Then                                                                           ' IF THE COUNT EQUALS 0 THEN THERE IS NOT A HEDGE AT THIS PRICEPOINT ADD A HEDGE TO THIS RECORD AND SEND TO TWS
-
-                    getHedgeData(harvestkey)
-                    Dim calcexpdate As Date = String.Format("{0: MM/dd/yy}", calcExpirationDate(harvestkey, Now()))                         ' IF A HEDGE IS NEEDED CALCULATE THE EXPIRATION DATE TARGET TO BE USED IN THE BLACK SCHOLES CALCULATION
-
-                    getOptionPrice(harvestkey, calcexpdate, 26.5)
-
-                    'MsgBox(String.Format("{0:C}", lastoptionprice))
-
-                End If
-            End If
-
-        End Using
-
-    End Sub
 
 
 
@@ -2346,6 +2413,8 @@ Friend Class Main
 
         Dim datastring As String = ""                                                                                               ' DATASTRING USED TO PROVIDE FEEDBACK TO THE USER ON ACTIONS HAPPENING WITHIN THE APP
         Dim mktDataStr As String = ""
+        Dim pricetype As String = ""
+        Dim priceamount As Decimal = 0
 
         'Stop
         'If pricetype = 1 Then
@@ -2358,146 +2427,52 @@ Friend Class Main
         'closetoday = 0
         'opentoday = 0
 
-        If sectype = "OPT" Then                                                                                                     ' CAPTURE THE OPTION PRICE DATA
+        'If sectype = "OPT" Then                                                                                                     ' CAPTURE THE OPTION PRICE DATA
 
-            Select Case eventArgs.tickType
-                Case 1
-                    oBid = eventArgs.price
-                    'MsgBox("Bid: " & String.Format("{0:C}", bid))
-                    lbloBidPrice.Text = String.Format("{0:C}", oBid)
-                Case 2
-                    oAsk = eventArgs.price
-                    'MsgBox("Bid: " & String.Format("{0:C}", bid) & " Ask: " & String.Format("{0:C}", ask))
-                    lbloAskPrice.Text = String.Format("{0:C}", oAsk)
-                Case 4
-                    oLast = eventArgs.price
-                    'MsgBox("Bid: " & String.Format("{0:C}", bid) & " Ask: " & String.Format("{0:C}", ask) & "last: " & String.Format("{0:C}", last))
-                    lbloLast.Text = String.Format("{0:C}", oLast)
-                Case 6
-                    oHighToday = eventArgs.price
-                    'MsgBox("Bid: " & String.Format("{0:C}", bid) & " Ask: " & String.Format("{0:C}", ask) & "Last: " & String.Format("{0:C}", last) & " High: " & String.Format("{0:C}", hightoday))
-                    lbloHighToday.Text = String.Format("{0:C}", oHighToday)
-                Case 7
-                    oLowToday = eventArgs.price
-                    'MsgBox("Bid: " & String.Format("{0:C}", bid) & " Ask: " & String.Format("{0:C}", ask) & "Last: " & String.Format("{0:C}", last) & " High: " & String.Format("{0:C}", hightoday) & " low: " & String.Format("{0:C}", lowtoday))
-                    lbloLowToday.Text = String.Format("{0:C}", oLowToday)
-                Case 9
-                    oClose = eventArgs.price
-                    'MsgBox("Bid: " & String.Format("{0:C}", bid) &
-                    '       " Ask: " & String.Format("{0:C}", ask) &
-                    '       " Last: " & String.Format("{0:C}", last) &
-                    '       " High: " & String.Format("{0:C}", hightoday) &
-                    '       " Low: " & String.Format("{0:C}", lowtoday) &
-                    '       " Close: " & String.Format("{0:C}", closetoday))
-                    lblOprior.Text = String.Format("{0:C}", oClose)                                                                          ' ASSIGN THE VALUE TO THE LABEL IN THE VIEW FOR THE PRIOR DAYS CLOSE PRICE
-                Case 14
-                    oOpenToday = eventArgs.price
-                    'MsgBox("Bid: " & String.Format("{0:C}", bid) &
-                    '       " Ask: " & String.Format("{0:C}", ask) &
-                    '       " Last: " & String.Format("{0:C}", last) &
-                    '       " Open: " & String.Format("{0:C}", opentoday) &
-                    '       " High: " & String.Format("{0:C}", hightoday) &
-                    '       " Low: " & String.Format("{0:C}", lowtoday) &
-                    '       " Close: " & String.Format("{0:C}", closetoday))
-                    lbloOpenToday.Text = String.Format("{0:C}", oOpenToday)
-            End Select
-
-
-
-
-
-
-
-
-
-
-        Else                                                                                                                        ' CAPTURE THE STOCK OR FUTURES DATA
-            Select Case eventArgs.tickType
-                Case 1
-                    bid = eventArgs.price
-                    'MsgBox("Bid: " & String.Format("{0:C}", bid))
-                    lblBidPrice.Text = String.Format("{0:C}", bid)                                                                              ' ASSIGN THE VALUE TO THE LABEL IN THE VIEW FOR THE BID PRICE
-                Case 2
-                    ask = eventArgs.price
-                    'MsgBox("Ask: " & String.Format("{0:C}", ask))
-                    'MsgBox("Bid: " & String.Format("{0:C}", bid) & " Ask: " & String.Format("{0:C}", ask))
-                    lblAskPrice.Text = String.Format("{0:C}", ask)                                                                              ' ASSIGN THE VALUE TO THE LABEL IN THE VIEW FOR THE ASK PRICE
-                Case 4
-                    last = eventArgs.price
-                    'MsgBox("Last: " & String.Format("{0:C}", last))
-                    lblPriorClose.Text = String.Format("{0:C}", prior)                                                                          ' ASSIGN THE VALUE TO THE LABEL IN THE VIEW FOR THE PRIOR DAYS CLOSE PRICE
-                    'MsgBox("Bid: " & String.Format("{0:C}", bid) & " Ask: " & String.Format("{0:C}", ask) & "last: " & String.Format("{0:C}", last))
-                Case 6
-                    hightoday = eventArgs.price
-                    'MsgBox("High: " & String.Format("{0:C}", hightoday))
-                    'MsgBox("Bid: " & String.Format("{0:C}", bid) & " Ask: " & String.Format("{0:C}", ask) & "Last: " & String.Format("{0:C}", last) & " High: " & String.Format("{0:C}", hightoday))
-                    lblTodaysHigh.Text = String.Format("{0:C}", hightoday)                                                                      ' ASSIGN THE VALUE TO THE LABEL IN THE VIEW FOR THE TODAYS HIGH PRICE
-                Case 7
-                    lowtoday = eventArgs.price
-                    ' MsgBox(" low: " & String.Format("{0:C}", lowtoday))
-                    'MsgBox("Bid: " & String.Format("{0:C}", bid) & " Ask: " & String.Format("{0:C}", ask) & "Last: " & String.Format("{0:C}", last) & " High: " & String.Format("{0:C}", hightoday) & " low: " & String.Format("{0:C}", lowtoday))
-                    lblTodaysLow.Text = String.Format("{0:C}", lowtoday)                                                                        ' ASSIGN THE VALUE TO THE LABEL IN THE VIEW FOR THE TODAYS LOW PRICE
-                Case 9
-                    closetoday = eventArgs.price
-                    'MsgBox(" Close: " & String.Format("{0:C}", closetoday))
-                    'MsgBox("Bid: " & String.Format("{0:C}", bid) &
-                    '   " Ask: " & String.Format("{0:C}", ask) &
-                    '   " Last: " & String.Format("{0:C}", last) &
-                    '   " High: " & String.Format("{0:C}", hightoday) &
-                    '   " Low: " & String.Format("{0:C}", lowtoday) &
-                    '   " Close: " & String.Format("{0:C}", closetoday))
-                    lblLastPrice.Text = String.Format("{0:C}", closetoday)                                                                            ' ASSIGN THE VALUE TO THE LABEL IN THE VIEW FOR THE LAST TRADE PRICE
-                Case 14
-                    opentoday = eventArgs.price
-                    'MsgBox(" Open: " & String.Format("{0:C}", opentoday))
-                    'MsgBox("Bid: " & String.Format("{0:C}", bid) &
-                    '       " Ask: " & String.Format("{0:C}", ask) &
-                    '       " Last: " & String.Format("{0:C}", last) &
-                    '       " Open: " & String.Format("{0:C}", opentoday) &
-                    '       " High: " & String.Format("{0:C}", hightoday) &
-                    '       " Low: " & String.Format("{0:C}", lowtoday) &
-                    '       " Close: " & String.Format("{0:C}", closetoday))
-                    lblTodaysOpen.Text = String.Format("{0:C}", opentoday)                                                                      ' ASSIGN THE VALUE TO THE LABEL IN THE VIEW FOR THE OPEN TODAY PRICE
-            End Select
-
-
-
-
-
-
-
-
-
-
-
-        End If
+        priceamount = eventArgs.price
 
         Select Case eventArgs.tickType
             Case 1
-                'bid = eventArgs.price
-                'MsgBox("Bid: " & String.Format("{0:C}", bid))
+                oBid = eventArgs.price
+                pricetype = "Bid"
+
+                'lbloBidPrice.Text = String.Format("{0:C}", oBid)
             Case 2
-                'ask = eventArgs.price
+                oAsk = eventArgs.price
                 'MsgBox("Bid: " & String.Format("{0:C}", bid) & " Ask: " & String.Format("{0:C}", ask))
+                pricetype = "Ask"
+                'lbloAskPrice.Text = String.Format("{0:C}", oAsk)
             Case 4
-                'last = eventArgs.price
+                oLast = eventArgs.price
+
                 'MsgBox("Bid: " & String.Format("{0:C}", bid) & " Ask: " & String.Format("{0:C}", ask) & "last: " & String.Format("{0:C}", last))
+                pricetype = "Last"
+                'lbloLast.Text = String.Format("{0:C}", oLast)
             Case 6
-                'hightoday = eventArgs.price
+                oHighToday = eventArgs.price
                 'MsgBox("Bid: " & String.Format("{0:C}", bid) & " Ask: " & String.Format("{0:C}", ask) & "Last: " & String.Format("{0:C}", last) & " High: " & String.Format("{0:C}", hightoday))
+                pricetype = "High"
+                'lbloHighToday.Text = String.Format("{0:C}", oHighToday)
             Case 7
-                'lowtoday = eventArgs.price
-               'MsgBox("Bid: " & String.Format("{0:C}", bid) & " Ask: " & String.Format("{0:C}", ask) & "Last: " & String.Format("{0:C}", last) & " High: " & String.Format("{0:C}", hightoday) & " low: " & String.Format("{0:C}", lowtoday))
+
+                oLowToday = eventArgs.price
+                'MsgBox("Bid: " & String.Format("{0:C}", bid) & " Ask: " & String.Format("{0:C}", ask) & "Last: " & String.Format("{0:C}", last) & " High: " & String.Format("{0:C}", hightoday) & " low: " & String.Format("{0:C}", lowtoday))
+                pricetype = "Low"
+                'lbloLowToday.Text = String.Format("{0:C}", oLowToday)
             Case 9
-                'closetoday = eventArgs.price
+
+                oClose = eventArgs.price
                 'MsgBox("Bid: " & String.Format("{0:C}", bid) &
                 '       " Ask: " & String.Format("{0:C}", ask) &
                 '       " Last: " & String.Format("{0:C}", last) &
                 '       " High: " & String.Format("{0:C}", hightoday) &
                 '       " Low: " & String.Format("{0:C}", lowtoday) &
                 '       " Close: " & String.Format("{0:C}", closetoday))
+                pricetype = "Close"
+                'lblOprior.Text = String.Format("{0:C}", oClose)                                                                          ' ASSIGN THE VALUE TO THE LABEL IN THE VIEW FOR THE PRIOR DAYS CLOSE PRICE
             Case 14
-                'opentoday = eventArgs.price
+
+                oOpenToday = eventArgs.price
                 'MsgBox("Bid: " & String.Format("{0:C}", bid) &
                 '       " Ask: " & String.Format("{0:C}", ask) &
                 '       " Last: " & String.Format("{0:C}", last) &
@@ -2505,7 +2480,114 @@ Friend Class Main
                 '       " High: " & String.Format("{0:C}", hightoday) &
                 '       " Low: " & String.Format("{0:C}", lowtoday) &
                 '       " Close: " & String.Format("{0:C}", closetoday))
+                pricetype = "Open"
+                'lbloOpenToday.Text = String.Format("{0:C}", oOpenToday)
         End Select
+
+
+
+
+
+
+
+
+
+
+        ' Else                                                                                                                        ' CAPTURE THE STOCK OR FUTURES DATA
+        'Select Case eventArgs.tickType
+        '    Case 1
+        '        bid = eventArgs.price
+        '        'MsgBox("Bid: " & String.Format("{0:C}", bid))
+        '        lblBidPrice.Text = String.Format("{0:C}", bid)                                                                              ' ASSIGN THE VALUE TO THE LABEL IN THE VIEW FOR THE BID PRICE
+        '    Case 2
+        '        ask = eventArgs.price
+        '        'MsgBox("Ask: " & String.Format("{0:C}", ask))
+        '        'MsgBox("Bid: " & String.Format("{0:C}", bid) & " Ask: " & String.Format("{0:C}", ask))
+        '        lblAskPrice.Text = String.Format("{0:C}", ask)                                                                              ' ASSIGN THE VALUE TO THE LABEL IN THE VIEW FOR THE ASK PRICE
+        '    Case 4
+        '        last = eventArgs.price
+        '        'MsgBox("Last: " & String.Format("{0:C}", last))
+        '        lblPriorClose.Text = String.Format("{0:C}", prior)                                                                          ' ASSIGN THE VALUE TO THE LABEL IN THE VIEW FOR THE PRIOR DAYS CLOSE PRICE
+        '        'MsgBox("Bid: " & String.Format("{0:C}", bid) & " Ask: " & String.Format("{0:C}", ask) & "last: " & String.Format("{0:C}", last))
+        '    Case 6
+        '        hightoday = eventArgs.price
+        '        'MsgBox("High: " & String.Format("{0:C}", hightoday))
+        '        'MsgBox("Bid: " & String.Format("{0:C}", bid) & " Ask: " & String.Format("{0:C}", ask) & "Last: " & String.Format("{0:C}", last) & " High: " & String.Format("{0:C}", hightoday))
+        '        lblTodaysHigh.Text = String.Format("{0:C}", hightoday)                                                                      ' ASSIGN THE VALUE TO THE LABEL IN THE VIEW FOR THE TODAYS HIGH PRICE
+        '    Case 7
+        '        lowtoday = eventArgs.price
+        '        ' MsgBox(" low: " & String.Format("{0:C}", lowtoday))
+        '        'MsgBox("Bid: " & String.Format("{0:C}", bid) & " Ask: " & String.Format("{0:C}", ask) & "Last: " & String.Format("{0:C}", last) & " High: " & String.Format("{0:C}", hightoday) & " low: " & String.Format("{0:C}", lowtoday))
+        '        lblTodaysLow.Text = String.Format("{0:C}", lowtoday)                                                                        ' ASSIGN THE VALUE TO THE LABEL IN THE VIEW FOR THE TODAYS LOW PRICE
+        '    Case 9
+        '        closetoday = eventArgs.price
+        '        'MsgBox(" Close: " & String.Format("{0:C}", closetoday))
+        '        'MsgBox("Bid: " & String.Format("{0:C}", bid) &
+        '        '   " Ask: " & String.Format("{0:C}", ask) &
+        '        '   " Last: " & String.Format("{0:C}", last) &
+        '        '   " High: " & String.Format("{0:C}", hightoday) &
+        '        '   " Low: " & String.Format("{0:C}", lowtoday) &
+        '        '   " Close: " & String.Format("{0:C}", closetoday))
+        '        lblLastPrice.Text = String.Format("{0:C}", closetoday)                                                                            ' ASSIGN THE VALUE TO THE LABEL IN THE VIEW FOR THE LAST TRADE PRICE
+        '    Case 14
+        '        opentoday = eventArgs.price
+        '        'MsgBox(" Open: " & String.Format("{0:C}", opentoday))
+        '        'MsgBox("Bid: " & String.Format("{0:C}", bid) &
+        '        '       " Ask: " & String.Format("{0:C}", ask) &
+        '        '       " Last: " & String.Format("{0:C}", last) &
+        '        '       " Open: " & String.Format("{0:C}", opentoday) &
+        '        '       " High: " & String.Format("{0:C}", hightoday) &
+        '        '       " Low: " & String.Format("{0:C}", lowtoday) &
+        '        '       " Close: " & String.Format("{0:C}", closetoday))
+        '        lblTodaysOpen.Text = String.Format("{0:C}", opentoday)                                                                      ' ASSIGN THE VALUE TO THE LABEL IN THE VIEW FOR THE OPEN TODAY PRICE
+        'End Select
+
+
+
+
+
+
+
+
+
+
+
+        ' End If
+
+        'Select Case eventArgs.tickType
+        '    Case 1
+        '        'bid = eventArgs.price
+        '        'MsgBox("Bid: " & String.Format("{0:C}", bid))
+        '    Case 2
+        '        'ask = eventArgs.price
+        '        'MsgBox("Bid: " & String.Format("{0:C}", bid) & " Ask: " & String.Format("{0:C}", ask))
+        '    Case 4
+        '        'last = eventArgs.price
+        '        'MsgBox("Bid: " & String.Format("{0:C}", bid) & " Ask: " & String.Format("{0:C}", ask) & "last: " & String.Format("{0:C}", last))
+        '    Case 6
+        '        'hightoday = eventArgs.price
+        '        'MsgBox("Bid: " & String.Format("{0:C}", bid) & " Ask: " & String.Format("{0:C}", ask) & "Last: " & String.Format("{0:C}", last) & " High: " & String.Format("{0:C}", hightoday))
+        '    Case 7
+        '        'lowtoday = eventArgs.price
+        '       'MsgBox("Bid: " & String.Format("{0:C}", bid) & " Ask: " & String.Format("{0:C}", ask) & "Last: " & String.Format("{0:C}", last) & " High: " & String.Format("{0:C}", hightoday) & " low: " & String.Format("{0:C}", lowtoday))
+        '    Case 9
+        '        'closetoday = eventArgs.price
+        '        'MsgBox("Bid: " & String.Format("{0:C}", bid) &
+        '        '       " Ask: " & String.Format("{0:C}", ask) &
+        '        '       " Last: " & String.Format("{0:C}", last) &
+        '        '       " High: " & String.Format("{0:C}", hightoday) &
+        '        '       " Low: " & String.Format("{0:C}", lowtoday) &
+        '        '       " Close: " & String.Format("{0:C}", closetoday))
+        '    Case 14
+        '        'opentoday = eventArgs.price
+        '        'MsgBox("Bid: " & String.Format("{0:C}", bid) &
+        '        '       " Ask: " & String.Format("{0:C}", ask) &
+        '        '       " Last: " & String.Format("{0:C}", last) &
+        '        '       " Open: " & String.Format("{0:C}", opentoday) &
+        '        '       " High: " & String.Format("{0:C}", hightoday) &
+        '        '       " Low: " & String.Format("{0:C}", lowtoday) &
+        '        '       " Close: " & String.Format("{0:C}", closetoday))
+        'End Select
 
 
 
@@ -2665,11 +2747,11 @@ Friend Class Main
 
         ' MsgBox(String.Format("{0:C}", oLast))
 
-        'mktDataStr = "Symbol: " & optionsymbol.ToUpper() & "Exp. Strike " & String.Format("{0:C}", optionstrike) & " " & eventArgs.tickType.ToString() & ": " & String.Format("{0:C}", eventArgs.price, eventArgs.tickCount)
+        'mktDataStr = "Symbol: " & "VXX " & "Exp. Strike " & String.Format("{0:C}", optionstrike) & " " & eventArgs.tickType.ToString() & ": " & String.Format("{0:C}", eventArgs.price, eventArgs.tickCount)
+        mktDataStr = "Symbol: " & "VXX " & pricetype.ToUpper() & " : " & String.Format("{0:C}", priceamount) '& " " & eventArgs.tickType.ToString() & ": " & String.Format("{0:C}", eventArgs.price, eventArgs.tickCount)
 
 
-
-        'Call m_utils.addListItem(Utils.List_Types.MKT_DATA, mktDataStr)                                                             ' WRITES THE CURRENT PRICE TO THE LISTBOX
+        Call m_utils.addListItem(Utils.List_Types.MKT_DATA, mktDataStr)                                                             ' WRITES THE CURRENT PRICE TO THE LISTBOX
 
         ' pricetype = 1
 
@@ -2681,9 +2763,6 @@ Friend Class Main
 
 
     End Sub
-
-
-
 
     Private Sub Tws1_tickSize(ByVal eventSender As System.Object, ByVal eventArgs As AxTWSLib._DTwsEvents_tickSizeEvent) Handles Tws1.OnTickSize
 
@@ -4953,6 +5032,10 @@ Friend Class Main
         order.LmtPrice = 1.0                                                                                                       ' SET THE ORDER LIMIT PRICE TO THE CALCULATED BUY TO OPEN LIMIT PRICE
 
         Call Tws1.placeOrderEx(order.OrderId, contract, order)                                                                      ' CALL FUNCTION TO ADD MESSAGE TO THE LISTBOX AND PROCESS THE ORDER 
+
+    End Sub
+
+    Private Sub btnModOrder_Click_1(sender As Object, e As EventArgs) Handles btnModOrder.Click
 
     End Sub
 

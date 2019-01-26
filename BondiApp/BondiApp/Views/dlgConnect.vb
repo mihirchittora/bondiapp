@@ -45,7 +45,6 @@ Public Class dlgConnect
     Public WithEvents Label2 As System.Windows.Forms.Label
     Public WithEvents txtOptCapts As System.Windows.Forms.TextBox
     Public WithEvents Label4 As System.Windows.Forms.Label
-    Public WithEvents Label5 As System.Windows.Forms.Label
     Public WithEvents Label1 As System.Windows.Forms.Label
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.
@@ -63,7 +62,6 @@ Public Class dlgConnect
         Me.Label1 = New System.Windows.Forms.Label()
         Me.txtOptCapts = New System.Windows.Forms.TextBox()
         Me.Label4 = New System.Windows.Forms.Label()
-        Me.Label5 = New System.Windows.Forms.Label()
         Me.SuspendLayout()
         '
         'cmdOk
@@ -73,7 +71,7 @@ Public Class dlgConnect
         Me.cmdOk.Cursor = System.Windows.Forms.Cursors.Default
         Me.cmdOk.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cmdOk.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.cmdOk.Location = New System.Drawing.Point(60, 315)
+        Me.cmdOk.Location = New System.Drawing.Point(32, 131)
         Me.cmdOk.Name = "cmdOk"
         Me.cmdOk.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.cmdOk.Size = New System.Drawing.Size(73, 25)
@@ -88,7 +86,7 @@ Public Class dlgConnect
         Me.cmdCancel.Cursor = System.Windows.Forms.Cursors.Default
         Me.cmdCancel.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cmdCancel.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.cmdCancel.Location = New System.Drawing.Point(148, 315)
+        Me.cmdCancel.Location = New System.Drawing.Point(120, 131)
         Me.cmdCancel.Name = "cmdCancel"
         Me.cmdCancel.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.cmdCancel.Size = New System.Drawing.Size(73, 25)
@@ -103,11 +101,11 @@ Public Class dlgConnect
         Me.txtPort.Cursor = System.Windows.Forms.Cursors.IBeam
         Me.txtPort.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtPort.ForeColor = System.Drawing.SystemColors.WindowText
-        Me.txtPort.Location = New System.Drawing.Point(16, 96)
+        Me.txtPort.Location = New System.Drawing.Point(132, 40)
         Me.txtPort.MaxLength = 0
         Me.txtPort.Name = "txtPort"
         Me.txtPort.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.txtPort.Size = New System.Drawing.Size(241, 20)
+        Me.txtPort.Size = New System.Drawing.Size(89, 20)
         Me.txtPort.TabIndex = 1
         Me.txtPort.Text = "7497"
         '
@@ -118,11 +116,11 @@ Public Class dlgConnect
         Me.txtClientId.Cursor = System.Windows.Forms.Cursors.IBeam
         Me.txtClientId.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtClientId.ForeColor = System.Drawing.SystemColors.WindowText
-        Me.txtClientId.Location = New System.Drawing.Point(16, 152)
+        Me.txtClientId.Location = New System.Drawing.Point(12, 91)
         Me.txtClientId.MaxLength = 0
         Me.txtClientId.Name = "txtClientId"
         Me.txtClientId.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.txtClientId.Size = New System.Drawing.Size(241, 20)
+        Me.txtClientId.Size = New System.Drawing.Size(93, 20)
         Me.txtClientId.TabIndex = 2
         Me.txtClientId.Text = "0"
         '
@@ -137,7 +135,7 @@ Public Class dlgConnect
         Me.txtHostIP.MaxLength = 0
         Me.txtHostIP.Name = "txtHostIP"
         Me.txtHostIP.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.txtHostIP.Size = New System.Drawing.Size(241, 20)
+        Me.txtHostIP.Size = New System.Drawing.Size(89, 20)
         Me.txtHostIP.TabIndex = 0
         Me.txtHostIP.Text = "127.0.0.1"
         '
@@ -147,7 +145,7 @@ Public Class dlgConnect
         Me.Label3.Cursor = System.Windows.Forms.Cursors.Default
         Me.Label3.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label3.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Label3.Location = New System.Drawing.Point(16, 136)
+        Me.Label3.Location = New System.Drawing.Point(12, 75)
         Me.Label3.Name = "Label3"
         Me.Label3.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label3.Size = New System.Drawing.Size(89, 17)
@@ -160,7 +158,7 @@ Public Class dlgConnect
         Me.Label2.Cursor = System.Windows.Forms.Cursors.Default
         Me.Label2.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label2.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Label2.Location = New System.Drawing.Point(16, 80)
+        Me.Label2.Location = New System.Drawing.Point(132, 24)
         Me.Label2.Name = "Label2"
         Me.Label2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label2.Size = New System.Drawing.Size(41, 17)
@@ -176,9 +174,9 @@ Public Class dlgConnect
         Me.Label1.Location = New System.Drawing.Point(16, 16)
         Me.Label1.Name = "Label1"
         Me.Label1.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.Label1.Size = New System.Drawing.Size(193, 17)
+        Me.Label1.Size = New System.Drawing.Size(89, 21)
         Me.Label1.TabIndex = 5
-        Me.Label1.Text = "IP Address (leave blank for local host)"
+        Me.Label1.Text = "IP Address"
         '
         'txtOptCapts
         '
@@ -187,11 +185,11 @@ Public Class dlgConnect
         Me.txtOptCapts.Cursor = System.Windows.Forms.Cursors.IBeam
         Me.txtOptCapts.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtOptCapts.ForeColor = System.Drawing.SystemColors.WindowText
-        Me.txtOptCapts.Location = New System.Drawing.Point(16, 206)
+        Me.txtOptCapts.Location = New System.Drawing.Point(129, 91)
         Me.txtOptCapts.MaxLength = 0
         Me.txtOptCapts.Name = "txtOptCapts"
         Me.txtOptCapts.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.txtOptCapts.Size = New System.Drawing.Size(241, 20)
+        Me.txtOptCapts.Size = New System.Drawing.Size(89, 20)
         Me.txtOptCapts.TabIndex = 8
         '
         'Label4
@@ -200,33 +198,18 @@ Public Class dlgConnect
         Me.Label4.Cursor = System.Windows.Forms.Cursors.Default
         Me.Label4.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label4.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Label4.Location = New System.Drawing.Point(16, 190)
+        Me.Label4.Location = New System.Drawing.Point(129, 75)
         Me.Label4.Name = "Label4"
         Me.Label4.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label4.Size = New System.Drawing.Size(117, 17)
         Me.Label4.TabIndex = 9
         Me.Label4.Text = "Optional capabilities"
         '
-        'Label5
-        '
-        Me.Label5.BackColor = System.Drawing.SystemColors.Control
-        Me.Label5.Cursor = System.Windows.Forms.Cursors.Default
-        Me.Label5.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label5.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Label5.Location = New System.Drawing.Point(16, 239)
-        Me.Label5.Name = "Label5"
-        Me.Label5.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.Label5.Size = New System.Drawing.Size(252, 60)
-        Me.Label5.TabIndex = 10
-        Me.Label5.Text = "Live Trading ports: TWS: 7496; IB Gateway: 4001. Simulated Trading ports for new " &
-    "installations of version 954.1 or newer:  TWS: 7497; IB Gateway: 4002"
-        '
         'dlgConnect
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
         Me.BackColor = System.Drawing.SystemColors.Control
-        Me.ClientSize = New System.Drawing.Size(280, 348)
-        Me.Controls.Add(Me.Label5)
+        Me.ClientSize = New System.Drawing.Size(239, 168)
         Me.Controls.Add(Me.txtOptCapts)
         Me.Controls.Add(Me.Label4)
         Me.Controls.Add(Me.cmdOk)
@@ -247,7 +230,7 @@ Public Class dlgConnect
         Me.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "Connection Parameters"
+        Me.Text = "Connect to TWS"
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

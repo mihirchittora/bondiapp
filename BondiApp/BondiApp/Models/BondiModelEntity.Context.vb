@@ -78,5 +78,8 @@ Partial Public Class optionwavesdbEntities
     Public Overridable Property activitylogs() As DbSet(Of activitylog)
     Public Overridable Property backteststats() As DbSet(Of backteststat)
     Public Overridable Property stockorders() As DbSet(Of stockorder)
+    Public Overridable Property Trades() As DbSet(Of Trade)
+    Public Overridable Property harvestorders() As DbSet(Of harvestorder)
+    Public Overridable Property myorders() As DbSet(Of myorder)
 
 End Class

@@ -4,7 +4,7 @@ Imports System.Text.RegularExpressions
 
 Public Class LoginForm
     Private m_utils As New Utils
-    Private mainForm As New Main
+    Private mainForm As New WGB
 
     Private Sub btnLogin_Click(sender As Object, e As EventArgs) Handles btnLogin.Click
         If txtUserId.Text.Trim.Equals("") Then
@@ -90,7 +90,7 @@ Public Class LoginForm
     End Sub
 
     Private Sub txtUserId_Leave(sender As Object, e As EventArgs) Handles txtUserId.Leave
-        ValidateEmail()
+        'ValidateEmail()
     End Sub
 
     Private Sub btnCancel_Click(sender As Object, e As EventArgs) Handles btnCancel.Click
@@ -98,7 +98,8 @@ Public Class LoginForm
     End Sub
 
     Private Sub LoginForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        txtUserId.Focus()
+        Me.CenterToScreen()
+        txtUserId.Select()
     End Sub
 
 
@@ -118,7 +119,17 @@ Public Class LoginForm
         Return Convert.ToBase64String(bRet)
     End Function
 
-    Private Sub LinkLabel1_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles LinkLabel1.LinkClicked
+    Private Sub btnResetPW_Click(sender As Object, e As EventArgs) Handles btnResetPW.Click
+        btnLogin.Visible = False
+        btnConfirm.Visible = True
+
+    End Sub
+
+    Private Sub btnConfirm_Click(sender As Object, e As EventArgs) Handles btnConfirm.Click
+
+
+
+
 
     End Sub
 End Class

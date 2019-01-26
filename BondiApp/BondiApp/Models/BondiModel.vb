@@ -32,6 +32,7 @@ Partial Public Class BondiModel
     Public Overridable Property HarvestMarks As DbSet(Of HarvestMark)
     Public Overridable Property HarvestPositions As DbSet(Of HarvestPosition)
     Public Overridable Property Memberships As DbSet(Of Membership)
+    Public Overridable Property MyOrders As DbSet(Of myorder)
     Public Overridable Property onesigmawides As DbSet(Of onesigmawide)
     Public Overridable Property positions As DbSet(Of position)
     Public Overridable Property Prices As DbSet(Of Price)

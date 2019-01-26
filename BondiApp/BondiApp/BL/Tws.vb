@@ -158,7 +158,6 @@ Friend Class Tws
 
 
     Public Sub tickPrice(tickerId As Integer, field As Integer, price As Double, canAutoExecute As Integer) Implements EWrapper.tickPrice
-        'Throw New NotImplementedException()
 
         InvokeIfRequired(Sub()
                              RaiseEvent OnTickPrice(Me, New AxTWSLib._DTwsEvents_tickPriceEvent With {.id = tickerId, .price = price, .TickType = field, .canAutoExecute = canAutoExecute})
@@ -328,11 +327,25 @@ Friend Class Tws
                                                                   .orderState = orderState
                                                                  })
                          End Sub)
+
+
+
+
         Utils.openTWSorder = True
-        If Utils.openTWSorder = True Then
-            Main.BTOExists.Text = "Yes"
+
+        If EventArgs.Empty Is Nothing Then
+            ' If Utils.openTWSorder = True Then
+            WGB.lblOpenOrder.Text = "NO"
         Else
-            Main.BTOExists.Text = "No"
+            If order.Action.ToLower() = "buy" Then
+                WGB.btnStartWillie.Enabled = False
+                WGB.btoPermid = order.PermId
+                WGB.lblOpenOrder.Text = "YES"
+                WGB.orderprice = order.LmtPrice
+                WGB.lblBTOMovePrice.Text = String.Format("{0:C}", order.LmtPrice + (WGB.selltrigger * 2) + 0.01)
+                WGB.btomoveprice = order.LmtPrice + (WGB.selltrigger * 2) + 0.01
+            End If
+
         End If
     End Sub
 
@@ -341,11 +354,14 @@ Friend Class Tws
                              RaiseEvent OnopenOrderEnd(Me, EventArgs.Empty)
                          End Sub)
         Utils.openTWSorder = False
-        If Utils.openTWSorder = True Then
-            Main.BTOExists.Text = "Yes"
-        Else
-            Main.BTOExists.Text = "No"
-        End If
+
+        'If EventArgs.Empty Is Nothing Then 'Then    'Utils.openTWSorder = True Then
+        '    'Main.BTOExists.Text = "Yes"
+        '    WGB.lblOpenOrder.Text = "YES"
+        'Else
+        '    WGB.lblOpenOrder.Text = "NO"
+        '    'Main.BTOExists.Text = "No"
+        'End If
 
     End Sub
 
