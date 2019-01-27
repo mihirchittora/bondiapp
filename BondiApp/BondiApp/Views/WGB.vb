@@ -1344,7 +1344,7 @@ Friend Class WGB
         ' THIS IS FOR OPTIONS - NEED TO WORK THROUGH THE FLAGS AND THE PROCESS 
         'ElseIf pricetype = 2 Then                                                                                                       ' INDICATES THAT THIS IS AN OPTION PRICE BEING RETRIEVED
 
-
+        ' test
 
         '    If eventArgs.tickType = 1 Or eventArgs.tickType = 66 Then
         '        oBid = eventArgs.price
