@@ -201,7 +201,6 @@ Partial Class WGB
         Me.btnGetStockPrice.TabIndex = 304
         Me.btnGetStockPrice.Text = "Get Stock Price"
         Me.btnGetStockPrice.UseVisualStyleBackColor = False
-        Me.btnGetStockPrice.Visible = False
         '
         'btnClear
         '
@@ -512,7 +511,6 @@ Partial Class WGB
         Me.txtTestPrice.TabIndex = 341
         Me.txtTestPrice.Text = "0"
         Me.txtTestPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        Me.txtTestPrice.Visible = False
         '
         'ckTest
         '
@@ -524,7 +522,6 @@ Partial Class WGB
         Me.ckTest.TabIndex = 342
         Me.ckTest.Text = "Test Price"
         Me.ckTest.UseVisualStyleBackColor = True
-        Me.ckTest.Visible = False
         '
         'lstConnectionResponses
         '
@@ -542,7 +539,7 @@ Partial Class WGB
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.AutoSize = True
-        Me.ClientSize = New System.Drawing.Size(638, 466)
+        Me.ClientSize = New System.Drawing.Size(638, 666)
         Me.Controls.Add(Me.lstConnectionResponses)
         Me.Controls.Add(Me.ckTest)
         Me.Controls.Add(Me.txtTestPrice)
@@ -589,7 +586,7 @@ Partial Class WGB
         Me.Controls.Add(Me.btnClose)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.MaximizeBox = False
-        Me.MaximumSize = New System.Drawing.Size(660, 505)
+        Me.MaximumSize = New System.Drawing.Size(660, 705)
         Me.Name = "WGB"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Willie - Automated Trading System"

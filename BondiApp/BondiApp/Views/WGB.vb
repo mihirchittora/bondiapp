@@ -466,36 +466,35 @@ Friend Class WGB
 
     End Function
 
-    Private Function sendLongPutOptionOrder(ByVal calcexpdate As Date) As Boolean
+    Private Function sendLongPutOptionOrder(ByVal calcexpdate As Date, ByVal btofilledprice As Decimal) As Boolean
 
         ' THIS FUNCTION SENDS AN ORDER TO TWS WHEN CALLED FROM SUB PROCESSES
-
-        MsgBox(String.Format("{0: yyyyMMdd}", calcexpdate))
-        Stop            ' indicates that there is not a hedge open for this pricepoint
 
         Using db As BondiModel = New BondiModel()                                                                                   ' DATABASE MODEL USING ENTITY FRAMEWORK
 
             Dim hi As List(Of HarvestIndex) = New List(Of HarvestIndex)()                                                           ' INITIALIZE THE HARVEST INDEX LIST TO BE USED TO GET THE INDEX RECORD 
             hi = db.HarvestIndexes.AsEnumerable.Where(Function(x) x.harvestKey = harvestkey).ToList()                               ' PULL THE HARVEST INDEX RECORD TO GET THE CONTRACT AND ORDER PARAMETERS
 
-            contract.Symbol = hi.FirstOrDefault().product & "B".ToUpper()                                                            ' INITIALIZE SYMBOL VALUE FOR THE CONTRACT
+            contract.Symbol = hi.FirstOrDefault().product.ToUpper()                                                                 ' SET THE SYMBOL FOR THE CONTRACT TO THE INDEX SYMBOL 
+            contract.SecType = "OPT"        'hi.FirstOrDefault().stocksectype.ToUpper()                                             ' SET THE SECURITY TYPE FOR THE CONTRACT TO THE INDEX SECURITY TYPE
+            contract.Currency = hi.FirstOrDefault().currencytype.ToUpper()                                                          ' SET THE CURRENCY TYPE FOR THE CONTRACT TO THE INDEX CURRENCY TYPE
+            contract.Exchange = hi.FirstOrDefault().exchange.ToUpper()                                                              ' SET THE EXCHANGE FOR THE CONTRACT TO THE INDEX EXCHANGE            
 
-            contract.Exchange = hi.FirstOrDefault().exchange.ToUpper()                                                                                               ' INITIALIZE THE EXCHANGE FOR THE CONTRACT
-            contract.Currency = hi.FirstOrDefault().currencytype.ToUpper()                                                                                           ' INITIALIZE CURRENCY TYPE FOR THE CONTRACT - MOVE TO SETTINGS AT SOME POINT        
-            contract.SecType = "OPT"
-            contract.LastTradeDateOrContractMonth = String.Format("{0: yyyyMMdd}", calcexpdate)
-            contract.Strike = Int(stockprice - hi.FirstOrDefault().hedgewidth)
+            contract.LastTradeDateOrContractMonth = "20190315"
+            contract.Strike = 36 'btofilledprice - hi.FirstOrDefault().hedgewidth
             contract.Right = "P"
 
+            cprice = 0.88               ' txtPrice.Text
+
             order.OrderType = "MKT"                 ' hi.FirstOrDefault().ordertype.ToUpper()                                   ' SET THE ORDER TYPE FOR THE ORDER TO THE INDEX ORDER TYPE (lmt OR mkt)
-            order.TotalQuantity = hi.FirstOrDefault().hedgelots                                                                 ' SET THE NUMBER OF SHARES FOR THE ORDER TO THE INDEX NUMBER OF SHARES 
+            order.TotalQuantity = 1                 ' hi.FirstOrDefault().shares                                                ' SET THE NUMBER OF SHARES FOR THE ORDER TO THE INDEX NUMBER OF SHARES 
             order.Tif = "GTC"                       ' hi.FirstOrDefault().inforce.ToUpper()                                     ' SET THE TRADE IN FORCE FOR THE ORDER TO THE INDEX TRADE IN FORCE (day OR gtc)
             order.OrderId = nextValidOrderId                                                                                    ' SET THE ORDER ID OF THE ORDER TO THE NEXT VALID ORDER ID
             order.Action = "BUY"                    ' txtAction.Text.ToUpper()                                                  ' SET THE ORDER ACTION 
-
-            Stop
+            order.LmtPrice = cprice                                                                                             ' SET THE ORDER LIMIT PRICE TO THE CALCULATED BUY TO OPEN LIMIT PRICE
 
             Call Tws1.placeOrderEx(order.OrderId, contract, order)                                                              ' CALL FUNCTION TO ADD MESSAGE TO THE LISTBOX AND PROCESS THE ORDER 
+            'Tws1.reqMktDataEx(1, contract, "", True, Nothing)
 
         End Using
 
@@ -701,7 +700,7 @@ Friend Class WGB
                     ' ADD ERROR HANDLING HERE.  SEND ERROR TO THE LIST BOX VERSUS A MESSAGE BOX.
                 End Try
 
-            Case "filled"
+            Case "cancelled" '"filled"
                 ' WHEN AN ORDER IS FILLED IN THE TWS PLATFORM THE FOLLOWING CODE WILL DETERMINE IF THERE IS AN ASSOCIATED ORDER IN THE DATABASE AND UPDATE THAT RECORD AS FILLED AND CLOSED.
                 ' CHECK THE WORKFLOW AFTER THIS HAPPENS TO SEE IF THERE IS A NEED TO ADD CODE HERE TO HANDLE THE SENDING OF THE SUBSEQUENT ORDERS OR NOT.
                 ' this status loops twice
@@ -744,19 +743,64 @@ Friend Class WGB
 
                                 ' Third, check for long put hedge at this price - if exist do nothing, else calc expiration & strike and send long put hedge order
 
-                                'Dim LPexists = (From q In db.MyOrders Where q.btoSlimitprice = orderprice And q.LPbtoOpen = True Select q)                          ' QUERY TO SEE IF THERE IS A RECORD IN THE DATABASE TO MATCH THE ORDER FILLED
-
-                                'If LPexists.Count = 0 Then
+                                Dim LPexists = (From q In db.MyOrders Where q.btoSlimitprice = orderprice And q.LPbtoOpen = True Select q)                          ' QUERY TO SEE IF THERE IS A RECORD IN THE DATABASE TO MATCH A LONG PUT AT THIS PRICE
 
 
-                                '    Dim calcexpdate As Date = String.Format("{0: MM/dd/yy}", calcExpirationDate())                                                   ' IF A HEDGE IS NEEDED CALCULATE THE EXPIRATION DATE TARGET TO BE USED IN THE BLACK SCHOLES CALCULATION
-                                '    Call sendLongPutOptionOrder(calcexpdate)
-
-                                '    ordermsg = " Hedge Order Sent: "                                                                                                ' SET THE ORDER MESSAGE TO THE ORDER PARAMETERS TO BE DISPLAYED IN THE SERVER LISTBOX
-                                '    Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, ordermsg)                                                           ' CALLED FUNCTION TO ADD THE ORDER MESSAGE TO THE LISTBOX
+                                If LPexists.Count = 0 Then
 
 
-                                'End If
+                                    Dim calcexpdate As Date = String.Format("{0: MM/dd/yy}", calcExpirationDate())                                                   ' IF A HEDGE IS NEEDED CALCULATE THE EXPIRATION DATE TARGET TO BE USED IN THE BLACK SCHOLES CALCULATION
+                                    'Stop
+                                    'Call sendLongPutOptionOrder(calcexpdate, ou.btoSlimitprice)
+
+
+
+
+
+
+
+                                    'Using db As BondiModel = New BondiModel()                                                                                   ' DATABASE MODEL USING ENTITY FRAMEWORK
+
+                                    Dim hi As List(Of HarvestIndex) = New List(Of HarvestIndex)()                                                           ' INITIALIZE THE HARVEST INDEX LIST TO BE USED TO GET THE INDEX RECORD 
+                                        hi = db.HarvestIndexes.AsEnumerable.Where(Function(x) x.harvestKey = harvestkey).ToList()                               ' PULL THE HARVEST INDEX RECORD TO GET THE CONTRACT AND ORDER PARAMETERS
+
+                                    Dim contract As New IBApi.Contract                                                                                                                                   ' INITIALIZE THE CONTRACT CLASS VARIABLE AS AN ibapi CONTRACT
+
+                                    contract.Symbol = hi.FirstOrDefault().product.ToUpper()                                                                 ' SET THE SYMBOL FOR THE CONTRACT TO THE INDEX SYMBOL 
+                                    contract.SecType = "OPT"        'hi.FirstOrDefault().stocksectype.ToUpper()                                             ' SET THE SECURITY TYPE FOR THE CONTRACT TO THE INDEX SECURITY TYPE
+                                    contract.Currency = hi.FirstOrDefault().currencytype.ToUpper()                                                          ' SET THE CURRENCY TYPE FOR THE CONTRACT TO THE INDEX CURRENCY TYPE
+                                    contract.Exchange = hi.FirstOrDefault().exchange.ToUpper()                                                              ' SET THE EXCHANGE FOR THE CONTRACT TO THE INDEX EXCHANGE            
+
+                                    contract.LastTradeDateOrContractMonth = "20190315"
+                                    contract.Strike = Int(ou.btoSlimitprice - hi.FirstOrDefault().hedgewidth)
+                                    contract.Right = "P"
+
+                                    ' cprice = 0.88               ' txtPrice.Text
+
+                                    order.OrderType = "MKT"                 ' hi.FirstOrDefault().ordertype.ToUpper()                                   ' SET THE ORDER TYPE FOR THE ORDER TO THE INDEX ORDER TYPE (lmt OR mkt)
+                                    order.TotalQuantity = 1                 ' hi.FirstOrDefault().shares                                                ' SET THE NUMBER OF SHARES FOR THE ORDER TO THE INDEX NUMBER OF SHARES 
+                                    order.Tif = "GTC"                       ' hi.FirstOrDefault().inforce.ToUpper()                                     ' SET THE TRADE IN FORCE FOR THE ORDER TO THE INDEX TRADE IN FORCE (day OR gtc)
+                                    order.OrderId = nextValidOrderId                                                                                    ' SET THE ORDER ID OF THE ORDER TO THE NEXT VALID ORDER ID
+                                    order.Action = "BUY"                    ' txtAction.Text.ToUpper()                                                  ' SET THE ORDER ACTION 
+                                    'order.LmtPrice = cprice                                                                                             ' SET THE ORDER LIMIT PRICE TO THE CALCULATED BUY TO OPEN LIMIT PRICE
+
+                                    Call Tws1.placeOrderEx(order.OrderId, contract, order)                                                              ' CALL FUNCTION TO ADD MESSAGE TO THE LISTBOX AND PROCESS THE ORDER 
+                                    'Tws1.reqMktDataEx(1, contract, "", True, Nothing)
+
+                                    'End Using
+
+
+
+
+
+
+
+
+                                    '    ordermsg = " Hedge Order Sent: "                                                                                                ' SET THE ORDER MESSAGE TO THE ORDER PARAMETERS TO BE DISPLAYED IN THE SERVER LISTBOX
+                                    '    Call m_utils.addListItem(Utils.List_Types.SERVER_RESPONSES, ordermsg)                                                           ' CALLED FUNCTION TO ADD THE ORDER MESSAGE TO THE LISTBOX
+                                Else
+                                    Stop
+                                End If
 
 
                             End If
@@ -820,7 +864,7 @@ Friend Class WGB
 
                 End Try
 
-            Case "cancelled"
+            Case "filled" '"cancelled"
 
                 Try
 
@@ -933,6 +977,12 @@ Friend Class WGB
                 If ckTest.Checked = True Then
                     closeprice = txtTestPrice.Text
                     lblClose.Text = String.Format("{0:C}", closeprice)
+
+                    If lastprice = 0 Then
+                        lastprice = closeprice
+                        lblLastPrice.Text = String.Format("{0:C}", lastprice)
+                    End If
+
                     'MsgBox(String.Format("{0:C}", orderprice) & " " & String.Format("{0:C}", btomoveprice))
                     'If closeprice >= btomoveprice Then
                     '    If btomoveprice > 0 Then
@@ -942,6 +992,10 @@ Friend Class WGB
                 Else
                     closeprice = eventArgs.price
                     lblClose.Text = String.Format("{0:C}", closeprice)
+                    If lastprice = 0 Then
+                        lastprice = closeprice
+                        lblLastPrice.Text = String.Format("{0:C}", lastprice)
+                    End If
                     'MsgBox(String.Format("{0:C}", orderprice) & " " & String.Format("{0:C}", btomoveprice))
                     'MsgBox(String.Format("{0:C}", closeprice) & " " & String.Format("{0:C}", btomoveprice))
                 End If
@@ -1559,6 +1613,58 @@ Friend Class WGB
 
 
     End Sub
+
+
+
+
+
+
+
+
+
+
+
+    Private Sub btnSendOptionOrder_Click(sender As Object, e As EventArgs) Handles btnSendOptionOrder.Click
+
+        Dim contract As IBApi.Contract = New IBApi.Contract()                                                                       ' INTIIATE THE CONTRACT VARIABLE CLASS TO HANDLE CONTRACT DATA
+        Dim order As IBApi.Order = New IBApi.Order()                                                                                ' INITIATE THE ORDER VARIABLE CLASS TO HANDLE ORDER DATA
+
+        contract.Symbol = "VXXB" 'hi.FirstOrDefault().product.ToUpper()                                                                 ' SET THE SYMBOL FOR THE CONTRACT TO THE INDEX SYMBOL 
+        contract.SecType = "OPT"        'hi.FirstOrDefault().stocksectype.ToUpper()                                             ' SET THE SECURITY TYPE FOR THE CONTRACT TO THE INDEX SECURITY TYPE
+        contract.Currency = "USD"   'hi.FirstOrDefault().currencytype.ToUpper()                                                          ' SET THE CURRENCY TYPE FOR THE CONTRACT TO THE INDEX CURRENCY TYPE
+        contract.Exchange = "SMART" 'hi.FirstOrDefault().exchange.ToUpper()                                                              ' SET THE EXCHANGE FOR THE CONTRACT TO THE INDEX EXCHANGE            
+
+        contract.LastTradeDateOrContractMonth = "20190315"
+        contract.Strike = 36
+        contract.Right = "P"
+
+        ' THE USER CAN CHOOSE TO ENTER A PRICE OR HAVE THE NEAREST PRICE SET BY THE INDEX AND CALCULATIONS.
+        ' If so.Count > 0 Then
+        ' ADD A CHECKBOX ON THE FORM TO INDICATE THAT THIS IS THE PRICE THE USER WANTS TO SUBMIT VERSUS IF A RECORD EXISTS OR NOT SEND ORDER ONLY
+        cprice = 0.88               ' txtPrice.Text
+        'Else
+        'priceint = Int(currentprice)                                                                                        ' RETURN THE INTERVAL OF THE STOCK TICK PRICE
+        'checksum = currentprice - priceint                                                                                  ' RETURN THE DECIMALS IN THE STOCK TICK PRICE FOR THE CALCULATIONS
+        'cprice = (Int(checksum / hi.FirstOrDefault.opentrigger) * hi.FirstOrDefault.opentrigger + priceint)                 ' CALCULATE THE STARTING BUY TO OPEN PRICE 
+        'End If
+
+        order.OrderType = "MKT"                 ' hi.FirstOrDefault().ordertype.ToUpper()                                   ' SET THE ORDER TYPE FOR THE ORDER TO THE INDEX ORDER TYPE (lmt OR mkt)
+        order.TotalQuantity = 1                 ' hi.FirstOrDefault().shares                                                ' SET THE NUMBER OF SHARES FOR THE ORDER TO THE INDEX NUMBER OF SHARES 
+        order.Tif = "GTC"                       ' hi.FirstOrDefault().inforce.ToUpper()                                     ' SET THE TRADE IN FORCE FOR THE ORDER TO THE INDEX TRADE IN FORCE (day OR gtc)
+        order.OrderId = nextValidOrderId                                                                                    ' SET THE ORDER ID OF THE ORDER TO THE NEXT VALID ORDER ID
+        order.Action = "BUY"                    ' txtAction.Text.ToUpper()                                                  ' SET THE ORDER ACTION 
+        order.LmtPrice = cprice                                                                                             ' SET THE ORDER LIMIT PRICE TO THE CALCULATED BUY TO OPEN LIMIT PRICE
+
+        Call Tws1.placeOrderEx(order.OrderId, contract, order)                                                              ' CALL FUNCTION TO ADD MESSAGE TO THE LISTBOX AND PROCESS THE ORDER 
+
+    End Sub
+
+
+
+
+
+
+
 
 
     Private Sub Tws1_nextValidId(ByVal eventSender As System.Object, ByVal eventArgs As _DTwsEvents_nextValidIdEvent) Handles Tws1.OnNextValidId

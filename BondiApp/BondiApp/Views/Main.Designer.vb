@@ -316,7 +316,7 @@ Partial Class Main
         '
         Me.lstServerResponses.FormattingEnabled = True
         Me.lstServerResponses.Location = New System.Drawing.Point(149, 515)
-        Me.lstServerResponses.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.lstServerResponses.Margin = New System.Windows.Forms.Padding(2)
         Me.lstServerResponses.Name = "lstServerResponses"
         Me.lstServerResponses.Size = New System.Drawing.Size(804, 95)
         Me.lstServerResponses.TabIndex = 48
@@ -371,7 +371,7 @@ Partial Class Main
         Me.Panel1.Controls.Add(Me.btnProfile)
         Me.Panel1.Controls.Add(Me.Label3)
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
-        Me.Panel1.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.Panel1.Margin = New System.Windows.Forms.Padding(2)
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(969, 52)
         Me.Panel1.TabIndex = 85
@@ -443,7 +443,7 @@ Partial Class Main
         Me.Panel5.Controls.Add(Me.lblBuild)
         Me.Panel5.Controls.Add(Me.lblStatus)
         Me.Panel5.Location = New System.Drawing.Point(150, 660)
-        Me.Panel5.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.Panel5.Margin = New System.Windows.Forms.Padding(2)
         Me.Panel5.Name = "Panel5"
         Me.Panel5.Size = New System.Drawing.Size(810, 31)
         Me.Panel5.TabIndex = 89
@@ -470,7 +470,7 @@ Partial Class Main
         '
         Me.lstErrorResponses.FormattingEnabled = True
         Me.lstErrorResponses.Location = New System.Drawing.Point(149, 614)
-        Me.lstErrorResponses.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.lstErrorResponses.Margin = New System.Windows.Forms.Padding(2)
         Me.lstErrorResponses.Name = "lstErrorResponses"
         Me.lstErrorResponses.Size = New System.Drawing.Size(804, 43)
         Me.lstErrorResponses.TabIndex = 124
@@ -983,7 +983,7 @@ Partial Class Main
         '
         Me.Button78.BackColor = System.Drawing.Color.LawnGreen
         Me.Button78.Location = New System.Drawing.Point(564, 453)
-        Me.Button78.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.Button78.Margin = New System.Windows.Forms.Padding(2)
         Me.Button78.Name = "Button78"
         Me.Button78.Size = New System.Drawing.Size(132, 27)
         Me.Button78.TabIndex = 226
@@ -994,7 +994,7 @@ Partial Class Main
         '
         Me.Button46.BackColor = System.Drawing.Color.LawnGreen
         Me.Button46.Location = New System.Drawing.Point(428, 453)
-        Me.Button46.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.Button46.Margin = New System.Windows.Forms.Padding(2)
         Me.Button46.Name = "Button46"
         Me.Button46.Size = New System.Drawing.Size(132, 27)
         Me.Button46.TabIndex = 198
@@ -1005,7 +1005,7 @@ Partial Class Main
         '
         Me.Button71.BackColor = System.Drawing.Color.LawnGreen
         Me.Button71.Location = New System.Drawing.Point(700, 453)
-        Me.Button71.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.Button71.Margin = New System.Windows.Forms.Padding(2)
         Me.Button71.Name = "Button71"
         Me.Button71.Size = New System.Drawing.Size(132, 27)
         Me.Button71.TabIndex = 221
@@ -1016,7 +1016,7 @@ Partial Class Main
         '
         Me.btnPlaceOrder.BackColor = System.Drawing.Color.Ivory
         Me.btnPlaceOrder.Location = New System.Drawing.Point(700, 423)
-        Me.btnPlaceOrder.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.btnPlaceOrder.Margin = New System.Windows.Forms.Padding(2)
         Me.btnPlaceOrder.Name = "btnPlaceOrder"
         Me.btnPlaceOrder.Size = New System.Drawing.Size(132, 27)
         Me.btnPlaceOrder.TabIndex = 219
@@ -1027,7 +1027,7 @@ Partial Class Main
         '
         Me.btnGetPositions.BackColor = System.Drawing.Color.LawnGreen
         Me.btnGetPositions.Location = New System.Drawing.Point(564, 423)
-        Me.btnGetPositions.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.btnGetPositions.Margin = New System.Windows.Forms.Padding(2)
         Me.btnGetPositions.Name = "btnGetPositions"
         Me.btnGetPositions.Size = New System.Drawing.Size(132, 27)
         Me.btnGetPositions.TabIndex = 215
@@ -1038,7 +1038,7 @@ Partial Class Main
         '
         Me.btnReqNextId.BackColor = System.Drawing.Color.Ivory
         Me.btnReqNextId.Location = New System.Drawing.Point(428, 423)
-        Me.btnReqNextId.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.btnReqNextId.Margin = New System.Windows.Forms.Padding(2)
         Me.btnReqNextId.Name = "btnReqNextId"
         Me.btnReqNextId.Size = New System.Drawing.Size(132, 27)
         Me.btnReqNextId.TabIndex = 191
@@ -1049,7 +1049,7 @@ Partial Class Main
         '
         Me.btnReqExecutions.BackColor = System.Drawing.Color.LawnGreen
         Me.btnReqExecutions.Location = New System.Drawing.Point(156, 423)
-        Me.btnReqExecutions.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.btnReqExecutions.Margin = New System.Windows.Forms.Padding(2)
         Me.btnReqExecutions.Name = "btnReqExecutions"
         Me.btnReqExecutions.Size = New System.Drawing.Size(132, 27)
         Me.btnReqExecutions.TabIndex = 186
@@ -1060,7 +1060,7 @@ Partial Class Main
         '
         Me.Button35.BackColor = System.Drawing.Color.LawnGreen
         Me.Button35.Location = New System.Drawing.Point(835, 394)
-        Me.Button35.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.Button35.Margin = New System.Windows.Forms.Padding(2)
         Me.Button35.Name = "Button35"
         Me.Button35.Size = New System.Drawing.Size(132, 27)
         Me.Button35.TabIndex = 185
@@ -1071,7 +1071,7 @@ Partial Class Main
         '
         Me.btnReqAllOpenOrders.BackColor = System.Drawing.Color.Ivory
         Me.btnReqAllOpenOrders.Location = New System.Drawing.Point(700, 394)
-        Me.btnReqAllOpenOrders.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.btnReqAllOpenOrders.Margin = New System.Windows.Forms.Padding(2)
         Me.btnReqAllOpenOrders.Name = "btnReqAllOpenOrders"
         Me.btnReqAllOpenOrders.Size = New System.Drawing.Size(132, 27)
         Me.btnReqAllOpenOrders.TabIndex = 179
@@ -1082,7 +1082,7 @@ Partial Class Main
         '
         Me.Button31.BackColor = System.Drawing.Color.LawnGreen
         Me.Button31.Location = New System.Drawing.Point(292, 423)
-        Me.Button31.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.Button31.Margin = New System.Windows.Forms.Padding(2)
         Me.Button31.Name = "Button31"
         Me.Button31.Size = New System.Drawing.Size(132, 27)
         Me.Button31.TabIndex = 177
@@ -1093,7 +1093,7 @@ Partial Class Main
         '
         Me.btnReqOpenOrders.BackColor = System.Drawing.Color.Ivory
         Me.btnReqOpenOrders.Location = New System.Drawing.Point(428, 394)
-        Me.btnReqOpenOrders.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.btnReqOpenOrders.Margin = New System.Windows.Forms.Padding(2)
         Me.btnReqOpenOrders.Name = "btnReqOpenOrders"
         Me.btnReqOpenOrders.Size = New System.Drawing.Size(132, 27)
         Me.btnReqOpenOrders.TabIndex = 174
@@ -1104,7 +1104,7 @@ Partial Class Main
         '
         Me.btnReqContractDetails.BackColor = System.Drawing.Color.Ivory
         Me.btnReqContractDetails.Location = New System.Drawing.Point(292, 394)
-        Me.btnReqContractDetails.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.btnReqContractDetails.Margin = New System.Windows.Forms.Padding(2)
         Me.btnReqContractDetails.Name = "btnReqContractDetails"
         Me.btnReqContractDetails.Size = New System.Drawing.Size(132, 27)
         Me.btnReqContractDetails.TabIndex = 173
@@ -1115,7 +1115,7 @@ Partial Class Main
         '
         Me.btnCancelMarketData.BackColor = System.Drawing.Color.Ivory
         Me.btnCancelMarketData.Location = New System.Drawing.Point(564, 394)
-        Me.btnCancelMarketData.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.btnCancelMarketData.Margin = New System.Windows.Forms.Padding(2)
         Me.btnCancelMarketData.Name = "btnCancelMarketData"
         Me.btnCancelMarketData.Size = New System.Drawing.Size(132, 27)
         Me.btnCancelMarketData.TabIndex = 165
@@ -1126,7 +1126,7 @@ Partial Class Main
         '
         Me.btnReqMktData.BackColor = System.Drawing.Color.Ivory
         Me.btnReqMktData.Location = New System.Drawing.Point(156, 394)
-        Me.btnReqMktData.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.btnReqMktData.Margin = New System.Windows.Forms.Padding(2)
         Me.btnReqMktData.Name = "btnReqMktData"
         Me.btnReqMktData.Size = New System.Drawing.Size(132, 27)
         Me.btnReqMktData.TabIndex = 164
@@ -1136,7 +1136,7 @@ Partial Class Main
         'btnGetPrice
         '
         Me.btnGetPrice.Location = New System.Drawing.Point(327, 45)
-        Me.btnGetPrice.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.btnGetPrice.Margin = New System.Windows.Forms.Padding(2)
         Me.btnGetPrice.Name = "btnGetPrice"
         Me.btnGetPrice.Size = New System.Drawing.Size(68, 27)
         Me.btnGetPrice.TabIndex = 162
@@ -1146,7 +1146,7 @@ Partial Class Main
         'txtPriceSymbol
         '
         Me.txtPriceSymbol.Location = New System.Drawing.Point(271, 49)
-        Me.txtPriceSymbol.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.txtPriceSymbol.Margin = New System.Windows.Forms.Padding(2)
         Me.txtPriceSymbol.Name = "txtPriceSymbol"
         Me.txtPriceSymbol.Size = New System.Drawing.Size(52, 20)
         Me.txtPriceSymbol.TabIndex = 161
@@ -1601,7 +1601,7 @@ Partial Class Main
         Me.Panel8.Controls.Add(Me.Label62)
         Me.Panel8.Controls.Add(Me.btnShowManual)
         Me.Panel8.Location = New System.Drawing.Point(0, 53)
-        Me.Panel8.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.Panel8.Margin = New System.Windows.Forms.Padding(2)
         Me.Panel8.Name = "Panel8"
         Me.Panel8.Size = New System.Drawing.Size(147, 638)
         Me.Panel8.TabIndex = 167
@@ -1831,7 +1831,7 @@ Partial Class Main
         '
         Me.dtpStartDate.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
         Me.dtpStartDate.Location = New System.Drawing.Point(84, 123)
-        Me.dtpStartDate.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.dtpStartDate.Margin = New System.Windows.Forms.Padding(2)
         Me.dtpStartDate.Name = "dtpStartDate"
         Me.dtpStartDate.Size = New System.Drawing.Size(88, 20)
         Me.dtpStartDate.TabIndex = 168
@@ -1955,7 +1955,7 @@ Partial Class Main
         Me.pnlHarvesting.Controls.Add(Me.btnOpPrice)
         Me.pnlHarvesting.Controls.Add(Me.lblBuyOrderExists)
         Me.pnlHarvesting.Location = New System.Drawing.Point(1533, 31)
-        Me.pnlHarvesting.Margin = New System.Windows.Forms.Padding(1, 1, 1, 1)
+        Me.pnlHarvesting.Margin = New System.Windows.Forms.Padding(1)
         Me.pnlHarvesting.Name = "pnlHarvesting"
         Me.pnlHarvesting.Size = New System.Drawing.Size(814, 336)
         Me.pnlHarvesting.TabIndex = 170
@@ -2584,7 +2584,7 @@ Partial Class Main
         '
         Me.btnPlaceOptionOrder.BackColor = System.Drawing.SystemColors.Control
         Me.btnPlaceOptionOrder.Location = New System.Drawing.Point(835, 423)
-        Me.btnPlaceOptionOrder.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.btnPlaceOptionOrder.Margin = New System.Windows.Forms.Padding(2)
         Me.btnPlaceOptionOrder.Name = "btnPlaceOptionOrder"
         Me.btnPlaceOptionOrder.Size = New System.Drawing.Size(132, 27)
         Me.btnPlaceOptionOrder.TabIndex = 227
@@ -2595,7 +2595,7 @@ Partial Class Main
         '
         Me.btnGetOptionPrice.BackColor = System.Drawing.Color.Ivory
         Me.btnGetOptionPrice.Location = New System.Drawing.Point(292, 453)
-        Me.btnGetOptionPrice.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.btnGetOptionPrice.Margin = New System.Windows.Forms.Padding(2)
         Me.btnGetOptionPrice.Name = "btnGetOptionPrice"
         Me.btnGetOptionPrice.Size = New System.Drawing.Size(132, 27)
         Me.btnGetOptionPrice.TabIndex = 228
@@ -2606,7 +2606,7 @@ Partial Class Main
         '
         Me.btnGetStockPrice.BackColor = System.Drawing.Color.Ivory
         Me.btnGetStockPrice.Location = New System.Drawing.Point(156, 453)
-        Me.btnGetStockPrice.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.btnGetStockPrice.Margin = New System.Windows.Forms.Padding(2)
         Me.btnGetStockPrice.Name = "btnGetStockPrice"
         Me.btnGetStockPrice.Size = New System.Drawing.Size(132, 27)
         Me.btnGetStockPrice.TabIndex = 294
