@@ -391,6 +391,12 @@
     <Compile Include="TWS_BL\_DTwsEvents_tickPriceEvent.vb" />
     <Compile Include="TWS_BL\_DTwsEvents_tickSizeEvent.vb" />
     <Compile Include="TWS_BL\_DTwsEvents_tickStringEvent.vb" />
+    <Compile Include="Views\ResetPassword.Designer.vb">
+      <DependentUpon>ResetPassword.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ResetPassword.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Views\WGB.Designer.vb">
       <DependentUpon>WGB.vb</DependentUpon>
     </Compile>
@@ -432,6 +438,9 @@
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\ResetPassword.resx">
+      <DependentUpon>ResetPassword.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\WGB.resx">
       <DependentUpon>WGB.vb</DependentUpon>

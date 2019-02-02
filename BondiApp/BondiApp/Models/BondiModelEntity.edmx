@@ -715,6 +715,8 @@ warning 6002: The table/view 'optionwavesdb.dbo.harvestorders' does not have a p
           <Property Name="UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="IsAnonymous" Type="bit" Nullable="false" />
           <Property Name="LastActivityDate" Type="datetime" Nullable="false" />
+          <Property Name="NewPassword" Type="nvarchar(max)" />
+          <Property Name="RequiredPasswordReset" Type="bit" />
         </EntityType>
         <EntityType Name="UsersInRoles">
           <Key>
@@ -2176,6 +2178,8 @@ warning 6002: The table/view 'optionwavesdb.dbo.vw_Pricings_DESC' does not have 
           <NavigationProperty Name="Membership" Relationship="Self.MembershipUser" FromRole="Users" ToRole="Memberships" />
           <NavigationProperty Name="Profile" Relationship="Self.UserProfile" FromRole="Users" ToRole="Profiles" />
           <NavigationProperty Name="Roles" Relationship="Self.UsersInRoles" FromRole="Users" ToRole="Roles" />
+          <Property Name="NewPassword" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RequiredPasswordReset" Type="Boolean" />
         </EntityType>
         <EntityType Name="visitor">
           <Key>
@@ -3488,6 +3492,8 @@ warning 6002: The table/view 'optionwavesdb.dbo.vw_Pricings_DESC' does not have 
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="optionwavesdbModel.User">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="RequiredPasswordReset" ColumnName="RequiredPasswordReset" />
+                <ScalarProperty Name="NewPassword" ColumnName="NewPassword" />
                 <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />

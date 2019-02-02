@@ -16,6 +16,8 @@ Partial Public Class User
     Public Property UserName As String
     Public Property IsAnonymous As Boolean
     Public Property LastActivityDate As Date
+    Public Property NewPassword As String
+    Public Property RequiredPasswordReset As Nullable(Of Boolean)
 
     Public Overridable Property Application As Application
     Public Overridable Property Membership As Membership

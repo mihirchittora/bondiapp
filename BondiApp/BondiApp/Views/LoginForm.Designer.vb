@@ -29,24 +29,25 @@ Partial Class LoginForm
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
-        Me.btnResetPW = New System.Windows.Forms.Button()
-        Me.btnConfirm = New System.Windows.Forms.Button()
+        Me.txtForgot = New System.Windows.Forms.Button()
         Me.SuspendLayout()
         '
         'btnLogin
         '
-        Me.btnLogin.Location = New System.Drawing.Point(76, 157)
+        Me.btnLogin.Location = New System.Drawing.Point(101, 193)
+        Me.btnLogin.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.btnLogin.Name = "btnLogin"
-        Me.btnLogin.Size = New System.Drawing.Size(75, 23)
+        Me.btnLogin.Size = New System.Drawing.Size(100, 28)
         Me.btnLogin.TabIndex = 0
         Me.btnLogin.Text = "Login"
         Me.btnLogin.UseVisualStyleBackColor = True
         '
         'btnCancel
         '
-        Me.btnCancel.Location = New System.Drawing.Point(157, 157)
+        Me.btnCancel.Location = New System.Drawing.Point(209, 193)
+        Me.btnCancel.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.btnCancel.Name = "btnCancel"
-        Me.btnCancel.Size = New System.Drawing.Size(75, 23)
+        Me.btnCancel.Size = New System.Drawing.Size(100, 28)
         Me.btnCancel.TabIndex = 1
         Me.btnCancel.Text = "Cancel"
         Me.btnCancel.UseVisualStyleBackColor = True
@@ -54,27 +55,30 @@ Partial Class LoginForm
         'txtUserId
         '
         Me.txtUserId.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.875!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtUserId.Location = New System.Drawing.Point(122, 63)
+        Me.txtUserId.Location = New System.Drawing.Point(163, 78)
+        Me.txtUserId.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.txtUserId.Name = "txtUserId"
-        Me.txtUserId.Size = New System.Drawing.Size(157, 28)
+        Me.txtUserId.Size = New System.Drawing.Size(208, 34)
         Me.txtUserId.TabIndex = 2
         '
         'txtPassword
         '
         Me.txtPassword.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.875!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtPassword.Location = New System.Drawing.Point(122, 106)
+        Me.txtPassword.Location = New System.Drawing.Point(163, 130)
+        Me.txtPassword.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.txtPassword.Name = "txtPassword"
         Me.txtPassword.PasswordChar = Global.Microsoft.VisualBasic.ChrW(42)
-        Me.txtPassword.Size = New System.Drawing.Size(157, 28)
+        Me.txtPassword.Size = New System.Drawing.Size(208, 34)
         Me.txtPassword.TabIndex = 3
         '
         'Label1
         '
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.875!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(24, 65)
+        Me.Label1.Location = New System.Drawing.Point(32, 80)
+        Me.Label1.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(69, 24)
+        Me.Label1.Size = New System.Drawing.Size(90, 29)
         Me.Label1.TabIndex = 4
         Me.Label1.Text = "User Id"
         '
@@ -82,9 +86,10 @@ Partial Class LoginForm
         '
         Me.Label2.AutoSize = True
         Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.875!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label2.Location = New System.Drawing.Point(24, 108)
+        Me.Label2.Location = New System.Drawing.Point(32, 133)
+        Me.Label2.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(92, 24)
+        Me.Label2.Size = New System.Drawing.Size(120, 29)
         Me.Label2.TabIndex = 5
         Me.Label2.Text = "Password"
         '
@@ -92,38 +97,29 @@ Partial Class LoginForm
         '
         Me.Label3.AutoSize = True
         Me.Label3.Font = New System.Drawing.Font("Arial", 16.125!, CType((System.Drawing.FontStyle.Italic Or System.Drawing.FontStyle.Underline), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label3.Location = New System.Drawing.Point(37, 20)
+        Me.Label3.Location = New System.Drawing.Point(49, 25)
+        Me.Label3.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(240, 26)
+        Me.Label3.Size = New System.Drawing.Size(302, 31)
         Me.Label3.TabIndex = 6
         Me.Label3.Text = "We really want to know!"
         '
-        'btnResetPW
+        'txtForgot
         '
-        Me.btnResetPW.Location = New System.Drawing.Point(77, 186)
-        Me.btnResetPW.Name = "btnResetPW"
-        Me.btnResetPW.Size = New System.Drawing.Size(156, 23)
-        Me.btnResetPW.TabIndex = 7
-        Me.btnResetPW.Text = "Reset Password"
-        Me.btnResetPW.UseVisualStyleBackColor = True
-        '
-        'btnConfirm
-        '
-        Me.btnConfirm.Location = New System.Drawing.Point(77, 157)
-        Me.btnConfirm.Name = "btnConfirm"
-        Me.btnConfirm.Size = New System.Drawing.Size(75, 23)
-        Me.btnConfirm.TabIndex = 8
-        Me.btnConfirm.Text = "Confirm"
-        Me.btnConfirm.UseVisualStyleBackColor = True
-        Me.btnConfirm.Visible = False
+        Me.txtForgot.Location = New System.Drawing.Point(101, 229)
+        Me.txtForgot.Margin = New System.Windows.Forms.Padding(4)
+        Me.txtForgot.Name = "txtForgot"
+        Me.txtForgot.Size = New System.Drawing.Size(208, 28)
+        Me.txtForgot.TabIndex = 9
+        Me.txtForgot.Text = "Forgot Password"
+        Me.txtForgot.UseVisualStyleBackColor = True
         '
         'LoginForm
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(310, 225)
-        Me.Controls.Add(Me.btnConfirm)
-        Me.Controls.Add(Me.btnResetPW)
+        Me.ClientSize = New System.Drawing.Size(404, 267)
+        Me.Controls.Add(Me.txtForgot)
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.Label1)
@@ -131,8 +127,9 @@ Partial Class LoginForm
         Me.Controls.Add(Me.txtUserId)
         Me.Controls.Add(Me.btnCancel)
         Me.Controls.Add(Me.btnLogin)
+        Me.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.MaximizeBox = False
-        Me.MinimumSize = New System.Drawing.Size(321, 264)
+        Me.MinimumSize = New System.Drawing.Size(422, 314)
         Me.Name = "LoginForm"
         Me.Text = "Who Are You? Who, who?"
         Me.ResumeLayout(False)
@@ -147,6 +144,5 @@ Partial Class LoginForm
     Friend WithEvents Label1 As Label
     Friend WithEvents Label2 As Label
     Friend WithEvents Label3 As Label
-    Friend WithEvents btnResetPW As Button
-    Friend WithEvents btnConfirm As Button
+    Friend WithEvents txtForgot As Button
 End Class
