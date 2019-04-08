@@ -36,4 +36,14 @@
         End If
     End Sub
 
+    Private Sub MTO_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        UtcToLocalOffset(DateTime.UtcNow)
+    End Sub
+
+    Sub UtcToLocalOffset(utcdatetime As DateTime)
+        Dim dateTime As DateTime = utcdatetime
+        Dim zone = TimeZoneInfo.FindSystemTimeZoneById(TimeZoneInfo.Local.Id)
+        Dim utcOffset = New DateTimeOffset(dateTime, TimeSpan.Zero)
+        lblUtcToLocal.Text = (utcOffset.ToOffset(zone.GetUtcOffset(utcOffset))).LocalDateTime
+    End Sub
 End Class
